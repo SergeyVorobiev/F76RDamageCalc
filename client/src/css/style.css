@@ -1,0 +1,98 @@
+.bg-ballistic {
+    background-color:#5c6f72;
+    color:#ffffff;
+}
+
+.bg-energy {
+    background-color:#792f8f;
+    color:#ffffff;
+}
+
+.bg-fire {
+    background-color:#bb433f;
+    color:#ffffff;
+}
+
+.bg-poison {
+    background-color:#2e832b;
+    color:#ffffff;
+}
+
+.bg-cold {
+    background-color:#017e9a;
+    color:#ffffff;
+}
+
+.bg-info2 {
+    background-color:#fffff2;
+}
+
+.bg-rad {
+    background-color:#b7b343;
+    color:#ffffff;
+}
+
+.bg-crit {
+    background-color:#000000;
+    color:#ffffff;
+}
+
+.bg-exp {
+    background-color:#736464;
+    color:#ffffff;
+}
+
+.bg-ecrit {
+    background-color:#4d2f31;
+    color:#ffffff;
+}
+
+.bg-sneak {
+    background-color:#25a199;
+    color:#ffffff;
+}
+
+.bg-aa {
+    background-color:#5c4872;
+    color:#ffffff;
+}
+
+.bg-ammo {
+    background-color:#547083;
+    color:#ffffff;
+}
+
+.bg-snapshot {
+    background-color:#f4f7ff;
+    color:#2a3262;
+}
+
+.bg-lifetime {
+    background-color:#5141a7;
+    color:#ffffff;
+}
+
+.pa-21 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+}
+
+.center1 {
+  text-align: center;
+}
+
+.ant-dropdown-menu {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.popover {
+    --bs-popover-max-width: 350px;
+}
+
+.wrapper {
+  position: relative;
+  overflow: scroll;
+  height: 1200px;
+}
