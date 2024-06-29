@@ -17,7 +17,9 @@ const F76NavBar = memo(function F76NavBar() {
 
             <Navbar.Collapse className="justify-content-end pe-1">
                 <Navbar.Brand>
-                    <Image src={gith} style={{ maxHeight: '4rem' }} />
+                    <a href="https://github.com/SergeyVorobiev/F76DamageReact">
+                        <Image src={gith} style={{ maxHeight: '4rem' }} />
+                    </a>
                 </Navbar.Brand>
             </Navbar.Collapse>
         </Navbar>

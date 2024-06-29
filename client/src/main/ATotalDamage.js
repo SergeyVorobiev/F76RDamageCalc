@@ -35,7 +35,7 @@ function help() {
                 <p class="m-1"><strong>Resistance.</strong> Sometimes rad resistance can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
                 but you will see its actual rad resistance from game files. Therefore calculations for rads will be incorrect but you can override this number by 1000 manually.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it calculates creature life time
-                provided that a creature / boss stands steal and it has many limitations. </p>
+                provided that a creature / boss stands still and it has many limitations. </p>
                 <p class="m-1">However when all else being equal you can rely on this numbers to compare effectiveness
                 of many weapons with a pretty good accuracy. Go to GitHub page for more details.</p>
             </Popover.Body>
