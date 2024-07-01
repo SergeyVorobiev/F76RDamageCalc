@@ -88,5 +88,6 @@ export function defaultWeaponSpecs() {
         fire_rate: 91,
         ammo_capacity: 250,
         aa: 0,
+        strength_boost: 0,
     };
 }

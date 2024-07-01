@@ -1,5 +1,6 @@
+// TODO: Convert to creature and weapon classes this file: creature.takeDamage(weapon.shoot());
 export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage) {
-    const bdBoost = getBDBoost(boost, legendary, additionalDamage, extraDamage);
+    const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec);
     const sneak = calcSneak(damage, boost, legendary, additionalDamage);
     const crit = calcCrit(damage, boost, additionalDamage);
 
@@ -349,7 +350,7 @@ function mergeDamageCrit(damage, critDamage, frequency) {
     return (damage * (frequency - 1) + critDamage) / frequency;
 }
 
-function getBDBoost(boost, legendary, additionalDamage, extraDamage) {
+function getBDBoost(boost, legendary, additionalDamage, wSpec) {
     let result = boost.wcdamager + boost.adrenalreactionr + boost.rager;
     result += boost.bloody_mess.displayed_value;
     result += boost.adrenaline.displayed_value;
@@ -362,9 +363,9 @@ function getBDBoost(boost, legendary, additionalDamage, extraDamage) {
     result += (legendary.mutant.is_used) ? legendary.mutant.value : 0.0;
     result += (legendary.hitman.is_used) ? legendary.hitman.value : 0.0;
     result += (additionalDamage.bdb.is_used) ? additionalDamage.bdb.value : 0.0;
-    let melee = (additionalDamage.strength.is_used) ? (additionalDamage.strength.value * 0.05) : 0.0;
-    melee = (extraDamage.useStrength) ? melee : 0.0;
-    result = 1 + result / 100.0;
+    const strengthBoost = wSpec.strength_boost / 100.0;
+    const melee = (additionalDamage.strength.is_used) ? (additionalDamage.strength.value * strengthBoost) : 0.0;
+    result = 1 + result / 100.0 + melee;
     const bResult = (additionalDamage.ballisticBDB.is_used) ? (additionalDamage.ballisticBDB.value / 100.0) : 0.0;
     const eResult = (additionalDamage.energyBDB.is_used) ? (additionalDamage.energyBDB.value / 100.0) : 0.0;
     const fResult = (additionalDamage.fireBDB.is_used) ? (additionalDamage.fireBDB.value / 100.0) : 0.0;
@@ -372,10 +373,10 @@ function getBDBoost(boost, legendary, additionalDamage, extraDamage) {
     const cResult = (additionalDamage.coldBDB.is_used) ? (additionalDamage.coldBDB.value / 100.0) : 0.0;
     const rResult = (additionalDamage.radBDB.is_used) ? (additionalDamage.radBDB.value / 100.0) : 0.0;
     let science = boost.science.displayed_value / 100.0;
-    return [result + bResult + melee, result + science + eResult, result + fResult, result + pResult, result + cResult, result + rResult];
+    return [result + bResult, result + science + eResult, result + fResult, result + pResult, result + cResult, result + rResult];
 }
 
-// Applies all possible Anti Armor effects (TODO: Sort by weapon's type)
+// Applies all possible Anti Armor effects
 export function aa_cards(boostDamage, legendary=null, weaponAA=0.0) {
     let aa = 1.0
     if (legendary != null) {

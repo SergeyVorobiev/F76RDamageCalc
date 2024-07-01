@@ -38,6 +38,7 @@ function WRow({wSpec, setWSpec}) {
             {column(wSpec, onChange, "Fire Rate", "fire_rate", 999)}
             {column(wSpec, onChange, "Ammo Capacity", "ammo_capacity", 9999)}
             {column(wSpec, onChange, "Anti Armor", "aa", 40)}
+            {column(wSpec, onChange, "Strength Boost", "strength_boost", 25)}
         </Row>
     );
 }

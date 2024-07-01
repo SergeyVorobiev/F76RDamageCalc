@@ -19,6 +19,21 @@ const marks100 = {
     defaultValue: 0,
 };
 
+const marks100F = {
+    marks: {
+        0: '0',
+        20: '20',
+        40: '40',
+        60: '60',
+        80: '80',
+        100: '100'
+    },
+    min: 0,
+    max: 100,
+    step: 0.25,
+    defaultValue: 0,
+};
+
 const marks100P = {
     marks: {
         0: '0%',
@@ -45,6 +60,22 @@ const marks200 = {
     },
     min: 0,
     max: 200,
+    step: 1,
+    defaultValue: 0,
+};
+
+const marks300 = {
+    marks: {
+        0: '0%',
+        50: '50%',
+        100: '100%',
+        150: '150%',
+        200: '200%',
+        250: '250%',
+        300: '300%',
+    },
+    min: 0,
+    max: 300,
     step: 1,
     defaultValue: 0,
 };
@@ -85,7 +116,7 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
                 <Card.Header></Card.Header>
                 <Card.Body>
                     <ADRow additionalDamage={additionalDamages.tdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks100P} text={qTDB}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.bdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks200} text={qBDB}></ADRow>
+                    <ADRow additionalDamage={additionalDamages.bdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks500} text={qBDB}></ADRow>
                     <ADRow additionalDamage={additionalDamages.ballisticBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.energyBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.fireBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
@@ -95,7 +126,7 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
                     <ADRow additionalDamage={additionalDamages.damageToCreature} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.sneak} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.crit} updateAdditionalDamages={updateAdditionalDamages} marks={marks500}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks100}></ADRow>
+                    <ADRow additionalDamage={additionalDamages.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks100F}></ADRow>
                 </Card.Body>
                 <Card.Footer className="text-muted"></Card.Footer>
             </Card>

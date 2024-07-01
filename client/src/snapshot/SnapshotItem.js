@@ -1,13 +1,14 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
-import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Rate, Tag} from 'antd';
 import {millisToTime} from '../helpers/Calc';
 import {TrashIcon, UpdateIcon, PlayIcon, RenameIcon} from '../icons/Icons';
 import '../css/style.css';
+import Badge from 'react-bootstrap/Badge';
+
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
 function row(name1, value1, colorName="default", tagColor="default", tagName=true) {
@@ -30,12 +31,14 @@ function row(name1, value1, colorName="default", tagColor="default", tagName=tru
     );
 }
 
-export default function SnapshotItem({item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+export default function SnapshotItem({index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
     const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
     const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
     const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
     const leg1 = item.legendary[item.legendary.current[0]].name;
     const leg2 = item.legendary[item.legendary.current[1]].name;
+    let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
+
     return (
         <Card className="mb-2">
             <div class='pb-0 pt-0 card-header'>
@@ -56,8 +59,8 @@ export default function SnapshotItem({item, setModalUpdateItem, setModalRenameIt
             </div>
             <Card.Body class="p-1">
                 <Row>
-                    <Col className="d-flex justify-content-center">
-                        <Toast style={{ width: '26rem'}} show={true} className="mb-2 bg-snapshot">
+                    <Col className="d-flex justify-content-center mb-1">
+                        <Toast style={{ width: '26rem'}} show={true} className="bg-snapshot">
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -80,17 +83,17 @@ export default function SnapshotItem({item, setModalUpdateItem, setModalRenameIt
                             </Toast.Body>
                         </Toast>
                     </Col>
-                    <Col className="d-flex justify-content-center">
+                    <Col className="d-flex justify-content-center mb-1">
                         <Toast className="bg-snapshot" style={{ width: '26rem' }} show={true}>
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
+                                    {row("Strength:", strength, "default", "default")}
                                     {row("Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
                                     {row("SB Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
                                     {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
                                     {row("U Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
                                     {row("Average:", millisToTime(item.averageTime), "blue", "blue")}
-                                    {row("", "")}
                                 </Col>
                             </Row>
                             </Toast.Body>
@@ -98,7 +101,12 @@ export default function SnapshotItem({item, setModalUpdateItem, setModalRenameIt
                     </Col>
                  </Row>
             </Card.Body>
-            <div class='card-footer d-flex justify-content-end'>
+            <div class='card-footer'>
+                <Row>
+                 <div className="col d-flex justify-content-start">
+                    <Badge className="mt-auto mb-auto" pill='true' text='dark' bg="warning">{index} / {size}</Badge>
+                 </div>
+                <div className="col d-flex justify-content-end">
                 <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
                     <UpdateIcon />
                 </Button>
@@ -109,6 +117,8 @@ export default function SnapshotItem({item, setModalUpdateItem, setModalRenameIt
                 <Button className="ms-1" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
                     <TrashIcon />
                 </Button>
+                </div>
+               </Row>
             </div>
         </Card>
     );

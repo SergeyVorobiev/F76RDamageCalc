@@ -45,20 +45,21 @@ const SnapshotItems = memo(function SnapshotItems({items, sortId, filterName, se
     const sorts = [compareSBQ, compareEarle, compareTitan, compareAverage];
     console.log("SnapshotItems");
     const sortAlg = sorts[sortId];
-
+    let index = 1;
     const filterByName = (item) => {
         if (filterName === "" || filterName === null) {
             return true;
         }
         return item.name.includes(filterName);
     };
-
+    const snapshots = [...items.map.values()].sort(sortAlg).filter(filterByName);
+    const size = snapshots.length;
     function result(item) {
         return (
-            <SnapshotItem key={item.id} item={item} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
+            <SnapshotItem key={item.id} index={index++} size={size} item={item} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
         );
     }
-    const values = [...items.map.values()].sort(sortAlg).filter(filterByName).map((item) => (result(item)));
+    const values = snapshots.map((item) => (result(item)));
     return (
         values
     );

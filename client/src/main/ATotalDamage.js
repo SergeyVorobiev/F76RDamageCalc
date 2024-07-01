@@ -4,7 +4,6 @@ import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import '../css/style.css';
 import {graphDamage} from '../helpers/Calc';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Checkbox } from 'antd';
@@ -20,7 +19,7 @@ const { Chart } = await import('chart.js/auto');
 
 function help() {
     return (
-        <Popover style={{ width: '20rem' }} id="popover-basic" class="popover" >
+        <Popover style={{ width: '18.5rem' }} id="popover-basic" class="popover" >
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
             <Popover.Body class="my-popover ms-2 me-2">
                 <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>CrF</strong> means crit frequency (2 - every second shot is crit).</p>
@@ -29,11 +28,10 @@ function help() {
                     <strong> HeS</strong> means multiplier (2 = 2x).
                 </p>
                 <p class="m-1"><strong>RED</strong> means damage reduction (applied only to a chosen creature).</p>
-                <p class="m-1"><strong>STR</strong> is additional strength damage (only for melee weapon).</p>
                 <p class="m-1"><strong>CD</strong> is used if your weapon has additional damage to a creature (like prime capacitor +65%) and
                 you want to apply this damage to it.</p>
                 <p class="m-1"><strong>Resistance.</strong> Sometimes rad resistance can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
-                but you will see its actual rad resistance from game files. Therefore calculations for rads will be incorrect but you can override this number by 1000 manually.</p>
+                but you will see its actual rad resistance from game files. Therefore calculations for rads will be incorrect.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it calculates creature life time
                 provided that a creature / boss stands still and it has many limitations. </p>
                 <p class="m-1">However when all else being equal you can rely on this numbers to compare effectiveness
@@ -124,7 +122,6 @@ export default class ATotalDamage extends React.PureComponent {
         this.useCrit = this.useCrit.bind(this);
         this.useSneak = this.useSneak.bind(this);
         this.useHead = this.useHead.bind(this);
-        this.useStrength = this.useStrength.bind(this);
         this.updateExtraDamage = this.updateExtraDamage.bind(this);
         this.updateCreatures = this.updateCreatures.bind(this);
     }
@@ -332,11 +329,6 @@ export default class ATotalDamage extends React.PureComponent {
         this.updateExtraDamage();
     }
 
-    useStrength(e) {
-        this.props.extraDamage.useStrength = e.target.checked;
-        this.updateExtraDamage();
-    }
-
     render() {
         console.log("Rerender ATotalDamage");
         return (
@@ -351,7 +343,6 @@ export default class ATotalDamage extends React.PureComponent {
                                         <Checkbox className="pe-2" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>CRIT</strong></Checkbox>
                                         <Checkbox className="pe-2" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>SNEAK</strong></Checkbox>
                                         <Checkbox className="pe-2" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>HEAD</strong></Checkbox>
-                                        <Checkbox className="pe-2" onChange={this.useStrength} checked={this.props.extraDamage.useStrength}><strong>STR</strong></Checkbox>
                                         <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
                                             <Badge bg="info">?</Badge>
                                         </OverlayTrigger>

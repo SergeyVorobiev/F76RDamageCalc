@@ -49,7 +49,6 @@ export function defaultExtraDamage() {
         useCrit: false,
         useSneak: false,
         useHead: false,
-        useStrength: false,
         critFreq: 1.0,
         headFreq: 1.0,
     };
