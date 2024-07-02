@@ -11,7 +11,8 @@ export default function readCreaturesFromFile(mapCreatures, setMapCreatures) {
         reader.onload = e => {
             console.log(myBlob);
             let map = new Map();
-            let rows = e.target.result.split("\r\n");
+            let rows = e.target.result.split("\n");
+            console.log("Loaded creature rows: " + rows.length);
             let levels = [];
             for (let i = 1; i <= 120; i++) {
                 levels.push({label: i, key: i});

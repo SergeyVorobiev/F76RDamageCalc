@@ -71,10 +71,6 @@ export default function MyApp() {
         setResultDamage(calcDamage(damage, boostDamage, legendary, wSpec, creatures, extraDamage, additionalDamages));
     }, [damage, boostDamage, legendary, wSpec, extraDamage, creatures, additionalDamages]);
 
-    const closeStat = (e) => {
-        setShowStat(false);
-    }
-
     // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,
     // but we can omit this cause it is not affected on render time to much.
     const applySnapshot = (name, cDamage, cLegendary, cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures) => {
@@ -99,7 +95,7 @@ export default function MyApp() {
         <div className='ms-0 me-0 ps-0 pe-0'>
             <F76NavBar></F76NavBar>
             <ATotalDamage weaponName={weaponName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
-            <ToastSpecs resultDamage={resultDamage} showStat={showStat} closeStat={closeStat}></ToastSpecs>
+            <ToastSpecs resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}

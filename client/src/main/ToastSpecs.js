@@ -24,14 +24,14 @@ function row(name, value, colorName="purple", colorValue="red") {
     );
 }
 
-const ToastSpecs = memo(function ToastSpecs({resultDamage, showStat, closeStat}) {
+const ToastSpecs = memo(function ToastSpecs({resultDamage, showStat, setShowStat}) {
     return (
         <ToastContainer
             className="p-3 position-fixed p-3"
             position={"top-center"}
             role="alert" aria-live="assertive" aria-atomic="true"
             style={{ zIndex: 10 }}>
-            <Toast bg="light" onClose={closeStat} show={showStat} animation={false}>
+            <Toast bg="light" onClose={(e) => setShowStat(false)} show={showStat} animation={false}>
                 <Toast.Header>
                     <strong className="me-auto">Weapon Stats</strong>
                     <small></small>

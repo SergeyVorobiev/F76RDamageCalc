@@ -20,7 +20,7 @@
 
 ## Build variants
 
-1. Go to running instance here (GitHub host).
+1. Go to running instance: [GitHub host](https://sergeyvorobiev.github.io/F76RDamageCalc/).
 
 2. Docker:
 
@@ -95,15 +95,16 @@ then use Damage to creature slider and also 'CD' checkbox. Strength is used for 
 ## Melee Weapon Example 'Auto Axe'
 
 1. Specify weapon parameters, according to [json file](https://github.com/SergeyVorobiev/F76Damage/blob/main/Resources/Extracted/misc/curvetables/json/weapons/melee/weap_autoaxedmg.json) base damage is 31, shot size is 1, reload time 0, fire rate 0.5 from normal 91? 150? 182?,
-ammo capacity 1, strength boost 5%.
-If we use mod (for example Electrified) then according to [spreadsheet](https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88/edit?gid=152971620#gid=152971620) 'Attack Damage' 'MullAdd' '-0.4' is 31 * 0.6 = 18.6, 'Energy' 'MullAdd' '0.6' is 18.6 * 0.6 = 11.16
-2.Note that if you amplify 'Electrified' mod by science perks let's say +20% then you need to amplify 
+ammo capacity 1, strength boost 5%. For manual-hit weapon you can rely on 'ATTACK_RATE' column [here](https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88/edit?gid=54927459#gid=54927459),
+for example, [0008e736] BaseballBat has 1,8 attack speed which corresponds to 1 / 1.8 = 0.55 or 5.5 Fire Rate.
+2. If we use mod (for example Electrified) then according to [spreadsheet](https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88/edit?gid=152971620#gid=152971620) 'Attack Damage' 'MullAdd' '-0.4' is 31 * 0.6 = 18.6, 'Energy' 'MullAdd' '0.6' is 18.6 * 0.6 = 11.16
+Note that if you amplify 'Electrified' mod by science perks let's say +20% then you need to amplify 
 ballistic damage on +20% also.
 3. Other steps are the same as for range weapon, the only thing you have to add is your current strength in 'Additional Damage' section, and if you have
 additional damage boosts like 'Tasty mutant hound stew' 212,5%, 'Twisted Muscles' 31,25+%...
 add them together and put this number in 'BDB'.
 
-![AutoAxe](client/src/resources/autoAxe.png)
+![AutoAxe](client/src/resources/AutoAxe.png)
 
 ## Tests
 
