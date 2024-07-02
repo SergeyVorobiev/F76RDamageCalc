@@ -35,8 +35,10 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
     const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
     const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
     const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
-    const leg1 = item.legendary[item.legendary.current[0]].name;
-    const leg2 = item.legendary[item.legendary.current[1]].name;
+    const leg1 = item.legendary[item.legendary.current[0]];
+    const leg2 = item.legendary[item.legendary.current[1]];
+    const leg1Name = leg1.name + " (" + leg1.value + "%)";
+    const leg2Name = leg2.name + " (" + leg2.value + "%)";
     let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
 
     return (
@@ -60,7 +62,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
             <Card.Body class="p-1">
                 <Row>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast style={{ width: '26rem'}} show={true} className="bg-snapshot">
+                        <Toast style={{ width: '30rem'}} show={true} className="bg-snapshot">
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -69,7 +71,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                                     {row("Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
                                     {row("Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
                                     {row("Health:", item.boostDamage.health.toFixed(0) + "%")}
-                                    {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1)}
+                                    {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name)}
                                 </Col>
                                 <Col>
                                     {row("Ammo:", item.resultDamage.ammoCapacity)}
@@ -77,14 +79,14 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                                     {row("Reload Time:", item.resultDamage.reloadTime)}
                                     {row("Head Shot:", headUsed)}
                                     {row("Team:", (item.boostDamage.team) ? "Yes" : "No")}
-                                    {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2)}
+                                    {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name)}
                                 </Col>
                             </Row>
                             </Toast.Body>
                         </Toast>
                     </Col>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast className="bg-snapshot" style={{ width: '26rem' }} show={true}>
+                        <Toast className="bg-snapshot" style={{ width: '30rem' }} show={true}>
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -104,7 +106,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
             <div class='card-footer'>
                 <Row>
                  <div className="col d-flex justify-content-start">
-                    <Badge className="mt-auto mb-auto" pill='true' text='dark' bg="warning">{index} / {size}</Badge>
+                    <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
                  </div>
                 <div className="col d-flex justify-content-end">
                 <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">

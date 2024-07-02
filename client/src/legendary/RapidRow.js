@@ -3,17 +3,17 @@ import LegRow from './LegRow';
 
 const marks: SliderSingleProps['marks'] = {
     0: '0%',
-    5: '5%',
     10: '10%',
-    15: '15%',
     20: '20%',
-    25: '25%',
+    30: '30%',
+    40: '40%',
+    50: '50%',
 };
 
 
 function RapidRow({setLegendary, legendary}) {
     return (
-            <LegRow marks={marks} perk={legendary.rapid} setLegendary={setLegendary} legendary={legendary} disabled={true}></LegRow>
+            <LegRow marks={marks} perk={legendary.rapid} setLegendary={setLegendary} legendary={legendary} disabled={false}></LegRow>
     );
 }
 

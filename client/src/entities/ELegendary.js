@@ -161,7 +161,7 @@ export function defaultLegendary() {
             name: "Rapid",
             value: 25.0,
             min: 0.0,
-            max: 25.0,
+            max: 50.0,
             step: 1.0,
             is_used: false,
             star: 2,

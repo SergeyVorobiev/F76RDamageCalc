@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import '../css/style.css';
-import {graphDamage} from '../helpers/Calc';
+import { graphDamage } from '../helpers/Calc';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Checkbox } from 'antd';
@@ -12,8 +12,9 @@ import {Button} from 'antd';
 import { Dropdown } from 'antd';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import {millisToTime} from '../helpers/Calc';
+import { millisToTime } from '../helpers/Calc';
 import { Divider } from 'antd';
+import { keyValueRow } from '../helpers/RowBuilder';
 const { Chart } = await import('chart.js/auto');
 
 
@@ -80,19 +81,19 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     <span style={{ width: '3rem' }} className="badge bg-rad">{(creature.r * (1 - resultDamage.rAA)).toFixed(1)}</span>
                 </Stack>
                 <Stack  className='pb-0' direction="vertical" gap={0}>
-                    <strong className='pb-1'>Health: {creature.h.toFixed(2)}</strong>
-                    <strong className='pb-1'>Damage Reduction: {creature.damageReduction}</strong>
-                    <strong className='pb-1'>Head Shot: {creature.headShot} {addHeadShot}</strong>
-                    <strong className='pb-1'>Shot Damage: {creature.shotDamage.toFixed(2)}</strong>
-                    <strong className='pb-1'>Normal Damage: {creature.normalDamage.toFixed(2)} {addDamageInfo}</strong>
-                    <strong className='pb-1'>Crit Normal Damage: {creature.critNormalDamage.toFixed(2)} {addCritDamageInfo}</strong>
-                    <strong className='pb-1'>Explosive Damage: {creature.explosiveDamage.toFixed(2)} {addExpDamageInfo}</strong>
-                    <strong className='pb-1'>Crit Explosive Damage: {addExpCritDamageInfo}</strong>
-                    <strong className='pb-1'>DPS: {creature.dps.toFixed(0)}</strong>
-                    <strong className='pb-1'>Ammo / Hits: {creature.ammo}</strong>
-                    <strong className='pb-1'>Reloads: {creature.reloads}</strong>
-                    <strong className='pb-1'>Reloads Time: {creature.reloadsTime.toFixed(2)}</strong>
-                    <strong className='pb-1'>Life Time: {creature.lifeTime} ms</strong>
+                    {keyValueRow("Health:", creature.h.toFixed(2), "default", "red")}
+                    {keyValueRow("Damage Reduction:", creature.damageReduction, "default", "orange")}
+                    {keyValueRow("Head Shot:", creature.headShot + "x " + addHeadShot, "default", "blue")}
+                    {keyValueRow("Shot Damage:", creature.shotDamage.toFixed(2), "default", "blue")}
+                    {keyValueRow("Normal Damage:", creature.normalDamage.toFixed(2) + " " + addDamageInfo, "default", "blue")}
+                    {keyValueRow("Crit Normal Damage:", creature.critNormalDamage.toFixed(2) + " " + addCritDamageInfo, "default", "blue")}
+                    {keyValueRow("Explosive Damage:", creature.explosiveDamage.toFixed(2) + " " + addExpDamageInfo, "default", "blue")}
+                    {keyValueRow("Crit Explosive Damage:", addExpCritDamageInfo, "default", "blue")}
+                    {keyValueRow("DPS:", creature.dps.toFixed(0), "default", "purple")}
+                    {keyValueRow("Ammo / Hits:", creature.ammo, "default", "pink")}
+                    {keyValueRow("Reloads:", creature.reloads, "default", "green")}
+                    {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
+                    {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
                     <Divider className='p-0 m-1'></Divider>
                     <span className="badge bg-warning mb-1 text-dark"> {weaponName}</span>
                 </Stack>
@@ -330,7 +331,9 @@ export default class ATotalDamage extends React.PureComponent {
     }
 
     render() {
-        console.log("Rerender ATotalDamage");
+        console.log("ATotalDamage");
+        const damage = this.props.resultDamage.tDamage.toFixed(1) + " x " + this.props.resultDamage.shotSize;
+        const fireRate = this.props.resultDamage.fireRate + " - " + (this.props.resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec";
         return (
         <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-3 ">
             <Card.Header><h3 className="mb-0">{this.props.weaponName} Stats</h3></Card.Header>
@@ -349,13 +352,13 @@ export default class ATotalDamage extends React.PureComponent {
                                     </Stack>
                                 </Card.Header>
 
-                                <Card.Body className="pt-1 pb-1">
-                                    <h6 className='pt-0'><strong>Damage: {this.props.resultDamage.tDamage.toFixed(1)} x {this.props.resultDamage.shotSize}</strong></h6>
-                                    <h6 className='pt-0'><strong>Crit: {this.props.resultDamage.displayedCrit.toFixed(1)}</strong></h6>
-                                    <h6 className='pb-0'><strong>Fire Rate: {this.props.resultDamage.fireRate} - {(this.props.resultDamage.fireRate / 10.0).toFixed(1)} shots / sec</strong></h6>
-                                    <h6 className='pb-0'><strong>Ammo: {this.props.resultDamage.ammoCapacity}</strong></h6>
-                                    <h6 className='pb-0'><strong>Reload Time: {this.props.resultDamage.reloadTime.toFixed(1)}</strong></h6>
-                                    <h6 className='pb-0'><strong>Explosive: {this.props.resultDamage.explosive.toFixed(0)}%</strong></h6>
+                                <Card.Body className="pt-0 pb-0">
+                                        {keyValueRow((<span className="pt-0 pb-0"><strong>Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Fire Rate:</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRate}</strong></span>), "default", "purple")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Ammo:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Reload Time:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                                 </Card.Body>
 
                                 <Card.Footer className="text-muted">
