@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.74d76885.css",
-    "main.js": "/F76RDamageCalc/static/js/main.05deed74.js",
+    "main.css": "/F76RDamageCalc/static/css/main.3588641f.css",
+    "main.js": "/F76RDamageCalc/static/js/main.3357b55a.js",
     "static/js/867.458fa4b3.chunk.js": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js",
     "static/js/453.258b012d.chunk.js": "/F76RDamageCalc/static/js/453.258b012d.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.cf17b0d31a9639907367.csv",
     "static/media/Fallout_76_logo2.png": "/F76RDamageCalc/static/media/Fallout_76_logo2.97e046f78d47f9d2a463.png",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.74d76885.css.map": "/F76RDamageCalc/static/css/main.74d76885.css.map",
-    "main.05deed74.js.map": "/F76RDamageCalc/static/js/main.05deed74.js.map",
+    "main.3588641f.css.map": "/F76RDamageCalc/static/css/main.3588641f.css.map",
+    "main.3357b55a.js.map": "/F76RDamageCalc/static/js/main.3357b55a.js.map",
     "867.458fa4b3.chunk.js.map": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js.map",
     "453.258b012d.chunk.js.map": "/F76RDamageCalc/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.74d76885.css",
-    "static/js/main.05deed74.js"
+    "static/css/main.3588641f.css",
+    "static/js/main.3357b55a.js"
   ]
 }
