@@ -3,7 +3,7 @@ export function checkLength(e) {
         e.currentTarget.value = 0;
         return true;
     }
-    const val = parseFloat(e.currentTarget.value)
+    const val = parseFloat(e.currentTarget.value);
     if (val < 0) {
          e.currentTarget.value = 0;
     } else if (e.currentTarget.value.length > e.currentTarget.maxLength) {

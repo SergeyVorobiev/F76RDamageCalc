@@ -12,7 +12,7 @@ const marks: SliderSingleProps['marks'] = {
 
 const answer = "Executioner damage will be seen as a shot damage in the result section depending on the situation: If an enemy is killed in one shot " +
 "then shot damage is normal damage, if last shot was <= 40% then shot damage is +50% TDB or average between normal and boosted if only " +
-"the number of simulation steps exceeds the limit. Non the less total damage applied to an enemy and its life time will be correct."
+"the number of simulation steps exceeds the limit. Non the less total damage, which is applied to an enemy, and enemy's life time will be correct."
 
 function ExecutionerRow({setLegendary, legendary}) {
     return (

@@ -30,7 +30,6 @@ function WRow({wSpec, setWSpec}) {
         });
     }
 
-
     return (
         <Row>
             {column(wSpec, onChange, "Shot Size", "shot_size", 16)}

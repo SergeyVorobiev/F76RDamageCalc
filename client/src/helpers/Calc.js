@@ -229,7 +229,7 @@ function buildDamage(damages, armors, aa, expDamages, expArmors, expAA, headMult
     let result = [];
     let expResult = [];
     for (let i = 0; i < damages.length; i++) {
-        result.push(causeSDamage(armors[i], damages[i], aa[i]) * headMult);
+        result.push(causeSDamage(armors[i], damages[i], aa[i]));
     }
     for (let i = 0; i < expDamages.length; i++) {
         expResult.push(causeSDamage(expArmors[i], expDamages[i], expAA[i]) * shotSize)
@@ -242,7 +242,7 @@ function buildDamage(damages, armors, aa, expDamages, expArmors, expAA, headMult
 
     // Should we increase explosive to 1 if it is less than 1?
     expDamage = (expDamage < 1.0 && expDamage > 0.0) ? 1.0 : expDamage;
-    const shotDamage = normalDamage + expDamage;
+    const shotDamage = normalDamage * headMult + expDamage;
     return [shotDamage, normalDamage, expDamage];
 }
 

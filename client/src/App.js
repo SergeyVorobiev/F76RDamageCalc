@@ -100,7 +100,7 @@ export default function MyApp() {
                 id="tab"
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
-                className="mb-3">
+                className="mt-1 mb-3">
                 <Tab eventKey="Stats" title="Stats">
                     <Accordion class="accordion">
                         <WeaponSpecs damage={damage} setDamage={setDamage} wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat}></WeaponSpecs>

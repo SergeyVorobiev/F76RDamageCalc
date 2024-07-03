@@ -96,11 +96,11 @@ const marks500 = {
 };
 
 const qBDB = "This and fields below are used to be able to specify additional damage from things like: mutations, psycho, " +
-"food, buble heads, magazines, specials... For example: psychobuff gives you +25% BDB, almost all effects in the game are BDB and they stack additively. " +
-"Base Damage Boost increases your base weapon damage (ex. 43 for 50 level 50cal machine gun).";
+"food, bubble heads, magazines, specials... For example: psychobuff gives you +25% BDB (Base Damage Boost). Almost all effects in the game are BDB and they stack additively. " +
+"BDB increases your base weapon damage (ex. 43 for 50 level 50cal machine gun +50% BDB = 43 + 43 * 0.5).";
 
-const qTDB = "Rare effect that increases your total damage like (Executioner, Tenderizer, TOFT). For example: for 43 base damage " +
-"50Cal and 200 its total damage +50% of BDB gives 221.5 whereas +50% TDB gives 300."
+const qTDB = "Effect that increases your total damage like (Executioner, Tenderizer, TOFT). For example: a weapon with 43 base damage " +
+" and 200 its total damage will be boosted by +50% BDB up to 221.5 whereas +50% TDB gives 300."
 
 const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdditionalDamages}) {
     console.log("AdditionalTable");

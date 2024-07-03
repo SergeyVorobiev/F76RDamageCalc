@@ -35,15 +35,13 @@ function help() {
                 <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>HeF</strong> means head shot frequency ( 2 - every second shot is head shot)
                     <strong> HeS</strong> means multiplier (2 = 2x).
                 </p>
-                <p class="m-1"><strong>RED</strong> means damage reduction (applied only to a chosen creature).</p>
-                <p class="m-1"><strong>CD</strong> is used if your weapon has additional damage to a creature (like prime capacitor +65%) and
-                you want to apply this damage to it.</p>
-                <p class="m-1"><strong>Resistance.</strong> Sometimes rad resistance can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
-                but you will see its actual rad resistance from game files. Therefore calculations for rads will be incorrect.</p>
-                <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it calculates creature life time
-                provided that a creature / boss stands still and it has many limitations. </p>
-                <p class="m-1">However when all else being equal you can rely on this numbers to compare effectiveness
-                of many weapons with a pretty good accuracy. Go to GitHub page for more details.</p>
+                <p class="m-1"><strong>CD</strong> is used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
+                <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
+                but you will see its actual rad resistance from the game files. Therefore calculations for rads weapon will be incorrect.</p>
+                <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
+                provided that a creature is standing still under the fire until death. </p>
+                <p class="m-1">However when all else being equal you can rely on this numbers to compare efficiency
+                of many weapons with a pretty good accuracy. Go to the GitHub page via white cat icon for details.</p>
             </Popover.Body>
         </Popover>
     );
@@ -343,22 +341,14 @@ export default class ATotalDamage extends React.PureComponent {
         const percentC = getHotPercentage(this.props.creatures);
         return (
         <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-0">
-            <Card.Header><h3 className="mb-0">{this.props.weaponName} Stats</h3></Card.Header>
+            <Card.Header><h3 className="mb-0">{this.props.weaponName}</h3></Card.Header>
             <Card.Body className="pt-2">
                     <Row>
                         <div class="col d-flex justify-content-center mb-2">
                             <Card style={{ minWidth: '23rem', maxWidth: '28rem'}}>
                                 <Card.Header className="pe-0 ps-0">
                                     <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
-                                        <Progress
-                                            type="dashboard"
-                                            steps={50}
-                                            percent={percentC}
-                                            format={(percent) => percent}
-                                            size={[24, 24]}
-                                            strokeColor={colors}
-                                            trailColor="rgba(0, 0, 0, 0.06)"
-                                            strokeWidth={20} />
+
                                         <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>CRIT</strong></Checkbox>
                                         <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>SNEAK</strong></Checkbox>
                                         <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>HEAD</strong></Checkbox>
@@ -379,24 +369,34 @@ export default class ATotalDamage extends React.PureComponent {
                                 <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
                                     <Button style={{ width: '4rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>CrF: {this.props.extraDamage.critFreq}</strong></Button>
                                     <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>HeF: {this.props.extraDamage.headFreq}</strong></Button>
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.hes}><strong>HeS: {this.props.creatures.creature.headShot}</strong></Button>
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-0" size="sm" onClick={this.red}><strong>RED: {this.props.creatures.creature.damageReduction}</strong></Button>
+                                    <Button style={{ width: '4rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>HeS: {this.props.creatures.creature.headShot}</strong></Button>
                                 </Card.Footer>
                             </Card>
                         </div>
                         <div class="col d-flex justify-content-center mb-2">
                             <Card style={{ maxWidth: '28rem', minWidth: '23rem', maxHeight: '16.3rem' }}>
                                 <Card.Header>
-                                    <div class="d-flex">
-                                        <div class="p-0">
+                                    <span className="d-flex m-0 p-0 w-100">
+                                        <div class="m-auto p-0 w-100 d-flex justify-content-start">
                                             <Badge bg="warning" text="dark">
                                             <strong>DPS: {(this.props.resultDamage.tDamage * this.props.resultDamage.fireRate / 10.0).toFixed(1)}</strong>
                                             </Badge>
                                         </div>
-                                        <div class="ms-auto p-0">
+                                        <div class="m-0 p-0 w-100">
+                                            <Progress
+                                                type="dashboard"
+                                                steps={50}
+                                                percent={percentC}
+                                                format={(percent) => percent}
+                                                size={[28, 28]}
+                                                strokeColor={colors}
+                                                trailColor="rgba(0, 0, 0, 0.06)"
+                                                strokeWidth={20} />
+                                        </div>
+                                        <div class="m-auto p-0 w-100 d-flex justify-content-end">
                                             <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
                                         </div>
-                                    </div>
+                                    </span>
                                 </Card.Header>
                                 <Card.Body>
                                     <canvas id="myChart"></canvas>
