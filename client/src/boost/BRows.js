@@ -70,7 +70,7 @@ function BRow1({setBoostDamage, boostDamage}) {
             <Row>
                 {getItem(boostDamage.bloody_mess, setBoostDamage, boostDamage)}
                 {getItem(boostDamage.adrenaline, setBoostDamage, boostDamage, true)}
-                {getItem(boostDamage.toft, setBoostDamage)}
+                {getItem(boostDamage.toft, setBoostDamage, boostDamage)}
                 {getItem(boostDamage.tenderizer, setBoostDamage, boostDamage, true)}
             </Row>
     );
