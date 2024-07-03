@@ -15,12 +15,19 @@ import Popover from 'react-bootstrap/Popover';
 import { millisToTime } from '../helpers/Calc';
 import { Divider } from 'antd';
 import { keyValueRow } from '../helpers/RowBuilder';
+import { Progress } from 'antd';
+import Accordion from 'react-bootstrap/Accordion';
+import HotMeter from './HotMeter';
+import { getColorsForHotMeter } from '../helpers/Colors';
+import { getHotPercentage } from '../helpers/Item';
 const { Chart } = await import('chart.js/auto');
 
 
+const colors = getColorsForHotMeter();
+
 function help() {
     return (
-        <Popover style={{ width: '18.5rem' }} id="popover-basic" class="popover" >
+        <Popover style={{ width: '20rem' }} id="popover-basic" class="popover" >
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
             <Popover.Body class="my-popover ms-2 me-2">
                 <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>CrF</strong> means crit frequency (2 - every second shot is crit).</p>
@@ -238,7 +245,6 @@ export default class ATotalDamage extends React.PureComponent {
                 <Stack  className='ps-1 pe-1' direction="horizontal" gap={1}>
                     <Checkbox onChange={checkDC} checked={creature.damageToCreature}><strong>CD</strong></Checkbox>
                     <span style={{ width: '6rem' }} className="mt-1 mb-1 badge bg-ammo ms-auto me-auto">Ammo: {creature.ammo}</span>
-
                     <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">Life Time: {millisToTime(creature.lifeTime)}</span>
                     <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
@@ -334,24 +340,33 @@ export default class ATotalDamage extends React.PureComponent {
         console.log("ATotalDamage");
         const damage = this.props.resultDamage.tDamage.toFixed(1) + " x " + this.props.resultDamage.shotSize;
         const fireRate = this.props.resultDamage.fireRate + " - " + (this.props.resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec";
+        const percentC = getHotPercentage(this.props.creatures);
         return (
-        <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-3 ">
+        <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-0">
             <Card.Header><h3 className="mb-0">{this.props.weaponName} Stats</h3></Card.Header>
             <Card.Body className="pt-2">
                     <Row>
                         <div class="col d-flex justify-content-center mb-2">
                             <Card style={{ minWidth: '23rem', maxWidth: '28rem'}}>
-                                <Card.Header>
-                                    <Stack  className='pb-0 justify-content-center' direction="horizontal" gap={1}>
-                                        <Checkbox className="pe-2" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>CRIT</strong></Checkbox>
-                                        <Checkbox className="pe-2" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>SNEAK</strong></Checkbox>
-                                        <Checkbox className="pe-2" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>HEAD</strong></Checkbox>
+                                <Card.Header className="pe-0 ps-0">
+                                    <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
+                                        <Progress
+                                            type="dashboard"
+                                            steps={50}
+                                            percent={percentC}
+                                            format={(percent) => percent}
+                                            size={[24, 24]}
+                                            strokeColor={colors}
+                                            trailColor="rgba(0, 0, 0, 0.06)"
+                                            strokeWidth={20} />
+                                        <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>CRIT</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>SNEAK</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>HEAD</strong></Checkbox>
                                         <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
                                             <Badge bg="info">?</Badge>
                                         </OverlayTrigger>
                                     </Stack>
                                 </Card.Header>
-
                                 <Card.Body className="pt-0 pb-0">
                                         {keyValueRow((<span className="pt-0 pb-0"><strong>Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
                                         {keyValueRow((<span className="mt-1 mb-1"><strong>Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
@@ -361,11 +376,11 @@ export default class ATotalDamage extends React.PureComponent {
                                         {keyValueRow((<span className="mt-1 mb-1"><strong>Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                                 </Card.Body>
 
-                                <Card.Footer className="text-muted">
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>CrF: {this.props.extraDamage.critFreq}</strong></Button>
+                                <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
+                                    <Button style={{ width: '4rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>CrF: {this.props.extraDamage.critFreq}</strong></Button>
                                     <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>HeF: {this.props.extraDamage.headFreq}</strong></Button>
                                     <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.hes}><strong>HeS: {this.props.creatures.creature.headShot}</strong></Button>
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.red}><strong>RED: {this.props.creatures.creature.damageReduction}</strong></Button>
+                                    <Button style={{ width: '4rem' }} className="ms-2 me-0" size="sm" onClick={this.red}><strong>RED: {this.props.creatures.creature.damageReduction}</strong></Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -399,31 +414,37 @@ export default class ATotalDamage extends React.PureComponent {
                             </Card>
                         </div>
                     </Row>
-
-
             </Card.Body>
-            <Card.Footer className="text-muted">
+            <Card.Footer className="text-muted p-1">
+                <Accordion class="accordion p-0 m-0">
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header className="m-0 p-0">
+                            <HotMeter creatures={this.props.creatures} steps={50} colors={colors} />
+                        </Accordion.Header>
+                <Accordion.Body>
                 <Row>
-                <Col>
-                    <Row>
-                        {this.resultBadges("B", "badge bg-ballistic", this.props.resultDamage.bAA, this.props.resultDamage.bDamage, this.props.resultDamage.bSneak, this.props.resultDamage.bCrit, this.props.resultDamage.bExpDamage, this.props.resultDamage.bExpCrit)}
-                        {this.resultBadges("E", "badge bg-energy", this.props.resultDamage.eAA, this.props.resultDamage.eDamage, this.props.resultDamage.eSneak, this.props.resultDamage.eCrit, this.props.resultDamage.eExpDamage, this.props.resultDamage.eExpCrit)}
-                    </Row>
-                </Col>
-                <Col>
-                    <Row>
-                        {this.resultBadges("F", "badge bg-fire", this.props.resultDamage.fAA, this.props.resultDamage.fDamage, this.props.resultDamage.fSneak, this.props.resultDamage.fCrit)}
-                        {this.resultBadges("P", "badge bg-poison", this.props.resultDamage.pAA, this.props.resultDamage.pDamage, this.props.resultDamage.pSneak, this.props.resultDamage.pCrit)}
-                    </Row>
-                </Col>
-                <Col>
-                    <Row>
-                        {this.resultBadges("C", "badge bg-cold", this.props.resultDamage.cAA, this.props.resultDamage.cDamage, this.props.resultDamage.cSneak, this.props.resultDamage.cCrit)}
-                        {this.resultBadges("R", "badge bg-rad", this.props.resultDamage.rAA, this.props.resultDamage.rDamage, this.props.resultDamage.rSneak, this.props.resultDamage.rCrit)}
-                    </Row>
-                </Col>
+                    <Col>
+                        <Row>
+                            {this.resultBadges("B", "badge bg-ballistic", this.props.resultDamage.bAA, this.props.resultDamage.bDamage, this.props.resultDamage.bSneak, this.props.resultDamage.bCrit, this.props.resultDamage.bExpDamage, this.props.resultDamage.bExpCrit)}
+                            {this.resultBadges("E", "badge bg-energy", this.props.resultDamage.eAA, this.props.resultDamage.eDamage, this.props.resultDamage.eSneak, this.props.resultDamage.eCrit, this.props.resultDamage.eExpDamage, this.props.resultDamage.eExpCrit)}
+                        </Row>
+                    </Col>
+                    <Col>
+                        <Row>
+                            {this.resultBadges("F", "badge bg-fire", this.props.resultDamage.fAA, this.props.resultDamage.fDamage, this.props.resultDamage.fSneak, this.props.resultDamage.fCrit)}
+                            {this.resultBadges("P", "badge bg-poison", this.props.resultDamage.pAA, this.props.resultDamage.pDamage, this.props.resultDamage.pSneak, this.props.resultDamage.pCrit)}
+                        </Row>
+                    </Col>
+                    <Col>
+                        <Row>
+                            {this.resultBadges("C", "badge bg-cold", this.props.resultDamage.cAA, this.props.resultDamage.cDamage, this.props.resultDamage.cSneak, this.props.resultDamage.cCrit)}
+                            {this.resultBadges("R", "badge bg-rad", this.props.resultDamage.rAA, this.props.resultDamage.rDamage, this.props.resultDamage.rSneak, this.props.resultDamage.rCrit)}
+                        </Row>
+                    </Col>
                 </Row>
-
+                </Accordion.Body>
+                </Accordion.Item>
+                </Accordion>
             </Card.Footer>
         </Card>);
     }

@@ -1,5 +1,16 @@
-function getAverageTime(creatures) {
+export function getAverageTime(creatures) {
     return ((parseFloat(creatures.sbq.lifeTime) + parseFloat(creatures.earle.lifeTime) + parseFloat(creatures.titan.lifeTime)) / 3.0).toFixed(0);
+}
+
+export function getHotPercentage(creatures) {
+    const time = getAverageTime(creatures);
+    let percent = 0;
+    if (time < 40000) {
+        percent = 99;
+    } else {
+        percent = (4000000 / time).toFixed(0);
+    }
+    return percent;
 }
 
 export function buildItem(id, name, creatures, damage, legendary, boostDamage, wSpec, extraDamage, additionalDamages, resultDamage) {
