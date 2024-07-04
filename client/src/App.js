@@ -111,7 +111,7 @@ export default function MyApp() {
                     </Accordion>
                 </Tab>
                 <Tab eventKey="Snapshots" title="Snapshots">
-                     <Snapshots damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
+                     <Snapshots weaponName={weaponName} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
                 </Tab>
             </Tabs>
             <div style={{height: '4rem'}}></div>

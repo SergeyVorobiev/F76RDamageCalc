@@ -28,6 +28,7 @@ const ModalNewItem = memo (function ModalNewItem(props) {
     function onHide(e) {
         props.setModalNewItemShow(false);
     }
+    const defaultName = (props.weaponName === null || props.weaponName === "") ? "Weapon" : props.weaponName;
     return (
         <Modal
             show = {props.show}
@@ -43,7 +44,7 @@ const ModalNewItem = memo (function ModalNewItem(props) {
             <Modal.Body>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">
                     <InputGroup.Text style={{ width: '9rem' }}>Weapon name</InputGroup.Text>
-                    <Form.Control id='wName' className='w-auto' defaultValue={"Weapon"} maxLength="65" />
+                    <Form.Control id='wName' className='w-auto' defaultValue={defaultName} maxLength="65" />
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>
