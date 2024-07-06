@@ -2,10 +2,10 @@
 export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage) {
     const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec);
     const sneak = calcSneak(damage, boost, legendary, additionalDamage);
-    const crit = calcCrit(damage, boost, additionalDamage);
+    const crit = calcCrit(damage, boost, additionalDamage, wSpec);
 
     const tdBoost = getTDBoost(boost, additionalDamage);
-    const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost);
+    const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec);
     const bExpCrit = crit[0] * exp;
     const eExpCrit = crit[1] * exp;
     const bSneak = (extraDamage.useSneak) ? sneak[0] : 0.0;
@@ -70,14 +70,14 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
         ammoCapacity: ammoCapacity,
         weaponName: '', // Obsolete
     };
-    calcLives(result, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost);
+    calcLives(result, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec);
     return result;
 }
 
-function getExplosives(damage, boost, legendary, bdBoost, tdBoost, additionalBoost=0.0) {
+function getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec, additionalBoost=0.0) {
     const bBoost = bdBoost[0] + additionalBoost;
     const eBoost = bdBoost[1] + additionalBoost;
-    const exp = ((legendary.explosive.is_used) ? legendary.explosive.value : boost.explosive.displayed_value) / 100.0;
+    const exp = ((legendary.explosive.is_used) ? legendary.explosive.value : wSpec.exp) / 100.0;
     const expT = exp + exp * boost.demolition_expert.displayed_value / 100.0;
     let bDamage = damage.ballistic.used_damage * bBoost + damage.ballistic.used_mod_damage;
     let eDamage = damage.energy.used_damage * eBoost + damage.energy.used_mod_damage;
@@ -90,7 +90,7 @@ function getExplosives(damage, boost, legendary, bdBoost, tdBoost, additionalBoo
     return [exp, expT, bExp, eExp];
 }
 
-export function calcLives(resultDamage, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost) {
+export function calcLives(resultDamage, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec) {
     const aa = [resultDamage.bAA, resultDamage.eAA, resultDamage.fAA, resultDamage.pAA, resultDamage.cAA, resultDamage.rAA];
     const expAA = [resultDamage.bAA, resultDamage.eAA];
     const cs = [creatures.sbq, creatures.earle, creatures.titan, creatures.creature];
@@ -105,6 +105,7 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
     }
     let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
     damageToCreature += (boost.glow_sight.displayed_value / 100.0);
+    damageToCreature += (wSpec.cd / 100.0);
     const executionerMult = 1 + legendary.executioner.value / 100.0;
 
     for (let c = 0; c < cs.length; c++) {
@@ -116,7 +117,7 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
                          resultDamage.pDamage + creatureDamage * damage.poison.used_damage,
                          resultDamage.cDamage + creatureDamage * damage.cold.used_damage,
                          resultDamage.rDamage + creatureDamage * damage.rad.used_damage];
-        const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost, creatureDamage);
+        const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec, creatureDamage);
         const expDamages = [bExp, eExp];
         const critDamages = getCritDamages(damages, resultDamage, extraDamage);
         const critExpDamages = getCritExpDamages(expDamages, resultDamage, extraDamage);
@@ -293,9 +294,9 @@ export function millisToTime(value) {
     return strTime;
 }
 
-function calcCrit(damage, boost, additionalDamage) {
-    let crit = (boost.better_criticals.displayed_value + 100) / 100.0;
-    crit += (additionalDamage.crit.is_used) ? (additionalDamage.crit.value / 100.0) : 0.0;
+function calcCrit(damage, boost, additionalDamage, wSpec) {
+    let crit = (boost.better_criticals.displayed_value + 100 + wSpec.crit) / 100.0;
+    crit += ((additionalDamage.crit.is_used) ? (additionalDamage.crit.value / 100.0) : 0.0);
     const bCrit = damage.ballistic.used_damage * crit;
     const eCrit = damage.energy.used_damage * crit;
     const fCrit = damage.fire.used_damage * crit;

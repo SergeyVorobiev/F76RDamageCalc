@@ -1,5 +1,6 @@
 import csvFile from '../resources/creature_resistance_health.csv';
 
+
 export default function readCreaturesFromFile(mapCreatures, setMapCreatures) {
     fetch(csvFile).then(response => {
         if (!response.ok) {

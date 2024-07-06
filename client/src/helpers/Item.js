@@ -6,7 +6,7 @@ export function getHotPercentage(creatures) {
     const time = getAverageTime(creatures);
     let percent = 0;
     if (time < 40000) {
-        percent = 99;
+        percent = 100;
     } else {
         percent = (4000000 / time).toFixed(0);
     }

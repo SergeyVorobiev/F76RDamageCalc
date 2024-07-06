@@ -22,6 +22,7 @@ import F76NavBar from './main/F76NavBar';
 import WeaponSpecs from './main/WeaponSpecs';
 import DamageBoosts from './main/DamageBoosts';
 import Snapshots from './main/Snapshots';
+import WeaponTemplates from './templates/WeaponTemplates';
 
 
 export default function MyApp() {
@@ -95,7 +96,7 @@ export default function MyApp() {
         <div className='ms-0 me-0 ps-0 pe-0'>
             <F76NavBar></F76NavBar>
             <ATotalDamage weaponName={weaponName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
-            <ToastSpecs resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
+            <ToastSpecs creatures={creatures} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}
@@ -109,6 +110,9 @@ export default function MyApp() {
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
                         <Creature creatures={creatures} setCreatures={setCreatures}></Creature>
                     </Accordion>
+                </Tab>
+                <Tab eventKey="Templates" title="Templates">
+                    <WeaponTemplates setWeaponName={setWeaponName} setDamage={setDamage} setWSpec={setWSpec}></WeaponTemplates>
                 </Tab>
                 <Tab eventKey="Snapshots" title="Snapshots">
                      <Snapshots weaponName={weaponName} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>

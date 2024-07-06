@@ -5,26 +5,8 @@ import Form from 'react-bootstrap/Form';
 import '../css/style.css';
 import {checkLength} from '../helpers/Input';
 import { Checkbox } from 'antd';
+import { getSymbolText } from '../helpers/Emoji';
 
-
-function getSymbolText(symbol, text) {
-    switch (symbol) {
-        case "B":
-            return <>&#128165; {text}</>
-        case "E":
-            return <>&#9889; {text}</>
-        case "F":
-            return <>&#128293; {text}</>;
-        case "P":
-            return <>☣️ {text}</>;
-        case "C":
-            return <>❄️ {text}</>;
-        case "R":
-            return <>☢️ {text}</>;
-        default:
-            return <>☢️ {text}</>
-    }
-}
 
 function column(damage, setDamage, damage_type, damage_name, used_damage_name, use_damage_name, color, name) {
     function onCheck(e) {

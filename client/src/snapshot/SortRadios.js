@@ -1,56 +1,17 @@
-import Form from 'react-bootstrap/Form';
+import { Radio } from 'antd';
 
 
 export default function SortRadios({algIndex, setSortId}) {
-    function onSort(e) {
-        try {
-            if (e.target.id === '' || e.target.id === null) {
-                return;
-            }
-            const id = parseInt(e.target.id);
-            setSortId(id);
-        } catch (error) {
-            // Ok
-        }
-    }
-    let checks = [{}, {}, {}, {}];
-    checks[algIndex] = {defaultChecked: true};
+
+    const onChange = (e) => {
+        setSortId(parseInt(e.target.value));
+    };
+
     return (
-        <Form>
-            <div key="radio" className="justify-content-start" onClick={onSort}>
-                <Form.Check style={{width: '6rem'}}
-                    {...checks[0]}
-                    inline
-                    label="SB Queen"
-                    name="group1"
-                    type={"radio"}
-                    id="0"
-                />
-                <Form.Check style={{width: '6rem'}}
-                    {...checks[1]}
-                    inline
-                    label="Earle"
-                    name="group1"
-                    type={"radio"}
-                    id="1"
-                />
-                <Form.Check style={{width: '6rem'}}
-                    {...checks[2]}
-                    inline
-                    label="U Titan"
-                    name="group1"
-                    type={"radio"}
-                    id="2"
-                />
-                <Form.Check style={{width: '6rem'}}
-                    {...checks[3]}
-                    inline
-                    label="Average"
-                    name="group1"
-                    type={"radio"}
-                    id="3"
-                />
-            </div>
-        </Form>
+        <Radio.Group value={algIndex.toFixed(0)} onChange={onChange}>
+            <Radio.Button value="0">SBQ</Radio.Button>
+            <Radio.Button value="1">Earle</Radio.Button>
+            <Radio.Button value="2">U-Titan</Radio.Button>
+        </Radio.Group>
     );
 }

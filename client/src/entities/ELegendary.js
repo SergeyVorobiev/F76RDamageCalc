@@ -1,6 +1,6 @@
 export function defaultLegendary() {
     let obj = {
-        current: ["bloodied", "explosive"],
+        current: ["none1", "none2"],
 
         none1: {
             name: "None",
@@ -8,7 +8,7 @@ export function defaultLegendary() {
             min: 0.0,
             max: 0.0,
             step: 0.0,
-            is_used: false,
+            is_used: true,
             star: 1,
             id: "none1",
         },
@@ -19,7 +19,7 @@ export function defaultLegendary() {
             min: 0.0,
             max: 0.0,
             step: 0.0,
-            is_used: false,
+            is_used: true,
             star: 2,
             id: "none2",
         },
@@ -63,7 +63,7 @@ export function defaultLegendary() {
             min: 0.0,
             max: 95.0,
             step: 1.0,
-            is_used: true,
+            is_used: false,
             star: 1,
             id: "bloodied",
         },
@@ -141,7 +141,7 @@ export function defaultLegendary() {
             min: 0.0,
             max: 20.0,
             step: 1.0,
-            is_used: true,
+            is_used: false,
             star: 2,
             id: "explosive",
         },

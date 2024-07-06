@@ -7,11 +7,11 @@ import SortRadios from '../snapshot/SortRadios';
 import { memo } from 'react';
 
 
-const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalUploadWeapon, sortId, setSortId}) {
+const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalUploadSnapshots, sortId, setSortId}) {
     console.log("SnapshotsHeader");
     function downloadButton() {
         return (
-            <a href={getJsonFileRef(JSON.stringify([...items.map.values()]))} download="weapons">
+            <a href={getJsonFileRef(items.map.values())} download="snapshots">
                 <Button>
                     <UploadIcon />
                 </Button>
@@ -21,7 +21,7 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalUploadWeap
 
     function uploadButton(className) {
         return (
-            <Button className={className} onClick={()=>setModalUploadWeapon(true)}>
+            <Button className={className} onClick={()=>setModalUploadSnapshots(true)}>
                 <DownloadIcon />
             </Button>
         );

@@ -112,7 +112,6 @@ function BRow4({setBoostDamage, boostDamage}) {
 function BRow5({setBoostDamage, boostDamage}) {
     return (
             <Row>
-                {getItem(boostDamage.explosive, setBoostDamage, boostDamage)}
                 {getItem(boostDamage.demolition_expert, setBoostDamage, boostDamage)}
                 {getItem(boostDamage.science, setBoostDamage, boostDamage)}
                 {getItem(boostDamage.better_criticals, setBoostDamage, boostDamage)}

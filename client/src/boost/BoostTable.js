@@ -14,7 +14,7 @@ const popover = (
     <Popover style={{width: '19rem'}} id="popover-basic">
         <Popover.Header as="h3">Perks</Popover.Header>
         <Popover.Body>
-            Not all of this perks are cards (like explosive and syringer).
+            Not all of this perks are cards (like syringer).
             Perks do not know about your current weapon i.e.
             If you apply 'Incisor' & 'Stabilized' & 'Exterminator' the effects will be fused together.
             You need to deside what will work and what will not manually.
@@ -44,18 +44,6 @@ function sbdb_cards(boostDamage) {
     const sandman = boostDamage.mister_sandman.displayed_value;
     const ninja = boostDamage.ninja.displayed_value;
     return covert + sandman + ninja + follow_through;
-}
-
-function stdb_cards(boostDamage) {
-    return 0;
-}
-
-function exp_cards(boostDamage) {
-    return boostDamage.explosive.displayed_value + boostDamage.explosive.displayed_value * boostDamage.demolition_expert.displayed_value / 100.0;
-}
-
-function crit(boostDamage) {
-    return 100.0 + boostDamage.better_criticals.displayed_value;
 }
 
 const BoostTable = memo(function BoostTable({setBoostDamage, boostDamage, setLegendary, legendary}) {
@@ -89,13 +77,10 @@ const BoostTable = memo(function BoostTable({setBoostDamage, boostDamage, setLeg
                 </Card.Body>
                 <Card.Footer className="text-center">
                     <div class="flex justify-content-center">
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total BDB: {bdb_cards(boostDamage)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total TDB: {tdb_cards(boostDamage)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total AA: {aa_cards(boostDamage)[0].toFixed(2)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total SBDB: {sbdb_cards(boostDamage)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total STDB: {stdb_cards(boostDamage)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total Explosive: {exp_cards(boostDamage)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Crit: {crit(boostDamage)}%</Badge>
+                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total BDB: {bdb_cards(boostDamage).toFixed(0)}%</Badge>
+                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total TDB: {tdb_cards(boostDamage).toFixed(0)}%</Badge>
+                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total AA: {aa_cards(boostDamage)[0].toFixed(0)}%</Badge>
+                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total SBDB: {sbdb_cards(boostDamage).toFixed(0)}%</Badge>
                      </div>
                 </Card.Footer>
             </Card>

@@ -77,6 +77,11 @@
     color:#2a3262;
 }
 
+.bg-lite {
+    background-color:#e4e6d9;
+    color: #000;
+}
+
 .bg-lifetime {
     background-color:#5141a7;
     color:#ffffff;
