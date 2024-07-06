@@ -38,10 +38,6 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage,
         return item.type.includes(weaponType);
     }
 
-    function onSelectWeaponType(e) {
-        setWeaponType(e);
-    }
-
     const items = templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} index={template.index} templates={templates} setTemplates={setTemplates} setModalTemplate={setModalTemplate}></WeaponTemplate>)
     return (
         <>
