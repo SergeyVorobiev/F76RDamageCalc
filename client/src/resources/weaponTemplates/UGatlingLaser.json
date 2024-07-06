@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "U-Gatling Laser",
     "type": "Heavy",
     "level": 45,
-    "id": "0003a0d4",
+    "id": "002ef66e",
     "bbDamage": [
-      43,
-      43
+      0,
+      0
     ],
     "bmDamage": [
       0,
@@ -17,8 +17,8 @@
       0
     ],
     "ebDamage": [
-      0,
-      0
+      28,
+      28
     ],
     "emDamage": [
       0,
@@ -81,24 +81,24 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      3.9,
+      3.9
     ],
     "autoRate": [
-      91,
-      91
+      182,
+      182
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.054,
+      0.054
     ],
     "isAuto": [
       1,
       1
     ],
     "ammo": [
-      250,
-      250
+      500,
+      500
     ],
     "antiArmor": [
       0,
@@ -129,9 +129,9 @@
             "name": "Prime",
             "effects": [
               [
-                "bbDamage",
+                "ebDamage",
                 0.25,
-                "bmDamage",
+                "ebDamage",
                 "mulAdd"
               ],
               [
@@ -142,21 +142,16 @@
               ]
             ],
             "isUsed": false
-          }
-        ]
-      },
-      {
-        "categoryName": "Barrels",
-        "categoryMods": [
+          },
           {
             "id": "",
-            "name": "Heavy",
+            "name": "Calibrated",
             "effects": [
               [
-                "bbDamage",
-                0.125,
-                "bmDamage",
-                "mulAdd"
+                "crit",
+                100,
+                "crit",
+                "add"
               ]
             ],
             "isUsed": false

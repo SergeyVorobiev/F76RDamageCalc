@@ -107,7 +107,7 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
         items.push(item);
     }
     result.push(<Collapse items={items} />)
-    const fireRate = (template.isAuto[1]) ? template.autoRate[1] : (10 / template.manualRate[1]).toFixed(2);
+    const fireRate = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     return (
         <div className="ps-1 pe-1 pb-2" key={index}>
             <Accordion.Item key={index} eventKey={index}>

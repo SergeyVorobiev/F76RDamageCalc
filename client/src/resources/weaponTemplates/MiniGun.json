@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "Mini Gun",
     "type": "Heavy",
     "level": 45,
-    "id": "0003a0d4",
+    "id": "0001f669",
     "bbDamage": [
-      43,
-      43
+      24,
+      24
     ],
     "bmDamage": [
       0,
@@ -81,24 +81,24 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      2.8,
+      2.8
     ],
     "autoRate": [
-      91,
-      91
+      182,
+      182
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.055,
+      0.055
     ],
     "isAuto": [
       1,
       1
     ],
     "ammo": [
-      250,
-      250
+      500,
+      500
     ],
     "antiArmor": [
       0,
@@ -122,10 +122,10 @@
     ],
     "mods": [
       {
-        "categoryName": "Receivers",
+        "categoryName": "Barrels",
         "categoryMods": [
           {
-            "id": "",
+            "id": "00470a1b",
             "name": "Prime",
             "effects": [
               [
@@ -142,20 +142,40 @@
               ]
             ],
             "isUsed": false
-          }
-        ]
-      },
-      {
-        "categoryName": "Barrels",
-        "categoryMods": [
+          },
           {
-            "id": "",
-            "name": "Heavy",
+            "id": "00121d55",
+            "name": "Tri",
             "effects": [
               [
                 "bbDamage",
-                0.125,
+                0.25,
                 "bmDamage",
+                "mulAdd"
+              ],
+              [
+                "autoRate",
+                -0.35,
+                "autoRate",
+                "mulAdd"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "00121d54",
+            "name": "Short",
+            "effects": [
+              [
+                "bbDamage",
+                0.15,
+                "bmDamage",
+                "mulAdd"
+              ],
+              [
+                "autoRate",
+                0.15,
+                "autoRate",
                 "mulAdd"
               ]
             ],

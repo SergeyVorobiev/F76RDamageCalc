@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "Gatling Plasma",
     "type": "Heavy",
-    "level": 45,
-    "id": "0003a0d4",
+    "level": 50,
+    "id": "0001ec47",
     "bbDamage": [
-      43,
-      43
+      0,
+      0
     ],
     "bmDamage": [
       0,
@@ -17,8 +17,8 @@
       0
     ],
     "ebDamage": [
-      0,
-      0
+      58,
+      58
     ],
     "emDamage": [
       0,
@@ -81,8 +81,8 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      5.5,
+      5.5
     ],
     "autoRate": [
       91,
@@ -97,8 +97,8 @@
       1
     ],
     "ammo": [
-      250,
-      250
+      500,
+      500
     ],
     "antiArmor": [
       0,
@@ -129,9 +129,9 @@
             "name": "Prime",
             "effects": [
               [
-                "bbDamage",
+                "ebDamage",
                 0.25,
-                "bmDamage",
+                "emDamage",
                 "mulAdd"
               ],
               [
@@ -139,24 +139,6 @@
                 65,
                 "cd",
                 "set"
-              ]
-            ],
-            "isUsed": false
-          }
-        ]
-      },
-      {
-        "categoryName": "Barrels",
-        "categoryMods": [
-          {
-            "id": "",
-            "name": "Heavy",
-            "effects": [
-              [
-                "bbDamage",
-                0.125,
-                "bmDamage",
-                "mulAdd"
               ]
             ],
             "isUsed": false

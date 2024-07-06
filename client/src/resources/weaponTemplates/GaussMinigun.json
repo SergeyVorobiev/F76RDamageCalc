@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "Gauss Minigun",
     "type": "Heavy",
-    "level": 45,
-    "id": "0003a0d4",
+    "level": 50,
+    "id": "0055c151",
     "bbDamage": [
-      43,
-      43
+      50,
+      50
     ],
     "bmDamage": [
       0,
@@ -81,8 +81,8 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      2.8,
+      2.8
     ],
     "autoRate": [
       91,
@@ -97,8 +97,8 @@
       1
     ],
     "ammo": [
-      250,
-      250
+      500,
+      500
     ],
     "antiArmor": [
       0,
@@ -113,8 +113,8 @@
       0
     ],
     "exp": [
-      0,
-      0
+      15,
+      15
     ],
     "cd": [
       0,
@@ -142,20 +142,40 @@
               ]
             ],
             "isUsed": false
-          }
-        ]
-      },
-      {
-        "categoryName": "Barrels",
-        "categoryMods": [
+          },
           {
             "id": "",
-            "name": "Heavy",
+            "name": "Tesla Coil",
             "effects": [
               [
-                "bbDamage",
-                0.125,
-                "bmDamage",
+                "ammo",
+                0.25,
+                "ammo",
+                "mulAdd"
+              ],
+              [
+                "reloadTime",
+                -0.15,
+                "reloadTime",
+                "mulAdd"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "",
+            "name": "Tesla Coil Dynamo",
+            "effects": [
+              [
+                "ammo",
+                0.5,
+                "ammo",
+                "mulAdd"
+              ],
+              [
+                "reloadTime",
+                0.2,
+                "reloadTime",
                 "mulAdd"
               ]
             ],
