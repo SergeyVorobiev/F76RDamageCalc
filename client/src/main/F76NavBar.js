@@ -1,6 +1,6 @@
 import Image from 'react-bootstrap/Image';
-import logo from '../resources/Fallout_76_logo2.png';
-import gith from '../resources/github-mark.png';
+import logo from '../resources/logos/Fallout_76_logo2.png';
+import gith from '../resources/logos/github-mark.png';
 import Navbar from 'react-bootstrap/Navbar';
 import { memo } from 'react';
 

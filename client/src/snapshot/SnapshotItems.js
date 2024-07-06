@@ -41,7 +41,7 @@ function compareAverage(item1, item2) {
     return 0;
 }
 
-const SnapshotItems = memo(function SnapshotItems({items, sortId, filterName, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+const SnapshotItems = memo(function SnapshotItems({items, sortId, filterName, weaponType, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
     const sorts = [compareSBQ, compareEarle, compareTitan, compareAverage];
     console.log("SnapshotItems");
     const sortAlg = sorts[sortId];
@@ -52,7 +52,13 @@ const SnapshotItems = memo(function SnapshotItems({items, sortId, filterName, se
         }
         return item.name.includes(filterName);
     };
-    const snapshots = [...items.map.values()].sort(sortAlg).filter(filterByName);
+    const filterByType = (item) => {
+        if (weaponType === "All") {
+            return true;
+        }
+        return weaponType === item.wSpec.type;
+    };
+    const snapshots = [...items.map.values()].sort(sortAlg).filter(filterByType).filter(filterByName);
     const size = snapshots.length;
     function result(item) {
         return (

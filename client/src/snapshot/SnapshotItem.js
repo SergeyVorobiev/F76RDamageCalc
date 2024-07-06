@@ -4,8 +4,8 @@ import Toast from 'react-bootstrap/Toast';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Rate, Tag} from 'antd';
-import {millisToTime} from '../helpers/Calc';
-import {TrashIcon, UpdateIcon, PlayIcon, RenameIcon} from '../icons/Icons';
+import { millisToTime } from '../helpers/Calc';
+import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon } from '../icons/Icons';
 import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
 
@@ -109,6 +109,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                     <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
                  </div>
                 <div className="col d-flex justify-content-end">
+                <Tag bordered={true} color="purple" className="pt-1 me-5"><h6 className="m-auto p-auto"><strong>{item.wSpec.type}</strong></h6></Tag>
                 <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
                     <UpdateIcon />
                 </Button>

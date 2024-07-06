@@ -42,7 +42,7 @@
 ## Limitations
 See [Spreadsheet calculator](https://github.com/SergeyVorobiev/F76Damage) for details about calculation methods, formulas, abilities and limitations.
 
-The influence on comparison of almost all limitations is effectively zero. However, some limitations are important to mention:
+The influence on damage value of almost all limitations is effectively zero. However, some limitations are important to mention:
 1. ~~Bleeding~~ (Need to know exact mechanics)
 2. ~~Bashing~~ (Not tested)
 3. ~~Convenience and accuracy~~ (No statistical data)
@@ -56,7 +56,7 @@ possibly has no influence as it works only after cease fire, meaning that if Hol
 calculator will calculate it correctly without necessity to apply subsequent time damage to a dead enemy (all possible time damage between reloading is negligible).
 Lifetime is fair provided that a creature stands still under the unceasing fire until death. 
 
-![View](client/src/resources/view.png)
+![View](client/src/resources/forReadme/view.png)
 
 ## Range Weapon Example '.50Cal MG'
 1. Open weapon stats and input base damage, modification damage and other parameters. The data can be found in [Fallout wiki](https://fallout.fandom.com/wiki/Fallout_76) or
@@ -67,22 +67,22 @@ are not boosted by most of the perks. 50 machine gun has 12.5% (0027ac25) from h
 This data can be found [here](https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88/edit?usp=sharing). For some weapons, modification damage is part of the base damage,
 for example, Ultracite Gatling Laser has 25% from prime receiver (+7) however it becomes a part of its base damage - 28 + 7 = 35, the same with Holly Fire:
 
-![WeaponSpecs](client/src/resources/weaponSpecs.png)
+![WeaponSpecs](client/src/resources/forReadme/weaponSpecs.png)
 2. Specify weapon damage cards (for every type of weapon they are usually the same) for example 3-rank Heavy Weapon x3 (base, expert, master)
 gives 60%. Then determine health level, Nerd Rage, Adrenal reaction, and Team (Adrenaline boost depends on Team, also some 
 other effects can be boosted with ‘Strange in numbers’ but you have to specify them manually under ‘Additional Damage’ section):
 
-![DamageBoosts](client/src/resources/damageBoosts.png)
+![DamageBoosts](client/src/resources/forReadme/damageBoosts.png)
 
 3. Specify card effects. Explosive perk is the default 15% explosive boost as for Gauss minigun and others. So as the calculator does not know
 about the type of weapon you need to specify only perks which will work for you, i.e. no need to activate 'Tank Killer' if a heavy gun is calculated:
 
-![Perks](client/src/resources/perks.png)
+![Perks](client/src/resources/forReadme/perks.png)
 
 4. Specify legendary 1-2 stars. Not all legendary perks are presented. Some of them are either do not directly relate to damage or useless.
 Some can be specified via 'Additional Damage' section:
 
-![Legendary](client/src/resources/legendary.png)
+![Legendary](client/src/resources/forReadme/legendary.png)
 
 5. 'Additional damage' can be used to specify all possible temporary boosts from mutations, food, magazines, bubble heads,
 chemicals, they all stack together additively. For example, 25% from psychobuff and 20% from bubble head = +45% BDB (Base damage boost)
@@ -90,7 +90,7 @@ All additional 'Crit' damage is also specified here (+100% you have by default, 
 like from food, legendary, weapon mods, can be added here). If you have prime receiver which gives you +65% against scorched
 then use Damage to creature slider and also 'CD' checkbox. Strength is used for melee weapons.
 
-![Additional](client/src/resources/additional.png)
+![Additional](client/src/resources/forReadme/additional.png)
 
 ## Melee Weapon Example 'Auto Axe'
 
@@ -104,7 +104,7 @@ ballistic damage on +20% also.
 additional damage boosts like 'Tasty mutant hound stew' 212,5%, 'Twisted Muscles' 31,25+%...
 add them together and put this number in 'BDB'.
 
-![AutoAxe](client/src/resources/AutoAxe.png)
+![AutoAxe](client/src/resources/forReadme/AutoAxe.png)
 
 ## Tests
 
@@ -119,7 +119,7 @@ Some bugs can be fixed from release to release, some can appear.
 6. Crit damage is reduced by a boss' reduction even if you see displayed value without any reduction.
 7. Sneak and TOFT can work together, it can happen if an enemy hits you occasionally or loses you after (In fact all possible effects can be applied at the same time in one shot).
 
-![Total](client/src/resources/total.png)
+![Total](client/src/resources/forReadme/total.png)
 
 
 

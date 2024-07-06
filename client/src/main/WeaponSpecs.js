@@ -6,7 +6,7 @@ import { memo } from 'react';
 
 
 const WeaponSpecs = memo(function WeaponSpecs({damage, setDamage, wSpec, setWSpec, showStat, setShowStat}) {
-    console.log("Rerender WeaponSpecs");
+    console.log("WeaponSpecs");
     const openStat = (e) => {
         setShowStat(!showStat);
         e.stopPropagation();

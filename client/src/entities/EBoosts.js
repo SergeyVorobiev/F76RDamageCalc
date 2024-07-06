@@ -2,20 +2,20 @@ export function defaultBoosts() {
     return {
 
         // weapon cards
-        wcdamage: 60.0,
-        wcdamagen: true,
-        wcdamager: 60.0,
+        wcdamage: 0.0,
+        wcdamagen: false,
+        wcdamager: 0.0,
 
-        adrenalreaction: 63.0,
-        adrenalreactionn: true,
-        adrenalreactionr: 63.0,
+        adrenalreaction: 0.0,
+        adrenalreactionn: false,
+        adrenalreactionr: 0.0,
 
-        rage: 20.0,
-        ragen: true,
-        rager: 20.0,
+        rage: 0.0,
+        ragen: false,
+        rager: 0.0,
 
-        team: true,
-        health: 20.0,
+        team: false,
+        health: 100.0,
 
         bAA: 0.0,
         eAA: 0.0,
@@ -27,9 +27,9 @@ export function defaultBoosts() {
         bloody_mess: {
             name: "Bloody Mess",
             value: 15.0,
-            is_used: true,
-            displayed_value: 15.0,
-            rank: 3,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
             rank_values: [5.0, 10.0, 15.0],
             x: 1,
             max_x: 1,
@@ -148,9 +148,9 @@ export function defaultBoosts() {
         stabilized: {
             name: "Stabilized",
             value: 45.0,
-            is_used: true,
-            displayed_value: 45.0,
-            rank: 3,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
             rank_values: [15.0, 30.0, 45.0],
             x: 1,
             max_x: 1,
@@ -214,9 +214,9 @@ export function defaultBoosts() {
         demolition_expert: {
             name: "Demolition Expert",
             value: 60.0,
-            is_used: true,
-            displayed_value: 60.0,
-            rank: 5,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
             rank_values: [20.0, 30.0, 40.0, 50.0, 60.0],
             x: 1,
             max_x: 1,
