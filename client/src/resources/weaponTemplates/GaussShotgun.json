@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
-    "type": "Heavy",
-    "level": 45,
-    "id": "0003a0d4",
+    "name": "Gauss Shotgun",
+    "type": "Shotgun",
+    "level": 50,
+    "id": "0055c150",
     "bbDamage": [
-      43,
-      43
+      105,
+      105
     ],
     "bmDamage": [
       0,
@@ -77,28 +77,28 @@
       0
     ],
     "shotSize": [
-      1,
-      1
+      8,
+      8
     ],
     "reloadTime": [
-      4,
-      4
+      2.2,
+      2.2
     ],
     "autoRate": [
-      91,
-      91
+      66.66,
+      66.66
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.15,
+      0.15
     ],
     "isAuto": [
-      1,
-      1
+      0,
+      0
     ],
     "ammo": [
-      250,
-      250
+      8,
+      8
     ],
     "antiArmor": [
       0,
@@ -113,8 +113,8 @@
       0
     ],
     "exp": [
-      0,
-      0
+      15,
+      15
     ],
     "cd": [
       0,
@@ -125,7 +125,7 @@
         "categoryName": "Receivers",
         "categoryMods": [
           {
-            "id": "",
+            "id": "0057373a",
             "name": "Prime",
             "effects": [
               [
@@ -142,21 +142,79 @@
               ]
             ],
             "isUsed": false
-          }
-        ]
-      },
-      {
-        "categoryName": "Barrels",
-        "categoryMods": [
+          },
           {
-            "id": "",
-            "name": "Heavy",
+            "id": "0057373d",
+            "name": "Vicious",
+            "effects": [
+              [
+                "crit",
+                50,
+                "crit",
+                "add"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "0057373e",
+            "name": "Hardened",
+            "effects": [
+              [
+                "bbDamage",
+                0.25,
+                "bmDamage",
+                "mulAdd"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "00573740",
+            "name": "Refined",
             "effects": [
               [
                 "bbDamage",
                 0.125,
                 "bmDamage",
                 "mulAdd"
+              ]
+            ],
+            "isUsed": false
+          }
+        ]
+      },
+      {
+        "categoryName": "Magazines",
+        "categoryMods": [
+          {
+            "id": "00589365",
+            "name": "Extended",
+            "effects": [
+              [
+                "reloadTime",
+                0.2,
+                "reloadTime",
+                "mulAdd"
+              ],
+              [
+                "ammo",
+                0.5,
+                "ammo",
+                "mulAdd"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "0059561a",
+            "name": "Perforating",
+            "effects": [
+              [
+                "antiArmor",
+                40,
+                "antiArmor",
+                "add"
               ]
             ],
             "isUsed": false

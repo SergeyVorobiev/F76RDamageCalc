@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "Gatling Gun",
     "type": "Heavy",
-    "level": 45,
-    "id": "0003a0d4",
+    "level": 50,
+    "id": "00011bf6",
     "bbDamage": [
-      43,
-      43
+      86,
+      86
     ],
     "bmDamage": [
       0,
@@ -81,16 +81,16 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      2.53,
+      2.53
     ],
     "autoRate": [
-      91,
-      91
+      20,
+      20
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.5,
+      0.5
     ],
     "isAuto": [
       1,
@@ -142,21 +142,34 @@
               ]
             ],
             "isUsed": false
+          },
+          {
+            "id": "",
+            "name": "Speedy",
+            "effects": [
+              [
+                "autoRate",
+                0.25,
+                "autoRate",
+                "mulAdd"
+              ]
+            ],
+            "isUsed": false
           }
         ]
       },
       {
-        "categoryName": "Barrels",
+        "categoryName": "Magazines",
         "categoryMods": [
           {
             "id": "",
-            "name": "Heavy",
+            "name": "Extra Large",
             "effects": [
               [
-                "bbDamage",
-                0.125,
-                "bmDamage",
-                "mulAdd"
+                "ammo",
+                2,
+                "ammo",
+                "mulSet"
               ]
             ],
             "isUsed": false

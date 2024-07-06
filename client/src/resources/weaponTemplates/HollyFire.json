@@ -1,12 +1,12 @@
 [
   {
-    "name": "50 Cal. Machine Gun",
+    "name": "Holly Fire",
     "type": "Heavy",
-    "level": 45,
-    "id": "0003a0d4",
+    "level": 50,
+    "id": "00693d37",
     "bbDamage": [
-      43,
-      43
+      0,
+      0
     ],
     "bmDamage": [
       0,
@@ -29,8 +29,8 @@
       0
     ],
     "fbDamage": [
-      0,
-      0
+      41,
+      41
     ],
     "fmDamage": [
       0,
@@ -81,8 +81,8 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      3.1,
+      3.1
     ],
     "autoRate": [
       91,
@@ -97,8 +97,8 @@
       1
     ],
     "ammo": [
-      250,
-      250
+      100,
+      100
     ],
     "antiArmor": [
       0,
@@ -122,23 +122,17 @@
     ],
     "mods": [
       {
-        "categoryName": "Receivers",
+        "categoryName": "Napalms",
         "categoryMods": [
           {
             "id": "",
-            "name": "Prime",
+            "name": "Tank",
             "effects": [
               [
-                "bbDamage",
-                0.25,
-                "bmDamage",
-                "mulAdd"
-              ],
-              [
-                "cd",
-                65,
-                "cd",
-                "set"
+                "fbDamage",
+                28,
+                "fbDamage",
+                "add"
               ]
             ],
             "isUsed": false
@@ -146,17 +140,30 @@
         ]
       },
       {
-        "categoryName": "Barrels",
+        "categoryName": "Tanks",
         "categoryMods": [
           {
             "id": "",
-            "name": "Heavy",
+            "name": "Large Prop",
             "effects": [
               [
-                "bbDamage",
-                0.125,
-                "bmDamage",
-                "mulAdd"
+                "ammo",
+                50,
+                "ammo",
+                "add"
+              ]
+            ],
+            "isUsed": false
+          },
+          {
+            "id": "",
+            "name": "Huge Prop",
+            "effects": [
+              [
+                "ammo",
+                100,
+                "ammo",
+                "add"
               ]
             ],
             "isUsed": false
