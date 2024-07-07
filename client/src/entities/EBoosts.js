@@ -26,7 +26,7 @@ export function defaultBoosts() {
 
         bloody_mess: {
             name: "Bloody Mess",
-            value: 15.0,
+            value: 5.0,
             is_used: false,
             displayed_value: 0.0,
             rank: 1,
@@ -147,7 +147,7 @@ export function defaultBoosts() {
 
         stabilized: {
             name: "Stabilized",
-            value: 45.0,
+            value: 15.0,
             is_used: false,
             displayed_value: 0.0,
             rank: 1,
@@ -213,7 +213,7 @@ export function defaultBoosts() {
 
         demolition_expert: {
             name: "Demolition Expert",
-            value: 60.0,
+            value: 20.0,
             is_used: false,
             displayed_value: 0.0,
             rank: 1,

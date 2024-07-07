@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ModalNewItem from '../snapshot/ModalNewItem';
+import ModalDownloadSnapshots from '../snapshot/ModalDownloadSnapshots';
 import ModalDeleteItem from '../snapshot/ModalDeleteItem';
 import ModalDeleteAll from '../snapshot/ModalDeleteAll';
 import ModalApplyItem from '../snapshot/ModalApplyItem';
@@ -34,6 +35,8 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
     const [modalNewItemShow, setModalNewItemShow] = useState(false);
 
     const [modalDeleteAll, setModalDeleteAll] = useState(false);
+
+    const [modalDownloadSnapshots, setModalDownloadSnapshots] = useState(false);
 
     const [modalRenameItem, setModalRenameItem] = useState({id: -1, show: false});
 
@@ -71,8 +74,9 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
         <Container className="p-1">
             <Card className="text-center mb-3">
                 <div class='card-header'>
-                    <SnapshotsHeader items={items} sortId={sortId} setSortId={setSortId} setModalUploadSnapshots={setModalUploadSnapshots} />
+                    <SnapshotsHeader items={items} sortId={sortId} setSortId={setSortId} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
                 </div>
+                <ModalDownloadSnapshots items={items} modalDownloadSnapshots={modalDownloadSnapshots} setModalDownloadSnapshots={setModalDownloadSnapshots}></ModalDownloadSnapshots>
                 <ModalUploadSnapshots setItems={setItems} setNextId={setNextId} show={modalUploadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots}></ModalUploadSnapshots>
                 <ModalNewItem weaponName={weaponName} id={id} creatures={creatures} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} items={items} setItems={setItems} setNextId={setNextId} show={modalNewItemShow} setModalNewItemShow={setModalNewItemShow} />
                 <ModalDeleteItem items={items} setItems={setItems} itemId={modalDeleteItem.id} show={modalDeleteItem.show} name={modalDeleteItem.name} setModalDeleteItem={setModalDeleteItem} />

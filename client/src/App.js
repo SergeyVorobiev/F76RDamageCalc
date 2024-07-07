@@ -119,6 +119,7 @@ export default function MyApp() {
                 </Tab>
             </Tabs>
             <div style={{height: '4rem'}}></div>
+            <a className="p-1 m-1 pb-3" href="https://www.flaticon.com"><small>Freepik icons</small></a>
         </div>
     );
     console.log("Return: " + (performance.now() - start).toFixed(3));
