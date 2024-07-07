@@ -8,6 +8,8 @@ import { millisToTime } from '../helpers/Calc';
 import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon } from '../icons/Icons';
 import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
+import { getImage } from '../helpers/WTypeDropdown'
+import { ammo, fireRate, addText } from '../helpers/Emoji';
 
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
@@ -45,9 +47,12 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
         <Card className="mb-2">
             <div class='pb-0 pt-0 card-header'>
                 <Row className="pt-2 pb-1">
-                    <div className='col-10'>
-                        <div class="d-flex justify-content-start pt-1">
-                            <h5>{item.name}</h5>
+                    <div className='col-2 my-auto'>
+                        <Button variant="white" className="mb-1" size='sm'>{getImage(item.wSpec.type)}</Button>
+                    </div>
+                    <div className='col-8 pt-1'>
+                        <div class="d-flex justify-content-start">
+                            <h6>{item.name}</h6>
                         </div>
                     </div>
                     <Col className='my-auto'>
@@ -66,20 +71,20 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
-                                    {row("Damage:", item.resultDamage.tDamage.toFixed(1) + " x " + item.resultDamage.shotSize)}
-                                    {row("Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
-                                    {row("Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
-                                    {row("Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
-                                    {row("Health:", item.boostDamage.health.toFixed(0) + "%")}
-                                    {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name)}
+                                    {row("💥 Damage:", item.resultDamage.tDamage.toFixed(1) + " x " + item.resultDamage.shotSize)}
+                                    {row("☠️ Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
+                                    {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
+                                    {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
+                                    {row("❤️ Health:", item.boostDamage.health.toFixed(0) + "%")}
+                                    {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name, "gold")}
                                 </Col>
                                 <Col>
-                                    {row("Ammo:", item.resultDamage.ammoCapacity)}
-                                    {row("Fire Rate:", item.resultDamage.fireRate)}
-                                    {row("Reload Time:", item.resultDamage.reloadTime)}
-                                    {row("Head Shot:", headUsed)}
-                                    {row("Team:", (item.boostDamage.team) ? "Yes" : "No")}
-                                    {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name)}
+                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
+                                    {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate)}
+                                    {row("⌛ Reload:", item.resultDamage.reloadTime)}
+                                    {row("🤕 Head Shot:", headUsed)}
+                                    {row("👨‍👩‍👧‍👦 Team:", (item.boostDamage.team) ? "Yes" : "No")}
+                                    {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name, "gold")}
                                 </Col>
                             </Row>
                             </Toast.Body>
@@ -90,8 +95,8 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
-                                    {row("Strength:", strength, "default", "default")}
-                                    {row("Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
+                                    {row("💪 Strength:", strength, "default", "default")}
+                                    {row("🛡️ Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
                                     {row("SB Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
                                     {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
                                     {row("U Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
@@ -109,7 +114,6 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                     <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
                  </div>
                 <div className="col d-flex justify-content-end">
-                <Tag bordered={true} color="purple" className="pt-1 me-5"><h6 className="m-auto p-auto"><strong>{item.wSpec.type}</strong></h6></Tag>
                 <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
                     <UpdateIcon />
                 </Button>

@@ -1,4 +1,3 @@
-import {getJsonFileRef} from '../helpers/Files';
 import {UploadIcon, DownloadIcon} from '../icons/Icons';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -7,15 +6,13 @@ import SortRadios from '../snapshot/SortRadios';
 import { memo } from 'react';
 
 
-const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalUploadSnapshots, sortId, setSortId}) {
+const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSnapshots, setModalUploadSnapshots, sortId, setSortId}) {
     console.log("SnapshotsHeader");
     function downloadButton() {
         return (
-            <a href={getJsonFileRef(items.map.values())} download="snapshots">
-                <Button>
-                    <UploadIcon />
-                </Button>
-            </a>
+            <Button onClick={()=>setModalDownloadSnapshots(true)}>
+                <UploadIcon />
+            </Button>
         );
     }
 

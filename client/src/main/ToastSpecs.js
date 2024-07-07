@@ -4,6 +4,7 @@ import {keyValueRow} from '../helpers/RowBuilder';
 import { getHotPercentage } from '../helpers/Item';
 import { Progress } from 'antd';
 import { memo } from 'react';
+import { ammo, fireRate, addText } from '../helpers/Emoji';
 
 
 const ToastSpecs = memo(function ToastSpecs({creatures, resultDamage, showStat, setShowStat}) {
@@ -29,14 +30,14 @@ const ToastSpecs = memo(function ToastSpecs({creatures, resultDamage, showStat, 
                     </small>
                 </Toast.Header>
                 <Toast.Body>
-                    {keyValueRow('Damage:', resultDamage.tDamage.toFixed(1) + ' x ' + resultDamage.shotSize, "default", "purple")}
-                    {keyValueRow('Crit:', resultDamage.displayedCrit.toFixed(1), "default", "purple")}
-                    {keyValueRow('Fire Rate:', resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
-                    {keyValueRow('Ammo:', resultDamage.ammoCapacity, "default", "purple")}
-                    {keyValueRow('Reload Time:', resultDamage.reloadTime.toFixed(1), "default", "purple")}
-                    {keyValueRow('Explosive:', resultDamage.explosive.toFixed(0) + "%", "default", "purple")}
-                    {keyValueRow('AA:', (resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "purple")}
-                    {keyValueRow('Sneak:', resultDamage.displayedSneak.toFixed(1), "default", "purple")}
+                    {keyValueRow('💥 Damage:', resultDamage.tDamage.toFixed(1) + ' x ' + resultDamage.shotSize, "default", "purple")}
+                    {keyValueRow('☠️ Crit:', resultDamage.displayedCrit.toFixed(1), "default", "purple")}
+                    {keyValueRow(addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:"), resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
+                    {keyValueRow(addText(ammo, '0.7rem', '0.27rem', "Ammo:"), resultDamage.ammoCapacity, "default", "purple")}
+                    {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1), "default", "purple")}
+                    {keyValueRow('💣 Explosive:', resultDamage.explosive.toFixed(0) + "%", "default", "purple")}
+                    {keyValueRow('🛡️ Anti Armor:', (resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "purple")}
+                    {keyValueRow('🐍 Sneak:', resultDamage.displayedSneak.toFixed(1), "default", "purple")}
                 </Toast.Body>
             </Toast>
         </ToastContainer>

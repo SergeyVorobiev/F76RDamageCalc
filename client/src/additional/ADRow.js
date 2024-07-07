@@ -30,6 +30,32 @@ function qa(text) {
     );
 }
 
+function addIconName(name) {
+    switch(name) {
+        case "Ballistic BDB":
+            return "💥 BDB";
+        case "Energy BDB":
+            return "⚡ BDB";
+        case "Fire BDB":
+            return "🔥 BDB";
+        case "Poison BDB":
+            return "☣️ BDB";
+        case "Cold BDB":
+            return "❄️ BDB";
+        case "Rad BDB":
+            return "☢️ BDB";
+        case "Damage To Creature":
+            return "🐵 Damage";
+        case "Sneak":
+            return "🐍 Sneak";
+        case "Crit":
+            return "☠️ Crit";
+        case "Strength":
+            return "💪 Strength";
+        default:
+            return name;
+    }
+}
 function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
     const width = (text === '' || text === null) ? '12rem' : '10rem';
     function slideChanged(e) {
@@ -48,7 +74,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
             <Col>
                 <InputGroup className="mb-1">
                     <InputGroup.Text style={{ width: width }} >
-                        <Checkbox onChange={onChange} checked={additionalDamage.is_used}><strong>{additionalDamage.name}</strong></Checkbox>
+                        <Checkbox onChange={onChange} checked={additionalDamage.is_used}><strong>{addIconName(additionalDamage.name)}</strong></Checkbox>
                     </InputGroup.Text>
                     {qa(text)}
                 </InputGroup>

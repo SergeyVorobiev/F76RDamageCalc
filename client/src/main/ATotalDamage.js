@@ -20,6 +20,8 @@ import Accordion from 'react-bootstrap/Accordion';
 import HotMeter from './HotMeter';
 import { getColorsForHotMeter } from '../helpers/Colors';
 import { getHotPercentage } from '../helpers/Item';
+import { keyValueBadge } from '../helpers/RowBuilder';
+import { tAmmo, ammo, fireRate, addText } from '../helpers/Emoji';
 const { Chart } = await import('chart.js/auto');
 
 
@@ -30,14 +32,14 @@ function help() {
         <Popover style={{ width: '20rem' }} id="popover-basic" class="popover" >
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
             <Popover.Body class="my-popover ms-2 me-2">
-                <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>CrF</strong> means crit frequency (2 - every second shot is crit).</p>
+                <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (2 - every second shot is crit).</p>
                 <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
-                <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>HeF</strong> means head shot frequency ( 2 - every second shot is head shot)
-                    <strong> HeS</strong> means multiplier (2 = 2x).
+                <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 2 - every second shot is head shot)
+                    <strong> 🤕 Sh</strong> means multiplier.
                 </p>
                 <p class="m-1"><strong>CD</strong> is used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
                 <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
-                but you will see its actual rad resistance from the game files. Therefore calculations for rads weapon will be incorrect.</p>
+                but you will see its actual rad resistance from the game files, therefore calculations for rads weapon will be incorrect.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
                 provided that a creature is standing still under the fire until death. </p>
                 <p class="m-1">However when all else being equal you can rely on this numbers to compare efficiency
@@ -86,16 +88,16 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     <span style={{ width: '3rem' }} className="badge bg-rad">{(creature.r * (1 - resultDamage.rAA)).toFixed(1)}</span>
                 </Stack>
                 <Stack  className='pb-0' direction="vertical" gap={0}>
-                    {keyValueRow("Health:", creature.h.toFixed(2), "default", "red")}
-                    {keyValueRow("Damage Reduction:", creature.damageReduction, "default", "orange")}
-                    {keyValueRow("Head Shot:", creature.headShot + "x " + addHeadShot, "default", "blue")}
-                    {keyValueRow("Shot Damage:", creature.shotDamage.toFixed(2), "default", "blue")}
-                    {keyValueRow("Normal Damage:", creature.normalDamage.toFixed(2) + " " + addDamageInfo, "default", "blue")}
-                    {keyValueRow("Crit Normal Damage:", creature.critNormalDamage.toFixed(2) + " " + addCritDamageInfo, "default", "blue")}
-                    {keyValueRow("Explosive Damage:", creature.explosiveDamage.toFixed(2) + " " + addExpDamageInfo, "default", "blue")}
-                    {keyValueRow("Crit Explosive Damage:", addExpCritDamageInfo, "default", "blue")}
+                    {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
+                    {keyValueRow("🧽 Damage Reduction:", creature.damageReduction, "default", "orange")}
+                    {keyValueRow("🤕 Head Shot:", creature.headShot + "x " + addHeadShot, "default", "blue")}
+                    {keyValueRow("💥 Shot Damage:", creature.shotDamage.toFixed(2), "default", "blue")}
+                    {keyValueRow("💥 Normal Damage:", creature.normalDamage.toFixed(2) + " " + addDamageInfo, "default", "blue")}
+                    {keyValueRow("☠️ Crit Normal Damage:", creature.critNormalDamage.toFixed(2) + " " + addCritDamageInfo, "default", "blue")}
+                    {keyValueRow("💣 Explosive Damage:", creature.explosiveDamage.toFixed(2) + " " + addExpDamageInfo, "default", "blue")}
+                    {keyValueRow("☠️ Crit Explosive Damage:", addExpCritDamageInfo, "default", "blue")}
+                    {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
                     {keyValueRow("DPS:", creature.dps.toFixed(0), "default", "purple")}
-                    {keyValueRow("Ammo / Hits:", creature.ammo, "default", "pink")}
                     {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
@@ -230,7 +232,7 @@ export default class ATotalDamage extends React.PureComponent {
         return (<strong>{name}</strong>)
     }
 
-    enemy(creature, updateCreatures, resultDamage, legendary, dropdown=false) {
+    enemy(creature, creatureIcon, updateCreatures, resultDamage, legendary, dropdown=false) {
         function checkDC(e) {
             creature.damageToCreature = e.target.checked;
             updateCreatures();
@@ -241,9 +243,10 @@ export default class ATotalDamage extends React.PureComponent {
                     {this.enemyDropdowns(dropdown, creature.name, creature.level, this.props.mapCreatures.names, this.props.mapCreatures.levels)}
                 </Card.Header>
                 <Stack  className='ps-1 pe-1' direction="horizontal" gap={1}>
-                    <Checkbox onChange={checkDC} checked={creature.damageToCreature}><strong>CD</strong></Checkbox>
-                    <span style={{ width: '6rem' }} className="mt-1 mb-1 badge bg-ammo ms-auto me-auto">Ammo: {creature.ammo}</span>
-                    <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">Life Time: {millisToTime(creature.lifeTime)}</span>
+                    <Checkbox onChange={checkDC} checked={creature.damageToCreature}><strong>{creatureIcon}</strong></Checkbox>
+                    {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '6rem', tAmmo("0.7rem"), creature.ammo)}
+
+                    <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">Life ⌛: {millisToTime(creature.lifeTime)}</span>
                     <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
                     </OverlayTrigger>
@@ -257,16 +260,18 @@ export default class ATotalDamage extends React.PureComponent {
             <div>
                 <div class="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
-                        <span style={{ width: '7rem' }} class={style}>{label}: {damage.toFixed(1)}</span>
-                        <span style={{ width: '7rem' }} class={style}>AA: {(aa * 100.0).toFixed(1)}</span>
-                        <span style={{ width: '7rem' }} class={style}>Sneak: {sneak.toFixed(1)}</span>
+                        {keyValueBadge(style, '7rem', label + " D", damage.toFixed(1))}
+                        {keyValueBadge(style, '7rem', "🛡️ A", (aa * 100.0).toFixed(1))}
+                        {keyValueBadge(style, '7rem', "🐍 S", sneak.toFixed(1))}
+
                     </Stack>
                 </div>
                 <div class="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
-                        <span style={{ width: '7rem' }} class={style}>Crit: {crit.toFixed(1)}</span>
-                        <span style={{ width: '7rem' }} class={style}>Exp: {exp.toFixed(1)}</span>
-                        <span style={{ width: '7rem' }} class={style}>ECrit: {(exp + expCrit).toFixed(1)}</span>
+                        {keyValueBadge(style, '7rem', "☠️ C", crit.toFixed(1))}
+                        {keyValueBadge(style, '7rem', "💣 E", exp.toFixed(1))}
+                        {keyValueBadge(style, '7rem', "💣☠️", (exp + expCrit).toFixed(1))}
+
                     </Stack>
                 </div>
             </div>
@@ -337,7 +342,7 @@ export default class ATotalDamage extends React.PureComponent {
     render() {
         console.log("ATotalDamage");
         const damage = this.props.resultDamage.tDamage.toFixed(1) + " x " + this.props.resultDamage.shotSize;
-        const fireRate = this.props.resultDamage.fireRate + " - " + (this.props.resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec";
+        const fireRateText = this.props.resultDamage.fireRate.toFixed(0) + " - " + (this.props.resultDamage.fireRate / 10.0).toFixed(2) + " shots / sec";
         const percentC = getHotPercentage(this.props.creatures);
         return (
         <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-0">
@@ -349,27 +354,27 @@ export default class ATotalDamage extends React.PureComponent {
                                 <Card.Header className="pe-0 ps-0">
                                     <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
 
-                                        <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>CRIT</strong></Checkbox>
-                                        <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>SNEAK</strong></Checkbox>
-                                        <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>HEAD</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
                                         <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
                                             <Badge bg="info">?</Badge>
                                         </OverlayTrigger>
                                     </Stack>
                                 </Card.Header>
                                 <Card.Body className="pt-0 pb-0">
-                                        {keyValueRow((<span className="pt-0 pb-0"><strong>Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Fire Rate:</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRate}</strong></span>), "default", "purple")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Ammo:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Reload Time:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
+                                        {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                                        {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                        {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                                 </Card.Body>
 
                                 <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
-                                    <Button style={{ width: '4rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>CrF: {this.props.extraDamage.critFreq}</strong></Button>
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>HeF: {this.props.extraDamage.headFreq}</strong></Button>
-                                    <Button style={{ width: '4rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>HeS: {this.props.creatures.creature.headShot}</strong></Button>
+                                    <Button style={{ width: '5rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: {this.props.extraDamage.critFreq}</strong></Button>
+                                    <Button style={{ width: '5rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: {this.props.extraDamage.headFreq}</strong></Button>
+                                    <Button style={{ width: '5rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>🤕 Sh: {this.props.creatures.creature.headShot}x</strong></Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -406,10 +411,10 @@ export default class ATotalDamage extends React.PureComponent {
                         <div class="col d-flex justify-content-center">
                             <Card style={{ minWidth: '23rem', maxWidth: '28rem', maxHeight: '16.3rem'}}>
                             <Card.Body className="pt-2 pb-1 ps-1 pe-1">
-                                {this.enemy(this.props.creatures.sbq, this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.earle, this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.titan, this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.creature, this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
+                                {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
                             </Card.Body>
                             </Card>
                         </div>
@@ -425,20 +430,20 @@ export default class ATotalDamage extends React.PureComponent {
                 <Row>
                     <Col>
                         <Row>
-                            {this.resultBadges("B", "badge bg-ballistic", this.props.resultDamage.bAA, this.props.resultDamage.bDamage, this.props.resultDamage.bSneak, this.props.resultDamage.bCrit, this.props.resultDamage.bExpDamage, this.props.resultDamage.bExpCrit)}
-                            {this.resultBadges("E", "badge bg-energy", this.props.resultDamage.eAA, this.props.resultDamage.eDamage, this.props.resultDamage.eSneak, this.props.resultDamage.eCrit, this.props.resultDamage.eExpDamage, this.props.resultDamage.eExpCrit)}
+                            {this.resultBadges("💥", "badge bg-ballistic", this.props.resultDamage.bAA, this.props.resultDamage.bDamage, this.props.resultDamage.bSneak, this.props.resultDamage.bCrit, this.props.resultDamage.bExpDamage, this.props.resultDamage.bExpCrit)}
+                            {this.resultBadges("⚡", "badge bg-energy", this.props.resultDamage.eAA, this.props.resultDamage.eDamage, this.props.resultDamage.eSneak, this.props.resultDamage.eCrit, this.props.resultDamage.eExpDamage, this.props.resultDamage.eExpCrit)}
                         </Row>
                     </Col>
                     <Col>
                         <Row>
-                            {this.resultBadges("F", "badge bg-fire", this.props.resultDamage.fAA, this.props.resultDamage.fDamage, this.props.resultDamage.fSneak, this.props.resultDamage.fCrit)}
-                            {this.resultBadges("P", "badge bg-poison", this.props.resultDamage.pAA, this.props.resultDamage.pDamage, this.props.resultDamage.pSneak, this.props.resultDamage.pCrit)}
+                            {this.resultBadges("🔥", "badge bg-fire", this.props.resultDamage.fAA, this.props.resultDamage.fDamage, this.props.resultDamage.fSneak, this.props.resultDamage.fCrit)}
+                            {this.resultBadges("☣️", "badge bg-poison", this.props.resultDamage.pAA, this.props.resultDamage.pDamage, this.props.resultDamage.pSneak, this.props.resultDamage.pCrit)}
                         </Row>
                     </Col>
                     <Col>
                         <Row>
-                            {this.resultBadges("C", "badge bg-cold", this.props.resultDamage.cAA, this.props.resultDamage.cDamage, this.props.resultDamage.cSneak, this.props.resultDamage.cCrit)}
-                            {this.resultBadges("R", "badge bg-rad", this.props.resultDamage.rAA, this.props.resultDamage.rDamage, this.props.resultDamage.rSneak, this.props.resultDamage.rCrit)}
+                            {this.resultBadges("❄️", "badge bg-cold", this.props.resultDamage.cAA, this.props.resultDamage.cDamage, this.props.resultDamage.cSneak, this.props.resultDamage.cCrit)}
+                            {this.resultBadges("☢️", "badge bg-rad", this.props.resultDamage.rAA, this.props.resultDamage.rDamage, this.props.resultDamage.rSneak, this.props.resultDamage.rCrit)}
                         </Row>
                     </Col>
                 </Row>

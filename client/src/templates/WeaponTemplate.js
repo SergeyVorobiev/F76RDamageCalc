@@ -3,9 +3,11 @@ import Stack from 'react-bootstrap/Stack';
 import '../css/style.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { getSymbolText } from '../helpers/Emoji';
-import {Tag, Divider, Checkbox, Collapse } from 'antd';
+import { bullet, ammo, fireRate } from '../helpers/Emoji';
+import { Tag, Divider, Checkbox, Collapse } from 'antd';
 import Button from 'react-bootstrap/Button';
+import { keyValueBadge } from '../helpers/RowBuilder';
+import { getRowWithImage } from '../helpers/WTypeDropdown'
 
 
 export default function WeaponTemplate({index, templates, setTemplates, setModalTemplate}) {
@@ -24,13 +26,13 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
         );
     };
 
-    function resultBadges(style, text1, text2, text3) {
+    function resultBadges(style, left1, right1, left2, right2, left3, right3) {
         return (
             <div class="col d-flex justify-content-center">
                 <Stack className='pb-1' direction="horizontal" gap={1}>
-                    <span style={{ width: '7rem' }} class={style}>{text1}</span>
-                    <span style={{ width: '7rem' }} class={style}>{text2}</span>
-                    <span style={{ width: '7rem' }} class={style}>{text3}</span>
+                    {keyValueBadge(style, '7rem', left1,  right1)}
+                    {keyValueBadge(style, '7rem', left2,  right2)}
+                    {keyValueBadge(style, '7rem', left3,  right3)}
                 </Stack>
             </div>
         );
@@ -107,7 +109,8 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
         items.push(item);
     }
     result.push(<Collapse items={items} />)
-    const fireRate = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
+    const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
+    const iSize = '0.75rem';
     return (
         <div className="ps-1 pe-1 pb-2" key={index}>
             <Accordion.Item key={index} eventKey={index}>
@@ -120,36 +123,36 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
                             <Tag bordered={true} color="default"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
                         </div>
                          <div class="col d-flex justify-content-end mb-2 pe-1">
-                            <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{template.type}</strong></h6></Tag>
+                            <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type)}</strong></h6></Tag>
                        </div>
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
                     <Row>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-ballistic", getSymbolText("B", "B: " + template.bbDamage[1].toFixed(2)), getSymbolText("B", "M: " + template.bmDamage[1].toFixed(2)), getSymbolText("B", "T: " + template.btDamage[1].toFixed(2)))}
-                                {resultBadges("badge bg-energy", getSymbolText("E", "B: " + template.ebDamage[1].toFixed(2)), getSymbolText("E", "M: " + template.emDamage[1].toFixed(2)), getSymbolText("E", "T: " + template.etDamage[1].toFixed(2)))}
+                                {resultBadges("badge bg-ballistic", '💥 B', template.bbDamage[1].toFixed(2), '💥 M', template.bmDamage[1].toFixed(2), '💥 T', template.btDamage[1].toFixed(2))}
+                                {resultBadges("badge bg-energy", '⚡ B', template.ebDamage[1].toFixed(2), '⚡ M', template.emDamage[1].toFixed(2),  '⚡ T', template.etDamage[1].toFixed(2))}
                             </Row>
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-fire", getSymbolText("F", "B: " + template.fbDamage[1].toFixed(2)), getSymbolText("F", "M: " + template.fmDamage[1].toFixed(2)), getSymbolText("F", "T: " + template.ftDamage[1].toFixed(2)))}
-                                {resultBadges("badge bg-poison", getSymbolText("P", "B: " + template.pbDamage[1].toFixed(2)), getSymbolText("P", "M: " + template.pmDamage[1].toFixed(2)), getSymbolText("P", "T: " + template.ptDamage[1].toFixed(2)))}
+                                {resultBadges("badge bg-fire", '🔥 B', template.fbDamage[1].toFixed(2), '🔥 M', template.fmDamage[1].toFixed(2), '🔥 T', template.ftDamage[1].toFixed(2))}
+                                {resultBadges("badge bg-poison", '☣️ B', template.pbDamage[1].toFixed(2), '☣️ M', template.pmDamage[1].toFixed(2), '☣️ T', template.ptDamage[1].toFixed(2))}
                             </Row>
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-cold", getSymbolText("C", "B: " + template.cbDamage[1].toFixed(2)), getSymbolText("C", "M: " + template.cmDamage[1].toFixed(2)), getSymbolText("C", "T: " + template.ctDamage[1].toFixed(2)))}
-                                {resultBadges("badge bg-rad", getSymbolText("R", "B: " + template.rbDamage[1].toFixed(2)), getSymbolText("R", "M: " + template.rmDamage[1].toFixed(2)), getSymbolText("R", "T: " + template.rtDamage[1].toFixed(2)))}
+                                {resultBadges("badge bg-cold", '❄️️ B', template.cbDamage[1].toFixed(2), '❄️ M', template.cmDamage[1].toFixed(2), '❄️ T', template.ctDamage[1].toFixed(2))}
+                                {resultBadges("badge bg-rad", '☢️ B', template.rbDamage[1].toFixed(2), '☢️️ M', template.rmDamage[1].toFixed(2), '☢️ T', template.rtDamage[1].toFixed(2))}
                             </Row>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "S Size: " + template.shotSize[1].toFixed(0), "R Time: " + template.reloadTime[1].toFixed(2), "F Rate: " + fireRate)}
-                                {resultBadges("badge bg-lite", "Ammo: " + template.ammo[1].toFixed(0), "AA: " + template.antiArmor[1].toFixed(2), "Str: " + template.strengthBoost[1].toFixed(2))}
-                                {resultBadges("badge bg-lite", "Crit: " + template.crit[1].toFixed(2), "Exp: " + template.exp[1].toFixed(2), "CD: " + template.cd[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2), fireRate(iSize), fireRateText)}
+                                {resultBadges("badge bg-lite", ammo(iSize), template.ammo[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐲", template.cd[1].toFixed(2))}
                             </Row>
                         </Col>
                     </Row>
