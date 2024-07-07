@@ -1,19 +1,30 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.09aaf52d.css",
-    "main.js": "/F76RDamageCalc/static/js/main.23cd936d.js",
+    "main.css": "/F76RDamageCalc/static/css/main.076b88fe.css",
+    "main.js": "/F76RDamageCalc/static/js/main.4a3ec6bd.js",
     "static/js/867.458fa4b3.chunk.js": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js",
     "static/js/453.258b012d.chunk.js": "/F76RDamageCalc/static/js/453.258b012d.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.cf17b0d31a9639907367.csv",
     "static/media/Fallout_76_logo2.png": "/F76RDamageCalc/static/media/Fallout_76_logo2.97e046f78d47f9d2a463.png",
+    "static/media/melee.png": "/F76RDamageCalc/static/media/melee.007d53e192102d9b3460.png",
+    "static/media/rifle.png": "/F76RDamageCalc/static/media/rifle.c1e88da4e7b6d6117bf5.png",
+    "static/media/bow.png": "/F76RDamageCalc/static/media/bow.74ae99378a2fbcaf458f.png",
+    "static/media/shotgun.png": "/F76RDamageCalc/static/media/shotgun.de0e093a06993f0fb468.png",
+    "static/media/unarmed.png": "/F76RDamageCalc/static/media/unarmed.f69b23ed0da73a88840a.png",
+    "static/media/tAmmo.png": "/F76RDamageCalc/static/media/tAmmo.cc4b00aa5f6623fd18e3.png",
+    "static/media/heavy.png": "/F76RDamageCalc/static/media/heavy.0408e1a4f716bf2c70e6.png",
+    "static/media/gun.png": "/F76RDamageCalc/static/media/gun.41d5541d5d8328e092b0.png",
+    "static/media/fireRate.png": "/F76RDamageCalc/static/media/fireRate.402403658eca2a6e36d1.png",
+    "static/media/ammo5.png": "/F76RDamageCalc/static/media/ammo5.d67167e5f52806fe83b3.png",
+    "static/media/bullet3.png": "/F76RDamageCalc/static/media/bullet3.dc6e9f52c59c507a1eec.png",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.09aaf52d.css.map": "/F76RDamageCalc/static/css/main.09aaf52d.css.map",
-    "main.23cd936d.js.map": "/F76RDamageCalc/static/js/main.23cd936d.js.map",
+    "main.076b88fe.css.map": "/F76RDamageCalc/static/css/main.076b88fe.css.map",
+    "main.4a3ec6bd.js.map": "/F76RDamageCalc/static/js/main.4a3ec6bd.js.map",
     "867.458fa4b3.chunk.js.map": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js.map",
     "453.258b012d.chunk.js.map": "/F76RDamageCalc/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.09aaf52d.css",
-    "static/js/main.23cd936d.js"
+    "static/css/main.076b88fe.css",
+    "static/js/main.4a3ec6bd.js"
   ]
 }
