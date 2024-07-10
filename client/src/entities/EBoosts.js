@@ -2,7 +2,7 @@ export function defaultBoosts() {
     return {
 
         // weapon cards
-        wcdamage: 0.0,
+        wcdamage: 10.0,
         wcdamagen: false,
         wcdamager: 0.0,
 

@@ -37,7 +37,7 @@ function help() {
                 <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 2 - every second shot is head shot)
                     <strong> 🤕 Sh</strong> means multiplier.
                 </p>
-                <p class="m-1"><strong>CD</strong> is used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
+                <p class="m-1">🐵, 🐲, 👹, 🐗 are used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
                 <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
                 but you will see its actual rad resistance from the game files, therefore calculations for rads weapon will be incorrect.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time

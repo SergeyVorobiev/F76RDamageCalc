@@ -18,7 +18,7 @@ const popover = (
             Perks do not know about your current weapon i.e.
             If you apply 'Incisor' & 'Stabilized' & 'Exterminator' the effects will be fused together.
             You need to deside what will work and what will not manually.
-            'Glow Sight' will be applied only to creatures with CD (Creature Damage) check.
+            'Glow Sight' will be applied only to creatures with 🐵 (Creature Damage) selected checkbox.
             TOFT can reduce ballistic resistance of a creature when it hits back so you have to handle this manually
             under the 'Creature' section.
         </Popover.Body>
