@@ -34,7 +34,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, resultDamage, showStat, 
                     {keyValueRow('☠️ Crit:', resultDamage.displayedCrit.toFixed(1), "default", "purple")}
                     {keyValueRow(addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:"), resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
                     {keyValueRow(addText(ammo, '0.7rem', '0.27rem', "Ammo:"), resultDamage.ammoCapacity, "default", "purple")}
-                    {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1), "default", "purple")}
+                    {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
                     {keyValueRow('💣 Explosive:', resultDamage.explosive.toFixed(0) + "%", "default", "purple")}
                     {keyValueRow('🛡️ Anti Armor:', (resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "purple")}
                     {keyValueRow('🐍 Sneak:', resultDamage.displayedSneak.toFixed(1), "default", "purple")}

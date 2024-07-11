@@ -28,9 +28,11 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
     const tDamage = bDamage / shots + eDamage / shots + fDamage / shots + pDamage / shots + cDamage / shots + rDamage / shots + bExp + eExp;
     const displayedCrit = tDamage + crit[0] / shots + crit[1] / shots + crit[2] / shots + crit[3] / shots + crit[4] / shots + crit[5] / shots + bExpCrit + eExpCrit;
     const displayedSneak = sneak.reduce((a, b) => a + b);
-    const armors = aa_cards(boost, legendary, wSpec.aa);
+    const armors = aa_cards(boost, legendary, wSpec.aa, wSpec.type);
     const fireRate = wSpec.fire_rate * ((legendary.rapid.is_used) ? (1 + legendary.rapid.value / 100.0) : 1.0);
     const ammoCapacity = wSpec.ammo_capacity * ((legendary.quad.is_used) ? (1 + legendary.quad.value / 100.0) : 1.0);
+    const swift = ((additionalDamage.swift.is_used) ? (additionalDamage.swift.value / 100.0) : 0.0) * wSpec.reload_time;
+    const reloadTime = wSpec.reload_time - swift;
     const result = {
         bDamage: bDamage,
         eDamage: eDamage,
@@ -65,9 +67,10 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
         cAA: armors[4] / 100.0,
         rAA: armors[5] / 100.0,
         shotSize: shots,
-        reloadTime: wSpec.reload_time,
+        reloadTime: reloadTime,
         fireRate: fireRate,
         ammoCapacity: ammoCapacity,
+        accuracy: wSpec.accuracy,
         weaponName: '', // Obsolete
     };
     calcLives(result, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec);
@@ -107,7 +110,10 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
     damageToCreature += (boost.glow_sight.displayed_value / 100.0);
     damageToCreature += (wSpec.cd / 100.0);
     const executionerMult = 1 + legendary.executioner.value / 100.0;
-
+    let accuracy = wSpec.accuracy / 100.0;
+    if (accuracy < 0.1) {
+        accuracy = 0.1
+    }
     for (let c = 0; c < cs.length; c++) {
         let creature = cs[c];
         let creatureDamage = (creature.damageToCreature) ? damageToCreature : 0.0;
@@ -199,18 +205,23 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
                     }
 
                     ammo = parseInt(creature.h * 0.6 / shotDamage) + parseInt(creature.h * 0.4 / execDamage);
+                    ammo *= (1 / accuracy)
+                    ammo = parseInt(ammo)
+                    reloads = parseInt(ammo / magazine);
+                    totalReload = reloads * reloadTime;
+                    lifeTime = ammo * fireTime + totalReload;
+                    break;
+                } else {
+                    ammo = parseInt(creature.h / shotDamage);
+                    ammo *= (1 / accuracy)
+                    ammo = parseInt(ammo)
                     reloads = parseInt(ammo / magazine);
                     totalReload = reloads * reloadTime;
                     lifeTime = ammo * fireTime + totalReload;
                     break;
                 }
-                ammo = parseInt(creature.h / shotDamage);
-                reloads = parseInt(ammo / magazine);
-                totalReload = reloads * reloadTime;
-                lifeTime = ammo * fireTime + totalReload;
-                break;
             }
-            health -= shotDamage;
+            health -= shotDamage * accuracy;
             lifeTime += fireTime;
         }
         creature.lifeTime = ((lifeTime - fireTime) * 1000).toFixed(0);
@@ -378,7 +389,7 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec) {
 }
 
 // Applies all possible Anti Armor effects
-export function aa_cards(boostDamage, legendary=null, weaponAA=0.0) {
+export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="All") {
     let aa = 1.0
     if (legendary != null) {
         aa = 1 - ((legendary.antiarmor.is_used) ? legendary.antiarmor.value / 100.0 : 0.0);
@@ -386,11 +397,23 @@ export function aa_cards(boostDamage, legendary=null, weaponAA=0.0) {
     aa -= (weaponAA / 100.0);
     aa = (aa < 0) ? 0 : aa;
     const syringer = 1 - boostDamage.syringer.displayed_value / 100.0;
-    const incisor = 1 - boostDamage.incisor.displayed_value / 100.0;
-    const bow_before_me = 1 - boostDamage.bow_before_me.displayed_value / 100.0;
+    let incisor = 1.0;
+    if (weaponType === "All" || weaponType === "Melee" || weaponType === "Unarmed") {
+        incisor = 1 - boostDamage.incisor.displayed_value / 100.0;
+    }
+    let bow_before_me = 1.0;
+    if (weaponType === "All" || weaponType === "Bow") {
+        bow_before_me = 1 - boostDamage.bow_before_me.displayed_value / 100.0;
+    }
     const exterminator = 1 - boostDamage.exterminator.displayed_value / 100.0;
-    const tank_killer = 1 - boostDamage.tank_killer.displayed_value / 100.0;
-    const stabilized = 1 - boostDamage.stabilized.displayed_value / 100.0;
+    let tank_killer = 1.0;
+    if (weaponType === "All" || weaponType === "Pistol" || weaponType === "Rifle") {
+        tank_killer = 1 - boostDamage.tank_killer.displayed_value / 100.0;
+    }
+    let stabilized = 1.0;
+    if (weaponType === "All" || weaponType === "Heavy") {
+        stabilized = 1 - boostDamage.stabilized.displayed_value / 100.0;
+    }
     const result1 = (100 * (1 - syringer * incisor * bow_before_me * exterminator * tank_killer * stabilized * aa));
     const result2 = (100 * (1 - incisor * bow_before_me * exterminator * tank_killer * stabilized * aa));
     const resultAll = [result1, result2, result2, result2, result2, result2];

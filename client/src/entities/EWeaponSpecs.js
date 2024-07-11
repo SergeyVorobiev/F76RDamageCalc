@@ -192,6 +192,7 @@ export function defaultWeaponSpecs() {
         crit: 0,
         exp: 0,
         cd: 0,
+        accuracy: 100,
         type: "All",
     };
 }

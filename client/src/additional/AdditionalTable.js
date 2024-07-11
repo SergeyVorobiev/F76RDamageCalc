@@ -49,6 +49,21 @@ const marks100P = {
     defaultValue: 0,
 };
 
+const marks50P = {
+    marks: {
+        0: '0%',
+        10: '10%',
+        20: '20%',
+        30: '30%',
+        40: '40%',
+        50: '50%'
+    },
+    min: 0,
+    max: 50,
+    step: 1,
+    defaultValue: 0,
+};
+
 const marks200 = {
     marks: {
         0: '0%',
@@ -127,6 +142,7 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
                     <ADRow additionalDamage={additionalDamages.sneak} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.crit} updateAdditionalDamages={updateAdditionalDamages} marks={marks500}></ADRow>
                     <ADRow additionalDamage={additionalDamages.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks100F}></ADRow>
+                    <ADRow additionalDamage={additionalDamages.swift} updateAdditionalDamages={updateAdditionalDamages} marks={marks50P}></ADRow>
                 </Card.Body>
                 <Card.Footer className="text-muted"></Card.Footer>
             </Card>

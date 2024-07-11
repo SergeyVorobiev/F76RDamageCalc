@@ -97,6 +97,7 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     {keyValueRow("💣 Explosive Damage:", creature.explosiveDamage.toFixed(2) + " " + addExpDamageInfo, "default", "blue")}
                     {keyValueRow("☠️ Crit Explosive Damage:", addExpCritDamageInfo, "default", "blue")}
                     {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
+                    {keyValueRow("🎯 Accuracy:", resultDamage.accuracy + "%", "default", "pink")}
                     {keyValueRow("DPS:", creature.dps.toFixed(0), "default", "purple")}
                     {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}

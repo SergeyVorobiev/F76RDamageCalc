@@ -60,7 +60,7 @@ function LegRow({marks, perk, setLegendary, legendary, answer=null, disabled=fal
                         </InputGroup.Text>
                         {qa(answer)}
                     </InputGroup>
-                    <Slider disabled={disabled} onChange={slideFinished} marks={marks} min={perk.min} max={perk.max} step={perk.step} value={perk.value} />
+                    <Slider disabled={disabled} open={true} onChange={slideFinished} marks={marks} min={perk.min} max={perk.max} step={perk.step} value={perk.value} />
                 </Col>
                 </Card>
             </Row>

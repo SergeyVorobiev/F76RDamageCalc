@@ -42,7 +42,6 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
     const leg1Name = leg1.name + " (" + leg1.value + "%)";
     const leg2Name = leg2.name + " (" + leg2.value + "%)";
     let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
-
     return (
         <Card className="mb-2">
             <div class='pb-0 pt-0 card-header'>
@@ -67,7 +66,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
             <Card.Body class="p-1">
                 <Row>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast style={{ width: '30rem'}} show={true} className="bg-snapshot">
+                        <Toast style={{ width: '32rem'}} show={true} className="bg-snapshot">
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -79,9 +78,9 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                                     {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name, "gold")}
                                 </Col>
                                 <Col>
-                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
+                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
                                     {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate)}
-                                    {row("⌛ Reload:", item.resultDamage.reloadTime)}
+                                    {row("⌛ Reload:", item.resultDamage.reloadTime + " s")}
                                     {row("🤕 Head Shot:", headUsed)}
                                     {row("👨‍👩‍👧‍👦 Team:", (item.boostDamage.team) ? "Yes" : "No")}
                                     {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name, "gold")}
@@ -91,7 +90,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                         </Toast>
                     </Col>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast className="bg-snapshot" style={{ width: '30rem' }} show={true}>
+                        <Toast className="bg-snapshot" style={{ width: '32rem' }} show={true}>
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>

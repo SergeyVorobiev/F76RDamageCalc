@@ -14,13 +14,14 @@ const popover = (
     <Popover style={{width: '19rem'}} id="popover-basic">
         <Popover.Header as="h3">Perks</Popover.Header>
         <Popover.Body>
-            Not all of this perks are cards (like syringer).
-            Perks do not know about your current weapon i.e.
-            If you apply 'Incisor' & 'Stabilized' & 'Exterminator' the effects will be fused together.
-            You need to deside what will work and what will not manually.
-            'Glow Sight' will be applied only to creatures with 🐵 (Creature Damage) selected checkbox.
-            TOFT can reduce ballistic resistance of a creature when it hits back so you have to handle this manually
-            under the 'Creature' section.
+            Not all of this perks are cards (Syringer).
+            'Exterminator' is applied to all creatures because it does not know about creature's type.
+            'Incisor' is applied to 'All / Melee / Unarmed' weapon's type.
+            'Stabilized' is applied to 'All / Heavy' weapon's type.
+            'Tank Killer' is applied to 'All / Pistol / Rifle' weapon's type.
+            'Glow Sight' is applied only to creatures with 🐵 (Creature Damage) selected checkbox.
+            'TOFT' can reduce ballistic resistance of a creature when it hits back so you have to handle this manually
+            under the 'Creature' section if you want to see the exact damage number as in the game.
         </Popover.Body>
     </Popover>
 );
