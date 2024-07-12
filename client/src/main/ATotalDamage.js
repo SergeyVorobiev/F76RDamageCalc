@@ -33,11 +33,9 @@ function help() {
         <Popover style={{ width: '20rem' }} id="popover-basic" class="popover" >
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
             <Popover.Body class="my-popover ms-2 me-2">
-                <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (2 - every second shot is crit).</p>
+                <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
                 <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
-                <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 2 - every second shot is head shot)
-                    <strong> 🤕 Sh</strong> means multiplier.
-                </p>
+                <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
                 <p class="m-1">🐵, 🐲, 👹, 🐗 are used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
                 <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
                 but you will see its actual rad resistance from the game files, therefore calculations for rads weapon will be incorrect.</p>
@@ -384,10 +382,9 @@ export default class ATotalDamage extends React.PureComponent {
                                     {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                             </Card.Body>
 
-                            <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
-                                <Button style={{ width: '5rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: {this.props.extraDamage.critFreq}</strong></Button>
-                                <Button style={{ width: '5rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: {this.props.extraDamage.headFreq}</strong></Button>
-                                <Button style={{ width: '5rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>🤕 Sh: {this.props.creatures.creature.headShot}x</strong></Button>
+                            <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
+                                <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>
+                                <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: 1 / {this.props.extraDamage.headFreq}</strong></Button>
                             </Card.Footer>
                         </Card>
                     </div>

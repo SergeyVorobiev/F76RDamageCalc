@@ -65,7 +65,7 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
             return (<></>);
         }
         return (
-            <Button className="mb-2 me-3" onClick={() => setModalDeleteAll(true)}>
+            <Button className="mb-2 me-0" onClick={() => setModalDeleteAll(true)}>
                 <TrashIcon/> All
             </Button>
         );
@@ -99,9 +99,9 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
                         <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType}></WTypeDropdown>
                         <Form.Control maxLength="65" onChange={(e) => setFilterName(e.target.value)} />
                     </InputGroup>
-                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-row mt-1 mb-2">
                         <div class="col w-100 d-flex justify-content-start">
-                            <Button className="ms-3 mb-2" onClick={() => setIsOpen(!isOpen)}>
+                            <Button className="ms-0 mb-2" onClick={() => setIsOpen(!isOpen)}>
                                 {expandButton()}
                             </Button>
                         </div>

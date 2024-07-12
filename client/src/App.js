@@ -95,7 +95,7 @@ export default function MyApp() {
     console.log("Init: " + (performance.now() - start).toFixed(3));
 
     const b = (
-        <div className='ms-0 me-0 ps-0 pe-0'>
+        <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
             <ATotalDamage weaponName={weaponName} defaultName={wSpec.defaultName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
             <ToastSpecs creatures={creatures} legendary={legendary} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
@@ -134,5 +134,5 @@ export default function MyApp() {
         </div>
     );
     console.log("Return: " + (performance.now() - start).toFixed(3));
-    return b;
+    return (<div>{b}</div>);
 }

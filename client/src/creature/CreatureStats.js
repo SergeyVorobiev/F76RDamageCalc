@@ -35,6 +35,7 @@ const cold = <>❄️ Cold</>;
 const rad = <>☢️ Rad</>;
 const health = <>❤️ Health</>;
 const reduction = <>🧽 Reduction</>;
+const headShot = <>🤕 Head Shot</>;
 
 function CreatureStats({creatures, setCreatures, creature}) {
     console.log("CreatureStats");
@@ -59,6 +60,9 @@ function CreatureStats({creatures, setCreatures, creature}) {
                 <Row>
                     {col(health, creatures, setCreatures, creature, "h", "bg-health", 1, 32767)}
                     {col(reduction, creatures, setCreatures, creature, "damageReduction", "bg-reduction", 0, 0.99)}
+                </Row>
+                <Row>
+                    {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", 1, 2)}
                 </Row>
             </Card.Body>
             <Card.Footer className="text-muted"></Card.Footer>
