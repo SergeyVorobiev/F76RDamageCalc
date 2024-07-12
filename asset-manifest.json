@@ -1,12 +1,23 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.076b88fe.css",
-    "main.js": "/F76RDamageCalc/static/js/main.6525cabd.js",
+    "main.css": "/F76RDamageCalc/static/css/main.49d14628.css",
+    "main.js": "/F76RDamageCalc/static/js/main.3075d8e1.js",
     "static/js/867.458fa4b3.chunk.js": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js",
     "static/js/453.258b012d.chunk.js": "/F76RDamageCalc/static/js/453.258b012d.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.cf17b0d31a9639907367.csv",
+    "static/media/gatling_plasma.png": "/F76RDamageCalc/static/media/gatling_plasma.e750e9e90c8cb5e143cc.png",
     "static/media/Fallout_76_logo2.png": "/F76RDamageCalc/static/media/Fallout_76_logo2.97e046f78d47f9d2a463.png",
+    "static/media/ultracite_gatling_laser.png": "/F76RDamageCalc/static/media/ultracite_gatling_laser.d4f9d8ad2cc02ee6d882.png",
+    "static/media/gauss_minigun.png": "/F76RDamageCalc/static/media/gauss_minigun.c0340b53c57b352202f2.png",
+    "static/media/gatling_gun.png": "/F76RDamageCalc/static/media/gatling_gun.e345227a70487ee7332c.png",
+    "static/media/minigun.png": "/F76RDamageCalc/static/media/minigun.54f5e40eafdc348f7c0c.png",
+    "static/media/10mm_pistol.png": "/F76RDamageCalc/static/media/10mm_pistol.845cc607832aa8473a2f.png",
+    "static/media/gauss_shotgun.png": "/F76RDamageCalc/static/media/gauss_shotgun.8d6d3dee8563033267c2.png",
+    "static/media/50_cal_machine_gun.png": "/F76RDamageCalc/static/media/50_cal_machine_gun.5c397f7a9ba886d26af0.png",
+    "static/media/plasma_caster.png": "/F76RDamageCalc/static/media/plasma_caster.e4fda33dad7882a09e84.png",
     "static/media/melee.png": "/F76RDamageCalc/static/media/melee.007d53e192102d9b3460.png",
+    "static/media/holy_fire.png": "/F76RDamageCalc/static/media/holy_fire.1097c112483b7b7b731b.png",
+    "static/media/mg_42.png": "/F76RDamageCalc/static/media/mg_42.74fe23b3e7df78a87dd7.png",
     "static/media/rifle.png": "/F76RDamageCalc/static/media/rifle.c1e88da4e7b6d6117bf5.png",
     "static/media/bow.png": "/F76RDamageCalc/static/media/bow.74ae99378a2fbcaf458f.png",
     "static/media/shotgun.png": "/F76RDamageCalc/static/media/shotgun.de0e093a06993f0fb468.png",
@@ -18,13 +29,13 @@
     "static/media/ammo5.png": "/F76RDamageCalc/static/media/ammo5.d67167e5f52806fe83b3.png",
     "static/media/bullet3.png": "/F76RDamageCalc/static/media/bullet3.dc6e9f52c59c507a1eec.png",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.076b88fe.css.map": "/F76RDamageCalc/static/css/main.076b88fe.css.map",
-    "main.6525cabd.js.map": "/F76RDamageCalc/static/js/main.6525cabd.js.map",
+    "main.49d14628.css.map": "/F76RDamageCalc/static/css/main.49d14628.css.map",
+    "main.3075d8e1.js.map": "/F76RDamageCalc/static/js/main.3075d8e1.js.map",
     "867.458fa4b3.chunk.js.map": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js.map",
     "453.258b012d.chunk.js.map": "/F76RDamageCalc/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.076b88fe.css",
-    "static/js/main.6525cabd.js"
+    "static/css/main.49d14628.css",
+    "static/js/main.3075d8e1.js"
   ]
 }
