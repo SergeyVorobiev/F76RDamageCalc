@@ -22,6 +22,7 @@ import { getColorsForHotMeter } from '../helpers/Colors';
 import { getHotPercentage } from '../helpers/Item';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { tAmmo, ammo, fireRate, addText } from '../helpers/Emoji';
+import { getImageElement } from '../helpers/WeaponImages'
 const { Chart } = await import('chart.js/auto');
 
 
@@ -69,7 +70,7 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
     return (
         <Popover id="popover-basic" class="popover">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
-            <Popover.Body class="my-popover ms-2 me-2">
+            <Popover.Body className="my-popover ms-2 me-2">
                 <Stack  className='pt-2 pb-0' direction="horizontal" gap={1}>
                     <span style={{ width: '3rem' }} className="badge bg-ballistic">{creature.b.toFixed(1)}</span>
                     <span style={{ width: '3rem' }} className="badge bg-energy">{creature.e.toFixed(1)}</span>
@@ -97,6 +98,7 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     {keyValueRow("💣 Explosive Damage:", creature.explosiveDamage.toFixed(2) + " " + addExpDamageInfo, "default", "blue")}
                     {keyValueRow("☠️ Crit Explosive Damage:", addExpCritDamageInfo, "default", "blue")}
                     {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
+                    {keyValueRow("🎯 Accuracy:", resultDamage.accuracy + "%", "default", "pink")}
                     {keyValueRow("DPS:", creature.dps.toFixed(0), "default", "purple")}
                     {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
@@ -346,79 +348,90 @@ export default class ATotalDamage extends React.PureComponent {
         const percentC = getHotPercentage(this.props.creatures);
         return (
         <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-0">
-            <Card.Header><h3 className="mb-0">{this.props.weaponName}</h3></Card.Header>
+            <Card.Header>
+                <Row>
+                <Col className="col-2 d-flex justify-content-start">
+                    {getImageElement(this.props.defaultName.toLowerCase().replaceAll(" ", "_"), "2rem")}
+                </Col>
+                <Col className="col-8 d-flex justify-content-center">
+                   <h4 className="m-auto p-auto"> {this.props.weaponName} </h4>
+                </Col>
+                <Col className="col-2 d-flex justify-content-end">
+                </Col>
+                </Row>
+            </Card.Header>
             <Card.Body className="pt-2">
-                    <Row>
-                        <div class="col d-flex justify-content-center mb-2">
-                            <Card style={{ minWidth: '23rem', maxWidth: '28rem'}}>
-                                <Card.Header className="pe-0 ps-0">
-                                    <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
+                <Row>
+                    <div class="col d-flex justify-content-center mb-2">
+                        <Card style={{ minWidth: '23rem', maxWidth: '28rem'}}>
+                            <Card.Header className="pe-0 ps-0">
+                                <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
 
-                                        <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
-                                        <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
-                                        <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
-                                        <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
-                                            <Badge bg="info">?</Badge>
-                                        </OverlayTrigger>
-                                    </Stack>
-                                </Card.Header>
-                                <Card.Body className="pt-0 pb-0">
-                                        {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
-                                        {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
-                                        {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
-                                </Card.Body>
-
-                                <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
-                                    <Button style={{ width: '5rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: {this.props.extraDamage.critFreq}</strong></Button>
-                                    <Button style={{ width: '5rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: {this.props.extraDamage.headFreq}</strong></Button>
-                                    <Button style={{ width: '5rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>🤕 Sh: {this.props.creatures.creature.headShot}x</strong></Button>
-                                </Card.Footer>
-                            </Card>
-                        </div>
-                        <div class="col d-flex justify-content-center mb-2">
-                            <Card style={{ maxWidth: '28rem', minWidth: '23rem', maxHeight: '16.3rem' }}>
-                                <Card.Header>
-                                    <span className="d-flex m-0 p-0 w-100">
-                                        <div class="m-auto p-0 w-100 d-flex justify-content-start">
-                                            <Badge bg="warning" text="dark">
-                                            <strong>DPS: {(this.props.resultDamage.tDamage * this.props.resultDamage.fireRate / 10.0).toFixed(1)}</strong>
-                                            </Badge>
-                                        </div>
-                                        <div class="m-0 p-0 w-100">
-                                            <Progress
-                                                type="dashboard"
-                                                steps={50}
-                                                percent={percentC}
-                                                format={(percent) => percent}
-                                                size={[28, 28]}
-                                                strokeColor={colors}
-                                                trailColor="rgba(0, 0, 0, 0.06)"
-                                                strokeWidth={20} />
-                                        </div>
-                                        <div class="m-auto p-0 w-100 d-flex justify-content-end">
-                                            <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
-                                        </div>
-                                    </span>
-                                </Card.Header>
-                                <Card.Body>
-                                    <canvas id="myChart"></canvas>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div class="col d-flex justify-content-center">
-                            <Card style={{ minWidth: '23rem', maxWidth: '28rem', maxHeight: '16.3rem'}}>
-                            <Card.Body className="pt-2 pb-1 ps-1 pe-1">
-                                {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                                {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
+                                    <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
+                                    <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
+                                    <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
+                                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
+                                        <Badge bg="info">?</Badge>
+                                    </OverlayTrigger>
+                                </Stack>
+                            </Card.Header>
+                            <Card.Body className="pt-0 pb-0">
+                                    {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
+                                    {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
+                                    {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                                    {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
+                                    {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                    {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                             </Card.Body>
-                            </Card>
-                        </div>
-                    </Row>
+
+                            <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-evenly">
+                                <Button style={{ width: '5rem' }} className="ms-0 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: {this.props.extraDamage.critFreq}</strong></Button>
+                                <Button style={{ width: '5rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: {this.props.extraDamage.headFreq}</strong></Button>
+                                <Button style={{ width: '5rem' }} className="ms-2 me-0" size="sm" onClick={this.hes}><strong>🤕 Sh: {this.props.creatures.creature.headShot}x</strong></Button>
+                            </Card.Footer>
+                        </Card>
+                    </div>
+                    <div class="col d-flex justify-content-center mb-2">
+                        <Card style={{ maxWidth: '28rem', minWidth: '23rem', maxHeight: '16.3rem' }}>
+                            <Card.Header>
+                                <span className="d-flex m-0 p-0 w-100">
+                                    <div class="m-auto p-0 w-100 d-flex justify-content-start">
+                                        <Badge bg="warning" text="dark">
+                                        <strong>DPS: {(this.props.resultDamage.tDamage * this.props.resultDamage.fireRate / 10.0).toFixed(1)}</strong>
+                                        </Badge>
+                                    </div>
+                                    <div class="m-0 p-0 w-100">
+                                        <Progress
+                                            type="dashboard"
+                                            steps={50}
+                                            percent={percentC}
+                                            format={(percent) => percent}
+                                            size={[28, 28]}
+                                            strokeColor={colors}
+                                            trailColor="rgba(0, 0, 0, 0.06)"
+                                            strokeWidth={20} />
+                                    </div>
+                                    <div class="m-auto p-0 w-100 d-flex justify-content-end">
+                                        <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
+                                    </div>
+                                </span>
+                            </Card.Header>
+                            <Card.Body>
+                                <canvas id="myChart"></canvas>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <Card style={{ minWidth: '23rem', maxWidth: '28rem', maxHeight: '16.3rem'}}>
+                        <Card.Body className="pt-2 pb-1 ps-1 pe-1">
+                            {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                            {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                            {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                            {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
+                        </Card.Body>
+                        </Card>
+                    </div>
+                </Row>
             </Card.Body>
             <Card.Footer className="text-muted p-1">
                 <Accordion class="accordion p-0 m-0">

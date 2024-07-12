@@ -1,6 +1,6 @@
 [
   {
-    "name": "Holly Fire",
+    "name": "Holy Fire",
     "type": "Heavy",
     "level": 50,
     "id": "00693d37",
@@ -119,6 +119,10 @@
     "cd": [
       0,
       0
+    ],
+    "accuracy": [
+      100,
+      100
     ],
     "mods": [
       {

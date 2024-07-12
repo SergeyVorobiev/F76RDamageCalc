@@ -71,5 +71,11 @@ export function defaultAdds() {
             value: 0.0,
             is_used: false,
         },
+
+        swift: {
+            name: "Swift",
+            value: 0.0,
+            is_used: false,
+        }
     };
 }

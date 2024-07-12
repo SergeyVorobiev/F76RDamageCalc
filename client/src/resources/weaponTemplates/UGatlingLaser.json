@@ -1,6 +1,6 @@
 [
   {
-    "name": "U-Gatling Laser",
+    "name": "Ultracite Gatling Laser",
     "type": "Heavy",
     "level": 45,
     "id": "002ef66e",
@@ -119,6 +119,10 @@
     "cd": [
       0,
       0
+    ],
+    "accuracy": [
+      100,
+      100
     ],
     "mods": [
       {

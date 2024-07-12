@@ -1,6 +1,6 @@
 [
   {
-    "name": "Mini Gun",
+    "name": "Minigun",
     "type": "Heavy",
     "level": 45,
     "id": "0001f669",
@@ -119,6 +119,10 @@
     "cd": [
       0,
       0
+    ],
+    "accuracy": [
+      100,
+      100
     ],
     "mods": [
       {

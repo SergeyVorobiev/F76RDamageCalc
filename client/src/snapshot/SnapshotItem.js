@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import { Rate, Tag} from 'antd';
 import { millisToTime } from '../helpers/Calc';
 import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon } from '../icons/Icons';
@@ -10,6 +11,7 @@ import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
 import { getImage } from '../helpers/WTypeDropdown'
 import { ammo, fireRate, addText } from '../helpers/Emoji';
+import { getImageElement } from '../helpers/WeaponImages'
 
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
@@ -26,48 +28,28 @@ function row(name1, value1, colorName="default", tagColor="default", tagName=tru
           <Col className="text-end text-nowrap pb-1">
               <strong >
                 <Tag color={tagColor}>{value1}</Tag>
-
               </strong>
           </Col>
        </Row>
     );
 }
 
-export default function SnapshotItem({index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
-    const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
-    const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
-    const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
-    const leg1 = item.legendary[item.legendary.current[0]];
-    const leg2 = item.legendary[item.legendary.current[1]];
-    const leg1Name = leg1.name + " (" + leg1.value + "%)";
-    const leg2Name = leg2.name + " (" + leg2.value + "%)";
-    let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
-
-    return (
-        <Card className="mb-2">
-            <div class='pb-0 pt-0 card-header'>
-                <Row className="pt-2 pb-1">
-                    <div className='col-2 my-auto'>
-                        <Button variant="white" className="mb-1" size='sm'>{getImage(item.wSpec.type)}</Button>
-                    </div>
-                    <div className='col-8 pt-1'>
-                        <div class="d-flex justify-content-start">
-                            <h6>{item.name}</h6>
-                        </div>
-                    </div>
-                    <Col className='my-auto'>
-                        <div class="d-flex justify-content-end">
-                            <Button id={item.id} onClick={(e) => setModalRenameItem({id: item.id, show: true})} className="mt-0 pt-1 mb-1" size="sm">
-                                <RenameIcon />
-                            </Button>
-                        </div>
-                    </Col>
-                </Row>
-            </div>
-            <Card.Body class="p-1">
+function bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem) {
+    if (isOpen) {
+        const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
+        const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
+        const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
+        const leg1 = item.legendary[item.legendary.current[0]];
+        const leg2 = item.legendary[item.legendary.current[1]];
+        const leg1Name = leg1.name + " (" + leg1.value + "%)";
+        const leg2Name = leg2.name + " (" + leg2.value + "%)";
+        let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
+        return (
+            <>
+            <Card.Body className="p-1 mt-1">
                 <Row>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast style={{ width: '30rem'}} show={true} className="bg-snapshot">
+                        <Toast style={{ width: '32rem'}} show={true} className="bg-snapshot">
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -79,9 +61,9 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                                     {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name, "gold")}
                                 </Col>
                                 <Col>
-                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
+                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
                                     {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate)}
-                                    {row("⌛ Reload:", item.resultDamage.reloadTime)}
+                                    {row("⌛ Reload:", item.resultDamage.reloadTime + " s")}
                                     {row("🤕 Head Shot:", headUsed)}
                                     {row("👨‍👩‍👧‍👦 Team:", (item.boostDamage.team) ? "Yes" : "No")}
                                     {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name, "gold")}
@@ -91,7 +73,7 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
                         </Toast>
                     </Col>
                     <Col className="d-flex justify-content-center mb-1">
-                        <Toast className="bg-snapshot" style={{ width: '30rem' }} show={true}>
+                        <Toast className="bg-snapshot" style={{ width: '32rem' }} show={true}>
                             <Toast.Body className="m-0 p-2">
                             <Row>
                                 <Col>
@@ -110,23 +92,78 @@ export default function SnapshotItem({index, size, item, setModalUpdateItem, set
             </Card.Body>
             <div class='card-footer'>
                 <Row>
-                 <div className="col d-flex justify-content-start">
-                    <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
-                 </div>
-                <div className="col d-flex justify-content-end">
-                <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
-                    <UpdateIcon />
-                </Button>
-                <Button className="ms-1 me-2" size="sm" id={item.id} name={item.name} onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
-                    <PlayIcon />
-                </Button>
-
-                <Button className="ms-1" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
-                    <TrashIcon />
-                </Button>
-                </div>
-               </Row>
+                    <div className="col d-flex justify-content-start">
+                        <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
+                        <Button variant="white" className="m-auto ms-2 p-auto" size='sm'>{getImage(item.wSpec.type)}</Button>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
+                            <UpdateIcon />
+                        </Button>
+                        <Button className="ms-1 me-2" size="sm" id={item.id} name={item.name} onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                            <PlayIcon />
+                        </Button>
+                        <Button className="ms-1" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                            <TrashIcon />
+                        </Button>
+                    </div>
+                </Row>
             </div>
+            </>
+        );
+    } else {
+        return (<></>);
+    }
+}
+
+function headerBody(item, setModalRenameItem) {
+    let wName = item.wSpec.defaultName;
+    if (!wName) {
+        wName = "Weapon";
+    }
+    return (
+        <Container className='ps-1 pe-1'>
+            <div class="row-12 d-flex">
+                <div class='col-2 p-2 d-flex justify-content-start'>
+                    <div className="m-auto ms-1">
+                        {getImageElement(wName.toLowerCase().replaceAll(" ", "_"), '2rem')}
+                    </div>
+                </div>
+                <div class="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
+                    <h6 className='m-auto pe-3'>{item.name}</h6>
+                </div>
+                <div class="col-1 d-flex p-2 justify-content-end">
+                    <div className="m-auto me-1">
+                        <Button id={item.id} onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
+                            <RenameIcon />
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </Container>
+    );
+}
+
+function header(item, setModalRenameItem, isOpen) {
+    if (isOpen) {
+        return (
+            <div class='m-0 p-0 card-header'>
+                {headerBody(item, setModalRenameItem)}
+            </div>
+        );
+    } else {
+        return (
+            headerBody(item, setModalRenameItem)
+        );
+    }
+}
+
+export default function SnapshotItem({index, isOpen, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+
+    return (
+        <Card className="mb-2">
+            {header(item, setModalRenameItem, isOpen)}
+            {bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
         </Card>
     );
 }

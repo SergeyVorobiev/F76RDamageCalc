@@ -128,7 +128,7 @@ function ANRow({setBoostDamage, boostDamage, setLegendary, legendary}) {
                         <Badge bg="info">Health: {boostDamage.health}%</Badge>
                     </InputGroup.Text>
                 </InputGroup>
-                 <Slider onChange={slideFinished} marks={marks} min={5} max={100} step={1} value={boostDamage.health} />
+                 <Slider onChange={slideFinished} open={true} marks={marks} min={5} max={100} step={1} value={boostDamage.health} />
             </Col>
         </Row>
         </div>

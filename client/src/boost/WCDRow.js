@@ -27,7 +27,7 @@ const marks: SliderSingleProps['marks'] = {
 
 const popover = (
     <Popover style={{ width: '18rem' }} id="popover-basic">
-        <Popover.Header as="h3">Weapon Damage</Popover.Header>
+        <Popover.Header as="h3">Weapon Cards</Popover.Header>
         <Popover.Body>
             The damage you get from cards of your weapon
             (ex: 3 Heavy Gunner + 3 Expert Heavy Gunner + 3 Master Heavy Gunner = 60%)
@@ -71,7 +71,7 @@ function WCDRow({setBoostDamage, boostDamage}) {
                         </OverlayTrigger>
                     </InputGroup.Text>
                 </InputGroup>
-                <Slider onChange={slideChanged} marks={marks} min={10} max={60} step={5} keyboard={false} value={boostDamage.wcdamage} />
+                <Slider onChange={slideChanged} open={true} marks={marks} min={10} max={60} step={5} keyboard={false} value={boostDamage.wcdamage} />
             </Col>
         </Row>
     );

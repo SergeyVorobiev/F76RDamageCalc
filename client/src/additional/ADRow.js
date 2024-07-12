@@ -52,6 +52,8 @@ function addIconName(name) {
             return "☠️ Crit";
         case "Strength":
             return "💪 Strength";
+        case "Swift":
+            return "💨 Swift";
         default:
             return name;
     }
@@ -78,7 +80,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
                     </InputGroup.Text>
                     {qa(text)}
                 </InputGroup>
-                <Slider onChange={slideChanged} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
+                <Slider onChange={slideChanged} open={true} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
             </Col>
             </Card>
         </Row>

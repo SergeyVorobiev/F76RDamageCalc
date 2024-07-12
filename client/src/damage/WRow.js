@@ -26,6 +26,9 @@ function WRow({wSpec, setWSpec}) {
         if ((e.target.id === 'shot_size' || e.target.id === 'fire_rate' || e.target.id === 'ammo_capacity') && e.target.value < 1) {
             e.target.value = 1;
         }
+        if (e.target.id === 'accuracy' && e.target.value < 10) {
+            e.target.value = 10;
+        }
         const val = parseFloat(e.target.value);
         wSpec[e.target.id] = val;
         setWSpec({
@@ -46,6 +49,7 @@ function WRow({wSpec, setWSpec}) {
             {column(wSpec, onChange, "☠️", "Crit", "crit", 200)}
             {column(wSpec, onChange, "💣", "Explosion", "exp", 100)}
             {column(wSpec, onChange, "🐲", "Damage", "cd", 100)}
+            {column(wSpec, onChange, "🎯", "Accuracy", "accuracy", 100)}
         </Row>
     );
 }
