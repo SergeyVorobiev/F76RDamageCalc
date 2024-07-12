@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.49d14628.css",
-    "main.js": "/F76RDamageCalc/static/js/main.3075d8e1.js",
+    "main.css": "/F76RDamageCalc/static/css/main.633ffcc3.css",
+    "main.js": "/F76RDamageCalc/static/js/main.7c71c288.js",
     "static/js/867.458fa4b3.chunk.js": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js",
     "static/js/453.258b012d.chunk.js": "/F76RDamageCalc/static/js/453.258b012d.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.cf17b0d31a9639907367.csv",
@@ -29,13 +29,13 @@
     "static/media/ammo5.png": "/F76RDamageCalc/static/media/ammo5.d67167e5f52806fe83b3.png",
     "static/media/bullet3.png": "/F76RDamageCalc/static/media/bullet3.dc6e9f52c59c507a1eec.png",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.49d14628.css.map": "/F76RDamageCalc/static/css/main.49d14628.css.map",
-    "main.3075d8e1.js.map": "/F76RDamageCalc/static/js/main.3075d8e1.js.map",
+    "main.633ffcc3.css.map": "/F76RDamageCalc/static/css/main.633ffcc3.css.map",
+    "main.7c71c288.js.map": "/F76RDamageCalc/static/js/main.7c71c288.js.map",
     "867.458fa4b3.chunk.js.map": "/F76RDamageCalc/static/js/867.458fa4b3.chunk.js.map",
     "453.258b012d.chunk.js.map": "/F76RDamageCalc/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.49d14628.css",
-    "static/js/main.3075d8e1.js"
+    "static/css/main.633ffcc3.css",
+    "static/js/main.7c71c288.js"
   ]
 }
