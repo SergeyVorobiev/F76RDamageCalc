@@ -48,19 +48,23 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
     }
 
     return (
-        <div class="row">
-            <Col class="col-8 center-block" className='mt-2 mb-2'>
-                <div class='d-flex justify-content-start align-middle'>
-                    <SortRadios algIndex={sortId} setSortId={setSortId} />
-                </div>
-            </Col>
-            <Col className="col-4 my-auto">
-                <span class='d-flex justify-content-end'>
-                    {downloadButton()}
-                    {uploadButton("ms-3")}
-                </span>
-            </Col>
-        </div>
+        <>
+            <div class="row d-flex justify-content-center mb-3">
+                <Col className="col">
+                    <span>
+                        {downloadButton()}
+                        {uploadButton("ms-3")}
+                    </span>
+                </Col>
+            </div>
+            <div class="row d-flex justify-content-center pt-1 mb-1">
+                <Col class="col">
+                    <div>
+                        <SortRadios algIndex={sortId} setSortId={setSortId} />
+                    </div>
+                </Col>
+            </div>
+        </>
     );
 });
 

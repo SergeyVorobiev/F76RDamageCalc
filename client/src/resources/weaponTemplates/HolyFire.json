@@ -1,12 +1,12 @@
 [
   {
-    "name": "Mini Gun",
+    "name": "Holy Fire",
     "type": "Heavy",
-    "level": 45,
-    "id": "0001f669",
+    "level": 50,
+    "id": "00693d37",
     "bbDamage": [
-      24,
-      24
+      0,
+      0
     ],
     "bmDamage": [
       0,
@@ -29,8 +29,8 @@
       0
     ],
     "fbDamage": [
-      0,
-      0
+      41,
+      41
     ],
     "fmDamage": [
       0,
@@ -81,24 +81,24 @@
       1
     ],
     "reloadTime": [
-      2.8,
-      2.8
+      3.1,
+      3.1
     ],
     "autoRate": [
-      182,
-      182
+      91,
+      91
     ],
     "manualRate": [
-      0.055,
-      0.055
+      0.11,
+      0.11
     ],
     "isAuto": [
       1,
       1
     ],
     "ammo": [
-      500,
-      500
+      100,
+      100
     ],
     "antiArmor": [
       0,
@@ -126,61 +126,48 @@
     ],
     "mods": [
       {
-        "categoryName": "Barrels",
+        "categoryName": "Napalms",
         "categoryMods": [
           {
-            "id": "00470a1b",
-            "name": "Prime",
+            "id": "",
+            "name": "Tank",
             "effects": [
               [
-                "bbDamage",
-                0.25,
-                "bmDamage",
-                "mulAdd"
-              ],
+                "fbDamage",
+                28,
+                "fbDamage",
+                "add"
+              ]
+            ],
+            "isUsed": false
+          }
+        ]
+      },
+      {
+        "categoryName": "Tanks",
+        "categoryMods": [
+          {
+            "id": "",
+            "name": "Large Prop",
+            "effects": [
               [
-                "cd",
-                65,
-                "cd",
-                "set"
+                "ammo",
+                50,
+                "ammo",
+                "add"
               ]
             ],
             "isUsed": false
           },
           {
-            "id": "00121d55",
-            "name": "Tri",
+            "id": "",
+            "name": "Huge Prop",
             "effects": [
               [
-                "bbDamage",
-                0.25,
-                "bmDamage",
-                "mulAdd"
-              ],
-              [
-                "autoRate",
-                -0.35,
-                "autoRate",
-                "mulAdd"
-              ]
-            ],
-            "isUsed": false
-          },
-          {
-            "id": "00121d54",
-            "name": "Short",
-            "effects": [
-              [
-                "bbDamage",
-                0.15,
-                "bmDamage",
-                "mulAdd"
-              ],
-              [
-                "autoRate",
-                0.15,
-                "autoRate",
-                "mulAdd"
+                "ammo",
+                100,
+                "ammo",
+                "add"
               ]
             ],
             "isUsed": false

@@ -166,6 +166,18 @@ export function defaultWeaponDamageSpecs() {
 export function convertTemplateToSpecs(template) {
     let fireRate = (template.isAuto[1]) ? template.autoRate[1] : (10 / template.manualRate[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
+    let mods = [];
+    for (let i = 0; i < template.mods.length; i++) {
+        let categoryMods = template.mods[i].categoryMods;
+        let categoryName = template.mods[i].categoryName;
+        for (let j = 0; j < categoryMods.length; j++) {
+            let mod = categoryMods[j];
+            if (mod.isUsed) {
+                mods.push({group: categoryName, id: mod.id, name: mod.name});
+                break;
+            }
+        }
+    }
     return {
         shot_size: template.shotSize[1],
         reload_time: template.reloadTime[1],
@@ -178,6 +190,9 @@ export function convertTemplateToSpecs(template) {
         cd: template.cd[1],
         type: template.type,
         level: template.level,
+        accuracy: template.accuracy[1],
+        defaultName: template.name,
+        mods: mods,
     };
 }
 
@@ -193,6 +208,9 @@ export function defaultWeaponSpecs() {
         exp: 0,
         cd: 0,
         accuracy: 100,
+        level: 1,
+        defaultName: "Weapon",
         type: "All",
+        mods: [],
     };
 }

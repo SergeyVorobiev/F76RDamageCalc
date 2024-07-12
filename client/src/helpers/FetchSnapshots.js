@@ -1,37 +1,42 @@
-export function readSnapshotsFromInput(inputId, setIdCallback, setItemsCallback, maxItems=10000) {
+export function readSnapshotsFromInput(inputId, setIdCallback, setItemsCallback, oldItems=null, add=true, maxItems=10000) {
 
     const file = document.getElementById(inputId).files[0];
-    readSnapshotsFrom(file, setIdCallback, setItemsCallback, maxItems)
+    readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems)
 };
 
 export function readSnapshotsFromResources(file, setIdCallback, setItemsCallback, maxItems=10000) {
-    readSnapshotsJson(file, setIdCallback, setItemsCallback, maxItems=10000);
+    readSnapshotsJson(file, setIdCallback, setItemsCallback, null, true, maxItems=10000);
 };
 
-function readSnapshotsJson(items, setIdCallback, setItemsCallback, maxItems=10000) {
+function readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add=true, maxItems=10000) {
     let map = new Map();
-    let i;
-    const length = items.length > maxItems ? maxItems : items.length;
-    if (length < 1) {
-        return;
+    let k = 0;
+    if (oldItems && add) {
+        for (const [key, value] of oldItems.entries()) {
+            value.id = k;
+            map.set(k++, value);
+        }
     }
-    for (i = 0; i < length; i++) {
-        items[i].id = i;
-        map.set(i, items[i]);
+    let newMaxItems = maxItems - map.size;
+    newMaxItems = (newMaxItems < 0) ? 0 : newMaxItems;
+    const length = items.length > newMaxItems ? newMaxItems : items.length;
+    for (let i = 0; i < length; i++) {
+        items[i].id = i + k;
+        map.set(i + k, items[i]);
     }
     const newItems = {
         map: map,
     }
-    setIdCallback(i);
+    setIdCallback(map.size);
     setItemsCallback(newItems);
 }
 
-function readSnapshotsFrom(file, setIdCallback, setItemsCallback, maxItems=10000) {
+function readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems=10000) {
     try {
         const reader = new FileReader();
         reader.onload = e => {
             let items = JSON.parse(e.target.result);
-            readSnapshotsJson(items, setIdCallback, setItemsCallback, maxItems);
+            readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add, maxItems);
         };
         reader.readAsText(file);
     } catch {

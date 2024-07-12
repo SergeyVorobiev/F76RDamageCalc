@@ -6,7 +6,19 @@ import { Divider, Tag } from 'antd';
 import Row from 'react-bootstrap/Row';
 import WTypeDropdown from '../helpers/WTypeDropdown';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
+import InputGroup from 'react-bootstrap/InputGroup';
 
+
+function modElement(mod) {
+    return (
+         <div class="col d-flex">
+            <InputGroup className="mb-1 mt-1 flex-nowrap">
+                <InputGroup.Text className='bg-mod-cat' style={{ width: '12.5rem' }}>{mod.group}</InputGroup.Text>
+                <InputGroup.Text className='bg-mod-name' style={{ width: '100%' }}>{mod.name}</InputGroup.Text>
+            </InputGroup>
+        </div>
+    );
+}
 
 const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpec}) {
     console.log("DamageTable");
@@ -15,7 +27,7 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
         wSpec.type = e;
         setWSpec({...wSpec});
     }
-
+    const mods = wSpec.mods.map((mod) => (modElement(mod)));
     return (
         <Container fluid>
             <DRow damage={damage} setDamage={setDamage} damage_type={damage.ballistic} color="bg-ballistic"></DRow>
@@ -34,6 +46,10 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
                  <div class="col d-flex justify-content-end pe-1">
                     <Tag bordered={true} color="volcano" className="pt-2"><h6 className="m-auto p-auto"><strong>{getRowWithImage(wSpec.type)}</strong></h6></Tag>
                </div>
+            </Row>
+            <Divider className="p-0 mt-2 mb-2"></Divider>
+            <Row className="d-flex">
+                {mods}
             </Row>
         </Container>
     );

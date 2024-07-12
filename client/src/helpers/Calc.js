@@ -385,6 +385,9 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec) {
     const cResult = (additionalDamage.coldBDB.is_used) ? (additionalDamage.coldBDB.value / 100.0) : 0.0;
     const rResult = (additionalDamage.radBDB.is_used) ? (additionalDamage.radBDB.value / 100.0) : 0.0;
     let science = boost.science.displayed_value / 100.0;
+    if (wSpec.type === "Heavy") {
+        science = 0.0;
+    }
     return [result + bResult, result + science + eResult, result + fResult, result + pResult, result + cResult, result + rResult];
 }
 

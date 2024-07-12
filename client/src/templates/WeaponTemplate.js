@@ -8,6 +8,7 @@ import { Tag, Divider, Checkbox, Collapse } from 'antd';
 import Button from 'react-bootstrap/Button';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
+import { getImageElement } from '../helpers/WeaponImages'
 
 
 export default function WeaponTemplate({index, templates, setTemplates, setModalTemplate}) {
@@ -113,9 +114,14 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
     const iSize = '0.75rem';
     return (
         <div className="ps-1 pe-1 pb-2" key={index}>
-            <Accordion.Item key={index} eventKey={index}>
+            <Accordion.Item key={index} eventKey={index} className="p-0 m-0">
                 <Accordion.Header key={index}>
-                    <strong>{template.name}</strong>
+                    <Col className="col-1 d-flex justify-content-start">
+                        {getImageElement(template.name.toLowerCase().replaceAll(" ", "_"))}
+                    </Col>
+                    <Col className="col-10 ms-2">
+                        <strong>{template.name}</strong>
+                    </Col>
                 </Accordion.Header>
                 <Accordion.Body>
                     <Row>

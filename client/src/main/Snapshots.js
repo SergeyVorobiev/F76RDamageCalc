@@ -18,7 +18,7 @@ import '../css/style.css'
 import { memo, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import WTypeDropdown from '../helpers/WTypeDropdown';
-import { TrashIcon } from '../icons/Icons';
+import { TrashIcon, CollapseIcon, ExpandIcon } from '../icons/Icons';
 import { FloatButton } from 'antd';
 
 
@@ -54,6 +54,8 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
 
     const [weaponType, setWeaponType] = useState("All");
 
+    const [isOpen, setIsOpen] = useState(true);
+
     useEffect(() => {
         readSnapshotsFromResources(snapshotsFile, setNextId, setItems);
     }, []);
@@ -69,6 +71,14 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
         );
     };
 
+    function expandButton() {
+        if (isOpen) {
+            return (<><CollapseIcon /> All</>);
+        } else {
+            return (<><ExpandIcon /> All</>);
+        }
+    };
+
     // <div class="overflow-auto wrapper"></div>
     return (
         <Container className="p-1">
@@ -77,7 +87,7 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
                     <SnapshotsHeader items={items} sortId={sortId} setSortId={setSortId} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
                 </div>
                 <ModalDownloadSnapshots items={items} modalDownloadSnapshots={modalDownloadSnapshots} setModalDownloadSnapshots={setModalDownloadSnapshots}></ModalDownloadSnapshots>
-                <ModalUploadSnapshots setItems={setItems} setNextId={setNextId} show={modalUploadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots}></ModalUploadSnapshots>
+                <ModalUploadSnapshots items={items} setItems={setItems} setNextId={setNextId} show={modalUploadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots}></ModalUploadSnapshots>
                 <ModalNewItem weaponName={weaponName} id={id} creatures={creatures} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} items={items} setItems={setItems} setNextId={setNextId} show={modalNewItemShow} setModalNewItemShow={setModalNewItemShow} />
                 <ModalDeleteItem items={items} setItems={setItems} itemId={modalDeleteItem.id} show={modalDeleteItem.show} name={modalDeleteItem.name} setModalDeleteItem={setModalDeleteItem} />
                 <ModalDeleteAll items={items} setItems={setItems} modalDeleteAll={modalDeleteAll} setModalDeleteAll={setModalDeleteAll} setNextId={setNextId} />
@@ -90,7 +100,11 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
                         <Form.Control maxLength="65" onChange={(e) => setFilterName(e.target.value)} />
                     </InputGroup>
                     <div class="d-flex flex-row">
-                        <div class="col w-100" />
+                        <div class="col w-100 d-flex justify-content-start">
+                            <Button className="ms-3 mb-2" onClick={() => setIsOpen(!isOpen)}>
+                                {expandButton()}
+                            </Button>
+                        </div>
                         <div class="col w-100">
                             <Button className="mb-2" onClick={() => setModalNewItemShow(true)}>+</Button>
                         </div>
@@ -98,7 +112,7 @@ const Snapshots = memo(function Snapshots({weaponName, damage, legendary, boostD
                             {trashAllButton(items)}
                         </div>
                     </div>
-                    <SnapshotItems items={items} sortId={sortId} filterName={filterName} weaponType={weaponType} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}  />
+                    <SnapshotItems items={items} isOpen={isOpen} sortId={sortId} filterName={filterName} weaponType={weaponType} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}  />
                 </Card.Body>
                 <Card.Footer className="text-muted">
                 </Card.Footer>

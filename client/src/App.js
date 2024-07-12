@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -9,7 +9,6 @@ import ToastSpecs from "./main/ToastSpecs";
 import Creature from "./main/Creature";
 import {calcDamage} from "./helpers/Calc";
 import Accordion from 'react-bootstrap/Accordion';
-import { useEffect } from 'react';
 import {defaultResultDamage, defaultExtraDamage} from './entities/EResultDamage';
 import {defaultCreatures} from './entities/ECreatures';
 import {defaultLegendary} from './entities/ELegendary';
@@ -23,6 +22,9 @@ import WeaponSpecs from './main/WeaponSpecs';
 import DamageBoosts from './main/DamageBoosts';
 import Snapshots from './main/Snapshots';
 import WeaponTemplates from './templates/WeaponTemplates';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 
 export default function MyApp() {
@@ -95,8 +97,8 @@ export default function MyApp() {
     const b = (
         <div className='ms-0 me-0 ps-0 pe-0'>
             <F76NavBar></F76NavBar>
-            <ATotalDamage weaponName={weaponName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
-            <ToastSpecs creatures={creatures} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
+            <ATotalDamage weaponName={weaponName} defaultName={wSpec.defaultName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
+            <ToastSpecs creatures={creatures} legendary={legendary} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}
@@ -119,7 +121,16 @@ export default function MyApp() {
                 </Tab>
             </Tabs>
             <div style={{height: '4rem'}}></div>
-            <a className="p-1 m-1 pb-3" href="https://www.flaticon.com"><small>Freepik icons</small></a>
+            <Container>
+            <Row>
+                <Col>
+                    <a className="p-1 m-1 pb-3 d-flex justify-content-start" href="https://www.flaticon.com"><small>Freepik icons</small></a>
+                </Col>
+                <Col>
+                    <a className="p-1 m-1 pb-3 d-flex justify-content-end" href="https://fallout.fandom.com/wiki/Fallout_76"><small>Fandom F76</small></a>
+                </Col>
+            </Row>
+            </Container>
         </div>
     );
     console.log("Return: " + (performance.now() - start).toFixed(3));
