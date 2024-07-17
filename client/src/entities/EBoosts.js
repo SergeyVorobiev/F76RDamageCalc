@@ -6,24 +6,6 @@ export function defaultBoosts() {
         wcdamagen: false,
         wcdamager: 0.0,
 
-        adrenalreaction: 0.0,
-        adrenalreactionn: false,
-        adrenalreactionr: 0.0,
-
-        rage: 0.0,
-        ragen: false,
-        rager: 0.0,
-
-        team: false,
-        health: 100.0,
-
-        bAA: 0.0,
-        eAA: 0.0,
-        fAA: 0.0,
-        pAA: 0.0,
-        cAA: 0.0,
-        rAA: 0.0,
-
         bloody_mess: {
             name: "Bloody Mess",
             value: 5.0,
@@ -200,17 +182,6 @@ export function defaultBoosts() {
             max_x: 1,
         },
 
-        explosive: {
-            name: "Explosive",
-            value: 15.0,
-            is_used: false,
-            displayed_value: 0.0,
-            rank: 1,
-            rank_values: [15.0],
-            x: 1,
-            max_x: 1,
-        },
-
         demolition_expert: {
             name: "Demolition Expert",
             value: 20.0,
@@ -240,6 +211,103 @@ export function defaultBoosts() {
             displayed_value: 0.0,
             rank: 1,
             rank_values: [50.0, 75.0, 100.0],
+            x: 1,
+            max_x: 1,
+        },
+
+        nerd_rage: {
+            name: "Nerd Rage",
+            value: 10.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20.0],
+            x: 1,
+            max_x: 1,
+        },
+
+        lock_and_load: {
+            name: "Lock And Load",
+            value: 10.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 20, 30],
+            x: 1,
+            max_x: 1,
+        },
+
+        martial_artist: {
+            name: "Martial Artist",
+            value: 10.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 20, 30],
+            x: 1,
+            max_x: 1,
+        },
+
+        scattershot: {
+            name: "Scattershot",
+            value: 10.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 20, 30],
+            x: 1,
+            max_x: 1,
+        },
+
+        ground_pounder: {
+            name: "Ground Pounder",
+            value: 10.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 20, 30],
+            x: 1,
+            max_x: 1,
+        },
+
+        party_girl_boy: {
+            name: "Party Girl / Boy",
+            value: 2.0,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [2, 3],
+            x: 1,
+            max_x: 1,
+        },
+
+        power_user: {
+            name: "Power User",
+            value: 130,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [130, 160, 200],
+            x: 1,
+            max_x: 1,
+        },
+        strange_in_numbers: {
+            name: "Strange In Nums",
+            value: 25,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [25],
+            x: 1,
+            max_x: 1,
+        },
+        class_freak: {
+            name: "Class Freak",
+            value: 25,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [25, 50, 75],
             x: 1,
             max_x: 1,
         },

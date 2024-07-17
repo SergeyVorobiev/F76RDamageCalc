@@ -2,6 +2,7 @@
   {
     "name": "10mm Pistol",
     "type": "Pistol",
+    "tags": "Ballistic,Bullet",
     "level": 45,
     "id": "00004822",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      1.95,
-      1.95
+      1.967,
+      1.967
     ],
     "autoRate": [
       91,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

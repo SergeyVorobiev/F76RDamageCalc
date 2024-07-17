@@ -47,6 +47,8 @@ function WRow({wSpec, setWSpec}) {
             {column(wSpec, onChange, "🛡️", "Anti Armor", "aa", 40)}
             {column(wSpec, onChange, "💪", "Strength Boost", "strength_boost", 25)}
             {column(wSpec, onChange, "☠️", "Crit", "crit", 200)}
+            {column(wSpec, onChange, "🐍", "Sneak", "sneak", 100)}
+            {column(wSpec, onChange, "🩸", "Bleed", "bleed", 10)}
             {column(wSpec, onChange, "💣", "Explosion", "exp", 100)}
             {column(wSpec, onChange, "🐲", "Damage", "cd", 100)}
             {column(wSpec, onChange, "🎯", "Accuracy", "accuracy", 100)}

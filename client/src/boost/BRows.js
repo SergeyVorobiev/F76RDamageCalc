@@ -14,19 +14,37 @@ function badgeIf(value, condition, onClick) {
     return (<></>)
 }
 
-function changeRank(card) {
-    const rank_len = card.rank_values.length;
-    card.rank = card.rank % rank_len + 1;
-    card.value = card.rank_values[card.rank - 1] * card.x;
-    card.displayed_value = (card.is_used) ? card.value : 0.0;
-}
-
-function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%') {
+function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', player=null, setPlayer=null) {
     function onClick(e) {
-        changeRank(card);
+        changeRank();
         setBoostDamage({
             ...boostDamage,
         });
+    }
+
+    function changeRank() {
+        const rank_len = card.rank_values.length;
+        card.rank = card.rank % rank_len + 1;
+        card.value = card.rank_values[card.rank - 1] * card.x;
+        if (card.name === "Nerd Rage") {
+            card.displayed_value = (card.is_used && player.health.value <= 20.0) ? card.value : 0.0;
+        } else {
+            card.displayed_value = (card.is_used) ? card.value : 0.0;
+        }
+        if (card.name === "Party Girl / Boy") {
+            if (card.displayed_value === 0) {
+                player.alcoholEffects = 1.0;
+            } else {
+                player.alcoholEffects = card.displayed_value;
+            }
+            setPlayer({...player});
+        } else if (card.name === "Strange In Nums") {
+            player.strange = card.displayed_value;
+            setPlayer({...player});
+        } else if (card.name === "Class Freak") {
+            player.freak = card.displayed_value;
+            setPlayer({...player});
+        }
     }
 
     function onClickX(e) {
@@ -40,14 +58,33 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%') {
 
     function isUsed(e) {
         card.is_used = e.target.checked;
-        card.displayed_value = (card.is_used) ? card.value : 0.0;
+        if (card.name === "Nerd Rage") {
+            card.displayed_value = (card.is_used && player.health.value <= 20.0) ? card.value : 0.0;
+        } else {
+            card.displayed_value = (card.is_used) ? card.value : 0.0;
+        }
+        if (card.name === "Party Girl / Boy") {
+            if (card.displayed_value === 0) {
+                player.alcoholEffects = 1.0;
+            } else {
+                player.alcoholEffects = card.displayed_value;
+            }
+            setPlayer({...player});
+        } else if (card.name === "Strange In Nums") {
+            player.strange = card.displayed_value;
+            setPlayer({...player});
+        } else if (card.name === "Class Freak") {
+            player.freak = card.displayed_value;
+            setPlayer({...player});
+        }
         setBoostDamage({
             ...boostDamage,
         });
     }
+
     const w = (xBadge) ? '9rem' : '12rem';
     return (
-        <Col>
+        <Col className="p-0">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap">
                 <InputGroup.Text>
                     <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
@@ -67,56 +104,79 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%') {
 
 function BRow1({setBoostDamage, boostDamage}) {
     return (
-            <Row>
-                {getItem(boostDamage.bloody_mess, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.adrenaline, setBoostDamage, boostDamage, true)}
-                {getItem(boostDamage.toft, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.tenderizer, setBoostDamage, boostDamage, true)}
-            </Row>
+        <Row>
+            {getItem(boostDamage.bloody_mess, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.adrenaline, setBoostDamage, boostDamage, true)}
+            {getItem(boostDamage.toft, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.tenderizer, setBoostDamage, boostDamage, true)}
+        </Row>
     );
 };
 
 function BRow2({setBoostDamage, boostDamage}) {
     return (
-            <Row>
-                {getItem(boostDamage.glow_sight, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.gun_foo, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.syringer, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.incisor, setBoostDamage, boostDamage)}
-            </Row>
+        <Row>
+            {getItem(boostDamage.glow_sight, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.gun_foo, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.syringer, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.incisor, setBoostDamage, boostDamage)}
+        </Row>
     );
 };
 
 function BRow3({setBoostDamage, boostDamage}) {
     return (
-            <Row>
-                {getItem(boostDamage.bow_before_me, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.exterminator, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.tank_killer, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.stabilized, setBoostDamage, boostDamage)}
-            </Row>
+        <Row>
+            {getItem(boostDamage.bow_before_me, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.exterminator, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.tank_killer, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.stabilized, setBoostDamage, boostDamage)}
+        </Row>
     );
 };
 
 function BRow4({setBoostDamage, boostDamage}) {
     return (
-            <Row>
-                {getItem(boostDamage.covert_operative, setBoostDamage, boostDamage, false, 'x')}
-                {getItem(boostDamage.mister_sandman, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.ninja, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.follow_through, setBoostDamage, boostDamage)}
-            </Row>
+        <Row>
+            {getItem(boostDamage.covert_operative, setBoostDamage, boostDamage, false, 'x')}
+            {getItem(boostDamage.mister_sandman, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.ninja, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.follow_through, setBoostDamage, boostDamage)}
+        </Row>
     );
 };
 
-function BRow5({setBoostDamage, boostDamage}) {
+function BRow5({setBoostDamage, boostDamage, player}) {
     return (
-            <Row>
-                {getItem(boostDamage.demolition_expert, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.science, setBoostDamage, boostDamage)}
-                {getItem(boostDamage.better_criticals, setBoostDamage, boostDamage)}
-            </Row>
+        <Row>
+            {getItem(boostDamage.demolition_expert, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.science, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.better_criticals, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.nerd_rage, setBoostDamage, boostDamage, false, "%", player)}
+        </Row>
     );
 }
 
-export {BRow1, BRow2, BRow3, BRow4, BRow5};
+function BRow6({setBoostDamage, boostDamage, player}) {
+    return (
+        <Row>
+            {getItem(boostDamage.lock_and_load, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.martial_artist, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.scattershot, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.ground_pounder, setBoostDamage, boostDamage)}
+        </Row>
+    );
+}
+
+function BRow7({setBoostDamage, boostDamage, player, setPlayer}) {
+    return (
+        <Row>
+            {getItem(boostDamage.party_girl_boy, setBoostDamage, boostDamage, false, "x", player, setPlayer)}
+            {getItem(boostDamage.power_user, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.class_freak, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
+            {getItem(boostDamage.strange_in_numbers, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
+        </Row>
+    );
+}
+
+export {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7};

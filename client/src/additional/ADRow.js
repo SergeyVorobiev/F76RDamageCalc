@@ -54,12 +54,14 @@ function addIconName(name) {
             return "💪 Strength";
         case "Swift":
             return "💨 Swift";
+        case "Health":
+            return "❤️ Health";
         default:
             return name;
     }
 }
 function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
-    const width = (text === '' || text === null) ? '12rem' : '10rem';
+    const width = (text === '' || text === null) ? '8.9rem' : '7rem';
     function slideChanged(e) {
         additionalDamage.value = e;
         updateAdditionalDamages();
@@ -69,19 +71,32 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
         additionalDamage.is_used = e.target.checked;
         updateAdditionalDamages();
     }
-
+    let isUsed = false;
+    let disabled = false;
+    if (typeof additionalDamage.is_used === "undefined") {
+        isUsed = true;
+        disabled = true;
+    } else {
+        isUsed = additionalDamage.is_used;
+    }
     return (
         <Row>
             <Card className="mb-2 pt-2 pb-2 ps-3 pe-3">
-            <Col>
-                <InputGroup className="mb-1">
-                    <InputGroup.Text style={{ width: width }} >
-                        <Checkbox onChange={onChange} checked={additionalDamage.is_used}><strong>{addIconName(additionalDamage.name)}</strong></Checkbox>
-                    </InputGroup.Text>
-                    {qa(text)}
-                </InputGroup>
-                <Slider onChange={slideChanged} open={true} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
-            </Col>
+                <Col>
+                    <InputGroup className="mb-1">
+                        <InputGroup.Text style={{ width: '2.5rem' }} >
+                            <Checkbox onChange={onChange} checked={isUsed} disabled={disabled} ></Checkbox>
+                        </InputGroup.Text>
+                        <InputGroup.Text style={{ width: width }}>
+                            <strong>{addIconName(additionalDamage.name)}</strong>
+                        </InputGroup.Text>
+                        {qa(text)}
+                        <InputGroup.Text style={{width: '4.6rem'}}>
+                            <div class="badge bg-info" style={{width: '3rem'}}>{additionalDamage.value}</div>
+                        </InputGroup.Text>
+                    </InputGroup>
+                    <Slider onChange={slideChanged} tooltip={{ open: false }} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
+                </Col>
             </Card>
         </Row>
     );

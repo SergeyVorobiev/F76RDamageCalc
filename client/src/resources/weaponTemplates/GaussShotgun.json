@@ -2,6 +2,7 @@
   {
     "name": "Gauss Shotgun",
     "type": "Shotgun",
+    "tags": "Ballistic,Bullet",
     "level": 50,
     "id": "0055c150",
     "bbDamage": [
@@ -81,8 +82,8 @@
       8
     ],
     "reloadTime": [
-      2.2,
-      2.2
+      2.667,
+      2.667
     ],
     "autoRate": [
       66.66,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

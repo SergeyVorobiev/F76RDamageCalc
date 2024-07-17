@@ -1,0 +1,139 @@
+[
+  {
+    "name": "Big Guns",
+    "imName": "bh_big_guns",
+    "id": "big_guns_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Heavy",
+        "propertyType": "BDB",
+        "value": 20,
+        "valueType": "percent",
+        "description": "Heavy"
+      }
+    ]
+  },
+  {
+    "name": "Unarmed",
+    "imName": "bh_unarmed",
+    "id": "unarmed_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Unarmed",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Unarmed"
+      }
+    ]
+  },
+  {
+    "name": "Energy",
+    "imName": "bh_energy",
+    "id": "energy_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Energy",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Energy"
+      }
+    ]
+  },
+  {
+    "name": "Explosive",
+    "imName": "bh_explosive",
+    "id": "explosive_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "EXP",
+        "value": 30,
+        "valueType": "percent",
+        "description": "Explosive"
+      }
+    ]
+  },
+  {
+    "name": "Melee",
+    "imName": "bh_melee",
+    "id": "melee_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Melee",
+        "propertyType": "BDB",
+        "value": 20,
+        "valueType": "percent",
+        "description": "Melee"
+      }
+    ]
+  },
+  {
+    "name": "Repair",
+    "imName": "bh_repair",
+    "id": "repair_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "FusionCore",
+        "propertyType": "Ammo",
+        "value": 30,
+        "valueType": "percent",
+        "description": "Fusion Cores"
+      }
+    ]
+  },
+  {
+    "name": "Small guns",
+    "imName": "bh_small_guns",
+    "id": "small_guns_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Pistol,Rifle,Shotgun",
+        "includeTags": "Ballistic",
+        "propertyType": "BDB",
+        "value": 20,
+        "valueType": "percent",
+        "description": "Ballistic"
+      }
+    ]
+  },
+  {
+    "name": "Strength",
+    "imName": "bh_strength",
+    "id": "strength_bobble",
+    "type": "bobble",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  }
+]

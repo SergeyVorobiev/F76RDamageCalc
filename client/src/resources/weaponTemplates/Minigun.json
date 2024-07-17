@@ -2,6 +2,7 @@
   {
     "name": "Minigun",
     "type": "Heavy",
+    "tags": "Ballistic,Bullet",
     "level": 45,
     "id": "0001f669",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      2.8,
-      2.8
+      3.667,
+      3.667
     ],
     "autoRate": [
       182,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

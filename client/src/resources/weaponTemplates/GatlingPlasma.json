@@ -2,6 +2,7 @@
   {
     "name": "Gatling Plasma",
     "type": "Heavy",
+    "tags": "Energy,Plasma,PlasmaCore",
     "level": 50,
     "id": "0001ec47",
     "bbDamage": [
@@ -81,16 +82,16 @@
       1
     ],
     "reloadTime": [
-      5.5,
-      5.5
+      6.833,
+      6.833
     ],
     "autoRate": [
       91,
       91
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.1098,
+      0.1098
     ],
     "isAuto": [
       1,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

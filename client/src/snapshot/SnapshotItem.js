@@ -4,9 +4,9 @@ import Toast from 'react-bootstrap/Toast';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import { Rate, Tag} from 'antd';
+import { Tag } from 'antd';
 import { millisToTime } from '../helpers/Calc';
-import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon } from '../icons/Icons';
+import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon, UploadIcon } from '../icons/Icons';
 import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
 import { getImage } from '../helpers/WTypeDropdown'
@@ -34,7 +34,7 @@ function row(name1, value1, colorName="default", tagColor="default", tagName=tru
     );
 }
 
-function bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem) {
+function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem) {
     if (isOpen) {
         const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
         const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
@@ -43,7 +43,7 @@ function bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRena
         const leg2 = item.legendary[item.legendary.current[1]];
         const leg1Name = leg1.name + " (" + leg1.value + "%)";
         const leg2Name = leg2.name + " (" + leg2.value + "%)";
-        let strength = (item.additionalDamages.strength.is_used) ? item.additionalDamages.strength.value : "-";
+        let strength = (item.wSpec.strength_boost > 0) ? item.playerStats.strength.value : "-";
         return (
             <>
             <Card.Body className="p-1 mt-1">
@@ -57,16 +57,16 @@ function bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRena
                                     {row("☠️ Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
                                     {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
                                     {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
-                                    {row("❤️ Health:", item.boostDamage.health.toFixed(0) + "%")}
-                                    {row((<Rate count={1} defaultValue={1} disabled={true} />), leg1Name, "gold")}
+                                    {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
+                                    {row("⭐", leg1Name, "gold")}
                                 </Col>
                                 <Col>
                                     {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
-                                    {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate)}
-                                    {row("⌛ Reload:", item.resultDamage.reloadTime + " s")}
+                                    {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
+                                    {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}
                                     {row("🤕 Head Shot:", headUsed)}
-                                    {row("👨‍👩‍👧‍👦 Team:", (item.boostDamage.team) ? "Yes" : "No")}
-                                    {row((<Rate count={2} defaultValue={2} disabled={true} />), leg2Name, "gold")}
+                                    {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
+                                    {row("⭐ ⭐", leg2Name, "gold")}
                                 </Col>
                             </Row>
                             </Toast.Body>
@@ -97,13 +97,16 @@ function bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRena
                         <Button variant="white" className="m-auto ms-2 p-auto" size='sm'>{getImage(item.wSpec.type)}</Button>
                     </div>
                     <div className="col d-flex justify-content-end">
-                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2" size="sm">
+                        <Button onClick={(e) => setModalDownloadSnapshot({id: item.id, name: item.name, show: true})} className="ms-1 me-2 pb-auto" size="sm">
+                            <UploadIcon />
+                        </Button>
+                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2 pb-auto" size="sm">
                             <UpdateIcon />
                         </Button>
-                        <Button className="ms-1 me-2" size="sm" id={item.id} name={item.name} onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                        <Button className="ms-1 me-2 pb-auto" size="sm" id={item.id} name={item.name} onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
                             <PlayIcon />
                         </Button>
-                        <Button className="ms-1" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                        <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
                             <TrashIcon />
                         </Button>
                     </div>
@@ -134,7 +137,7 @@ function headerBody(item, setModalRenameItem) {
                 </div>
                 <div class="col-1 d-flex p-2 justify-content-end">
                     <div className="m-auto me-1">
-                        <Button id={item.id} onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
+                        <Button className="pb-1" id={item.id} onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
                             <RenameIcon />
                         </Button>
                     </div>
@@ -158,12 +161,12 @@ function header(item, setModalRenameItem, isOpen) {
     }
 }
 
-export default function SnapshotItem({index, isOpen, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+export default function SnapshotItem({index, isOpen, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
 
     return (
         <Card className="mb-2">
             {header(item, setModalRenameItem, isOpen)}
-            {bodyContent(isOpen, index, size, item, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
+            {bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
         </Card>
     );
 }

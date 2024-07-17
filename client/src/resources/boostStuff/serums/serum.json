@@ -1,0 +1,180 @@
+[
+  {
+    "name": "Adrenal Reaction",
+    "imName": "serum",
+    "id": "adrenal_reaction_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "BDB",
+        "func": "adrenalineReaction",
+        "value": 0,
+        "valueType": "percent",
+        "description": "Damage"
+      }
+    ]
+  },
+  {
+    "name": "Eagle Eyes",
+    "imName": "serum",
+    "id": "eagle_eyes_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "Crit",
+        "func": "eagleEyes",
+        "value": 0,
+        "valueType": "percent",
+        "description": "Crit"
+      },
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Strength",
+        "func": "eagleEyesNegative",
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Carnivore",
+    "imName": "serum",
+    "id": "carnivore_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "Food",
+        "categoryName": "Meet",
+        "propertyType": "Effects",
+        "func": "carnivoreSerum",
+        "value": 2,
+        "valueType": "multiplier",
+        "description": "Meet Effects"
+      },
+      {
+        "categoryType": "Food",
+        "categoryName": "Plant",
+        "propertyType": "Effects",
+        "value": 0,
+        "valueType": "multiplier",
+        "description": "Plant Effects"
+      }
+    ]
+  },
+  {
+    "name": "Herbivore",
+    "imName": "serum",
+    "id": "herbivore_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "Food",
+        "categoryName": "Plant",
+        "propertyType": "Effects",
+        "func": "herbivoreSerum",
+        "value": 2,
+        "valueType": "multiplier",
+        "description": "Plant Effects"
+      },
+      {
+        "categoryType": "Food",
+        "categoryName": "Meet",
+        "propertyType": "Effects",
+        "value": 0,
+        "valueType": "multiplier",
+        "description": "Meet Effects"
+      }
+    ]
+  },
+  {
+    "name": "Herd Mentality",
+    "imName": "serum",
+    "id": "herd_mentality_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Strength",
+        "func": "herdMentality",
+        "value": 0,
+        "valueType": "number",
+        "description": "All Stats"
+      }
+    ]
+  },
+  {
+    "name": "Speed Demon",
+    "imName": "serum",
+    "id": "speed_demon_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Reload",
+        "func": "speedDemon",
+        "value": 20,
+        "valueType": "percent",
+        "description": "Reload speed"
+      }
+    ]
+  },
+  {
+    "name": "Talons",
+    "imName": "serum",
+    "id": "talons_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Unarmed",
+        "propertyType": "BDB",
+        "func": "talons1",
+        "value": 0,
+        "valueType": "percent",
+        "description": "Unarmed"
+      },
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Unarmed",
+        "propertyType": "BDB",
+        "func": "talons2",
+        "value": 0,
+        "valueType": "number",
+        "description": "Bleed"
+      }
+    ]
+  },
+  {
+    "name": "Twisted Muscles",
+    "imName": "serum",
+    "id": "twisted_muscles_serum",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Melee",
+        "propertyType": "BDB",
+        "func": "twistedMuscles",
+        "value": 0,
+        "valueType": "percent",
+        "description": "Melee"
+      }
+    ]
+  }
+]

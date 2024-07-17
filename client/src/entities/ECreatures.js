@@ -26,7 +26,7 @@ export function defaultCreatures() {
         },
 
         sbq: {
-            name: "SB Queen",
+            name: "Scorchbeast Queen",
             b: 300.0,
             e: 300.0,
             f: 300.0,
@@ -76,7 +76,7 @@ export function defaultCreatures() {
         },
 
         titan: {
-            name: "U Titan",
+            name: "Ultracite Titan",
             b: 400.0,
             e: 400.0,
             f: 350.0,

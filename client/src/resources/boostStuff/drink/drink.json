@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Whiskey",
+    "imName": "whiskey",
+    "id": "whiskey_drink",
+    "type": "alcohol",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Strength",
+        "func": "partyGirlBoy",
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  }
+]

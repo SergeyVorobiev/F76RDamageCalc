@@ -9,6 +9,7 @@ import { getImageElement } from '../helpers/WeaponImages'
 
 
 const ToastSpecs = memo(function ToastSpecs({creatures, legendary, weaponName, resultDamage, showStat, setShowStat}) {
+    const strength = (resultDamage.strength > 0) ? resultDamage.strength.toFixed(2) : "-";
     return (
         <ToastContainer
             className="p-3 position-fixed p-3"
@@ -16,10 +17,10 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, weaponName, r
             role="alert" aria-live="assertive" aria-atomic="true"
             style={{ zIndex: 10 }}>
             <Toast bg="light" onClose={(e) => setShowStat(false)} show={showStat} animation={false}>
-                <Toast.Header>
+                <Toast.Header className="pe-3">
                     {getImageElement(weaponName.toLowerCase().replaceAll(" ", "_"), "1.5rem")}
-                    <strong className="ms-2 me-auto">{weaponName}</strong>
-                    <small>
+                    <strong className="ms-2 mt-auto mb-auto p-auto me-auto">{weaponName}</strong>
+                    <small className="me-2">
                         <Progress
                             type="dashboard"
                             steps={50}
@@ -40,6 +41,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, weaponName, r
                     {keyValueRow('💣 Explosive:', resultDamage.explosive.toFixed(0) + "%", "default", "purple")}
                     {keyValueRow('🛡️ Anti Armor:', (resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "purple")}
                     {keyValueRow('🐍 Sneak:', resultDamage.displayedSneak.toFixed(1), "default", "purple")}
+                    {keyValueRow('💪 Strength:', strength, "default", "purple")}
                     {keyValueRow('⭐', legendary[legendary.current[0]].name, "default", "gold")}
                     {keyValueRow('⭐⭐', legendary[legendary.current[1]].name, "default", "gold")}
                 </Toast.Body>

@@ -41,7 +41,7 @@ function compareAverage(item1, item2) {
     return 0;
 }
 
-const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filterName, weaponType, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filterName, weaponType, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
     const sorts = [compareSBQ, compareEarle, compareTitan, compareAverage];
     console.log("SnapshotItems");
     const sortAlg = sorts[sortId];
@@ -62,7 +62,7 @@ const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filter
     const size = snapshots.length;
     function result(item) {
         return (
-            <SnapshotItem key={item.id} index={index++} isOpen={isOpen} size={size} item={item} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
+            <SnapshotItem key={item.id} index={index++} isOpen={isOpen} size={size} item={item} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
         );
     }
     const values = snapshots.map((item) => (result(item)));

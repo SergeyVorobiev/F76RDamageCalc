@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container';
-import ADRow from "./ADRow";
 import Card from 'react-bootstrap/Card';
+import ADRow from "./ADRow";
 import { memo } from 'react';
 
 
@@ -111,7 +111,7 @@ const marks500 = {
 };
 
 const qBDB = "This and fields below are used to be able to specify additional damage from things like: mutations, psycho, " +
-"food, bubble heads, magazines, specials... For example: psychobuff gives you +25% BDB (Base Damage Boost). Almost all effects in the game are BDB and they stack additively. " +
+"food, bobble heads, magazines, specials... For example: psychobuff gives you +25% BDB (Base Damage Boost). Almost all effects in the game are BDB and they stack additively. " +
 "BDB increases your base weapon damage (ex. 43 for 50 level 50cal machine gun +50% BDB = 43 + 43 * 0.5).";
 
 const qTDB = "Effect that increases your total damage like (Executioner, Tenderizer, TOFT). For example: a weapon with 43 base damage " +
@@ -128,7 +128,6 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
     return (
         <Container fluid className="ps-0 pe-0">
             <Card className="text-center mb-2">
-                <Card.Header></Card.Header>
                 <Card.Body>
                     <ADRow additionalDamage={additionalDamages.tdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks100P} text={qTDB}></ADRow>
                     <ADRow additionalDamage={additionalDamages.bdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks500} text={qBDB}></ADRow>
@@ -141,10 +140,8 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
                     <ADRow additionalDamage={additionalDamages.damageToCreature} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.sneak} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.crit} updateAdditionalDamages={updateAdditionalDamages} marks={marks500}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks100F}></ADRow>
                     <ADRow additionalDamage={additionalDamages.swift} updateAdditionalDamages={updateAdditionalDamages} marks={marks50P}></ADRow>
                 </Card.Body>
-                <Card.Footer className="text-muted"></Card.Footer>
             </Card>
         </Container>
     );
