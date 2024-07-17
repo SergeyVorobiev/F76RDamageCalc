@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Psychobuff",
+    "imName": "psychobuff",
+    "id": "psychobuff_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "value": 25,
+        "valueType": "percent",
+        "propertyType": "BDB",
+        "description": "Damage"
+      },
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Strength",
+        "value": 3,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  }
+]

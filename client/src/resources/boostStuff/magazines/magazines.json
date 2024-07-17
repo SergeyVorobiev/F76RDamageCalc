@@ -1,0 +1,521 @@
+[
+  {
+    "name": "Attack of the fishmen",
+    "imName": "attack_of_the_fishmen",
+    "id": "attack_of_the_fishmen_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureName",
+        "categoryName": "Mirelurks",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Mirelurks"
+      }
+    ]
+  },
+  {
+    "name": "Curse of the burned",
+    "imName": "curse_of_the_burned",
+    "id": "curse_of_the_burned_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureName",
+        "categoryName": "Ghouls",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Ghouls"
+      }
+    ]
+  },
+  {
+    "name": "Invasion of the zetans",
+    "imName": "invasion_of_the_zetans",
+    "id": "invasion_of_the_zetans_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponName",
+        "categoryName": "Alien Blaster",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Alien Blaster"
+      }
+    ]
+  },
+  {
+    "name": "Rise of the mutants",
+    "imName": "rise_of_the_mutants",
+    "id": "rise_of_the_mutants_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureName",
+        "categoryName": "SuperMutant",
+        "value": 15,
+        "propertyType": "BDB",
+        "valueType": "percent",
+        "description": "Super Mutants"
+      }
+    ]
+  },
+  {
+    "name": "When apes go bananas",
+    "imName": "when_apes_go_bananas",
+    "id": "when_apes_go_bananas_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponName",
+        "categoryName": "Cryolator",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Cryolator"
+      }
+    ]
+  },
+  {
+    "name": "The starlet sniper",
+    "imName": "the_starlet_sniper",
+    "id": "the_starlet_sniper_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Scoped"
+      }
+    ]
+  },
+  {
+    "name": "Home in the hills",
+    "imName": "home_in_the_hills",
+    "id": "home_in_the_hills_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Animal",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Animals"
+      }
+    ]
+  },
+  {
+    "name": "Down home cooking",
+    "imName": "down_home_cooking",
+    "id": "down_home_cooking_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponName",
+        "categoryName": "Tomahawk",
+        "propertyType": "BDB",
+        "value": 30,
+        "valueType": "percent",
+        "description": "Tomahawk"
+      }
+    ]
+  },
+  {
+    "name": "Blood on the harp",
+    "imName": "blood_on_the_harp",
+    "id": "blood_on_the_harp_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Melee,Unarmed",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Melee"
+      }
+    ]
+  },
+  {
+    "name": "Corsair queen",
+    "imName": "corsair_queen",
+    "id": "corsair_queen_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Melee,Unarmed",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Melee Crit"
+      }
+    ]
+  },
+  {
+    "name": "Demon slaves demon sands",
+    "imName": "demon_slaves_demon_sands",
+    "id": "demon_slaves_demon_sands_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Scorched",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Scorched"
+      }
+    ]
+  },
+  {
+    "name": "The future of hunting",
+    "imName": "the_future_of_hunting",
+    "id": "the_future_of_hunting_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Robot",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Robots"
+      }
+    ]
+  },
+  {
+    "name": "Acceptable overkill",
+    "imName": "acceptable_overkill",
+    "id": "acceptable_overkill_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Laser",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Laser Crit"
+      }
+    ]
+  },
+  {
+    "name": "Little guns for little ladies",
+    "imName": "little_guns_for_little_ladies",
+    "id": "little_guns_for_little_ladies_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Ballistic",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Ballistic Crit"
+      }
+    ]
+  },
+  {
+    "name": "Take aim, army style",
+    "imName": "take_aim_army_style",
+    "id": "take_aim_army_style_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "BDB",
+        "value": 10,
+        "valueType": "percent",
+        "description": "Unscoped"
+      }
+    ]
+  },
+  {
+    "name": "Bear proofing your campsite",
+    "imName": "bear_proofing_your_campsite",
+    "id": "bear_proofing_your_campsite_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureName",
+        "categoryName": "Yao Guai",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Yao Guai"
+      }
+    ]
+  },
+  {
+    "name": "Plasma the weapon of tomorrow",
+    "imName": "plasma_the_weapon_of_tomorrow",
+    "id": "plasma_the_weapon_of_tomorrow_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Plasma",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Plasma Crit"
+      }
+    ]
+  },
+  {
+    "name": "Guide to hunting commies",
+    "imName": "guide_to_hunting_commies",
+    "id": "guide_to_hunting_commies_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Liberator",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Liberators"
+      }
+    ]
+  },
+  {
+    "name": "Nuke the man",
+    "imName": "nuke_the_man",
+    "id": "nuke_the_man_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "All",
+        "propertyType": "BDB",
+        "func": "nukeTheMan",
+        "value": 0,
+        "valueType": "percent",
+        "description": "Team"
+      }
+    ]
+  },
+  {
+    "name": "Wendigo",
+    "imName": "wendigo",
+    "id": "wendigo_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Wendigo",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Wendigo"
+      }
+    ]
+  },
+  {
+    "name": "Mothman",
+    "imName": "mothman",
+    "id": "mothman_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Mothman",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Mothman"
+      }
+    ]
+  },
+  {
+    "name": "Grafton",
+    "imName": "hills_grafton",
+    "id": "grafton_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Grafton",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Grafton"
+      }
+    ]
+  },
+  {
+    "name": "Snallygaster",
+    "imName": "snallygaster",
+    "id": "snallygaster_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureType",
+        "categoryName": "Snallygaster",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Snallygaster"
+      }
+    ]
+  },
+  {
+    "name": "Flatwoods Alien",
+    "imName": "flatwoods_monster",
+    "id": "flatwoods_alien_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "CreatureName",
+        "categoryName": "Flatwoods Alien",
+        "propertyType": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Flatwoods Alien"
+      }
+    ]
+  },
+  {
+    "name": "Tomorrow technology",
+    "imName": "tomorrow_technology",
+    "id": "tomorrow_technology_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Plasma",
+        "propertyType": "Ammo",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Plasma Ammo"
+      }
+    ]
+  },
+  {
+    "name": "Giant super weapons",
+    "imName": "giant_super_weapons",
+    "id": "giant_super_weapons_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Heavy",
+        "propertyType": "Ammo",
+        "value": 20,
+        "valueType": "percent",
+        "description": "Heavy Ammo"
+      }
+    ]
+  },
+  {
+    "name": "U.S. Army goes to space",
+    "imName": "us_army_goes_to_space",
+    "id": "us_army_goes_to_space_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Energy",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Energy Crit"
+      }
+    ]
+  },
+  {
+    "name": "Rock-o-bot takes the nation by storm",
+    "imName": "rockobot_takes_the_nation_by_storm",
+    "id": "rockobot_takes_the_nation_by_storm_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "All",
+        "propertyType": "Crit",
+        "value": 50,
+        "valueType": "percent",
+        "description": "Crit"
+      }
+    ]
+  },
+  {
+    "name": "Future of warfare",
+    "imName": "future_of_warfare",
+    "id": "future_of_warfare_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponStat",
+        "categoryName": "Heavy",
+        "propertyType": "Crit",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Heavy Crit"
+      }
+    ]
+  },
+  {
+    "name": "Camouflage special",
+    "imName": "camouflage_special",
+    "id": "camouflage_special_magazine",
+    "type": "magazines",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Unarmed",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Unarmed"
+      },
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Knife",
+        "propertyType": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Knife"
+      }
+    ]
+  }
+]

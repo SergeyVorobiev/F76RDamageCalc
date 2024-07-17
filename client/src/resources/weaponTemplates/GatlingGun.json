@@ -2,6 +2,7 @@
   {
     "name": "Gatling Gun",
     "type": "Heavy",
+    "tags": "Ballistic,Bullet",
     "level": 50,
     "id": "00011bf6",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      2.53,
-      2.53
+      3.167,
+      3.167
     ],
     "autoRate": [
       20,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

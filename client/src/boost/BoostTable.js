@@ -1,7 +1,6 @@
 import WCDRow from "./WCDRow";
 import Container from 'react-bootstrap/Container';
-import ANRow from "./ANRow";
-import {BRow1, BRow2, BRow3, BRow4, BRow5} from "./BRows";
+import {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7} from "./BRows";
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import {aa_cards} from '../helpers/Calc';
@@ -27,7 +26,7 @@ const popover = (
 );
 
 function bdb_cards(boostDamage) {
-    return boostDamage.bloody_mess.displayed_value + boostDamage.adrenaline.displayed_value
+    return boostDamage.bloody_mess.displayed_value + boostDamage.adrenaline.displayed_value + boostDamage.nerd_rage.displayed_value
            + boostDamage.glow_sight.displayed_value + boostDamage.gun_foo.displayed_value + boostDamage.science.displayed_value;
 }
 
@@ -47,18 +46,15 @@ function sbdb_cards(boostDamage) {
     return covert + sandman + ninja + follow_through;
 }
 
-const BoostTable = memo(function BoostTable({setBoostDamage, boostDamage, setLegendary, legendary}) {
+const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage}) {
     console.log("BoostTable")
     return (
         <Container className="ps-0 pe-0">
              <Card className="mb-3">
                 <Card.Body>
                     <WCDRow setBoostDamage={setBoostDamage} boostDamage={boostDamage}></WCDRow>
-                    <ANRow setBoostDamage={setBoostDamage} boostDamage={boostDamage} setLegendary={setLegendary} legendary={legendary}></ANRow>
+
                 </Card.Body>
-                <Card.Footer className="text-center">
-                    <Badge bg="dark" pill="true">Total BDB: {boostDamage.adrenalreactionr + boostDamage.rager + boostDamage.wcdamager}%</Badge>
-                </Card.Footer>
             </Card>
 
             <Card className="mb-3">
@@ -73,7 +69,9 @@ const BoostTable = memo(function BoostTable({setBoostDamage, boostDamage, setLeg
                         <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow2>
                         <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow3>
                         <BRow4 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow4>
-                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow5>
+                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player}></BRow5>
+                        <BRow6 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow6>
+                        <BRow7 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow7>
                     </Container>
                 </Card.Body>
                 <Card.Footer className="text-center">

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Tasty mutant hound stew",
+    "imName": "tasty_mutant_hound_stew",
+    "id": "tasty_mutant_hound_stew_food",
+    "type": "Meet",
+    "used": false,
+    "boosts": [
+      {
+        "categoryType": "WeaponType",
+        "categoryName": "Melee,Unarmed",
+        "propertyType": "BDB",
+        "func": "tastyMutantHoundStew",
+        "value": 85,
+        "valueType": "percent",
+        "description": "Melee"
+      }
+    ]
+  }
+]

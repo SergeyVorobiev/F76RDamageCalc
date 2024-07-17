@@ -66,12 +66,6 @@ export function defaultAdds() {
             is_used: false,
         },
 
-        strength: {
-            name: "Strength",
-            value: 0.0,
-            is_used: false,
-        },
-
         swift: {
             name: "Swift",
             value: 0.0,

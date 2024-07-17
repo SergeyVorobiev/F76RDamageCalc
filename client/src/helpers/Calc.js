@@ -1,9 +1,12 @@
-// TODO: Convert to creature and weapon classes this file: creature.takeDamage(weapon.shoot());
-export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage) {
-    const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec);
-    const sneak = calcSneak(damage, boost, legendary, additionalDamage);
-    const crit = calcCrit(damage, boost, additionalDamage, wSpec);
+import { intersects } from "./Array";
 
+
+// TODO: Convert to creature and weapon classes this file: creature.takeDamage(weapon.shoot());
+export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage, stuffBoost, playerStats) {
+    const strength = calcStrength(playerStats, stuffBoost, wSpec);
+    const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength);
+    const sneak = calcSneak(damage, boost, legendary, additionalDamage, wSpec);
+    const crit = calcCrit(damage, boost, additionalDamage, wSpec, stuffBoost);
     const tdBoost = getTDBoost(boost, additionalDamage);
     const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec);
     const bExpCrit = crit[0] * exp;
@@ -29,10 +32,10 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
     const displayedCrit = tDamage + crit[0] / shots + crit[1] / shots + crit[2] / shots + crit[3] / shots + crit[4] / shots + crit[5] / shots + bExpCrit + eExpCrit;
     const displayedSneak = sneak.reduce((a, b) => a + b);
     const armors = aa_cards(boost, legendary, wSpec.aa, wSpec.type);
-    const fireRate = wSpec.fire_rate * ((legendary.rapid.is_used) ? (1 + legendary.rapid.value / 100.0) : 1.0);
-    const ammoCapacity = wSpec.ammo_capacity * ((legendary.quad.is_used) ? (1 + legendary.quad.value / 100.0) : 1.0);
-    const swift = ((additionalDamage.swift.is_used) ? (additionalDamage.swift.value / 100.0) : 0.0) * wSpec.reload_time;
-    const reloadTime = wSpec.reload_time - swift;
+
+    const ammoCapacity = calcAmmo(wSpec, boost, legendary, stuffBoost);
+    const reloadTime = calcReload(additionalDamage, boost, wSpec, stuffBoost);
+    const fireRate = calcFireRate(wSpec, boost, legendary);
     const result = {
         bDamage: bDamage,
         eDamage: eDamage,
@@ -71,10 +74,64 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
         fireRate: fireRate,
         ammoCapacity: ammoCapacity,
         accuracy: wSpec.accuracy,
+        strength: strength,
         weaponName: '', // Obsolete
     };
-    calcLives(result, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec);
+    calcLives(result, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec, stuffBoost);
     return result;
+}
+
+function calcStrength(playerStats, stuffBoost, wSpec) {
+    let strength = playerStats.strength.value;
+    strength += collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Strength")
+    if (strength < 1) {
+        strength = 1
+    }
+    return strength;
+}
+
+// Is it additive or multiplicative? Multiplicative is used
+function calcReload(additionalDamage, boost, wSpec, stuffBoost) {
+    const swift = ((additionalDamage.swift.is_used) ? (additionalDamage.swift.value / 100.0) : 0.0) * wSpec.reload_time;
+    let reloadTime = wSpec.reload_time - swift;
+    if (wSpec.type === "Heavy") {
+        reloadTime *= (1 - boost.lock_and_load.displayed_value / 100.0);
+    } else if (wSpec.type === "Melee") {
+        reloadTime *= (1 - boost.martial_artist.displayed_value / 100.0);
+    } else if (wSpec.type === "Shotgun") {
+        reloadTime *= (1 - boost.scattershot.displayed_value / 100.0);
+    } else if (wSpec.type === "Rifle") {
+        reloadTime *= (1 - boost.ground_pounder.displayed_value / 100.0);
+    }
+    let mult = 1;
+    collectStuffBoostByTypeAndTagsListener(stuffBoost.weaponStats, wSpec, "Reload", (value) => mult *= (1 - value / 100.0));
+    return reloadTime * mult;
+}
+
+function calcFireRate(wSpec, boost, legendary) {
+    let fireRate = 0;
+    if (wSpec.is_auto) {
+        fireRate = wSpec.fire_rate * ((legendary.rapid.is_used) ? (1 + legendary.rapid.value / 100.0) : 1.0);
+    } else {
+        let attackSpeed = wSpec.anim_action * ((legendary.rapid.is_used) ? (1 - legendary.rapid.value / 100.0) : 1.0);
+        if (wSpec.type === "Melee") {
+            attackSpeed *= (1 - boost.martial_artist.displayed_value / 100.0);
+        }
+        fireRate = 10 / attackSpeed;
+    }
+    return fireRate;
+}
+
+function calcAmmo(wSpec, boost, legendary, stuffBoost) {
+    let ammo = wSpec.ammo_capacity * ((legendary.quad.is_used) ? (1 + legendary.quad.value / 100.0) : 1.0);
+    ammo += (wSpec.ammo_capacity * (collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Ammo") / 100.0));
+    if (boost.power_user.is_used) {
+        const mult = boost.power_user.displayed_value / 100.0 - 1;
+        if (wSpec.tags.split(",").includes("FusionCore")) {
+            ammo += (wSpec.ammo_capacity * mult);
+        }
+    }
+    return parseInt(ammo);
 }
 
 function getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec, additionalBoost=0.0) {
@@ -93,7 +150,7 @@ function getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec, additi
     return [exp, expT, bExp, eExp];
 }
 
-export function calcLives(resultDamage, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec) {
+export function calcLives(resultDamage, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec, stuffBoost) {
     const aa = [resultDamage.bAA, resultDamage.eAA, resultDamage.fAA, resultDamage.pAA, resultDamage.cAA, resultDamage.rAA];
     const expAA = [resultDamage.bAA, resultDamage.eAA];
     const cs = [creatures.sbq, creatures.earle, creatures.titan, creatures.creature];
@@ -106,9 +163,6 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
         const creatureHead = (creatures.creature.headShot - 1) / extraDamage.headFreq + 1;
         headMults = [sbqHead, earleHead, titanHead, creatureHead];
     }
-    let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
-    damageToCreature += (boost.glow_sight.displayed_value / 100.0);
-    damageToCreature += (wSpec.cd / 100.0);
     const executionerMult = 1 + legendary.executioner.value / 100.0;
     let accuracy = wSpec.accuracy / 100.0;
     if (accuracy < 0.1) {
@@ -116,7 +170,8 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
     }
     for (let c = 0; c < cs.length; c++) {
         let creature = cs[c];
-        let creatureDamage = (creature.damageToCreature) ? damageToCreature : 0.0;
+
+        let creatureDamage = buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature);
         const damages = [resultDamage.bDamage + creatureDamage * damage.ballistic.used_damage,
                          resultDamage.eDamage + creatureDamage * damage.energy.used_damage,
                          resultDamage.fDamage + creatureDamage * damage.fire.used_damage,
@@ -237,6 +292,23 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
     }
 }
 
+function buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature) {
+    let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
+    stuffBoost.creatureNames.forEach((value, key) => {
+        if (value.propertyType === "BDB") {
+            damageToCreature += (value.value / 100.0);
+        }
+    });
+    stuffBoost.creatureTypes.forEach((value, key) => {
+        if (value.propertyType === "BDB") {
+            damageToCreature += (value.value / 100.0);
+        }
+    });
+    damageToCreature += (boost.glow_sight.displayed_value / 100.0);
+    damageToCreature += (wSpec.cd / 100.0);
+    return (creature.damageToCreature) ? damageToCreature : 0.0;
+}
+
 function buildDamage(damages, armors, aa, expDamages, expArmors, expAA, headMult, red, shotSize) {
     let result = [];
     let expResult = [];
@@ -266,13 +338,14 @@ function getTDBoost(boost, additionalDamage) {
     return result;
 }
 
-function calcSneak(damage, boost, legendary, additionalDamage) {
+function calcSneak(damage, boost, legendary, additionalDamage, wSpec) {
     let sneak = (boost.covert_operative.displayed_value > 0) ? (boost.covert_operative.displayed_value - 1.0) : 1.0;
     const sandman = boost.mister_sandman.displayed_value / 100.0;
-    const ninja = boost.ninja.displayed_value / 100.0;
+    const ninja = (wSpec.type === "Melee") ? boost.ninja.displayed_value / 100.0 : 0.0;
     const follow = boost.follow_through.displayed_value / 100.0;
     const add = (additionalDamage.sneak.is_used) ? additionalDamage.sneak.value / 100.0 : 0.0;
-    const total = sandman + ninja + follow + add;
+    const weaponSneak = wSpec.sneak / 100.0;
+    const total = sandman + ninja + follow + add + weaponSneak;
     const bSneak = damage.ballistic.used_damage * sneak + damage.ballistic.used_damage * total;
     const eSneak = damage.energy.used_damage * sneak + damage.energy.used_damage * total;
     const fSneak = damage.fire.used_damage * sneak + damage.fire.used_damage * total;
@@ -305,9 +378,10 @@ export function millisToTime(value) {
     return strTime;
 }
 
-function calcCrit(damage, boost, additionalDamage, wSpec) {
+function calcCrit(damage, boost, additionalDamage, wSpec, stuffBoost) {
     let crit = (boost.better_criticals.displayed_value + 100 + wSpec.crit) / 100.0;
     crit += ((additionalDamage.crit.is_used) ? (additionalDamage.crit.value / 100.0) : 0.0);
+    crit += (collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Crit") / 100.0);
     const bCrit = damage.ballistic.used_damage * crit;
     const eCrit = damage.energy.used_damage * crit;
     const fCrit = damage.fire.used_damage * crit;
@@ -362,8 +436,56 @@ function mergeDamageCrit(damage, critDamage, frequency) {
     return (damage * (frequency - 1) + critDamage) / frequency;
 }
 
-function getBDBoost(boost, legendary, additionalDamage, wSpec) {
-    let result = boost.wcdamager + boost.adrenalreactionr + boost.rager;
+function collectStuffBoostByName(stuffBoosts, wSpec, propertyType) {
+    let result = 0.0;
+    stuffBoosts.forEach((value, key) => {
+        if (value.propertyType === "BDB" && wSpec.defaultName === value.categoryName) {
+            result += value.value;
+        }
+    });
+    return result;
+}
+
+function collectStuffBoostByTypeAndTags(stuffBoosts, wSpec, propertyType) {
+    let result = 0.0;
+    stuffBoosts.forEach((value, key) => {
+        const types = value.categoryName.split(",");
+        const tags = wSpec.tags.split(",");
+        if (value.propertyType === propertyType && (types.includes("All") || types.includes(wSpec.type) || intersects(types, tags))) {
+            if (value.includeTags) {
+                const includeTags = value.includeTags.split(",");
+                if (intersects(includeTags, tags)) {
+                    result += value.value;
+                }
+            } else {
+                result += value.value;
+            }
+        }
+    });
+    return result;
+}
+
+function collectStuffBoostByTypeAndTagsListener(stuffBoosts, wSpec, propertyType, listener) {
+    stuffBoosts.forEach((value, key) => {
+        const types = value.categoryName.split(",");
+        const tags = wSpec.tags.split(",");
+        if (value.propertyType === propertyType && (types.includes("All") || types.includes(wSpec.type) || intersects(types, tags))) {
+            if (value.includeTags) {
+                const includeTags = value.includeTags.split(",");
+                if (intersects(includeTags, tags)) {
+                    listener(value.value);
+                }
+            } else {
+                listener(value.value);
+            }
+        }
+    });
+}
+
+function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength) {
+    let result = boost.wcdamager + boost.nerd_rage.displayed_value;
+    result += collectStuffBoostByName(stuffBoost.weaponNames, wSpec, "BDB");
+    result += collectStuffBoostByTypeAndTags(stuffBoost.weaponTypes, wSpec, "BDB");
     result += boost.bloody_mess.displayed_value;
     result += boost.adrenaline.displayed_value;
     result += boost.gun_foo.displayed_value;
@@ -376,7 +498,7 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec) {
     result += (legendary.hitman.is_used) ? legendary.hitman.value : 0.0;
     result += (additionalDamage.bdb.is_used) ? additionalDamage.bdb.value : 0.0;
     const strengthBoost = wSpec.strength_boost / 100.0;
-    const melee = (additionalDamage.strength.is_used) ? (additionalDamage.strength.value * strengthBoost) : 0.0;
+    const melee = strength * strengthBoost;
     result = 1 + result / 100.0 + melee;
     const bResult = (additionalDamage.ballisticBDB.is_used) ? (additionalDamage.ballisticBDB.value / 100.0) : 0.0;
     const eResult = (additionalDamage.energyBDB.is_used) ? (additionalDamage.energyBDB.value / 100.0) : 0.0;

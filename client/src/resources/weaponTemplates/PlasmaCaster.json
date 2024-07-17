@@ -2,6 +2,7 @@
   {
     "name": "Plasma Caster",
     "type": "Heavy",
+    "tags": "Ballistic,Energy,Plasma,PlasmaCartridge",
     "level": 50,
     "id": "0055c166",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      4.3,
-      4.3
+      5.333,
+      5.333
     ],
     "autoRate": [
       20,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

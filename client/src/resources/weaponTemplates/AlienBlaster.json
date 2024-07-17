@@ -1,0 +1,139 @@
+[
+  {
+    "name": "Alien Blaster",
+    "type": "Pistol",
+    "tags": "Energy,AlienRound",
+    "level": 50,
+    "id": "000ff995",
+    "bbDamage": [
+      0,
+      0
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      37,
+      37
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      2.867,
+      2.867
+    ],
+    "autoRate": [
+      100,
+      100
+    ],
+    "manualRate": [
+      0.1,
+      0.1
+    ],
+    "isAuto": [
+      0,
+      0
+    ],
+    "ammo": [
+      42,
+      42
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "mods": [
+    ]
+  }
+]

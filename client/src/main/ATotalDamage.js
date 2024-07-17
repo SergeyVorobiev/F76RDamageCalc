@@ -66,9 +66,9 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
     }
     let addHeadShot = "(" + (creature.normalDamage * creature.headShot).toFixed(1) + " / " + (creature.critNormalDamage * creature.headShot).toFixed(1) + ")";
     return (
-        <Popover id="popover-basic" class="popover">
+        <Popover style={{ width: '21rem' }} id="popover-basic" class="popover">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
-            <Popover.Body className="my-popover ms-2 me-2">
+            <Popover.Body className="my-popover ms-1 me-1">
                 <Stack  className='pt-2 pb-0' direction="horizontal" gap={1}>
                     <span style={{ width: '3rem' }} className="badge bg-ballistic">{creature.b.toFixed(1)}</span>
                     <span style={{ width: '3rem' }} className="badge bg-energy">{creature.e.toFixed(1)}</span>
@@ -361,7 +361,7 @@ export default class ATotalDamage extends React.PureComponent {
             <Card.Body className="pt-2">
                 <Row>
                     <div class="col d-flex justify-content-center mb-2">
-                        <Card style={{ minWidth: '23rem', maxWidth: '28rem'}}>
+                        <Card style={{ minWidth: '24rem', maxWidth: '28rem'}}>
                             <Card.Header className="pe-0 ps-0">
                                 <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
 
@@ -389,7 +389,7 @@ export default class ATotalDamage extends React.PureComponent {
                         </Card>
                     </div>
                     <div class="col d-flex justify-content-center mb-2">
-                        <Card style={{ maxWidth: '28rem', minWidth: '23rem', maxHeight: '16.3rem' }}>
+                        <Card className="pb-4" style={{ maxWidth: '28rem', minWidth: '24rem', maxHeight: '17rem' }}>
                             <Card.Header>
                                 <span className="d-flex m-0 p-0 w-100">
                                     <div class="m-auto p-0 w-100 d-flex justify-content-start">
@@ -419,7 +419,7 @@ export default class ATotalDamage extends React.PureComponent {
                         </Card>
                     </div>
                     <div class="col d-flex justify-content-center">
-                        <Card style={{ minWidth: '23rem', maxWidth: '28rem', maxHeight: '16.3rem'}}>
+                        <Card style={{ minWidth: '24rem', maxWidth: '28rem', maxHeight: '17rem'}}>
                         <Card.Body className="pt-2 pb-1 ps-1 pe-1">
                             {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
                             {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}

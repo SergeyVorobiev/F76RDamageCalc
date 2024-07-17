@@ -2,6 +2,7 @@
   {
     "name": "50 Cal Machine Gun",
     "type": "Heavy",
+    "tags": "Ballistic,Bullet",
     "level": 45,
     "id": "0003a0d4",
     "bbDamage": [
@@ -81,16 +82,16 @@
       1
     ],
     "reloadTime": [
-      4,
-      4
+      5,
+      5
     ],
     "autoRate": [
       91,
       91
     ],
     "manualRate": [
-      0.11,
-      0.11
+      0.1098,
+      0.1098
     ],
     "isAuto": [
       1,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

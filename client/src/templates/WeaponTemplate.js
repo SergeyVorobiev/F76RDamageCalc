@@ -109,7 +109,11 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
         }
         items.push(item);
     }
-    result.push(<Collapse items={items} />)
+    if (items.length === 0) {
+        result.push(<></>);
+    } else {
+        result.push(<Collapse items={items} />);
+    }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
     return (
@@ -158,7 +162,13 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
                             <Row>
                                 {resultBadges("badge bg-lite", bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2), fireRate(iSize), fireRateText)}
                                 {resultBadges("badge bg-lite", ammo(iSize), template.ammo[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
+                            </Row>
+
+                        </Col>
+                        <Col>
+                            <Row>
                                 {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐲", template.cd[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "-", "-", "🩸", template.bleed[1].toFixed(2))}
                             </Row>
                         </Col>
                     </Row>

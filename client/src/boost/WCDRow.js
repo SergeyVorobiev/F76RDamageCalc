@@ -54,9 +54,9 @@ function WCDRow({setBoostDamage, boostDamage}) {
     }
 
     return (
-        <Row className='mb-4'>
+        <Row className='mb-0'>
             <Col>
-                <InputGroup className="d-flex justify-content-end mb-1 pe-0 me-0" >
+                <InputGroup className="d-flex justify-content-center mb-1 pe-0 me-0" >
                     <InputGroup.Text>
                         <Switch size="small"
                             checkedChildren={<CheckOutlined />}

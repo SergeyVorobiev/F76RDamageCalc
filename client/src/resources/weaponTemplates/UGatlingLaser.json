@@ -2,6 +2,7 @@
   {
     "name": "Ultracite Gatling Laser",
     "type": "Heavy",
+    "tags": "Energy,Laser,FusionCore",
     "level": 45,
     "id": "002ef66e",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      3.9,
-      3.9
+      4.867,
+      4.867
     ],
     "autoRate": [
       182,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],

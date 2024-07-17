@@ -2,6 +2,7 @@
   {
     "name": "MG 42",
     "type": "Heavy",
+    "tags": "Ballistic,Bullet",
     "level": 50,
     "id": "0007cab1",
     "bbDamage": [
@@ -81,8 +82,8 @@
       1
     ],
     "reloadTime": [
-      2.94,
-      2.94
+      3.667,
+      3.667
     ],
     "autoRate": [
       159,
@@ -109,6 +110,14 @@
       0
     ],
     "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
       0,
       0
     ],
