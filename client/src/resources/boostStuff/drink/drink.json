@@ -3,14 +3,34 @@
     "name": "Whiskey",
     "imName": "whiskey",
     "id": "whiskey_drink",
-    "type": "alcohol",
+    "type": "drink",
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Strength",
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
         "func": "partyGirlBoy",
+        "defValue": 2,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Vodka",
+    "imName": "vodka",
+    "id": "vodka_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
         "value": 0,
         "valueType": "number",
         "description": "Strength"

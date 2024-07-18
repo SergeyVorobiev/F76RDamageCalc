@@ -7,17 +7,15 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
+        "category": "weapon",
         "value": 25,
         "valueType": "percent",
-        "propertyType": "BDB",
+        "property": "BDB",
         "description": "Damage"
       },
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Strength",
+        "category": "weapon",
+        "property": "Strength",
         "value": 3,
         "valueType": "number",
         "description": "Strength"

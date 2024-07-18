@@ -10,8 +10,8 @@ export const functions = {
     nukeTheMan: (player) => {
         return (player.team) ? 5 : 0;
     },
-    partyGirlBoy: (player) => {
-        return parseInt(player.alcoholEffects * 2);
+    partyGirlBoy: (player, defValue) => {
+        return parseInt(player.alcoholEffects * defValue);
     },
     adrenalineReaction: (player) => {
         const health = player.health.value;
@@ -36,23 +36,23 @@ export const functions = {
         }
         return ar;
     },
-    eagleEyes: (player) => {
+    eagleEyes: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return 50 * mult;
+        return defValue * mult;
     },
-    eagleEyesNegative: (player) => {
+    eagleEyesNegative: (player, defValue) => {
         const mult = getFreakReduction(player);
-        return -4 * mult;
+        return defValue * mult;
     },
-    carnivoreSerum: (player) => {
+    carnivoreSerum: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 2;
+        return mult * defValue;
     },
-    herbivoreSerum: (player) => {
+    herbivoreSerum: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 2;
+        return mult * defValue;
     },
-    tastyMutantHoundStew: (player, foodPref, foodType) => {
+    tastyMutantHoundStew: (player, defValue, foodPref, foodType) => {
         if ((foodType === "Meet" && foodPref.herbivore) || (foodType === "Plant" && foodPref.carnivore)) {
             return 0;
         }
@@ -63,27 +63,27 @@ export const functions = {
         } else if (foodType === "Plant" && foodPref.herbivore && !foodPref.carnivore) {
             mult = 2 * strange;
         }
-        return mult * 85;
+        return mult * defValue;
     },
-    herdMentality: (player) => {
+    herdMentality: (player, defValue) => {
         const mult = getStrangeMult(player);
         const red = getFreakReduction(player);
-        return (player.team) ? 2 * mult : -2 * red;
+        return (player.team) ? defValue * mult : -defValue * red;
     },
-    speedDemon: (player) => {
+    speedDemon: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 20;
+        return mult * defValue;
     },
-    talons1: (player) => {
+    talons1: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 25;
+        return mult * defValue;
     },
-    talons2: (player) => {
+    talons2: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 2;
+        return mult * defValue;
     },
-    twistedMuscles: (player) => {
+    twistedMuscles: (player, defValue) => {
         const mult = getStrangeMult(player);
-        return mult * 25;
+        return mult * defValue;
     }
 }

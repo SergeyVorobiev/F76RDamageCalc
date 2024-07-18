@@ -7,9 +7,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Heavy",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Heavy",
+        "property": "BDB",
         "value": 20,
         "valueType": "percent",
         "description": "Heavy"
@@ -24,9 +24,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Unarmed"
@@ -41,9 +41,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Energy",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Energy",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Energy"
@@ -58,9 +58,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "EXP",
+        "category": "weapon",
+        "property": "EXP",
         "value": 30,
         "valueType": "percent",
         "description": "Explosive"
@@ -75,9 +74,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Melee",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Melee",
+        "property": "BDB",
         "value": 20,
         "valueType": "percent",
         "description": "Melee"
@@ -92,9 +91,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "FusionCore",
-        "propertyType": "Ammo",
+        "category": "weapon",
+        "tag": "FusionCore",
+        "property": "Ammo",
         "value": 30,
         "valueType": "percent",
         "description": "Fusion Cores"
@@ -109,10 +108,10 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Pistol,Rifle,Shotgun",
-        "includeTags": "Ballistic",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Pistol,Rifle,Shotgun",
+        "tag": "Ballistic",
+        "property": "BDB",
         "value": 20,
         "valueType": "percent",
         "description": "Ballistic"
@@ -127,9 +126,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Strength",
+        "category": "weapon",
+        "property": "Strength",
         "value": 2,
         "valueType": "number",
         "description": "Strength"

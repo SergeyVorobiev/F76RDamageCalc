@@ -7,11 +7,12 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Melee,Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Melee,Unarmed",
+        "property": "BDB",
         "func": "tastyMutantHoundStew",
-        "value": 85,
+        "defValue": 85,
+        "value": 0,
         "valueType": "percent",
         "description": "Melee"
       }

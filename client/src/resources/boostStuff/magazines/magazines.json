@@ -7,9 +7,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureName",
-        "categoryName": "Mirelurks",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Mirelurks",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Mirelurks"
@@ -24,9 +24,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureName",
-        "categoryName": "Ghouls",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Ghouls",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Ghouls"
@@ -41,9 +41,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponName",
-        "categoryName": "Alien Blaster",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "name": "Alien Blaster",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Alien Blaster"
@@ -58,10 +58,10 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureName",
-        "categoryName": "SuperMutant",
+        "category": "creature",
+        "name": "SuperMutant",
         "value": 15,
-        "propertyType": "BDB",
+        "property": "BDB",
         "valueType": "percent",
         "description": "Super Mutants"
       }
@@ -75,9 +75,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponName",
-        "categoryName": "Cryolator",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "name": "Cryolator",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Cryolator"
@@ -92,9 +92,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Scoped"
@@ -109,9 +108,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Animal",
-        "propertyType": "BDB",
+        "category": "creature",
+        "type": "Animal",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Animals"
@@ -126,9 +125,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponName",
-        "categoryName": "Tomahawk",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "name": "Tomahawk",
+        "property": "BDB",
         "value": 30,
         "valueType": "percent",
         "description": "Tomahawk"
@@ -143,9 +142,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Melee,Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Melee,Unarmed",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Melee"
@@ -160,9 +159,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Melee,Unarmed",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "type": "Melee,Unarmed",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Melee Crit"
@@ -177,9 +176,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Scorched",
-        "propertyType": "BDB",
+        "category": "creature",
+        "type": "Scorched",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Scorched"
@@ -194,9 +193,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Robot",
-        "propertyType": "BDB",
+        "category": "creature",
+        "type": "Robot",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Robots"
@@ -211,9 +210,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Laser",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "tag": "Laser",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Laser Crit"
@@ -228,9 +227,10 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Ballistic",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "type": "Rifle,Pistol,Shotgun",
+        "tag": "Ballistic",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Ballistic Crit"
@@ -245,9 +245,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "property": "BDB",
         "value": 10,
         "valueType": "percent",
         "description": "Unscoped"
@@ -262,9 +261,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureName",
-        "categoryName": "Yao Guai",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Yao Guai",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Yao Guai"
@@ -279,9 +278,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Plasma",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "tag": "Plasma",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Plasma Crit"
@@ -296,9 +295,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Liberator",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Liberator",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Liberators"
@@ -313,9 +312,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "property": "BDB",
+        "defValue": 5,
         "func": "nukeTheMan",
         "value": 0,
         "valueType": "percent",
@@ -331,9 +330,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Wendigo",
-        "propertyType": "BDB",
+        "category": "creature",
+        "type": "Wendigo",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Wendigo"
@@ -348,9 +347,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Mothman",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Mothman",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Mothman"
@@ -365,9 +364,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Grafton",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Grafton",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Grafton"
@@ -382,9 +381,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureType",
-        "categoryName": "Snallygaster",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Snallygaster",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Snallygaster"
@@ -399,9 +398,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "CreatureName",
-        "categoryName": "Flatwoods Alien",
-        "propertyType": "BDB",
+        "category": "creature",
+        "name": "Flatwoods Alien",
+        "property": "BDB",
         "value": 15,
         "valueType": "percent",
         "description": "Flatwoods Alien"
@@ -416,9 +415,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Plasma",
-        "propertyType": "Ammo",
+        "category": "weapon",
+        "tag": "Plasma",
+        "property": "Ammo",
         "value": 15,
         "valueType": "percent",
         "description": "Plasma Ammo"
@@ -433,9 +432,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Heavy",
-        "propertyType": "Ammo",
+        "category": "weapon",
+        "type": "Heavy",
+        "property": "Ammo",
         "value": 20,
         "valueType": "percent",
         "description": "Heavy Ammo"
@@ -450,9 +449,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Energy",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "type": "Energy",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Energy Crit"
@@ -467,9 +466,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "property": "Crit",
         "value": 50,
         "valueType": "percent",
         "description": "Crit"
@@ -484,9 +482,9 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "Heavy",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "type": "Heavy",
+        "property": "Crit",
         "value": 100,
         "valueType": "percent",
         "description": "Heavy Crit"
@@ -501,17 +499,17 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Unarmed"
       },
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Knife",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "tag": "Knife",
+        "property": "BDB",
         "value": 25,
         "valueType": "percent",
         "description": "Knife"

@@ -7,9 +7,8 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "property": "BDB",
         "func": "adrenalineReaction",
         "value": 0,
         "valueType": "percent",
@@ -25,19 +24,19 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "All",
-        "propertyType": "Crit",
+        "category": "weapon",
+        "property": "Crit",
         "func": "eagleEyes",
         "value": 0,
+        "defValue": 50,
         "valueType": "percent",
         "description": "Crit"
       },
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Strength",
+        "category": "weapon",
+        "property": "Strength",
         "func": "eagleEyesNegative",
+        "defValue": -4,
         "value": 0,
         "valueType": "number",
         "description": "Strength"
@@ -52,18 +51,17 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "Food",
-        "categoryName": "Meet",
-        "propertyType": "Effects",
+        "category": "weapon",
+        "property": "NotUsed",
         "func": "carnivoreSerum",
-        "value": 2,
+        "defValue": 2,
+        "value": 0,
         "valueType": "multiplier",
         "description": "Meet Effects"
       },
       {
-        "categoryType": "Food",
-        "categoryName": "Plant",
-        "propertyType": "Effects",
+        "category": "weapon",
+        "property": "NotUsed",
         "value": 0,
         "valueType": "multiplier",
         "description": "Plant Effects"
@@ -78,18 +76,17 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "Food",
-        "categoryName": "Plant",
-        "propertyType": "Effects",
+        "category": "weapon",
+        "property": "NotUsed",
         "func": "herbivoreSerum",
-        "value": 2,
+        "defValue": 2,
+        "value": 0,
         "valueType": "multiplier",
         "description": "Plant Effects"
       },
       {
-        "categoryType": "Food",
-        "categoryName": "Meet",
-        "propertyType": "Effects",
+        "category": "weapon",
+        "property": "NotUsed",
         "value": 0,
         "valueType": "multiplier",
         "description": "Meet Effects"
@@ -104,11 +101,11 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Strength",
+        "category": "weapon",
+        "property": "Strength",
         "func": "herdMentality",
         "value": 0,
+        "defValue": 2,
         "valueType": "number",
         "description": "All Stats"
       }
@@ -122,11 +119,11 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponStat",
-        "categoryName": "All",
-        "propertyType": "Reload",
+        "category": "weapon",
+        "property": "Reload",
         "func": "speedDemon",
-        "value": 20,
+        "defValue": 20,
+        "value": 0,
         "valueType": "percent",
         "description": "Reload speed"
       }
@@ -140,19 +137,21 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
         "func": "talons1",
+        "defValue": 25,
         "value": 0,
         "valueType": "percent",
         "description": "Unarmed"
       },
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Unarmed",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
         "func": "talons2",
+        "defValue": 2,
         "value": 0,
         "valueType": "number",
         "description": "Bleed"
@@ -167,11 +166,12 @@
     "used": false,
     "boosts": [
       {
-        "categoryType": "WeaponType",
-        "categoryName": "Melee",
-        "propertyType": "BDB",
+        "category": "weapon",
+        "type": "Melee",
+        "property": "BDB",
         "func": "twistedMuscles",
         "value": 0,
+        "defValue": 25,
         "valueType": "percent",
         "description": "Melee"
       }

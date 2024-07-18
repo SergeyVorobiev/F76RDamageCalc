@@ -83,7 +83,7 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
 
 function calcStrength(playerStats, stuffBoost, wSpec) {
     let strength = playerStats.strength.value;
-    strength += collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Strength")
+    strength += collectStuffBoost(stuffBoost.weapon, wSpec, "Strength")
     if (strength < 1) {
         strength = 1
     }
@@ -104,7 +104,7 @@ function calcReload(additionalDamage, boost, wSpec, stuffBoost) {
         reloadTime *= (1 - boost.ground_pounder.displayed_value / 100.0);
     }
     let mult = 1;
-    collectStuffBoostByTypeAndTagsListener(stuffBoost.weaponStats, wSpec, "Reload", (value) => mult *= (1 - value / 100.0));
+    collectStuffBoost(stuffBoost.weapon, wSpec, "Reload", (value) => mult *= (1 - value / 100.0));
     return reloadTime * mult;
 }
 
@@ -124,7 +124,7 @@ function calcFireRate(wSpec, boost, legendary) {
 
 function calcAmmo(wSpec, boost, legendary, stuffBoost) {
     let ammo = wSpec.ammo_capacity * ((legendary.quad.is_used) ? (1 + legendary.quad.value / 100.0) : 1.0);
-    ammo += (wSpec.ammo_capacity * (collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Ammo") / 100.0));
+    ammo += (wSpec.ammo_capacity * (collectStuffBoost(stuffBoost.weapon, wSpec, "Ammo") / 100.0));
     if (boost.power_user.is_used) {
         const mult = boost.power_user.displayed_value / 100.0 - 1;
         if (wSpec.tags.split(",").includes("FusionCore")) {
@@ -294,14 +294,13 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
 
 function buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature) {
     let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
-    stuffBoost.creatureNames.forEach((value, key) => {
-        if (value.propertyType === "BDB") {
-            damageToCreature += (value.value / 100.0);
-        }
-    });
-    stuffBoost.creatureTypes.forEach((value, key) => {
-        if (value.propertyType === "BDB") {
-            damageToCreature += (value.value / 100.0);
+
+    // Does not differentiate between types and names for now.
+    stuffBoost.creature.forEach((value, key) => {
+        // It is considered to be always unique
+        const item = value[0];
+        if (item.property === "BDB") {
+            damageToCreature += (item.value / 100.0);
         }
     });
     damageToCreature += (boost.glow_sight.displayed_value / 100.0);
@@ -381,7 +380,7 @@ export function millisToTime(value) {
 function calcCrit(damage, boost, additionalDamage, wSpec, stuffBoost) {
     let crit = (boost.better_criticals.displayed_value + 100 + wSpec.crit) / 100.0;
     crit += ((additionalDamage.crit.is_used) ? (additionalDamage.crit.value / 100.0) : 0.0);
-    crit += (collectStuffBoostByTypeAndTags(stuffBoost.weaponStats, wSpec, "Crit") / 100.0);
+    crit += (collectStuffBoost(stuffBoost.weapon, wSpec, "Crit") / 100.0);
     const bCrit = damage.ballistic.used_damage * crit;
     const eCrit = damage.energy.used_damage * crit;
     const fCrit = damage.fire.used_damage * crit;
@@ -436,56 +435,53 @@ function mergeDamageCrit(damage, critDamage, frequency) {
     return (damage * (frequency - 1) + critDamage) / frequency;
 }
 
-function collectStuffBoostByName(stuffBoosts, wSpec, propertyType) {
-    let result = 0.0;
-    stuffBoosts.forEach((value, key) => {
-        if (value.propertyType === "BDB" && wSpec.defaultName === value.categoryName) {
-            result += value.value;
+function getMaxItem(items) {
+    if (items.length === 1) {
+        return items[0];
+    }
+    let max = null;
+    let maxItem = null;
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (max === null || item.value > max) {
+            maxItem = item;
+            max = item.value;
         }
-    });
-    return result;
+    }
+    return maxItem;
 }
 
-function collectStuffBoostByTypeAndTags(stuffBoosts, wSpec, propertyType) {
+function collectStuffBoost(stuffBoosts, wSpec, property, listener) {
     let result = 0.0;
     stuffBoosts.forEach((value, key) => {
-        const types = value.categoryName.split(",");
+        const maxItem = getMaxItem(value);
+        let mandatory = null;
+        let satisfyNameOrType = true;
+        if (maxItem.name) {
+            satisfyNameOrType = maxItem.name.split(",").includes(wSpec.defaultName);
+        } else if (value.type) {
+            satisfyNameOrType = maxItem.type.split(",").includes(wSpec.type);
+        }
+        let additional = [];
+        if (maxItem.tag) {
+            additional = maxItem.tag.split(",");
+        }
         const tags = wSpec.tags.split(",");
-        if (value.propertyType === propertyType && (types.includes("All") || types.includes(wSpec.type) || intersects(types, tags))) {
-            if (value.includeTags) {
-                const includeTags = value.includeTags.split(",");
-                if (intersects(includeTags, tags)) {
-                    result += value.value;
-                }
+        let satisfyTags = (additional.length > 0) ? intersects(additional, tags) : true;
+        if (maxItem.property === property && satisfyTags && satisfyNameOrType) {
+            if (listener) {
+                listener(maxItem.value);
             } else {
-                result += value.value;
+                result += maxItem.value;
             }
         }
     });
     return result;
-}
-
-function collectStuffBoostByTypeAndTagsListener(stuffBoosts, wSpec, propertyType, listener) {
-    stuffBoosts.forEach((value, key) => {
-        const types = value.categoryName.split(",");
-        const tags = wSpec.tags.split(",");
-        if (value.propertyType === propertyType && (types.includes("All") || types.includes(wSpec.type) || intersects(types, tags))) {
-            if (value.includeTags) {
-                const includeTags = value.includeTags.split(",");
-                if (intersects(includeTags, tags)) {
-                    listener(value.value);
-                }
-            } else {
-                listener(value.value);
-            }
-        }
-    });
 }
 
 function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength) {
     let result = boost.wcdamager + boost.nerd_rage.displayed_value;
-    result += collectStuffBoostByName(stuffBoost.weaponNames, wSpec, "BDB");
-    result += collectStuffBoostByTypeAndTags(stuffBoost.weaponTypes, wSpec, "BDB");
+    result += collectStuffBoost(stuffBoost.weapon, wSpec, "BDB");
     result += boost.bloody_mess.displayed_value;
     result += boost.adrenaline.displayed_value;
     result += boost.gun_foo.displayed_value;
