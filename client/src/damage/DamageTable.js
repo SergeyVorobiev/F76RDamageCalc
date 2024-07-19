@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import WTypeDropdown from '../helpers/WTypeDropdown';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import InputGroup from 'react-bootstrap/InputGroup';
+import AutoHandSelector from '../damage/AutoHandSelector';
 
 
 function modElement(mod) {
@@ -47,6 +48,8 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
                     <Tag bordered={true} color="volcano" className="pt-2"><h6 className="m-auto p-auto"><strong>{getRowWithImage(wSpec.type)}</strong></h6></Tag>
                </div>
             </Row>
+            <Divider className="p-0 mt-2 mb-2"></Divider>
+            <AutoHandSelector wSpec={wSpec} setWSpec={setWSpec}></AutoHandSelector>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <Row className="d-flex">
                 {mods}

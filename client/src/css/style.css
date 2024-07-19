@@ -124,3 +124,51 @@
   overflow: scroll;
   height: 1200px;
 }
+
+.bg-strength-card {
+    background-color:#7ba283 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-perception-card {
+    background-color:#696148 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-charisma-card {
+    background-color:#d18a44 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-intelligence-card {
+    background-color:#aca68f !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-endurance-card {
+    background-color:#55b6c5 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-agility-card {
+    background-color:#cc9e7b !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-luck-card {
+    background-color:#a8a2b9 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+.bg-legendary-card {
+    background-color:#5c6f72 !important;
+    color: #fff !important;
+    border-color: #dee2e6 !important;
+}

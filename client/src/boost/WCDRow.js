@@ -22,12 +22,11 @@ const marks: SliderSingleProps['marks'] = {
     },
     label: <strong>60%</strong>,
   },
-
 };
 
 const popover = (
     <Popover style={{ width: '18rem' }} id="popover-basic">
-        <Popover.Header as="h3">Weapon Cards</Popover.Header>
+        <Popover.Header as="h3">Perk Cards</Popover.Header>
         <Popover.Body>
             The damage you get from cards of your weapon
             (ex: 3 Heavy Gunner + 3 Expert Heavy Gunner + 3 Master Heavy Gunner = 60%)
@@ -35,7 +34,7 @@ const popover = (
     </Popover>
 );
 
-// Weapon card damage
+// Weapon card damage DEPRECATED
 function WCDRow({setBoostDamage, boostDamage}) {
     function slideChanged(e) {
         boostDamage["wcdamage"] = e;

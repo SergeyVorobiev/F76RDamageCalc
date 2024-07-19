@@ -105,6 +105,10 @@
       0,
       0
     ],
+    "hand": [
+      1,
+      1
+    ],
     "strengthBoost": [
       0,
       0
@@ -129,6 +133,8 @@
       0,
       0
     ],
+    "creatureType": ["Any", "Any"],
+    "bash": [0, 0],
     "accuracy": [
       100,
       100
@@ -246,6 +252,12 @@
                 "cd",
                 65,
                 "cd",
+                "set"
+              ],
+              [
+                "creatureType",
+                "Scorched",
+                "creatureType",
                 "set"
               ]
             ],

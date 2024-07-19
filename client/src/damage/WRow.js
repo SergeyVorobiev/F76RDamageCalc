@@ -49,8 +49,9 @@ function WRow({wSpec, setWSpec}) {
             {column(wSpec, onChange, "☠️", "Crit", "crit", 200)}
             {column(wSpec, onChange, "🐍", "Sneak", "sneak", 100)}
             {column(wSpec, onChange, "🩸", "Bleed", "bleed", 10)}
+            {column(wSpec, onChange, "🌪️", "Bash", "bash", 0)}
             {column(wSpec, onChange, "💣", "Explosion", "exp", 100)}
-            {column(wSpec, onChange, "🐲", "Damage", "cd", 100)}
+            {column(wSpec, onChange, "🐵", wSpec.creatureType, "cd", 100)}
             {column(wSpec, onChange, "🎯", "Accuracy", "accuracy", 100)}
         </Row>
     );

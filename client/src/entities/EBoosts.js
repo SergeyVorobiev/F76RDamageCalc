@@ -1,11 +1,5 @@
 export function defaultBoosts() {
     return {
-
-        // weapon cards
-        wcdamage: 10.0,
-        wcdamagen: false,
-        wcdamager: 0.0,
-
         bloody_mess: {
             name: "Bloody Mess",
             value: 5.0,
@@ -15,6 +9,8 @@ export function defaultBoosts() {
             rank_values: [5.0, 10.0, 15.0],
             x: 1,
             max_x: 1,
+            category: "Luck",
+            cost: [1, 2, 3],
         },
 
         adrenaline: {
@@ -26,6 +22,8 @@ export function defaultBoosts() {
             rank_values: [6.0, 7.0, 8.0, 9.0, 10.0],
             x: 1,
             max_x: 6,
+            category: "Agility",
+            cost: [1, 2, 3, 4, 5],
         },
 
         toft: {
@@ -37,6 +35,8 @@ export function defaultBoosts() {
             rank_values: [10.0, 20.0, 30.0, 40.0],
             x: 1,
             max_x: 1,
+            category: "Legendary",
+            cost: [1, 2, 3, 4],
         },
 
         tenderizer: {
@@ -48,6 +48,8 @@ export function defaultBoosts() {
             rank_values: [5.0, 7.0, 10.0],
             x: 1,
             max_x: 4,
+            category: "Charisma",
+            cost: [1, 2, 3],
         },
 
         glow_sight: {
@@ -59,10 +61,12 @@ export function defaultBoosts() {
             rank_values: [20.0, 40.0, 60.0],
             x: 1,
             max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 3],
         },
 
-        gun_foo: {
-            name: "Gun Foo",
+        gun_fu: {
+            name: "Gun Fu",
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -70,17 +74,8 @@ export function defaultBoosts() {
             rank_values: [10.0, 30.0, 60.0],
             x: 1,
             max_x: 1,
-        },
-
-        syringer: {
-            name: "Syringer",
-            value: 25.0,
-            is_used: false,
-            displayed_value: 0.0,
-            rank: 1,
-            rank_values: [25.0],
-            x: 1,
-            max_x: 1,
+            category: "Agility",
+            cost: [1, 2, 3],
         },
 
         incisor: {
@@ -92,6 +87,8 @@ export function defaultBoosts() {
             rank_values: [25.0, 50.0, 75.0],
             x: 1,
             max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 3],
         },
 
         bow_before_me: {
@@ -103,6 +100,8 @@ export function defaultBoosts() {
             rank_values: [12.0, 24.0, 36.0],
             x: 1,
             max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 3],
         },
 
         exterminator: {
@@ -114,6 +113,8 @@ export function defaultBoosts() {
             rank_values: [25.0, 50.0, 75.0],
             x: 1,
             max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 3],
         },
 
         tank_killer: {
@@ -125,6 +126,8 @@ export function defaultBoosts() {
             rank_values: [12.0, 24.0, 36.0],
             x: 1,
             max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 3],
         },
 
         stabilized: {
@@ -136,6 +139,8 @@ export function defaultBoosts() {
             rank_values: [15.0, 30.0, 45.0],
             x: 1,
             max_x: 1,
+            category: "Intelligence",
+            cost: [1, 2, 3],
         },
 
         covert_operative: {
@@ -147,6 +152,8 @@ export function defaultBoosts() {
             rank_values: [2.15, 2.3, 2.5],
             x: 1,
             max_x: 1,
+            category: "Agility",
+            cost: [1, 2, 3],
         },
 
         mister_sandman: {
@@ -158,6 +165,8 @@ export function defaultBoosts() {
             rank_values: [25.0, 50.0],
             x: 1,
             max_x: 1,
+            category: "Agility",
+            cost: [1, 2],
         },
 
         ninja: {
@@ -169,6 +178,8 @@ export function defaultBoosts() {
             rank_values: [30.0, 60.0, 90.0],
             x: 1,
             max_x: 1,
+            category: "Agility",
+            cost: [1, 2, 3],
         },
 
         follow_through: {
@@ -180,6 +191,8 @@ export function defaultBoosts() {
             rank_values: [10.0, 20.0, 30.0, 40.0],
             x: 1,
             max_x: 1,
+            category: "Legendary",
+            cost: [1, 2, 3, 4],
         },
 
         demolition_expert: {
@@ -191,6 +204,8 @@ export function defaultBoosts() {
             rank_values: [20.0, 30.0, 40.0, 50.0, 60.0],
             x: 1,
             max_x: 1,
+            category: "Intelligence",
+            cost: [1, 2, 3, 4, 5],
         },
 
         science: {
@@ -202,6 +217,8 @@ export function defaultBoosts() {
             rank_values: [5.0, 10.0, 15.0, 20.0, 25.0, 30.0],
             x: 1,
             max_x: 1,
+            category: "Intelligence",
+            cost: [1, 2, 3, 4, 5, 6],
         },
 
         better_criticals: {
@@ -213,6 +230,8 @@ export function defaultBoosts() {
             rank_values: [50.0, 75.0, 100.0],
             x: 1,
             max_x: 1,
+            category: "Luck",
+            cost: [1, 2, 3],
         },
 
         nerd_rage: {
@@ -221,9 +240,11 @@ export function defaultBoosts() {
             is_used: false,
             displayed_value: 0.0,
             rank: 1,
-            rank_values: [10, 15, 20.0],
+            rank_values: [10.0, 15.0, 20.0],
             x: 1,
             max_x: 1,
+            category: "Intelligence",
+            cost: [1, 2, 3],
         },
 
         lock_and_load: {
@@ -235,6 +256,8 @@ export function defaultBoosts() {
             rank_values: [10, 20, 30],
             x: 1,
             max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 3],
         },
 
         martial_artist: {
@@ -246,6 +269,8 @@ export function defaultBoosts() {
             rank_values: [10, 20, 30],
             x: 1,
             max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 3],
         },
 
         scattershot: {
@@ -257,6 +282,8 @@ export function defaultBoosts() {
             rank_values: [10, 20, 30],
             x: 1,
             max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 3],
         },
 
         ground_pounder: {
@@ -268,6 +295,8 @@ export function defaultBoosts() {
             rank_values: [10, 20, 30],
             x: 1,
             max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 3],
         },
 
         party_girl_boy: {
@@ -279,6 +308,8 @@ export function defaultBoosts() {
             rank_values: [2, 3],
             x: 1,
             max_x: 1,
+            category: "Charisma",
+            cost: [2, 3],
         },
 
         power_user: {
@@ -290,7 +321,10 @@ export function defaultBoosts() {
             rank_values: [130, 160, 200],
             x: 1,
             max_x: 1,
+            category: "Intelligence",
+            cost: [1, 2, 3],
         },
+
         strange_in_numbers: {
             name: "Strange In Nums",
             value: 25,
@@ -300,7 +334,10 @@ export function defaultBoosts() {
             rank_values: [25],
             x: 1,
             max_x: 1,
+            category: "Charisma",
+            cost: [1],
         },
+
         class_freak: {
             name: "Class Freak",
             value: 25,
@@ -310,6 +347,148 @@ export function defaultBoosts() {
             rank_values: [25, 50, 75],
             x: 1,
             max_x: 1,
+            category: "Luck",
+            cost: [1, 2, 3],
         },
+
+        gladiator: {
+            name: "Gladiator",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        heavy_gunner: {
+            name: "Heavy Gunner",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        shotgunner: {
+            name: "Shotgunner",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        slugger: {
+            name: "Slugger",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        iron_fist: {
+            name: "Iron Fist",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20],
+            x: 1,
+            max_x: 1,
+            category: "Strength",
+            cost: [1, 2, 3],
+        },
+
+        archer: {
+            name: "Archer",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        commando: {
+            name: "Commando",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        rifleman: {
+            name: "Rifleman",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Perception",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        guerrilla: {
+            name: "Guerrilla",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Agility",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        gunslinger: {
+            name: "Gunslinger",
+            value: 10,
+            is_used: false,
+            displayed_value: 0.0,
+            rank: 1,
+            rank_values: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+            x: 1,
+            max_x: 1,
+            category: "Agility",
+            cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+        },
+
+        special: {
+            strength: 0,
+            perception: 0,
+            endurance: 0,
+            charisma: 0,
+            intelligence: 0,
+            agility: 0,
+            luck: 0,
+        }
     };
 }

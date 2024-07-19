@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import '../css/style.css';
 import {checkLength} from '../helpers/Input';
+import { Radio } from 'antd';
 
 
 function col(name, creatures, setCreatures, creature, res_field, color, min=0, max=1000) {
@@ -39,7 +40,10 @@ const headShot = <>🤕 Head Shot</>;
 
 function CreatureStats({creatures, setCreatures, creature}) {
     console.log("CreatureStats");
-
+    function onChange(e) {
+        creature.body = e.target.value;
+        setCreatures({...creatures});
+    }
 
     return (
         <Card className="text-center mb-3">
@@ -63,6 +67,15 @@ function CreatureStats({creatures, setCreatures, creature}) {
                 </Row>
                 <Row>
                     {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", 1, 2)}
+                </Row>
+                <Row>
+                    <div className="pt-3 pb-1 d-flex justify-content-center">
+                        <Radio.Group value={creature.body} onChange={onChange}>
+                            <Radio.Button value="normal">Normal</Radio.Button>
+                            <Radio.Button value="scorched">Scorched</Radio.Button>
+                            <Radio.Button value="glowing">Glowing</Radio.Button>
+                        </Radio.Group>
+                    </div>
                 </Row>
             </Card.Body>
             <Card.Footer className="text-muted"></Card.Footer>

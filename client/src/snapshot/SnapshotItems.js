@@ -42,7 +42,7 @@ function compareAverage(item1, item2) {
 }
 
 const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filterName, weaponType, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
-    const sorts = [compareSBQ, compareEarle, compareTitan, compareAverage];
+    const sorts = [compareAverage, compareSBQ, compareEarle, compareTitan];
     console.log("SnapshotItems");
     const sortAlg = sorts[sortId];
     let index = 1;

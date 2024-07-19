@@ -1,4 +1,5 @@
 import { intersects } from "./Array";
+import { creatureTypes } from "../creature/CreatureTypes";
 
 
 // TODO: Convert to creature and weapon classes this file: creature.takeDamage(weapon.shoot());
@@ -69,6 +70,7 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
         pAA: armors[3] / 100.0,
         cAA: armors[4] / 100.0,
         rAA: armors[5] / 100.0,
+        resultArmor: new Map(),
         shotSize: shots,
         reloadTime: reloadTime,
         fireRate: fireRate,
@@ -100,7 +102,7 @@ function calcReload(additionalDamage, boost, wSpec, stuffBoost) {
         reloadTime *= (1 - boost.martial_artist.displayed_value / 100.0);
     } else if (wSpec.type === "Shotgun") {
         reloadTime *= (1 - boost.scattershot.displayed_value / 100.0);
-    } else if (wSpec.type === "Rifle") {
+    } else if (wSpec.type === "Rifle" && wSpec.is_auto) {
         reloadTime *= (1 - boost.ground_pounder.displayed_value / 100.0);
     }
     let mult = 1;
@@ -151,8 +153,6 @@ function getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec, additi
 }
 
 export function calcLives(resultDamage, damage, extraDamage, boost, legendary, creatures, additionalDamage, bdBoost, tdBoost, wSpec, stuffBoost) {
-    const aa = [resultDamage.bAA, resultDamage.eAA, resultDamage.fAA, resultDamage.pAA, resultDamage.cAA, resultDamage.rAA];
-    const expAA = [resultDamage.bAA, resultDamage.eAA];
     const cs = [creatures.sbq, creatures.earle, creatures.titan, creatures.creature];
 
     let headMults = [1.0, 1.0, 1.0, 1.0];
@@ -169,8 +169,18 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
         accuracy = 0.1
     }
     for (let c = 0; c < cs.length; c++) {
+        let aa = [resultDamage.bAA, resultDamage.eAA, resultDamage.fAA, resultDamage.pAA, resultDamage.cAA, resultDamage.rAA];
+        let expAA = [resultDamage.bAA, resultDamage.eAA];
         let creature = cs[c];
-
+        if (boost.exterminator.is_used && creatureTypes.insect.has(creature.name)) {
+            for (let i = 0; i < aa.length; i++) {
+                aa[i] = 1 - ((1 - aa[i]) * (1 - boost.exterminator.displayed_value / 100.0));
+            }
+            expAA = [aa[0], aa[1]];
+        }
+        resultDamage.resultArmor.set(creature.name, [creature.b * (1 - aa[0]), creature.e * (1 - aa[1]), creature.f * (1 - aa[2]), creature.p * (1 - aa[3]), creature.c * (1 - aa[4]), creature.r * (1 - aa[5])]);
+        let armors = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
+        let expArmors = [creature.b, creature.e];
         let creatureDamage = buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature);
         const damages = [resultDamage.bDamage + creatureDamage * damage.ballistic.used_damage,
                          resultDamage.eDamage + creatureDamage * damage.energy.used_damage,
@@ -193,9 +203,6 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
         const execExp = [bExp * executionerMult, eExp * executionerMult];
         const execCrit = getCritDamages(execDamages, resultDamage, extraDamage);
         const execCritExp = getCritExpDamages(execExp, resultDamage, extraDamage);
-
-        let armors = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
-        let expArmors = [creature.b, creature.e];
         let health = creature.h;
         let health04 = creature.h * 0.4;
         let fireTime = 10 / resultDamage.fireRate;
@@ -294,18 +301,78 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
 
 function buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature) {
     let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
+    if (wSpec.cd > 0) {
+        if (wSpec.creatureType === "Any") {
+            damageToCreature += wSpec.cd / 100.0;
+        } else if (wSpec.creatureType === "Scorched" && creature.name === "Scorchbeast Queen") {
+            damageToCreature += wSpec.cd / 100.0;
+        } else if (wSpec.creatureType === "Wendigo" && creature.name === "Earle") {
+            damageToCreature += wSpec.cd / 100.0;
+        } else if (wSpec.creatureType === "Abomination" && creature.name === "Ultracite Titan") {
+            damageToCreature += wSpec.cd / 100.0;
+        } else {
 
-    // Does not differentiate between types and names for now.
+            // User intentionally made a creature 'scorched'
+            if (wSpec.creatureType === "Scorched" && creature.body === "scorched") {
+                damageToCreature += wSpec.cd / 100.0;
+            } else { // Ok may be a creature is 'scorched'
+                const creaturesForWeapon = creatureTypes[wSpec.creatureType.toLowerCase()];
+                if (creaturesForWeapon) {
+                    if (creaturesForWeapon.has(creature.name)) {
+                        damageToCreature += wSpec.cd / 100.0;
+                    }
+                }
+            }
+        }
+    }
+
+    // Glowing
+    if (boost.glow_sight.is_used) {
+        if (creatureTypes["glowing"].has(creature.name) || creature.body === "glowing") {
+            damageToCreature += boost.glow_sight.displayed_value / 100.0;
+        }
+    }
+
     stuffBoost.creature.forEach((value, key) => {
+
         // It is considered to be always unique
         const item = value[0];
         if (item.property === "BDB") {
-            damageToCreature += (item.value / 100.0);
+            let itemNames = [];
+            if (item.name) {
+                itemNames = item.name.split(",");
+            }
+
+            // bosses and then a creature.
+            if (creature.name === "Scorchbeast Queen") {
+                if (item.type === "scorched" && (!item.name || (item.name && itemNames.includes("scorchbeastqueen")))) {
+                    damageToCreature += item.value / 100.0;
+                }
+            } else if (creature.name === "Earle") {
+                if (item.type === "cryptid" && (!item.name || (item.name && itemNames.includes("wendigocolossus")))) {
+                    damageToCreature += item.value / 100.0;
+                }
+            } else if (creature.name === "Ultracite Titan") {
+                if (item.type === "cryptid" && (!item.name || (item.name && itemNames.includes("ultraciteabomination")))) {
+                    damageToCreature += item.value / 100.0;
+                }
+            } else {
+                if (item.name) {
+                    if (itemNames.includes(creature.name)) {
+                        damageToCreature += item.value / 100.0;
+                    }
+                } else if (item.type === "scorched" && creature.body === "scorched") {
+                    damageToCreature += item.value / 100.0;
+                } else {
+                    const creatures = creatureTypes[item.type];
+                    if (creatures && creatures.has(creature.name)) {
+                        damageToCreature += item.value / 100.0;
+                    }
+                }
+            }
         }
     });
-    damageToCreature += (boost.glow_sight.displayed_value / 100.0);
-    damageToCreature += (wSpec.cd / 100.0);
-    return (creature.damageToCreature) ? damageToCreature : 0.0;
+    return damageToCreature;
 }
 
 function buildDamage(damages, armors, aa, expDamages, expArmors, expAA, headMult, red, shotSize) {
@@ -455,7 +522,6 @@ function collectStuffBoost(stuffBoosts, wSpec, property, listener) {
     let result = 0.0;
     stuffBoosts.forEach((value, key) => {
         const maxItem = getMaxItem(value);
-        let mandatory = null;
         let satisfyNameOrType = true;
         if (maxItem.name) {
             satisfyNameOrType = maxItem.name.split(",").includes(wSpec.defaultName);
@@ -479,12 +545,47 @@ function collectStuffBoost(stuffBoosts, wSpec, property, listener) {
     return result;
 }
 
+function getDamageFromWeaponCards(boost, wSpec) {
+    let result = 0.0;
+    if (boost.gladiator.displayed_value > 0 && wSpec.type === "Melee" && wSpec.hand === 1) {
+        result += boost.gladiator.displayed_value;
+    }
+    if (boost.heavy_gunner.displayed_value > 0 && wSpec.type === "Heavy") {
+        result += boost.heavy_gunner.displayed_value;
+    }
+    if (boost.shotgunner.displayed_value > 0 && wSpec.type === "Shotgun") {
+        result += boost.shotgunner.displayed_value;
+    }
+    if (boost.slugger.displayed_value > 0 && wSpec.type === "Melee" && wSpec.hand === 2) {
+        result += boost.slugger.displayed_value;
+    }
+    if (boost.iron_fist.displayed_value > 0 && wSpec.type === "Unarmed") {
+        result += boost.iron_fist.displayed_value;
+    }
+    if (boost.archer.displayed_value > 0 && wSpec.type === "Bow") {
+        result += boost.archer.displayed_value;
+    }
+    if (boost.commando.displayed_value > 0 && wSpec.type === "Rifle" && wSpec.is_auto === 1) {
+        result += boost.commando.displayed_value;
+    }
+    if (boost.rifleman.displayed_value > 0 && wSpec.type === "Rifle" && wSpec.is_auto === 0) {
+        result += boost.rifleman.displayed_value;
+    }
+    if (boost.guerrilla.displayed_value > 0 && wSpec.type === "Pistol" && wSpec.is_auto === 1) {
+        result += boost.guerrilla.displayed_value;
+    }
+    if (boost.gunslinger.displayed_value > 0 && wSpec.type === "Pistol" && wSpec.is_auto === 0) {
+        result += boost.gunslinger.displayed_value;
+    }
+    return result;
+}
+
 function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength) {
-    let result = boost.wcdamager + boost.nerd_rage.displayed_value;
+    let result = getDamageFromWeaponCards(boost, wSpec) + boost.nerd_rage.displayed_value;
     result += collectStuffBoost(stuffBoost.weapon, wSpec, "BDB");
     result += boost.bloody_mess.displayed_value;
     result += boost.adrenaline.displayed_value;
-    result += boost.gun_foo.displayed_value;
+    result += boost.gun_fu.displayed_value;
     result += (legendary.junkie.is_used) ? legendary.junkie.value : 0.0;
     result += (legendary.aristocrat.is_used) ? legendary.aristocrat.value : 0.0;
     result += (legendary.bloodied.is_used) ? legendary.bloodied.value : 0.0;
@@ -517,7 +618,6 @@ export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="
     }
     aa -= (weaponAA / 100.0);
     aa = (aa < 0) ? 0 : aa;
-    const syringer = 1 - boostDamage.syringer.displayed_value / 100.0;
     let incisor = 1.0;
     if (weaponType === "All" || weaponType === "Melee" || weaponType === "Unarmed") {
         incisor = 1 - boostDamage.incisor.displayed_value / 100.0;
@@ -526,7 +626,6 @@ export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="
     if (weaponType === "All" || weaponType === "Bow") {
         bow_before_me = 1 - boostDamage.bow_before_me.displayed_value / 100.0;
     }
-    const exterminator = 1 - boostDamage.exterminator.displayed_value / 100.0;
     let tank_killer = 1.0;
     if (weaponType === "All" || weaponType === "Pistol" || weaponType === "Rifle") {
         tank_killer = 1 - boostDamage.tank_killer.displayed_value / 100.0;
@@ -535,8 +634,8 @@ export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="
     if (weaponType === "All" || weaponType === "Heavy") {
         stabilized = 1 - boostDamage.stabilized.displayed_value / 100.0;
     }
-    const result1 = (100 * (1 - syringer * incisor * bow_before_me * exterminator * tank_killer * stabilized * aa));
-    const result2 = (100 * (1 - incisor * bow_before_me * exterminator * tank_killer * stabilized * aa));
+    const result1 = (100 * (1 - incisor * bow_before_me * tank_killer * stabilized * aa));
+    const result2 = (100 * (1 - incisor * bow_before_me * tank_killer * stabilized * aa));
     const resultAll = [result1, result2, result2, result2, result2, result2];
     return resultAll;
 }

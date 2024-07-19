@@ -7,6 +7,10 @@ import Button from 'react-bootstrap/Button';
 import { Checkbox } from 'antd';
 
 
+function getPerkColor(category) {
+    return "bg-" + category.toLowerCase() + "-card";
+}
+
 function badgeIf(value, condition, onClick) {
     if (condition) {
         return (<Button onClick={onClick} style={{width: '3rem'}} variant="warning">{value}</Button>)
@@ -14,9 +18,27 @@ function badgeIf(value, condition, onClick) {
     return (<></>)
 }
 
+function calculateSpecial(boostDamage) {
+    for (let key in boostDamage.special) {
+        boostDamage.special[key] = 0;
+    }
+    for (let key in boostDamage) {
+        if (key === "special") {
+            continue;
+        }
+        const card = boostDamage[key];
+        const special = boostDamage.special;
+        const type = card.category.toLowerCase();
+        if (card.is_used) {
+            special[type] += card.cost[card.rank - 1];
+        }
+    }
+}
+
 function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', player=null, setPlayer=null) {
     function onClick(e) {
         changeRank();
+        calculateSpecial(boostDamage);
         setBoostDamage({
             ...boostDamage,
         });
@@ -77,20 +99,22 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
             player.freak = card.displayed_value;
             setPlayer({...player});
         }
+        calculateSpecial(boostDamage);
         setBoostDamage({
             ...boostDamage,
         });
     }
 
     const w = (xBadge) ? '9rem' : '12rem';
+    const cName = "btn text-start " + getPerkColor(card.category);
     return (
         <Col className="p-0">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap">
                 <InputGroup.Text>
                     <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
                 </InputGroup.Text>
-                <Button className="btn text-start" style={{width: w}} onClick={onClick} variant="secondary">
-                    <Badge className="ms-0 me-2" bg="warning">{card.rank}</Badge>
+                <Button className={cName} style={{width: w}} onClick={onClick}>
+                    <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
                     {card.name}
                 </Button>
                 {badgeIf("x" + card.x, xBadge, onClickX)}
@@ -105,10 +129,10 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
 function BRow1({setBoostDamage, boostDamage}) {
     return (
         <Row>
-            {getItem(boostDamage.bloody_mess, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.adrenaline, setBoostDamage, boostDamage, true)}
-            {getItem(boostDamage.toft, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.tenderizer, setBoostDamage, boostDamage, true)}
+            {getItem(boostDamage.incisor, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.lock_and_load, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.martial_artist, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.scattershot, setBoostDamage, boostDamage)}
         </Row>
     );
 };
@@ -116,10 +140,10 @@ function BRow1({setBoostDamage, boostDamage}) {
 function BRow2({setBoostDamage, boostDamage}) {
     return (
         <Row>
-            {getItem(boostDamage.glow_sight, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.gun_foo, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.syringer, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.incisor, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.gladiator, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.heavy_gunner, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.shotgunner, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.slugger, setBoostDamage, boostDamage)}
         </Row>
     );
 };
@@ -127,10 +151,10 @@ function BRow2({setBoostDamage, boostDamage}) {
 function BRow3({setBoostDamage, boostDamage}) {
     return (
         <Row>
-            {getItem(boostDamage.bow_before_me, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.exterminator, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.tank_killer, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.stabilized, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.iron_fist, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.archer, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.commando, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.rifleman, setBoostDamage, boostDamage)}
         </Row>
     );
 };
@@ -138,45 +162,75 @@ function BRow3({setBoostDamage, boostDamage}) {
 function BRow4({setBoostDamage, boostDamage}) {
     return (
         <Row>
-            {getItem(boostDamage.covert_operative, setBoostDamage, boostDamage, false, 'x')}
-            {getItem(boostDamage.mister_sandman, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.ninja, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.follow_through, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.glow_sight, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.bow_before_me, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.exterminator, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.tank_killer, setBoostDamage, boostDamage)}
         </Row>
     );
 };
 
-function BRow5({setBoostDamage, boostDamage, player}) {
+function BRow5({setBoostDamage, boostDamage, player, setPlayer}) {
     return (
         <Row>
-            {getItem(boostDamage.demolition_expert, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.science, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.better_criticals, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.nerd_rage, setBoostDamage, boostDamage, false, "%", player)}
+            {getItem(boostDamage.ground_pounder, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.tenderizer, setBoostDamage, boostDamage, true)}
+            {getItem(boostDamage.party_girl_boy, setBoostDamage, boostDamage, false, "x", player, setPlayer)}
+            {getItem(boostDamage.strange_in_numbers, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
         </Row>
     );
-}
+};
 
 function BRow6({setBoostDamage, boostDamage, player}) {
     return (
         <Row>
-            {getItem(boostDamage.lock_and_load, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.martial_artist, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.scattershot, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.ground_pounder, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.stabilized, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.demolition_expert, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.science, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.nerd_rage, setBoostDamage, boostDamage, false, "%", player)}
         </Row>
     );
-}
+};
 
-function BRow7({setBoostDamage, boostDamage, player, setPlayer}) {
+function BRow7({setBoostDamage, boostDamage, player}) {
     return (
         <Row>
-            {getItem(boostDamage.party_girl_boy, setBoostDamage, boostDamage, false, "x", player, setPlayer)}
             {getItem(boostDamage.power_user, setBoostDamage, boostDamage)}
-            {getItem(boostDamage.class_freak, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
-            {getItem(boostDamage.strange_in_numbers, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
+            {getItem(boostDamage.adrenaline, setBoostDamage, boostDamage, true)}
+            {getItem(boostDamage.gun_fu, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.covert_operative, setBoostDamage, boostDamage, false, 'x')}
         </Row>
     );
 }
 
-export {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7};
+function BRow8({setBoostDamage, boostDamage, player}) {
+    return (
+        <Row>
+            {getItem(boostDamage.mister_sandman, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.ninja, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.guerrilla, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.gunslinger, setBoostDamage, boostDamage)}
+        </Row>
+    );
+}
+
+function BRow9({setBoostDamage, boostDamage, player, setPlayer}) {
+    return (
+        <Row>
+            {getItem(boostDamage.bloody_mess, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.better_criticals, setBoostDamage, boostDamage)}
+            {getItem(boostDamage.class_freak, setBoostDamage, boostDamage, false, "%", player, setPlayer)}
+            {getItem(boostDamage.toft, setBoostDamage, boostDamage)}
+        </Row>
+    );
+}
+
+function BRow10({setBoostDamage, boostDamage}) {
+    return (
+        <Row>
+            {getItem(boostDamage.follow_through, setBoostDamage, boostDamage)}
+        </Row>
+    );
+}
+
+export {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7, BRow8, BRow9, BRow10};
