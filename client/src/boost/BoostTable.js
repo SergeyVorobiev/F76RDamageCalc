@@ -1,9 +1,7 @@
-import WCDRow from "./WCDRow";
 import Container from 'react-bootstrap/Container';
-import {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7} from "./BRows";
+import {BRow1, BRow2, BRow3, BRow4, BRow5, BRow6, BRow7, BRow8, BRow9, BRow10} from "./BRows";
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
-import {aa_cards} from '../helpers/Calc';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { memo } from 'react';
@@ -13,76 +11,62 @@ const popover = (
     <Popover style={{width: '19rem'}} id="popover-basic">
         <Popover.Header as="h3">Perks</Popover.Header>
         <Popover.Body>
-            Not all of this perks are cards (Syringer).
-            'Exterminator' is applied to all creatures because it does not know about creature's type.
             'Incisor' is applied to 'All / Melee / Unarmed' weapon's type.
             'Stabilized' is applied to 'All / Heavy' weapon's type.
             'Tank Killer' is applied to 'All / Pistol / Rifle' weapon's type.
-            'Glow Sight' is applied only to creatures with 🐵 (Creature Damage) selected checkbox.
             'TOFT' can reduce ballistic resistance of a creature when it hits back so you have to handle this manually
             under the 'Creature' section if you want to see the exact damage number as in the game.
         </Popover.Body>
     </Popover>
 );
 
-function bdb_cards(boostDamage) {
-    return boostDamage.bloody_mess.displayed_value + boostDamage.adrenaline.displayed_value + boostDamage.nerd_rage.displayed_value
-           + boostDamage.glow_sight.displayed_value + boostDamage.gun_foo.displayed_value + boostDamage.science.displayed_value;
-}
-
-function tdb_cards(boostDamage) {
-    const toft = 1 + boostDamage.toft.displayed_value / 100.0;
-    const tend = 1 + boostDamage.tenderizer.displayed_value / 100.0;
-    let result = toft * tend;
-    return (result > 1.0) ? parseInt(result * 100.0) : 0;
-}
-
-function sbdb_cards(boostDamage) {
-    let covert = boostDamage.covert_operative.displayed_value * 100.0;
-    covert = (covert === 0) ? 200.0 : covert;
-    const follow_through = boostDamage.follow_through.displayed_value;
-    const sandman = boostDamage.mister_sandman.displayed_value;
-    const ninja = boostDamage.ninja.displayed_value;
-    return covert + sandman + ninja + follow_through;
+function getStatBadge(name, value) {
+    const cParams = 'ms-1 me-1 mt-0 mb-0 pt-1 pb-1 bg-' + name + "-card";
+    const letter = name.charAt(0).toUpperCase();
+    const color = (value > 15) ? "red" : "black";
+    return (
+        <Badge className={cParams} style={{width: '2.5rem'}}><div style={{fontSize: '1rem' , fontWeight: 'bold'}}>{letter}</div>
+            <Badge className="mt-1 p-auto" bg="white" text="black"><div style={{fontSize: '0.75rem' , fontWeight: 'bold', color: color}}>{value}</div></Badge>
+        </Badge>
+    );
 }
 
 const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage}) {
     console.log("BoostTable")
     return (
         <Container className="ps-0 pe-0">
-             <Card className="mb-3">
-                <Card.Body>
-                    <WCDRow setBoostDamage={setBoostDamage} boostDamage={boostDamage}></WCDRow>
-
-                </Card.Body>
-            </Card>
-
             <Card className="mb-3">
                 <Card.Header className='ps-3'>
-                    <OverlayTrigger rootClose='true' trigger="click" placement="right" overlay={popover}>
-                        <Badge className='ms-0' bg="danger" pill>?</Badge>
-                    </OverlayTrigger>
+                    <div className="d-flex justify-content-center">
+                        {getStatBadge("strength", boostDamage.special.strength)}
+                        {getStatBadge("perception", boostDamage.special.perception)}
+                        {getStatBadge("endurance", boostDamage.special.endurance)}
+                        {getStatBadge("charisma", boostDamage.special.charisma)}
+                        {getStatBadge("intelligence", boostDamage.special.intelligence)}
+                        {getStatBadge("agility", boostDamage.special.agility)}
+                        {getStatBadge("luck", boostDamage.special.luck)}
+                    </div>
                 </Card.Header>
                 <Card.Body>
                     <Container>
-                        <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow1>
-                        <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow2>
-                        <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow3>
-                        <BRow4 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow4>
-                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player}></BRow5>
-                        <BRow6 setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BRow6>
+                        <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow1>
+                        <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow2>
+                        <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow3>
+                        <BRow4 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow4>
+                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow5>
+                        <BRow6 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow6>
                         <BRow7 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow7>
+                        <BRow8 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow8>
+                        <BRow9 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow9>
+                        <BRow10 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow10>
                     </Container>
                 </Card.Body>
-                <Card.Footer className="text-center">
-                    <div class="flex justify-content-center">
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total BDB: {bdb_cards(boostDamage).toFixed(0)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total TDB: {tdb_cards(boostDamage).toFixed(0)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total AA: {aa_cards(boostDamage)[0].toFixed(0)}%</Badge>
-                        <Badge className="ms-2 me-2" bg="dark" pill="true">Total SBDB: {sbdb_cards(boostDamage).toFixed(0)}%</Badge>
-                     </div>
-                </Card.Footer>
             </Card>
+            <Card.Footer>
+                <OverlayTrigger rootClose='true' trigger="click" placement="right" overlay={popover}>
+                    <Badge className='ms-3 mt-0 mb-0 p-auto' bg="danger" pill>?</Badge>
+                </OverlayTrigger>
+            </Card.Footer>
         </Container>
     );
 });

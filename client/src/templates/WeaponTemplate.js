@@ -167,8 +167,8 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐲", template.cd[1].toFixed(2))}
-                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "-", "-", "🩸", template.bleed[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐵", template.cd[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "🌪️", template.bash[1].toFixed(2), "🩸", template.bleed[1].toFixed(2))}
                             </Row>
                         </Col>
                     </Row>

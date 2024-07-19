@@ -79,9 +79,9 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                 <Col>
                                     {row("💪 Strength:", strength, "default", "default")}
                                     {row("🛡️ Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
-                                    {row("SB Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
+                                    {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
                                     {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
-                                    {row("U Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
+                                    {row("Ultracite Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
                                     {row("Average:", millisToTime(item.averageTime), "blue", "blue")}
                                 </Col>
                             </Row>

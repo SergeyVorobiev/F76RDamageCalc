@@ -15,7 +15,7 @@ export function defaultResultDamage() {
         pAA: 0.0,
         cAA: 0.0,
         rAA: 0.0,
-
+        resultArmor: new Map(),
         bExpDamage: 0.0,
         eExpDamage: 0.0,
         bExpCrit: 0.0,

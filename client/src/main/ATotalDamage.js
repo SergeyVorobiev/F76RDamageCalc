@@ -36,7 +36,6 @@ function help() {
                 <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
                 <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
                 <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
-                <p class="m-1">🐵, 🐲, 👹, 🐗 are used if your weapon has additional damage to a creature (like prime receiver +65%).</p>
                 <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
                 but you will see its actual rad resistance from the game files, therefore calculations for rads weapon will be incorrect.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
@@ -65,6 +64,10 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
         addExpCritDamageInfo += " (" + (creature.critExplosiveDamage / resultDamage.shotSize).toFixed(1) + " x " + resultDamage.shotSize + ")";
     }
     let addHeadShot = "(" + (creature.normalDamage * creature.headShot).toFixed(1) + " / " + (creature.critNormalDamage * creature.headShot).toFixed(1) + ")";
+    let armor = resultDamage.resultArmor.get(creature.name);
+    if (!armor) {
+        armor = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
+    }
     return (
         <Popover style={{ width: '21rem' }} id="popover-basic" class="popover">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
@@ -79,12 +82,12 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                 </Stack>
                 <Divider className='p-0 m-0'>v</Divider>
                 <Stack  className='pt-0 pb-2' direction="horizontal" gap={1}>
-                    <span style={{ width: '3rem' }} className="badge bg-ballistic">{(creature.b * (1 - resultDamage.bAA)).toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-energy">{(creature.e * (1 - resultDamage.eAA)).toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-fire">{(creature.f * (1 - resultDamage.fAA)).toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-poison">{(creature.p * (1 - resultDamage.pAA)).toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-cold">{(creature.c * (1 - resultDamage.cAA)).toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-rad">{(creature.r * (1 - resultDamage.rAA)).toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-ballistic">{armor[0].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-energy">{armor[1].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-fire">{armor[2].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-poison">{armor[3].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-cold">{armor[4].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-rad">{armor[5].toFixed(1)}</span>
                 </Stack>
                 <Stack  className='pb-0' direction="vertical" gap={0}>
                     {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
@@ -233,19 +236,15 @@ export default class ATotalDamage extends React.PureComponent {
     }
 
     enemy(creature, creatureIcon, updateCreatures, resultDamage, legendary, dropdown=false) {
-        function checkDC(e) {
-            creature.damageToCreature = e.target.checked;
-            updateCreatures();
-        }
         return (
             <Card className='pt-0 mt-0 mb-2'>
                 <Card.Header className='pt-0 pb-0'>
                     {this.enemyDropdowns(dropdown, creature.name, creature.level, this.props.mapCreatures.names, this.props.mapCreatures.levels)}
                 </Card.Header>
                 <Stack  className='ps-1 pe-1' direction="horizontal" gap={1}>
-                    <Checkbox onChange={checkDC} checked={creature.damageToCreature}><strong>{creatureIcon}</strong></Checkbox>
-                    {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '6rem', tAmmo("0.7rem"), creature.ammo)}
+                    {keyValueBadge("mt-1 mb-1 badge ms-auto me-auto bg-health", '5.5rem', '❤️', creature.h)}
 
+                    {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '5.5rem', tAmmo("0.7rem"), creature.ammo)}
                     <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">Life ⌛: {millisToTime(creature.lifeTime)}</span>
                     <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
