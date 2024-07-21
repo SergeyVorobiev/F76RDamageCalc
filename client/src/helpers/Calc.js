@@ -6,7 +6,7 @@ import { creatureTypes } from "../creature/CreatureTypes";
 export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage, stuffBoost, playerStats) {
     const strength = calcStrength(playerStats, stuffBoost, wSpec);
     const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength);
-    const sneak = calcSneak(damage, boost, legendary, additionalDamage, wSpec);
+    const sneak = calcSneak(damage, boost, legendary, additionalDamage, wSpec, stuffBoost);
     const crit = calcCrit(damage, boost, additionalDamage, wSpec, stuffBoost);
     const tdBoost = getTDBoost(boost, additionalDamage);
     const [exp, expT, bExp, eExp] = getExplosives(damage, boost, legendary, bdBoost, tdBoost, wSpec);
@@ -32,7 +32,7 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
     const tDamage = bDamage / shots + eDamage / shots + fDamage / shots + pDamage / shots + cDamage / shots + rDamage / shots + bExp + eExp;
     const displayedCrit = tDamage + crit[0] / shots + crit[1] / shots + crit[2] / shots + crit[3] / shots + crit[4] / shots + crit[5] / shots + bExpCrit + eExpCrit;
     const displayedSneak = sneak.reduce((a, b) => a + b);
-    const armors = aa_cards(boost, legendary, wSpec.aa, wSpec.type);
+    const armors = aa_cards(boost, wSpec, stuffBoost, legendary, wSpec.aa, wSpec.type);
 
     const ammoCapacity = calcAmmo(wSpec, boost, legendary, stuffBoost);
     const reloadTime = calcReload(additionalDamage, boost, wSpec, stuffBoost);
@@ -404,14 +404,15 @@ function getTDBoost(boost, additionalDamage) {
     return result;
 }
 
-function calcSneak(damage, boost, legendary, additionalDamage, wSpec) {
+function calcSneak(damage, boost, legendary, additionalDamage, wSpec, stuffBoost) {
     let sneak = (boost.covert_operative.displayed_value > 0) ? (boost.covert_operative.displayed_value - 1.0) : 1.0;
     const sandman = boost.mister_sandman.displayed_value / 100.0;
     const ninja = (wSpec.type === "Melee") ? boost.ninja.displayed_value / 100.0 : 0.0;
     const follow = boost.follow_through.displayed_value / 100.0;
     const add = (additionalDamage.sneak.is_used) ? additionalDamage.sneak.value / 100.0 : 0.0;
     const weaponSneak = wSpec.sneak / 100.0;
-    const total = sandman + ninja + follow + add + weaponSneak;
+    const stuffSneak = (collectStuffBoost(stuffBoost.weapon, wSpec, "Sneak") / 100.0);
+    const total = sandman + ninja + follow + add + weaponSneak + stuffSneak;
     const bSneak = damage.ballistic.used_damage * sneak + damage.ballistic.used_damage * total;
     const eSneak = damage.energy.used_damage * sneak + damage.energy.used_damage * total;
     const fSneak = damage.fire.used_damage * sneak + damage.fire.used_damage * total;
@@ -525,7 +526,7 @@ function collectStuffBoost(stuffBoosts, wSpec, property, listener) {
         let satisfyNameOrType = true;
         if (maxItem.name) {
             satisfyNameOrType = maxItem.name.split(",").includes(wSpec.defaultName);
-        } else if (value.type) {
+        } else if (maxItem.type) {
             satisfyNameOrType = maxItem.type.split(",").includes(wSpec.type);
         }
         let additional = [];
@@ -597,12 +598,18 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, stren
     const strengthBoost = wSpec.strength_boost / 100.0;
     const melee = strength * strengthBoost;
     result = 1 + result / 100.0 + melee;
-    const bResult = (additionalDamage.ballisticBDB.is_used) ? (additionalDamage.ballisticBDB.value / 100.0) : 0.0;
-    const eResult = (additionalDamage.energyBDB.is_used) ? (additionalDamage.energyBDB.value / 100.0) : 0.0;
-    const fResult = (additionalDamage.fireBDB.is_used) ? (additionalDamage.fireBDB.value / 100.0) : 0.0;
-    const pResult = (additionalDamage.poisonBDB.is_used) ? (additionalDamage.poisonBDB.value / 100.0) : 0.0;
-    const cResult = (additionalDamage.coldBDB.is_used) ? (additionalDamage.coldBDB.value / 100.0) : 0.0;
-    const rResult = (additionalDamage.radBDB.is_used) ? (additionalDamage.radBDB.value / 100.0) : 0.0;
+    let bResult = (additionalDamage.ballisticBDB.is_used) ? (additionalDamage.ballisticBDB.value / 100.0) : 0.0;
+    let eResult = (additionalDamage.energyBDB.is_used) ? (additionalDamage.energyBDB.value / 100.0) : 0.0;
+    let fResult = (additionalDamage.fireBDB.is_used) ? (additionalDamage.fireBDB.value / 100.0) : 0.0;
+    let pResult = (additionalDamage.poisonBDB.is_used) ? (additionalDamage.poisonBDB.value / 100.0) : 0.0;
+    let cResult = (additionalDamage.coldBDB.is_used) ? (additionalDamage.coldBDB.value / 100.0) : 0.0;
+    let rResult = (additionalDamage.radBDB.is_used) ? (additionalDamage.radBDB.value / 100.0) : 0.0;
+    bResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "BBDB") / 100.0);
+    eResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "EBDB") / 100.0);
+    fResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "FBDB") / 100.0);
+    pResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "PBDB") / 100.0);
+    cResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "CBDB") / 100.0);
+    rResult += (collectStuffBoost(stuffBoost.weapon, wSpec, "RBDB") / 100.0);
     let science = boost.science.displayed_value / 100.0;
     if (wSpec.type === "Heavy") {
         science = 0.0;
@@ -610,8 +617,8 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, stren
     return [result + bResult, result + science + eResult, result + fResult, result + pResult, result + cResult, result + rResult];
 }
 
-// Applies all possible Anti Armor effects
-export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="All") {
+// Applies all possible Anti Armor effects (for all creatures)
+export function aa_cards(boostDamage, wSpec, stuffBoost, legendary, weaponAA=0.0, weaponType="All") {
     let aa = 1.0
     if (legendary != null) {
         aa = 1 - ((legendary.antiarmor.is_used) ? legendary.antiarmor.value / 100.0 : 0.0);
@@ -634,7 +641,9 @@ export function aa_cards(boostDamage, legendary=null, weaponAA=0.0, weaponType="
     if (weaponType === "All" || weaponType === "Heavy") {
         stabilized = 1 - boostDamage.stabilized.displayed_value / 100.0;
     }
-    const result1 = (100 * (1 - incisor * bow_before_me * tank_killer * stabilized * aa));
+    let bMult = 1;
+    collectStuffBoost(stuffBoost.weapon, wSpec, "BAA", (value) => bMult *= (1 - value / 100.0));
+    const result1 = (100 * (1 - bMult * incisor * bow_before_me * tank_killer * stabilized * aa));
     const result2 = (100 * (1 - incisor * bow_before_me * tank_killer * stabilized * aa));
     const resultAll = [result1, result2, result2, result2, result2, result2];
     return resultAll;

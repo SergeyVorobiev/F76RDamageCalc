@@ -36,5 +36,386 @@
         "description": "Strength"
       }
     ]
+  },
+  {
+    "name": "Beer",
+    "imName": "beer",
+    "id": "beer_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Blackwater Brew",
+    "imName": "blackwater_brew",
+    "id": "blackwater_brew_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Bourbon",
+    "imName": "bourbon",
+    "id": "bourbon_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Chally's Milk",
+    "imName": "chally_milk",
+    "id": "chally_milk_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Cranberry Moonshine",
+    "imName": "cranberry_moonshine",
+    "id": "cranberry_moonshine_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Firecracker Berry Juice",
+    "imName": "firecracker_berry_juice",
+    "id": "firecracker_berry_juice_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_crit",
+        "category": "weapon",
+        "property": "Crit",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Crit"
+      }
+    ]
+  },
+  {
+    "name": "Liquid Courage",
+    "imName": "liquid_courage",
+    "id": "liquid_courage_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Mountain Honey",
+    "imName": "mountain_honey",
+    "id": "mountain_honey_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "New River Red Ale",
+    "imName": "new_river_red_ale",
+    "id": "new_river_red_ale_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Nuka Cola Dark",
+    "imName": "nuka_cola_dark",
+    "id": "nuka_cola_dark_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Oak Holler Lager",
+    "imName": "oak_holler_lager",
+    "id": "oak_holler_lager_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Old Possum",
+    "imName": "old_possum",
+    "id": "old_possum_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Pickaxe Pilsner",
+    "imName": "pickaxe_pilsner",
+    "id": "pickaxe_pilsner_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Rum",
+    "imName": "rum",
+    "id": "rum_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Simple Fern Flower Tea",
+    "imName": "fern_flower_tea",
+    "id": "simple_fern_flower_tea_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Steeped Fern Flower Tea",
+    "imName": "steeped_fern_flower_tea",
+    "id": "steeped_fern_flower_tea_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Steeped Thistle Tea",
+    "imName": "steeped_thistle_tea",
+    "id": "steeped_thistle_tea_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_crit",
+        "category": "weapon",
+        "property": "Crit",
+        "value": 50,
+        "valueType": "percent",
+        "description": "Crit"
+      }
+    ]
+  },
+  {
+    "name": "Sweet Mut Fruit",
+    "imName": "sweetmutfruit",
+    "id": "sweetmutfruit_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_crit",
+        "category": "weapon",
+        "property": "Crit",
+        "value": 50,
+        "valueType": "percent",
+        "description": "Crit"
+      }
+    ]
+  },
+  {
+    "name": "Wine",
+    "imName": "wine",
+    "id": "wine_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Ballistic Bock",
+    "imName": "beer",
+    "id": "ballistic_bock_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "category": "weapon",
+        "property": "BBDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "BBDB"
+      }
+    ]
+  },
+  {
+    "name": "High Voltage Hefe",
+    "imName": "beer",
+    "id": "high_voltage_hefe_drink",
+    "type": "drink",
+    "used": false,
+    "boosts": [
+      {
+        "category": "weapon",
+        "property": "EBDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "EBDB"
+      }
+    ]
   }
 ]

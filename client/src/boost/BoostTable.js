@@ -8,7 +8,7 @@ import { memo } from 'react';
 
 
 const popover = (
-    <Popover style={{width: '19rem'}} id="popover-basic">
+    <Popover className="popover-adjustable">
         <Popover.Header as="h3">Perks</Popover.Header>
         <Popover.Body>
             'Incisor' is applied to 'All / Melee / Unarmed' weapon's type.
@@ -63,7 +63,7 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
                 </Card.Body>
             </Card>
             <Card.Footer>
-                <OverlayTrigger rootClose='true' trigger="click" placement="right" overlay={popover}>
+                <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={popover}>
                     <Badge className='ms-3 mt-0 mb-0 p-auto' bg="danger" pill>?</Badge>
                 </OverlayTrigger>
             </Card.Footer>

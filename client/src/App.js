@@ -33,6 +33,7 @@ import foodD from './resources/boostStuff/food/food.json';
 import drinkD from './resources/boostStuff/drink/drink.json';
 import psychoM from './resources/boostStuff/psycho/psycho.json';
 import serumS from './resources/boostStuff/serums/serum.json';
+import othersL from './resources/boostStuff/others/others.json';
 
 
 const defaultPlayerStats = {
@@ -114,6 +115,8 @@ export default function MyApp() {
 
     const [serum, setSerum] = useState(serumS);
 
+    const [others, setOthers] = useState(othersL);
+
     const [foodPref, setFoodPref] = useState({carnivore: false, herbivore: false});
 
     useEffect(() => {
@@ -123,6 +126,7 @@ export default function MyApp() {
         prepareItems(drinkD);
         prepareItems(psychoM);
         prepareItems(serumS);
+        prepareItems(othersL);
         readCreaturesFromFile(mapCreatures, setMapCreatures);
     }, []);
 
@@ -157,7 +161,8 @@ export default function MyApp() {
         prepareItems(drinkD, setStuff);
         prepareItems(psychoM, setStuff);
         prepareItems(serumS, setStuff);
-        const allStuffBoosts = loadBoosts(magaz, bobble, foodD, drinkD, psychoM, serumS, foodPref, cPlayer);
+        prepareItems(othersL, setStuff);
+        const allStuffBoosts = loadBoosts(magaz, bobble, foodD, drinkD, psychoM, serumS, othersL, foodPref, cPlayer);
         setStuffBoost(allStuffBoosts);
         setCreatures({...creatures})
     }
@@ -183,11 +188,11 @@ export default function MyApp() {
                         <Creature creatures={creatures} setCreatures={setCreatures}></Creature>
                     </Accordion>
                 </Tab>
-                <Tab eventKey="Templates" title="Templates">
+                <Tab eventKey="Templates" title="Weapons">
                     <WeaponTemplates setWeaponName={setWeaponName} setDamage={setDamage} setWSpec={setWSpec}></WeaponTemplates>
                 </Tab>
                 <Tab eventKey="Boosts" title="Boosts">
-                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} legendary={legendary} setLegendary={setLegendary} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></BoostStuff>
+                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} legendary={legendary} setLegendary={setLegendary} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></BoostStuff>
                 </Tab>
                 <Tab eventKey="Snapshots" title="Snapshots">
                      <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={weaponName} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>

@@ -68,7 +68,7 @@ export function applyBoost(foodPref, item, stuffBoost, player, anyway) {
     return result;
 }
 
-export function loadBoosts(magazines, bobbles, food, drink, psycho, serums, foodPref, player) {
+export function loadBoosts(magazines, bobbles, food, drink, psycho, serums, others, foodPref, player) {
     const stuffBoost = {
         creature: new Map(),
         weapon: new Map(),
@@ -79,6 +79,7 @@ export function loadBoosts(magazines, bobbles, food, drink, psycho, serums, food
     applyAllStuff(foodPref, drink, stuffBoost, player);
     applyAllStuff(foodPref, psycho, stuffBoost, player);
     applyAllStuff(foodPref, serums, stuffBoost, player);
+    applyAllStuff(foodPref, others, stuffBoost, player);
     return stuffBoost;
 }
 

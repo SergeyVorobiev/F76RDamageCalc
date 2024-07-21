@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Endangerol Syringer",
+    "imName": "syringer",
+    "id": "syringer_other",
+    "type": "weapon",
+    "used": false,
+    "boosts": [
+      {
+        "category": "weapon",
+        "property": "BAA",
+        "value": 25,
+        "valueType": "percent",
+        "description": "BAA"
+      }
+    ]
+  }
+]
