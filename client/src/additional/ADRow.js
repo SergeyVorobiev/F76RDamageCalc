@@ -11,12 +11,13 @@ import Popover from 'react-bootstrap/Popover';
 
 function buildPopover(text) {
     return (
-    <Popover id="popover-basic" class="popover">
-        <Popover.Header as="h3"><strong>Why?</strong></Popover.Header>
-        <Popover.Body class="my-popover m-2">
-            {text}
-        </Popover.Body>
-    </Popover>);
+        <Popover className="popover-adjustable">
+            <Popover.Header as="h3"><strong>Why?</strong></Popover.Header>
+            <Popover.Body>
+                {text}
+            </Popover.Body>
+        </Popover>
+    );
 }
 
 function qa(text) {

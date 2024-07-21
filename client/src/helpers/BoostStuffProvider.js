@@ -16,6 +16,14 @@ const psychoList = psychos.keys().map(psycho => psychos(psycho));
 const serums = require.context('../resources/boostStuff/serums', true, /\.png/);
 const serumList = serums.keys().map(serum => serums(serum));
 
+const others = require.context('../resources/boostStuff/others', true, /\.png/);
+const othersList = others.keys().map(other => others(other));
+
+
+export function getOther(name) {
+    return getItem(name, othersList);
+}
+
 export function getBobbleHead(name) {
     return getItem(name, bobbleHeadsList);
 }

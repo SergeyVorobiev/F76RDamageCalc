@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 
 function buildPopover(text) {
     return (
-    <Popover id="popover-basic" class="popover">
+    <Popover className="popover-adjustable">
         <Popover.Header as="h3"><strong>How?</strong></Popover.Header>
         <Popover.Body class="my-popover m-2">
             {text}
@@ -51,19 +51,19 @@ function LegRow({marks, perk, setLegendary, legendary, answer=null, disabled=fal
     }
     const width = (answer) ? "8rem" : "10rem";
     return (
-            <Row>
-                <Card className="mb-2 pt-2 pb-2 ps-3 pe-3">
-                <Col>
-                    <InputGroup className="mb-1">
-                        <InputGroup.Text style={{ width: width }} >
-                            <Radio onChange={onChange} checked={perk.is_used}><strong>{perk.name}</strong></Radio>
-                        </InputGroup.Text>
-                        {qa(answer)}
-                    </InputGroup>
-                    <Slider disabled={disabled} open={true} onChange={slideFinished} marks={marks} min={perk.min} max={perk.max} step={perk.step} value={perk.value} />
-                </Col>
-                </Card>
-            </Row>
+        <Row>
+            <Card className="mb-2 pt-2 pb-2 ps-3 pe-3">
+            <Col>
+                <InputGroup className="mb-1">
+                    <InputGroup.Text style={{ width: width }} >
+                        <Radio onChange={onChange} checked={perk.is_used}><strong>{perk.name}</strong></Radio>
+                    </InputGroup.Text>
+                    {qa(answer)}
+                </InputGroup>
+                <Slider disabled={disabled} open={true} onChange={slideFinished} marks={marks} min={perk.min} max={perk.max} step={perk.step} value={perk.value} />
+            </Col>
+            </Card>
+        </Row>
     );
 }
 

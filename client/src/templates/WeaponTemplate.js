@@ -31,9 +31,9 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
         return (
             <div class="col d-flex justify-content-center">
                 <Stack className='pb-1' direction="horizontal" gap={1}>
-                    {keyValueBadge(style, '7rem', left1,  right1)}
-                    {keyValueBadge(style, '7rem', left2,  right2)}
-                    {keyValueBadge(style, '7rem', left3,  right3)}
+                    {keyValueBadge(style, '6.5rem', left1,  right1)}
+                    {keyValueBadge(style, '6.5rem', left2,  right2)}
+                    {keyValueBadge(style, '6.5rem', left3,  right3)}
                 </Stack>
             </div>
         );

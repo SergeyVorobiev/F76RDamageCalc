@@ -1,12 +1,13 @@
 [
   {
     "name": "Psychobuff",
-    "imName": "psychobuff",
+    "imName": "psycho",
     "id": "psychobuff_psycho",
     "type": "psycho",
     "used": false,
     "boosts": [
       {
+        "id": "psycho_bdb",
         "category": "weapon",
         "value": 25,
         "valueType": "percent",
@@ -14,11 +15,185 @@
         "description": "Damage"
       },
       {
+        "id": "psycho_strength",
         "category": "weapon",
         "property": "Strength",
         "value": 3,
         "valueType": "number",
         "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Overdrive",
+    "imName": "psycho",
+    "id": "overdrive_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+
+        "description": "Damage"
+      },
+      {
+        "id": "psycho_crit",
+        "category": "weapon",
+        "property": "Crit",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Crit"
+      }
+    ]
+  },
+  {
+    "name": "Psycho",
+    "imName": "psycho",
+    "id": "psycho_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+
+        "description": "Damage"
+      }
+    ]
+  },
+  {
+    "name": "Super Chem MK1",
+    "imName": "psycho",
+    "id": "super_chem_mk1_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "value": 30,
+        "valueType": "percent",
+        "property": "BDB",
+        "description": "Melee"
+      },
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Calmex",
+    "imName": "calmex",
+    "id": "calmex_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_sneak",
+        "category": "weapon",
+        "property": "Sneak",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Sneak"
+      }
+    ]
+  },
+  {
+    "name": "Buffout",
+    "imName": "buffout",
+    "id": "buffout_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Bufftats",
+    "imName": "bufftats",
+    "id": "bufftats_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 3,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "X-Cell",
+    "imName": "x_cell",
+    "id": "x_cell_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "All"
+      }
+    ]
+  },
+  {
+    "name": "Fury",
+    "imName": "psycho",
+    "id": "fury_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "property": "BDB",
+        "value": 30,
+        "valueType": "percent",
+        "description": "Melee"
+      }
+    ]
+  },
+  {
+    "name": "Nuclear Don's blend",
+    "imName": "psycho",
+    "id": "nuclear_don_blend_psycho",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Damage"
       }
     ]
   }

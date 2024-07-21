@@ -52,7 +52,7 @@ export const functions = {
         const mult = getStrangeMult(player);
         return mult * defValue;
     },
-    tastyMutantHoundStew: (player, defValue, foodPref, foodType) => {
+    foodCalc: (player, defValue, foodPref, foodType) => {
         if ((foodType === "Meet" && foodPref.herbivore) || (foodType === "Plant" && foodPref.carnivore)) {
             return 0;
         }

@@ -42,7 +42,7 @@
     "boosts": [
       {
         "category": "weapon",
-        "type": "Energy",
+        "tag": "Energy",
         "property": "BDB",
         "value": 25,
         "valueType": "percent",

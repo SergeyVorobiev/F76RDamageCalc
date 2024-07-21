@@ -28,11 +28,12 @@ const { Chart } = await import('chart.js/auto');
 
 const colors = getColorsForHotMeter();
 
+
 function help() {
     return (
-        <Popover style={{ width: '20rem' }} id="popover-basic" class="popover" >
+        <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
-            <Popover.Body class="my-popover ms-2 me-2">
+                <Popover.Body class="my-popover ms-2 me-2">
                 <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
                 <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
                 <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
@@ -69,7 +70,7 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
         armor = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
     }
     return (
-        <Popover style={{ width: '21rem' }} id="popover-basic" class="popover">
+        <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
             <Popover.Body className="my-popover ms-1 me-1">
                 <Stack  className='pt-2 pb-0' direction="horizontal" gap={1}>
@@ -237,16 +238,15 @@ export default class ATotalDamage extends React.PureComponent {
 
     enemy(creature, creatureIcon, updateCreatures, resultDamage, legendary, dropdown=false) {
         return (
-            <Card className='pt-0 mt-0 mb-2'>
+            <Card className='pt-0 mt-0 mb-1'>
                 <Card.Header className='pt-0 pb-0'>
                     {this.enemyDropdowns(dropdown, creature.name, creature.level, this.props.mapCreatures.names, this.props.mapCreatures.levels)}
                 </Card.Header>
-                <Stack  className='ps-1 pe-1' direction="horizontal" gap={1}>
+                <Stack className='ps-1 pe-1' direction="horizontal" gap={1}>
                     {keyValueBadge("mt-1 mb-1 badge ms-auto me-auto bg-health", '5.5rem', '❤️', creature.h)}
-
                     {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '5.5rem', tAmmo("0.7rem"), creature.ammo)}
-                    <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">Life ⌛: {millisToTime(creature.lifeTime)}</span>
-                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
+                    <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">⌛ {millisToTime(creature.lifeTime)}</span>
+                    <OverlayTrigger rootClose='true' trigger="click" placement="bottom" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
                     </OverlayTrigger>
                 </Stack>
@@ -259,18 +259,16 @@ export default class ATotalDamage extends React.PureComponent {
             <div>
                 <div class="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
-                        {keyValueBadge(style, '7rem', label + " D", damage.toFixed(1))}
-                        {keyValueBadge(style, '7rem', "🛡️ A", (aa * 100.0).toFixed(1))}
-                        {keyValueBadge(style, '7rem', "🐍 S", sneak.toFixed(1))}
-
+                        {keyValueBadge(style, '6.5rem', label + " D", damage.toFixed(1))}
+                        {keyValueBadge(style, '6.5rem', "🛡️ A", (aa * 100.0).toFixed(1))}
+                        {keyValueBadge(style, '6.5rem', "🐍 S", sneak.toFixed(1))}
                     </Stack>
                 </div>
                 <div class="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
-                        {keyValueBadge(style, '7rem', "☠️ C", crit.toFixed(1))}
-                        {keyValueBadge(style, '7rem', "💣 E", exp.toFixed(1))}
-                        {keyValueBadge(style, '7rem', "💣☠️", (exp + expCrit).toFixed(1))}
-
+                        {keyValueBadge(style, '6.5rem', "☠️ C", crit.toFixed(1))}
+                        {keyValueBadge(style, '6.5rem', "💣 E", exp.toFixed(1))}
+                        {keyValueBadge(style, '6.5rem', "💣☠️", (exp + expCrit).toFixed(1))}
                     </Stack>
                 </div>
             </div>
@@ -339,12 +337,13 @@ export default class ATotalDamage extends React.PureComponent {
     }
 
     render() {
+        const mWidth = "21rem";
         console.log("ATotalDamage");
         const damage = this.props.resultDamage.tDamage.toFixed(1) + " x " + this.props.resultDamage.shotSize;
         const fireRateText = this.props.resultDamage.fireRate.toFixed(0) + " - " + (this.props.resultDamage.fireRate / 10.0).toFixed(2) + " shots / sec";
         const percentC = getHotPercentage(this.props.creatures);
         return (
-        <Card style={{ minWidth: '24rem'}} className="d-flex justify-content-center text-center mb-0">
+        <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
             <Card.Header>
                 <Row>
                 <Col className="col-2 d-flex justify-content-start">
@@ -360,27 +359,25 @@ export default class ATotalDamage extends React.PureComponent {
             <Card.Body className="pt-2">
                 <Row>
                     <div class="col d-flex justify-content-center mb-2">
-                        <Card style={{ minWidth: '24rem', maxWidth: '28rem'}}>
+                        <Card className="main-display-adjustable">
                             <Card.Header className="pe-0 ps-0">
                                 <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
-
                                     <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
                                     <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
                                     <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
-                                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
+                                    <OverlayTrigger rootClose='true' trigger="click" placement="bottom" overlay={help()}>
                                         <Badge bg="info">?</Badge>
                                     </OverlayTrigger>
                                 </Stack>
                             </Card.Header>
                             <Card.Body className="pt-0 pb-0">
-                                    {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
-                                    {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
-                                    {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
-                                    {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
-                                    {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
-                                    {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
+                                {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
+                                {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
+                                {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                                {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
+                                {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                             </Card.Body>
-
                             <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
                                 <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>
                                 <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: 1 / {this.props.extraDamage.headFreq}</strong></Button>
@@ -388,7 +385,7 @@ export default class ATotalDamage extends React.PureComponent {
                         </Card>
                     </div>
                     <div class="col d-flex justify-content-center mb-2">
-                        <Card className="pb-4" style={{ maxWidth: '28rem', minWidth: '24rem', maxHeight: '17rem' }}>
+                        <Card className="main-display-adjustable">
                             <Card.Header>
                                 <span className="d-flex m-0 p-0 w-100">
                                     <div class="m-auto p-0 w-100 d-flex justify-content-start">
@@ -417,14 +414,14 @@ export default class ATotalDamage extends React.PureComponent {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div class="col d-flex justify-content-center">
-                        <Card style={{ minWidth: '24rem', maxWidth: '28rem', maxHeight: '17rem'}}>
-                        <Card.Body className="pt-2 pb-1 ps-1 pe-1">
-                            {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                            {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                            {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
-                            {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
-                        </Card.Body>
+                    <div class="col d-flex justify-content-center mb-2">
+                        <Card className="main-display-adjustable">
+                            <Card.Body className="pt-2 pb-1 ps-1 pe-1">
+                                {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage, this.props.legendary)}
+                                {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, this.props.legendary, true)}
+                            </Card.Body>
                         </Card>
                     </div>
                 </Row>
