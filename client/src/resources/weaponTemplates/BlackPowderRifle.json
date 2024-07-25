@@ -1,0 +1,168 @@
+[
+  {
+    "name": "Black Powder Rifle",
+    "type": "Rifle",
+    "tags": "Ballistic",
+    "level": 45,
+    "id": "00091bb4",
+    "bbDamage": [
+      180,
+      180
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      0,
+      0
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      8.000009536743164,
+      8.000009536743164
+    ],
+    "autoRate": [
+      0,
+      0
+    ],
+    "manualRate": [
+      0.0,
+      0.0
+    ],
+    "isAuto": [
+      0,
+      0
+    ],
+    "ammo": [
+      1,
+      1
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "00080df5",
+        [
+          "mod_BlackPowder_Rifle_Bayonet",
+          [
+            [
+              "0027ac11",
+              "MullAdd",
+              "SecondaryDamage",
+              "1.25",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]

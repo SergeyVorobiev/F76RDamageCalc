@@ -269,6 +269,9 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
                     ammo = parseInt(creature.h * 0.6 / shotDamage) + parseInt(creature.h * 0.4 / execDamage);
                     ammo *= (1 / accuracy)
                     ammo = parseInt(ammo)
+                    if (magazine === 0) {
+                        magazine = 1;
+                    }
                     reloads = parseInt(ammo / magazine);
                     totalReload = reloads * reloadTime;
                     lifeTime = ammo * fireTime + totalReload;
@@ -277,6 +280,9 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
                     ammo = parseInt(creature.h / shotDamage);
                     ammo *= (1 / accuracy)
                     ammo = parseInt(ammo)
+                    if (magazine === 0) {
+                        magazine = 1;
+                    }
                     reloads = parseInt(ammo / magazine);
                     totalReload = reloads * reloadTime;
                     lifeTime = ammo * fireTime + totalReload;

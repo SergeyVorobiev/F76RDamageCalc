@@ -1,0 +1,208 @@
+[
+  {
+    "name": "Single Action Revolver",
+    "type": "Pistol",
+    "tags": "Ballistic,Bullet",
+    "level": 50,
+    "id": "001c7a69",
+    "bbDamage": [
+      62,
+      62
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      0,
+      0
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      3.0000100135803223,
+      3.0000100135803223
+    ],
+    "autoRate": [
+      66.667,
+      66.667
+    ],
+    "manualRate": [
+      0.15000000596046448,
+      0.15000000596046448
+    ],
+    "isAuto": [
+      0,
+      0
+    ],
+    "ammo": [
+      6,
+      6
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "00685d55",
+        [
+          "mod_SingleActionRevolver_Receiver_AntiScorchBeast45",
+          [
+            [
+              "004709b1",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "00470a25",
+        [
+          "mod_SingleActionRevolver_Receiver_AntiScorchBeast",
+          [
+            [
+              "004709b1",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "0036c4b2",
+        [
+          "mod_SingleActionRevolver_Receiver_Fancy",
+          [
+            [
+              "0036c4b2",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.3",
+              "0.0",
+              0
+            ],
+            [
+              "0036c4b2",
+              "MullAdd",
+              "Speed",
+              "0.3",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]

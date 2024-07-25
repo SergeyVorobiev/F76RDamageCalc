@@ -92,24 +92,28 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
     let items = [];
     // All mods
     let k = 0;
-    for (let i = 0; i < template.mods.length; i++) {
-        const modsSameType = template.mods[i].categoryMods;
-        let children = [];
+    if (!template.unverified) {
+        for (let i = 0; i < template.mods.length; i++) {
+            const modsSameType = template.mods[i].categoryMods;
+            let children = [];
 
-        // Modes of one type
-        for (let j = 0; j < modsSameType.length; j++) {
-            const modSameType = modsSameType[j];
-            children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
-            k += 1;
+            // Modes of one type
+            for (let j = 0; j < modsSameType.length; j++) {
+                const modSameType = modsSameType[j];
+                children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
+                k += 1;
+            }
+            const item = {
+                    key: i,
+                    label: template.mods[i].categoryName,
+                    children: children,
+            }
+            items.push(item);
         }
-        const item = {
-                key: i,
-                label: template.mods[i].categoryName,
-                children: children,
-        }
-        items.push(item);
     }
-    if (items.length === 0) {
+    if (template.unverified) {
+        result.push(<div className="d-flex justify-content-center"><strong>No Mods Data</strong></div>);
+    } else if (items.length === 0) {
         result.push(<></>);
     } else {
         result.push(<Collapse items={items} />);

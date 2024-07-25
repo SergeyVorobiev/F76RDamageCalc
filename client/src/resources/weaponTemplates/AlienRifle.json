@@ -1,0 +1,320 @@
+[
+  {
+    "name": "Alien Rifle",
+    "type": "Rifle",
+    "tags": "Energy",
+    "level": 50,
+    "id": "0062fe8e",
+    "bbDamage": [
+      0,
+      0
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      40,
+      40
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      3.200010061264038,
+      3.200010061264038
+    ],
+    "autoRate": [
+      33.333,
+      33.333
+    ],
+    "manualRate": [
+      0.30000001192092896,
+      0.30000001192092896
+    ],
+    "isAuto": [
+      0,
+      0
+    ],
+    "ammo": [
+      25,
+      25
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "0062fe8d",
+        [
+          "mod_AlienRifle_Receiver_Automatic",
+          [
+            [
+              "0027ac20",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0027ac20",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac20",
+              "Add",
+              "DamageBonusMult",
+              "-0.1",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe8d",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.6",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe8d",
+              "MullAdd",
+              "DamageTypeValues",
+              "Energy",
+              "-0.15",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "0062fe8c",
+        [
+          "mod_AlienRifle_Receiver_Sniper",
+          [
+            [
+              "00312970",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.0",
+              "0.0",
+              -0.3
+            ],
+            [
+              "0062fe8c",
+              "MullAdd",
+              "Speed",
+              "-0.6",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe8c",
+              "MullAdd",
+              "AmmoCapacity",
+              "-0.5",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe8c",
+              "MullAdd",
+              "DamageTypeValues",
+              "Energy",
+              "1.1",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "0062fe8a",
+        [
+          "mod_AlienRifle_Receiver_Poison",
+          [
+            [
+              "00312970",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.0",
+              "0.0",
+              -0.3
+            ],
+            [
+              "0062fe8a",
+              "Set",
+              "DamageTypeValues",
+              "Poison",
+              "0.0",
+              10
+            ],
+            [
+              "0062fe8a",
+              "MullAdd",
+              "AttackDamage",
+              "-0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe8a",
+              "MullAdd",
+              "DamageTypeValues",
+              "Energy",
+              "-0.2",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "0062fe89",
+        [
+          "mod_AlienRifle_Receiver_Cryo",
+          [
+            [
+              "00312970",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.0",
+              "0.0",
+              -0.3
+            ],
+            [
+              "0062fe89",
+              "Set",
+              "DamageTypeValues",
+              "Cryo",
+              "18.0",
+              18
+            ],
+            [
+              "0062fe89",
+              "MullAdd",
+              "AttackDamage",
+              "-0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0062fe89",
+              "MullAdd",
+              "DamageTypeValues",
+              "Energy",
+              "-0.2",
+              0
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]

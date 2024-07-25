@@ -1,0 +1,360 @@
+[
+  {
+    "name": "Gatling Laser",
+    "type": "Heavy",
+    "tags": "Energy,FusionCore",
+    "level": 45,
+    "id": "000e27bc",
+    "bbDamage": [
+      0,
+      0
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      25,
+      25
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      4.8666768074035645,
+      4.8666768074035645
+    ],
+    "autoRate": [
+      182,
+      182
+    ],
+    "manualRate": [
+      0.15000000596046448,
+      0.15000000596046448
+    ],
+    "isAuto": [
+      1,
+      1
+    ],
+    "ammo": [
+      500,
+      500
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "00470a27",
+        [
+          "mod_Ultracite_GatlingLaser_receiver_AntiScorchBeast",
+          [
+            [
+              "004775b2",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "00470a15",
+        [
+          "mod_GatlingLaser_receiver_AntiScorchBeast",
+          [
+            [
+              "004775b2",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312af7",
+        [
+          "mod_GatlingLaser_Receiver_Burning-CritDMG",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ],
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b2f",
+        [
+          "mod_Ultracite_GatlingLaser_Receiver_Burning-HipAccuracy",
+          [
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b32",
+        [
+          "mod_Ultracite_GatlingLaser_Receiver_CritDMG-HipAccuracy",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b30",
+        [
+          "mod_Ultracite_GatlingLaser_Receiver_CritDMG",
+          [
+            [
+              "0027ac22",
+              "Add",
+              "CriticalDamageMult",
+              "1.0",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312aff",
+        [
+          "mod_GatlingLaser_Receiver_CritDMG",
+          [
+            [
+              "0027ac22",
+              "Add",
+              "CriticalDamageMult",
+              "1.0",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b2c",
+        [
+          "mod_Ultracite_GatlingLaser_Receiver_Burning",
+          [
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312af5",
+        [
+          "mod_GatlingLaser_Receiver_Burning_Base",
+          [
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b2e",
+        [
+          "mod_Ultracite_GatlingLaser_Receiver_Burning-CritDMG",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ],
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312af8",
+        [
+          "mod_GatlingLaser_Receiver_Burning-HipAccuracy",
+          [
+            [
+              "003d4e69",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.2",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00312b01",
+        [
+          "mod_GatlingLaser_Receiver_CritDMG-HipAccuracy",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]

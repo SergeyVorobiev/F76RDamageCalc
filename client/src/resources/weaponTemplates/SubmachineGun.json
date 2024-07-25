@@ -1,0 +1,408 @@
+[
+  {
+    "name": "Submachine Gun",
+    "type": "Rifle",
+    "tags": "Ballistic,Bullet",
+    "level": 45,
+    "id": "0015b043",
+    "bbDamage": [
+      29,
+      29
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      0,
+      0
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      3.2333433628082275,
+      3.2333433628082275
+    ],
+    "autoRate": [
+      66.667,
+      66.667
+    ],
+    "manualRate": [
+      0.15000000596046448,
+      0.15000000596046448
+    ],
+    "isAuto": [
+      1,
+      1
+    ],
+    "ammo": [
+      50,
+      50
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "006e2246",
+        [
+          "mod_Ranged_SubmachineGun_Custom_Cursed",
+          [
+            [
+              "006e2246",
+              "MullAdd",
+              "Speed",
+              "0.2",
+              "0.0",
+              0
+            ],
+            [
+              "006e2246",
+              "MullAdd",
+              "AttackDamage",
+              "0.15",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00470a26",
+        [
+          "mod_SubmachineGun_Receiver_AntiScorchBeast",
+          [
+            [
+              "0027ac20",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0027ac20",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac20",
+              "Add",
+              "DamageBonusMult",
+              "-0.1",
+              "0.0",
+              0
+            ],
+            [
+              "004709b1",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "003c3460",
+        [
+          "mod_SubmachineGun_Receiver_ScorchedKiller",
+          [
+            [
+              "006b90d2",
+              "MullAdd",
+              "AttackDamage",
+              "-0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac20",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0027ac20",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac20",
+              "Add",
+              "DamageBonusMult",
+              "-0.1",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "001b28fe",
+        [
+          "mod_SubmachineGun_Mag_MediumQuick",
+          [
+            [
+              "0052441b",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.3",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "001b28fd",
+        [
+          "mod_SubmachineGun_Mag_LargeQuick",
+          [
+            [
+              "0052440f",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.25",
+              "0.0",
+              0
+            ],
+            [
+              "0052441a",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.15",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "001b28f9",
+        [
+          "mod_SubmachineGun_Receiver_Automatic1_and_MoreDamage1",
+          [
+            [
+              "0052441e",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0052441e",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac25",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.125
+            ]
+          ]
+        ]
+      ],
+      [
+        "001b28f8",
+        [
+          "mod_SubmachineGun_Receiver_Automatic1_and_ArmorPiercing",
+          [
+            [
+              "0052441e",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0052441e",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "00188a59",
+        [
+          "mod_SubmachineGun_Mag_Large",
+          [
+            [
+              "00524410",
+              "MullAdd",
+              "ReloadSpeed",
+              "-0.2",
+              "0.0",
+              0
+            ],
+            [
+              "00524410",
+              "MullAdd",
+              "AmmoCapacity",
+              "0.5",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "0015b044",
+        [
+          "mod_SubmachineGun_Receiver_Automatic1",
+          [
+            [
+              "0027ac20",
+              "Set",
+              "IsAutomatic",
+              "1",
+              "1",
+              0
+            ],
+            [
+              "0027ac20",
+              "Set",
+              "Speed",
+              "0.825",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac20",
+              "Add",
+              "DamageBonusMult",
+              "-0.1",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]
