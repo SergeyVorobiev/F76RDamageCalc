@@ -10,7 +10,33 @@ import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
 import { useState } from 'react';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Badge from 'react-bootstrap/Badge';
 
+
+function buildWarning() {
+    return (
+        <Popover className="popover-adjustable">
+            <Popover.Header as="h3"><strong>Warning</strong></Popover.Header>
+            <Popover.Body>
+                The data of this weapon is auto-generated from game files. It could have mods, including default applied,
+                which are not yet verified to present. You can apply this weapon and adjust it manually under the 'Main' -> 'Weapon Specs' section.
+            </Popover.Body>
+        </Popover>
+    );
+}
+
+function noMods() {
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center"><strong>No Mods Data</strong></div>
+            <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildWarning()}>
+                <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
+            </OverlayTrigger>
+        </div>
+    );
+}
 
 export default function WeaponTemplate({template, setModalTemplate}) {
     console.log("WeaponTemplate: " + template.index);
@@ -115,7 +141,7 @@ export default function WeaponTemplate({template, setModalTemplate}) {
         }
     }
     if (template.unverified) {
-        result.push(<div className="d-flex justify-content-center"><strong>No Mods Data</strong></div>);
+        result.push(noMods());
     } else if (items.length === 0) {
         result.push(<></>);
     } else {

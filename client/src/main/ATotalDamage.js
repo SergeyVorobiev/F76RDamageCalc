@@ -246,7 +246,7 @@ export default class ATotalDamage extends React.PureComponent {
                     {keyValueBadge("mt-1 mb-1 badge ms-auto me-auto bg-health", '5.5rem', '❤️', creature.h)}
                     {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '5.5rem', tAmmo("0.7rem"), creature.ammo)}
                     <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">⌛ {millisToTime(creature.lifeTime)}</span>
-                    <OverlayTrigger rootClose='true' trigger="click" placement="bottom" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
+                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
                     </OverlayTrigger>
                 </Stack>

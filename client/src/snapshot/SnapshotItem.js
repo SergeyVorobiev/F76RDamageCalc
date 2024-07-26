@@ -97,16 +97,16 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                         <Button variant="white" className="m-auto ms-2 p-auto" size='sm'>{getImage(item.wSpec.type)}</Button>
                     </div>
                     <div className="col d-flex justify-content-end">
-                        <Button onClick={(e) => setModalDownloadSnapshot({id: item.id, name: item.name, show: true})} className="ms-1 me-2 pb-auto" size="sm">
+                        <Button onClick={(e) => setModalDownloadSnapshot({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
                             <UploadIcon />
                         </Button>
-                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} className="ms-1 me-2 pb-auto" size="sm">
+                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
                             <UpdateIcon />
                         </Button>
-                        <Button className="ms-1 me-2 pb-auto" size="sm" id={item.id} name={item.name} onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                        <Button className="ms-1 me-2 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-primary" onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
                             <PlayIcon />
                         </Button>
-                        <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                        <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-danger" onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
                             <TrashIcon />
                         </Button>
                     </div>
@@ -137,7 +137,7 @@ function headerBody(item, setModalRenameItem) {
                 </div>
                 <div class="col-1 d-flex p-2 justify-content-end">
                     <div className="m-auto me-1">
-                        <Button className="pb-1" id={item.id} onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
+                        <Button className="pb-1" id={item.id} variant="outline-dark" onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
                             <RenameIcon />
                         </Button>
                     </div>
