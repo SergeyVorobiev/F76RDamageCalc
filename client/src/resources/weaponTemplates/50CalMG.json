@@ -144,29 +144,11 @@
         "categoryName": "Receivers",
         "categoryMods": [
           {
-            "id": "",
+            "id": "00470a0b",
             "name": "Prime",
             "effects": [
-              [
-                "bbDamage",
-                0.25,
-                "bmDamage",
-                "mulAdd"
-              ],
-              [
-                "cd",
-                65,
-                "cd",
-                "set"
-              ],
-              [
-                "creatureType",
-                "Scorched",
-                "creatureType",
-                "set"
-              ]
+              "004709b1"
             ],
-
             "isUsed": false
           }
         ]
@@ -175,15 +157,10 @@
         "categoryName": "Barrels",
         "categoryMods": [
           {
-            "id": "",
+            "id": "0003a0bb",
             "name": "Heavy",
             "effects": [
-              [
-                "bbDamage",
-                0.125,
-                "bmDamage",
-                "mulAdd"
-              ]
+              "0027ac25"
             ],
             "isUsed": false
           }
