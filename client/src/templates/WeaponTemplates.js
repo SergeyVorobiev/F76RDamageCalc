@@ -8,6 +8,7 @@ import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
 import TemplateItems from './TemplateItems';
+import { FloatButton } from 'antd';
 
 
 function buildLicense() {
@@ -41,6 +42,7 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage,
             <Accordion class="accordion">
                 <TemplateItems weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
             </Accordion>
+            <FloatButton.BackTop style={{ right: 60 }} duration={100} visibilityHeight={2000} />
         </>
     );
 });
