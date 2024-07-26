@@ -68,7 +68,7 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
             return (<></>);
         }
         return (
-            <Button className="mb-2 me-0" onClick={() => setModalDeleteAll(true)}>
+            <Button variant="outline-danger" className="mb-2 me-0" onClick={() => setModalDeleteAll(true)}>
                 <TrashIcon/> All
             </Button>
         );
@@ -81,13 +81,13 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
         }
         if (isOpen) {
             return (
-                <Button className="ms-0 mb-2" onClick={onClickOpen}>
+                <Button variant="outline-primary" className="ms-0 mb-2" onClick={onClickOpen}>
                     <><CollapseIcon /> All</>
                 </Button>
             );
         } else {
             return (
-                <Button className="ms-0 mb-2" onClick={onClickOpen}>
+                <Button variant="outline-primary" className="ms-0 mb-2" onClick={onClickOpen}>
                     <><ExpandIcon /> All</>
                 </Button>
             );

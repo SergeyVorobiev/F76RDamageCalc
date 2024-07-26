@@ -86,7 +86,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
                 <Col>
                     <InputGroup className="mb-1">
                         <InputGroup.Text style={{ width: '2.5rem' }} >
-                            <Checkbox onChange={onChange} checked={isUsed} disabled={disabled} ></Checkbox>
+                            <Checkbox onChange={onChange} checked={isUsed} disabled={disabled}></Checkbox>
                         </InputGroup.Text>
                         <InputGroup.Text style={{ width: width }}>
                             <strong>{addIconName(additionalDamage.name)}</strong>

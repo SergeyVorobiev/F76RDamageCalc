@@ -9,10 +9,39 @@ import Button from 'react-bootstrap/Button';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
+import { useState } from 'react';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Badge from 'react-bootstrap/Badge';
 
 
-export default function WeaponTemplate({index, templates, setTemplates, setModalTemplate}) {
-    const template = templates[index];
+function buildWarning() {
+    return (
+        <Popover className="popover-adjustable">
+            <Popover.Header as="h3"><strong>Warning</strong></Popover.Header>
+            <Popover.Body>
+                The data of this weapon is auto-generated from game files. It could have mods, including default applied,
+                which are not yet verified to present. You can apply this weapon and adjust it manually under the 'Main' -> 'Weapon Specs' section.
+            </Popover.Body>
+        </Popover>
+    );
+}
+
+function noMods() {
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center"><strong>No Mods Data</strong></div>
+            <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildWarning()}>
+                <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
+            </OverlayTrigger>
+        </div>
+    );
+}
+
+export default function WeaponTemplate({template, setModalTemplate}) {
+    console.log("WeaponTemplate: " + template.index);
+    const [changed, setChanged] = useState(false);
+    const index = template.index;
     function modRow(modSameType, modsSameType, checkMod, bordered=true, colorNotUsed="default", colorUsed="purple") {
         const color = (modSameType.isUsed) ? colorUsed : colorNotUsed;
         return (
@@ -85,31 +114,35 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
             modSameType.isUsed = check;
             applyEffects(modSameType.effects, check);
         }
-        setTemplates([...templates]);
+        setChanged(!changed);
     }
 
     let result = [];
     let items = [];
     // All mods
     let k = 0;
-    for (let i = 0; i < template.mods.length; i++) {
-        const modsSameType = template.mods[i].categoryMods;
-        let children = [];
+    if (!template.unverified) {
+        for (let i = 0; i < template.mods.length; i++) {
+            const modsSameType = template.mods[i].categoryMods;
+            let children = [];
 
-        // Modes of one type
-        for (let j = 0; j < modsSameType.length; j++) {
-            const modSameType = modsSameType[j];
-            children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
-            k += 1;
+            // Modes of one type
+            for (let j = 0; j < modsSameType.length; j++) {
+                const modSameType = modsSameType[j];
+                children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
+                k += 1;
+            }
+            const item = {
+                    key: i,
+                    label: template.mods[i].categoryName,
+                    children: children,
+            }
+            items.push(item);
         }
-        const item = {
-                key: i,
-                label: template.mods[i].categoryName,
-                children: children,
-        }
-        items.push(item);
     }
-    if (items.length === 0) {
+    if (template.unverified) {
+        result.push(noMods());
+    } else if (items.length === 0) {
         result.push(<></>);
     } else {
         result.push(<Collapse items={items} />);
@@ -175,7 +208,7 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
                     <Divider className='mt-2 mb-2'></Divider>
                     {result}
                     <span className='d-flex justify-content-center'>
-                        <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({id: index, show: true})}>Apply</Button>
+                        <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
                     </span>
                 </Accordion.Body>
 

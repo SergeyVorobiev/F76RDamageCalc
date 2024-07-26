@@ -1,0 +1,416 @@
+[
+  {
+    "name": "44 Pistol",
+    "type": "Pistol",
+    "tags": "Ballistic,Bullet",
+    "level": 45,
+    "id": "000ce97d",
+    "bbDamage": [
+      60,
+      60
+    ],
+    "bmDamage": [
+      0,
+      0
+    ],
+    "btDamage": [
+      0,
+      0
+    ],
+    "ebDamage": [
+      0,
+      0
+    ],
+    "emDamage": [
+      0,
+      0
+    ],
+    "etDamage": [
+      0,
+      0
+    ],
+    "fbDamage": [
+      0,
+      0
+    ],
+    "fmDamage": [
+      0,
+      0
+    ],
+    "ftDamage": [
+      0,
+      0
+    ],
+    "pbDamage": [
+      0,
+      0
+    ],
+    "pmDamage": [
+      0,
+      0
+    ],
+    "ptDamage": [
+      0,
+      0
+    ],
+    "cbDamage": [
+      0,
+      0
+    ],
+    "cmDamage": [
+      0,
+      0
+    ],
+    "ctDamage": [
+      0,
+      0
+    ],
+    "rbDamage": [
+      0,
+      0
+    ],
+    "rmDamage": [
+      0,
+      0
+    ],
+    "rtDamage": [
+      0,
+      0
+    ],
+    "shotSize": [
+      1,
+      1
+    ],
+    "reloadTime": [
+      3.333343505859375,
+      3.333343505859375
+    ],
+    "autoRate": [
+      6.667,
+      6.667
+    ],
+    "manualRate": [
+      0.15000000596046448,
+      0.15000000596046448
+    ],
+    "isAuto": [
+      0,
+      0
+    ],
+    "ammo": [
+      6,
+      6
+    ],
+    "antiArmor": [
+      0,
+      0
+    ],
+    "hand": [
+      1,
+      1
+    ],
+    "strengthBoost": [
+      0,
+      0
+    ],
+    "crit": [
+      0,
+      0
+    ],
+    "sneak": [
+      0,
+      0
+    ],
+    "bleed": [
+      0,
+      0
+    ],
+    "exp": [
+      0,
+      0
+    ],
+    "cd": [
+      0,
+      0
+    ],
+    "creatureType": [
+      "Any",
+      "Any"
+    ],
+    "bash": [
+      0,
+      0
+    ],
+    "accuracy": [
+      100,
+      100
+    ],
+    "unverified": true,
+    "mods": [
+      [
+        "00470a0a",
+        [
+          "mod_44_receiver_AntiScorchBeast",
+          [
+            [
+              "004709b1",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b34",
+        [
+          "mod_44_Receiver_Damage-FastTrigger",
+          [
+            [
+              "0027ac25",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.125
+            ],
+            [
+              "0043c167",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0043c167",
+              "MullAdd",
+              "Speed",
+              "0.25",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b35",
+        [
+          "mod_44_Receiver_Damage-CritDMG",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ],
+            [
+              "0027ac25",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.125
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b36",
+        [
+          "mod_44_Receiver_Damage-HipAccuracy",
+          [
+            [
+              "0027ac25",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.125
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b38",
+        [
+          "mod_44_Receiver_CritDMG-FastTrigger",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ],
+            [
+              "0043c167",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0043c167",
+              "MullAdd",
+              "Speed",
+              "0.25",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b39",
+        [
+          "mod_44_Receiver_FastTrigger-HipAccuracy",
+          [
+            [
+              "0043c167",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.2",
+              "0.0",
+              0
+            ],
+            [
+              "0043c167",
+              "MullAdd",
+              "Speed",
+              "0.25",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b3b",
+        [
+          "mod_44_Receiver_CritDMG-HipAccuracy",
+          [
+            [
+              "0027ac23",
+              "Add",
+              "CriticalDamageMult",
+              "0.5",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b4c",
+        [
+          "mod_44_Grip_SecondaryDMG",
+          [
+            [
+              "0052441d",
+              "MullAdd",
+              "SecondaryDamage",
+              "0.0",
+              "0.0",
+              0.5
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b4f",
+        [
+          "mod_44_Grip_HipAccuracy-SecondaryDMG",
+          [
+            [
+              "0052441c",
+              "MullAdd",
+              "SecondaryDamage",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b51",
+        [
+          "mod_44_Grip_Recoil-SecondaryDMG",
+          [
+            [
+              "0052441c",
+              "MullAdd",
+              "SecondaryDamage",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b30",
+        [
+          "mod_44_Receiver_FastTrigger",
+          [
+            [
+              "0043c166",
+              "MullAdd",
+              "ReloadSpeed",
+              "0.35",
+              "0.0",
+              0
+            ],
+            [
+              "0043c166",
+              "MullAdd",
+              "Speed",
+              "0.55",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "002e5b31",
+        [
+          "mod_44_Receiver_CritDMG",
+          [
+            [
+              "0027ac22",
+              "Add",
+              "CriticalDamageMult",
+              "1.0",
+              "0.0",
+              0
+            ]
+          ]
+        ]
+      ],
+      [
+        "001a05e0",
+        [
+          "mod_44_Receiver_Damage",
+          [
+            [
+              "0027ac24",
+              "Add",
+              "DamageBonusMult",
+              "0.0",
+              "0.0",
+              0.25
+            ]
+          ]
+        ]
+      ]
+    ]
+  }
+]

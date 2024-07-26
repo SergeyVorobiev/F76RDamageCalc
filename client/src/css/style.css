@@ -1,18 +1,18 @@
 @media only screen and (min-width: 386px) {
     .popover-adjustable {
-        width: 22rem;
+        width: 20rem;
     }
 }
 
 @media only screen and (max-width: 385px) {
     .popover-adjustable {
-        width: 21rem;
+        width: 19rem;
     }
 }
 
 @media only screen and (max-width: 360px) {
     .popover-adjustable {
-        width: 20rem;
+        width: 18rem;
     }
 }
 

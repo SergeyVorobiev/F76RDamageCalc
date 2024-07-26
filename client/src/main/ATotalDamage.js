@@ -246,7 +246,7 @@ export default class ATotalDamage extends React.PureComponent {
                     {keyValueBadge("mt-1 mb-1 badge ms-auto me-auto bg-health", '5.5rem', '❤️', creature.h)}
                     {keyValueBadge("mt-1 mb-1 badge bg-ammo ms-auto me-auto", '5.5rem', tAmmo("0.7rem"), creature.ammo)}
                     <span className="mt-1 mb-1 badge bg-lifetime ms-auto me-auto">⌛ {millisToTime(creature.lifeTime)}</span>
-                    <OverlayTrigger rootClose='true' trigger="click" placement="bottom" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
+                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, legendary, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
                     </OverlayTrigger>
                 </Stack>
@@ -346,14 +346,13 @@ export default class ATotalDamage extends React.PureComponent {
         <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
             <Card.Header>
                 <Row>
-                <Col className="col-2 d-flex justify-content-start">
-                    {getImageElement(this.props.defaultName.toLowerCase().replaceAll(" ", "_"), "2rem")}
-                </Col>
-                <Col className="col-8 d-flex justify-content-center">
-                   <h4 className="m-auto p-auto"> {this.props.weaponName} </h4>
-                </Col>
-                <Col className="col-2 d-flex justify-content-end">
-                </Col>
+                    <Col className="col-2 d-flex justify-content-start p-0 m-0 ms-3">
+                        {getImageElement(this.props.defaultName.toLowerCase().replaceAll(" ", "_"), "3rem")}
+                    </Col>
+                    <Col className="col-7 d-flex justify-content-center">
+                       <h5 className="m-auto p-auto"> {this.props.weaponName} </h5>
+                    </Col>
+                    <Col className="col-3 d-flex justify-content-end"></Col>
                 </Row>
             </Card.Header>
             <Card.Body className="pt-2">

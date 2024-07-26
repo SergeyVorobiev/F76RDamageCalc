@@ -167,17 +167,20 @@ export function convertTemplateToSpecs(template) {
     let fireRate = (template.isAuto[1]) ? template.autoRate[1] : (10 / template.manualRate[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
     let mods = [];
-    for (let i = 0; i < template.mods.length; i++) {
-        let categoryMods = template.mods[i].categoryMods;
-        let categoryName = template.mods[i].categoryName;
-        for (let j = 0; j < categoryMods.length; j++) {
-            let mod = categoryMods[j];
-            if (mod.isUsed) {
-                mods.push({group: categoryName, id: mod.id, name: mod.name});
-                break;
+    if (!template.unverified) {
+        for (let i = 0; i < template.mods.length; i++) {
+            let categoryMods = template.mods[i].categoryMods;
+            let categoryName = template.mods[i].categoryName;
+            for (let j = 0; j < categoryMods.length; j++) {
+                let mod = categoryMods[j];
+                if (mod.isUsed) {
+                    mods.push({group: categoryName, id: mod.id, name: mod.name});
+                    break;
+                }
             }
         }
     }
+
     return {
         shot_size: template.shotSize[1],
         reload_time: template.reloadTime[1],

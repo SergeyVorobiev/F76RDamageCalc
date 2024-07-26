@@ -7,15 +7,15 @@ import { convertTemplate, convertTemplateToSpecs } from '../entities/EWeaponSpec
 export default function ModalApplyTemplate(props) {
     console.log("ModalApplyTemplate");
     let name = "";
-    if (props.modalTemplate.id > -1) {
-        name = props.templates[props.modalTemplate.id].name;
+    if (props.modalTemplate.template) {
+        name = props.modalTemplate.template.name
     }
     function onHide(e) {
-        props.setModalTemplate({id: -1, show: false});
+        props.setModalTemplate({template: null, show: false});
     }
 
     function applyTemplate(e) {
-        const template = props.templates[props.modalTemplate.id];
+        const template = props.modalTemplate.template;
         const damageItem = convertTemplate(template);
         const specItem = convertTemplateToSpecs(template);
         props.setDamage(damageItem);
