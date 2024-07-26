@@ -1,0 +1,13 @@
+[
+  {
+    "id": "0027ac25",
+    "effects": [
+      [
+        "bbDamage",
+        0.125,
+        "bmDamage",
+        "mulAdd"
+      ]
+    ]
+  }
+]

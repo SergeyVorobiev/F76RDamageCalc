@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
+import getMods from '../helpers/ModRegister';
 
 
 function buildWarning() {
@@ -99,6 +100,25 @@ export default function WeaponTemplate({template, setModalTemplate}) {
         }
     }
 
+    function extractEffects(mod) {
+        let result = []
+        for (let i = 0; i < mod.effects.length; i++) {
+            const effect = mod.effects[i];
+
+            // It is an id of mod
+            if (typeof effect === 'string') {
+                const outerMod = getMods().get(effect);
+                for (let j = 0; j < outerMod.effects.length; j++) {
+                    result.push(outerMod.effects[j]);
+                }
+            } else {
+                result.push(effect);
+            }
+        }
+        mod.effects = result;
+        return mod;
+    }
+
     function checkMod(e, modSameType, modsSameType) {
         const check = !modSameType.isUsed;
 
@@ -128,7 +148,7 @@ export default function WeaponTemplate({template, setModalTemplate}) {
 
             // Modes of one type
             for (let j = 0; j < modsSameType.length; j++) {
-                const modSameType = modsSameType[j];
+                const modSameType = extractEffects(modsSameType[j]);
                 children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
                 k += 1;
             }
