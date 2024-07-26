@@ -9,10 +9,13 @@ import Button from 'react-bootstrap/Button';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
+import { useState } from 'react';
 
 
-export default function WeaponTemplate({index, templates, setTemplates, setModalTemplate}) {
-    const template = templates[index];
+export default function WeaponTemplate({template, setModalTemplate}) {
+    console.log("WeaponTemplate: " + template.index);
+    const [changed, setChanged] = useState(false);
+    const index = template.index;
     function modRow(modSameType, modsSameType, checkMod, bordered=true, colorNotUsed="default", colorUsed="purple") {
         const color = (modSameType.isUsed) ? colorUsed : colorNotUsed;
         return (
@@ -85,7 +88,7 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
             modSameType.isUsed = check;
             applyEffects(modSameType.effects, check);
         }
-        setTemplates([...templates]);
+        setChanged(!changed);
     }
 
     let result = [];
@@ -179,7 +182,7 @@ export default function WeaponTemplate({index, templates, setTemplates, setModal
                     <Divider className='mt-2 mb-2'></Divider>
                     {result}
                     <span className='d-flex justify-content-center'>
-                        <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({id: index, show: true})}>Apply</Button>
+                        <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
                     </span>
                 </Accordion.Body>
 
