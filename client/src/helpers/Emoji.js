@@ -9,6 +9,7 @@ import iBow from '../resources/icons/bow.png';
 import iMelee from '../resources/icons/melee.png';
 import iHeavy from '../resources/icons/heavy.png';
 import iUnarmed from '../resources/icons/unarmed.png';
+import iThrown from '../resources/icons/thrown.png';
 import Image from 'react-bootstrap/Image';
 
 
@@ -77,6 +78,10 @@ export function heavy(maxHeight) {
 
 export function unarmed(maxHeight) {
     return image(maxHeight, iUnarmed);
+}
+
+export function thrown(maxHeight) {
+    return image(maxHeight, iThrown);
 }
 
 export function addText(imageF, maxHeight, marginLeft, text) {

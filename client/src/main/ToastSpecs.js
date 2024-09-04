@@ -8,7 +8,7 @@ import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
 
 
-const ToastSpecs = memo(function ToastSpecs({creatures, legendary, weaponName, resultDamage, showStat, setShowStat}) {
+const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, weaponName, resultDamage, showStat, setShowStat}) {
     const strength = (resultDamage.strength > 0) ? resultDamage.strength.toFixed(2) : "-";
     return (
         <ToastContainer
@@ -18,7 +18,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, weaponName, r
             style={{ zIndex: 10 }}>
             <Toast bg="light" onClose={(e) => setShowStat(false)} show={showStat} animation={false}>
                 <Toast.Header className="pe-3">
-                    {getImageElement(weaponName.toLowerCase().replaceAll(" ", "_"), "1.5rem")}
+                    {getImageElement(iconName, "1.5rem")}
                     <strong className="ms-2 mt-auto mb-auto p-auto me-auto">{weaponName}</strong>
                     <small className="me-2">
                         <Progress

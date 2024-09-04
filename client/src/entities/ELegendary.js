@@ -11,6 +11,7 @@ export function defaultLegendary() {
             is_used: true,
             star: 1,
             id: "none1",
+            gameId: [""],
         },
 
         none2: {
@@ -22,6 +23,7 @@ export function defaultLegendary() {
             is_used: true,
             star: 2,
             id: "none2",
+            gameId: [""],
         },
 
         junkie: {
@@ -33,6 +35,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "junkie",
+            gameId: ["004f6aab"],
         },
 
         aristocrat: {
@@ -44,6 +47,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "aristocrat",
+            gameId: ["00606b71"],
         },
 
         antiarmor: {
@@ -55,6 +59,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "antiarmor",
+            gameId: ["005281b4", "006e1315"],
         },
 
         bloodied: {
@@ -66,6 +71,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "bloodied",
+            gameId: ["004f6aa0"],
         },
 
         berserker: {
@@ -77,6 +83,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "berserker",
+            gameId: ["004f6aa7"],
         },
 
         executioner: {
@@ -88,6 +95,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "executioner",
+            gameId: ["004f6aa1"],
         },
 
         furious: {
@@ -99,6 +107,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "furious",
+            gameId: ["004f577d"],
         },
 
         quad: {
@@ -110,6 +119,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "quad",
+            gameId: ["004f6ab1", "00692275"],
         },
 
         two_shot: {
@@ -121,6 +131,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "two_shot",
+            gameId: ["004f6d76"],
         },
 
         mutant: {
@@ -132,6 +143,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 1,
             id: "mutant",
+            gameId: ["004f577b", "005299f5"],
         },
 
         // 2 star
@@ -144,6 +156,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 2,
             id: "explosive",
+            gameId: ["00425e28", "004f5771", "001e73bd"],
         },
 
         hitman: {
@@ -155,6 +168,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 2,
             id: "hitman",
+            gameId: ["0052414e"],
         },
 
         rapid: {
@@ -166,6 +180,7 @@ export function defaultLegendary() {
             is_used: false,
             star: 2,
             id: "rapid",
+            gameId: ["0052414f", "006d3c68", "0052414f"]
         },
     };
     return obj;

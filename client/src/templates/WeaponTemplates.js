@@ -28,7 +28,23 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage,
     const [modalTemplate, setModalTemplate] = useState({template: null, show: false});
     const [filterName, setFilterName] = useState("");
     const [weaponType, setWeaponType] = useState("All");
-
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(15);
+    const [startIndex, setStartIndex] = useState(0);
+    function resetPage() {
+        setPage(1);
+        setStartIndex(0);
+    }
+    function filterNameChanged(e) {
+        setPage(1);
+        setStartIndex(0);
+        setFilterName(e.target.value);
+    }
+    function onPageChanged(page, pageSize) {
+        setStartIndex(pageSize * (page - 1));
+        setPage(page);
+        setPageSize(pageSize);
+    }
     return (
         <>
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
@@ -36,11 +52,11 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage,
             </OverlayTrigger>
             <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWeaponName={setWeaponName} setDamage={setDamage} setWSpec={setWSpec}></ModalApplyTemplate>
             <InputGroup className="ps-1 pe-1 pb-3 flex-nowrap">
-                <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType}></WTypeDropdown>
-                <Form.Control style={{width: '10rem'}} maxLength="65" onChange={(e) => setFilterName(e.target.value)} />
+                <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
+                <Form.Control style={{width: '10rem'}} maxLength="65" onChange={filterNameChanged} />
             </InputGroup>
             <Accordion class="accordion">
-                <TemplateItems weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
+                <TemplateItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
             </Accordion>
             <FloatButton.BackTop style={{ right: 60 }} duration={100} visibilityHeight={2000} />
         </>

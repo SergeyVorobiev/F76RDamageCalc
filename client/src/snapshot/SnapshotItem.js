@@ -120,7 +120,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
 }
 
 function headerBody(item, setModalRenameItem) {
-    let wName = item.wSpec.defaultName;
+    let wName = item.wSpec.iconName;
     if (!wName) {
         wName = "Weapon";
     }
@@ -129,7 +129,7 @@ function headerBody(item, setModalRenameItem) {
             <div class="row-12 d-flex">
                 <div class='col-2 p-2 d-flex justify-content-start'>
                     <div className="m-auto ms-1">
-                        {getImageElement(wName.toLowerCase().replaceAll(" ", "_"), '2rem')}
+                        {getImageElement(wName, '2rem')}
                     </div>
                 </div>
                 <div class="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
