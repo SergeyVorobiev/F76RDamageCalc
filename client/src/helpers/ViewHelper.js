@@ -1,13 +1,5 @@
 import Col from 'react-bootstrap/Col';
 import { keyValueTag } from '../helpers/RowBuilder';
-import Popover from 'react-bootstrap/Popover';
-import { LeftOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
-import ReactDOM from 'react-dom/client';
-import Row from 'react-bootstrap/Row';
-import { useRef } from 'react';
-import { forwardRef } from 'react';
-import React, { useEffect, useState } from 'react';
 
 
 export function getField(data, name, id, color, width, hideEmpty=true, round=0, cell=-1) {

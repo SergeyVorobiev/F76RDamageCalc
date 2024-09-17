@@ -9,7 +9,7 @@ import { Radio } from 'antd';
 const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
     console.log("ModalUploadSnapshots")
     const [addOld, setAddOld] = useState("0");
-    let state = "0";
+ 
     function onHide() {
         props.setModalUploadSnapshots(false)
     }
