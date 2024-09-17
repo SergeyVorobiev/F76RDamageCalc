@@ -40,12 +40,12 @@ export default function EffectItem({foodPref, setFoodPref, player, item, height,
             sign = "+";
         }
         const value = (item.used) ? sign + boost.value + tail : "-";
-        return <small>{keyValueRow(boost.description, value, colorName, colorValue)}</small>
+        return <div class="margin-5px">{keyValueRow(boost.description, value, colorName, colorValue, 0)}</div>
     });
     const filter = item.used ? "grayscale(0%)" : "grayscale(90%)";
     const head = (useHeader) ? (<Card.Header className='d-flex justify-content-center p-0 m-0 pt-1 pb-1'><div style={{fontSize: '0.75rem' , fontWeight: 'bold'}}>{item.name}</div></Card.Header>) : (<></>);
     return (
-        <Card style={{ width: '10rem', height: height, filter: filter }} onClick={cardClick}>
+        <Card style={{ width: '10.5rem', height: height, filter: filter }} onClick={cardClick}>
             <Card.Img variant='top' style={{ height: picHeight}} src={getPicture(item.imName)} />
             {head}
             <Card.Body className="p-1 mt-1">

@@ -2,11 +2,17 @@
     .popover-adjustable {
         width: 20rem;
     }
+    .popover-adjustable2 {
+        width: 23rem;
+    }
 }
 
 @media only screen and (max-width: 385px) {
     .popover-adjustable {
         width: 19rem;
+    }
+    .popover-adjustable2 {
+        width: 22rem;
     }
 }
 
@@ -14,6 +20,15 @@
     .popover-adjustable {
         width: 18rem;
     }
+    .popover-adjustable2 {
+        width: 21rem;
+    }
+}
+
+.popover-body2 {
+    height: 350px;
+    overflow-y: auto;
+    white-space:pre-wrap;
 }
 
 @media only screen and (min-width: 386px) {
@@ -102,6 +117,11 @@
     color:#ffffff;
 }
 
+.bg-hazard {
+    background-color:#4c9945;
+    color: #ffffff;
+}
+
 .bg-reduction {
     background-color:#ff924b;
     color:#ffffff;
@@ -128,8 +148,13 @@
 }
 
 .bg-lite {
-    background-color:#f5f2ef;
+    background-color:#f4f4f4;
     color: #000;
+}
+
+.bg-yellow {
+    background-color:#fff0cc;
+    color: #cf9100;
 }
 
 .bg-lifetime {
@@ -208,4 +233,59 @@
     background-color:#5c6f72 !important;
     color: #fff !important;
     border-color: #dee2e6 !important;
+}
+
+.bg-proj-header {
+    background-color:#6a4a4c !important;
+    color: #fff !important;
+}
+
+.bg-spell-header {
+    background-color:#624d7c !important;
+    color: #fff !important;
+}
+
+.bg-damage-header {
+    background-color:#823d38 !important;
+    color: #fff !important;
+}
+
+.out-accordion {
+    outline: 0 !important;
+
+    :focus {
+         outline: 0 !important;
+         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+    }
+}
+
+.version-text {
+    font-family: sans-serif;
+    text-transform: capitalize;
+    color: #c5ccd4;
+    font-size: .7rem;
+    text-shadow:
+        1px 1px 1px #08294f,
+        0px 1px 0px #0e5ac4;
+    letter-spacing: 1px;
+}
+
+.center-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bg-light-pink {
+    background-color:#fff2f4;
+    color: #000;
+}
+
+.bg-spell-body {
+    background-color:#f9f5ff;
+    color: #000;
+}
+
+.margin-5px {
+    margin: '5px';
 }

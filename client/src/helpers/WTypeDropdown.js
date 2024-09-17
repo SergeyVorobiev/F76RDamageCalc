@@ -1,12 +1,13 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { memo } from 'react';
-import { addText, gun, rifle, shotgun, bow, melee, heavy, unarmed } from '../helpers/Emoji';
+import { addText, gun, rifle, shotgun, bow, melee, heavy, unarmed, thrown } from '../helpers/Emoji';
 
 
-const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, onSelect=null, title=null}) {
+const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, resetPage, onSelect=null, title=null}) {
     function onSelectCustom(e) {
         setWeaponType(e);
+        resetPage();
         if (onSelect != null) {
             onSelect(e);
         }
@@ -22,6 +23,7 @@ const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, on
             <Dropdown.Item eventKey="Bow">{addText(bow, '1.1rem', '0.27rem', "Bow")}</Dropdown.Item>
             <Dropdown.Item eventKey="Melee">{addText(melee, '1.1rem', '0.27rem', "Melee")}</Dropdown.Item>
             <Dropdown.Item eventKey="Unarmed">{addText(unarmed, '1.1rem', '0.27rem', "Unarmed")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Thrown">{addText(thrown, '1.1rem', '0.27rem', "Thrown")}</Dropdown.Item>
         </DropdownButton>
     );
 });
@@ -44,6 +46,8 @@ export function getRowWithImage(name, maxHeight='1.1rem', space='0.27rem') {
             return addText(melee, maxHeight, space, name);
         case "Unarmed":
             return addText(unarmed, maxHeight, space, name);
+        case "Thrown":
+            return addText(thrown, maxHeight, space, name);
         default:
             return name;
     }
@@ -65,6 +69,8 @@ export function getImage(name, maxHeight='1.3rem') {
             return melee(maxHeight);
         case "Unarmed":
             return unarmed(maxHeight);
+        case "Thrown":
+            return thrown(maxHeight);
         default:
             return "";
     }

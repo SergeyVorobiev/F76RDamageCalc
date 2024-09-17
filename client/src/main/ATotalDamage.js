@@ -105,8 +105,8 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
-                    <Divider className='p-0 m-1'></Divider>
-                    <span className="badge bg-warning mb-1 text-dark"> {weaponName}</span>
+                    <Divider className='p-0 m-1 mb-3'></Divider>
+                    <span className="badge bg-warning mb-0 text-dark p-2"> {weaponName}</span>
                 </Stack>
             </Popover.Body>
         </Popover>
@@ -337,6 +337,10 @@ export default class ATotalDamage extends React.PureComponent {
     }
 
     render() {
+        let weaponIcon = this.props.iconName;
+        if (!weaponIcon) {
+            weaponIcon = "default";
+        }
         const mWidth = "21rem";
         console.log("ATotalDamage");
         const damage = this.props.resultDamage.tDamage.toFixed(1) + " x " + this.props.resultDamage.shotSize;
@@ -344,10 +348,10 @@ export default class ATotalDamage extends React.PureComponent {
         const percentC = getHotPercentage(this.props.creatures);
         return (
         <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
-            <Card.Header>
-                <Row>
+            <Card.Header className='p-0 m-0'>
+                <Row className='p-0 m-0'>
                     <Col className="col-2 d-flex justify-content-start p-0 m-0 ms-3">
-                        {getImageElement(this.props.defaultName.toLowerCase().replaceAll(" ", "_"), "3rem")}
+                        {getImageElement(weaponIcon, "5rem")}
                     </Col>
                     <Col className="col-7 d-flex justify-content-center">
                        <h5 className="m-auto p-auto"> {this.props.weaponName} </h5>
@@ -364,18 +368,18 @@ export default class ATotalDamage extends React.PureComponent {
                                     <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
                                     <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
                                     <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
-                                    <OverlayTrigger rootClose='true' trigger="click" placement="bottom" overlay={help()}>
+                                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
                                         <Badge bg="info">?</Badge>
                                     </OverlayTrigger>
                                 </Stack>
                             </Card.Header>
                             <Card.Body className="pt-0 pb-0">
                                 {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damage}</strong></span>), "default", "red")}
-                                {keyValueRow((<span className="mt-1 mb-1"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
-                                {keyValueRow((<span className="mt-1 mb-1"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
-                                {keyValueRow((<div className="mt-1 mb-1"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
-                                {keyValueRow((<span className="mt-1 mb-1"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
-                                {keyValueRow((<span className="mt-1 mb-1"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
+                                {keyValueRow((<span className="mt-0 mb-0"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.displayedCrit.toFixed(1)}</strong></span>), "default", "magenta")}
+                                {keyValueRow((<span className="mt-0 mb-0"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                                {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.ammoCapacity}</strong></span>), "default", "default")}
+                                {keyValueRow((<span className="mt-0 mb-0"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                {keyValueRow((<span className="mt-0 mb-0"><strong>💣 Explosive:</strong></span>), (<span className="mt-1 mb-1"><strong>{this.props.resultDamage.explosive.toFixed(0)}%</strong></span>), "default", "orange")}
                             </Card.Body>
                             <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
                                 <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>

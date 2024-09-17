@@ -1,5 +1,5 @@
 import Image from 'react-bootstrap/Image';
-import logo from '../resources/logos/main_logo.png';
+import logo from '../resources/logos/main_logo.webp';
 import gith from '../resources/logos/github-mark.png';
 import Navbar from 'react-bootstrap/Navbar';
 import { memo } from 'react';

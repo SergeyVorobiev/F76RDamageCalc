@@ -5,6 +5,14 @@ import { creatureTypes } from "../creature/CreatureTypes";
 // TODO: Convert to creature and weapon classes this file: creature.takeDamage(weapon.shoot());
 export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDamage, additionalDamage, stuffBoost, playerStats) {
     const strength = calcStrength(playerStats, stuffBoost, wSpec);
+
+    // Calculate Modifications damage for a melee, is it work only for 'Physical Damage'?
+    const strengthPercent = strength * wSpec.strength_boost / 100.0;
+    let modPercentage = 0;
+    if (damage.ballistic.used_damage > 0) {
+        modPercentage = damage.ballistic.used_mod_damage / damage.ballistic.used_damage;
+    }
+    const modDamage = damage.ballistic.used_damage * strengthPercent * modPercentage;
     const bdBoost = getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength);
     const sneak = calcSneak(damage, boost, legendary, additionalDamage, wSpec, stuffBoost);
     const crit = calcCrit(damage, boost, additionalDamage, wSpec, stuffBoost);
@@ -18,7 +26,7 @@ export function calcDamage(damage, boost, legendary, wSpec, creatures, extraDama
     const pSneak = (extraDamage.useSneak) ? sneak[3] : 0.0;
     const cSneak = (extraDamage.useSneak) ? sneak[4] : 0.0;
     const rSneak = (extraDamage.useSneak) ? sneak[5] : 0.0;
-    const bDamage = (damage.ballistic.used_damage * bdBoost[0] + damage.ballistic.used_mod_damage + bSneak) * tdBoost;
+    const bDamage = (damage.ballistic.used_damage * bdBoost[0] + damage.ballistic.used_mod_damage + modDamage + bSneak) * tdBoost;
     const eDamage = (damage.energy.used_damage * bdBoost[1] + damage.energy.used_mod_damage + eSneak) * tdBoost;
     const fDamage = (damage.fire.used_damage * bdBoost[2] + damage.fire.used_mod_damage + fSneak) * tdBoost;
     const pDamage = (damage.poison.used_damage * bdBoost[3] + damage.poison.used_mod_damage + pSneak) * tdBoost;
@@ -105,8 +113,11 @@ function calcReload(additionalDamage, boost, wSpec, stuffBoost) {
     } else if (wSpec.type === "Rifle" && wSpec.is_auto) {
         reloadTime *= (1 - boost.ground_pounder.displayed_value / 100.0);
     }
-    let mult = 1;
-    collectStuffBoost(stuffBoost.weapon, wSpec, "Reload", (value) => mult *= (1 - value / 100.0));
+    let fortify = wSpec.reload_speed;
+
+    // Considering that it fortifies reload speed instead of time as for 'Speed Demon' mutation
+    collectStuffBoost(stuffBoost.weapon, wSpec, "Reload", (value) => fortify += (value / 100.0));
+    const mult = 1.0 / fortify;
     return reloadTime * mult;
 }
 
@@ -129,7 +140,7 @@ function calcAmmo(wSpec, boost, legendary, stuffBoost) {
     ammo += (wSpec.ammo_capacity * (collectStuffBoost(stuffBoost.weapon, wSpec, "Ammo") / 100.0));
     if (boost.power_user.is_used) {
         const mult = boost.power_user.displayed_value / 100.0 - 1;
-        if (wSpec.tags.split(",").includes("FusionCore")) {
+        if (wSpec.tags.includes("FusionCore")) {
             ammo += (wSpec.ammo_capacity * mult);
         }
     }
@@ -307,22 +318,23 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
 
 function buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature) {
     let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
+    const creatureType = wSpec.creatureType.toLowerCase();
     if (wSpec.cd > 0) {
-        if (wSpec.creatureType === "Any") {
+        if (creatureType === "any") {
             damageToCreature += wSpec.cd / 100.0;
-        } else if (wSpec.creatureType === "Scorched" && creature.name === "Scorchbeast Queen") {
+        } else if (creatureType === "scorched" && creature.name === "Scorchbeast Queen") {
             damageToCreature += wSpec.cd / 100.0;
-        } else if (wSpec.creatureType === "Wendigo" && creature.name === "Earle") {
+        } else if (creatureType === "wendigo" && creature.name === "Earle") {
             damageToCreature += wSpec.cd / 100.0;
-        } else if (wSpec.creatureType === "Abomination" && creature.name === "Ultracite Titan") {
+        } else if (creatureType === "abomination" && creature.name === "Ultracite Titan") {
             damageToCreature += wSpec.cd / 100.0;
         } else {
 
             // User intentionally made a creature 'scorched'
-            if (wSpec.creatureType === "Scorched" && creature.body === "scorched") {
+            if (creatureType === "scorched" && creature.body === "scorched") {
                 damageToCreature += wSpec.cd / 100.0;
             } else { // Ok may be a creature is 'scorched'
-                const creaturesForWeapon = creatureTypes[wSpec.creatureType.toLowerCase()];
+                const creaturesForWeapon = creatureTypes[creatureType.toLowerCase()];
                 if (creaturesForWeapon) {
                     if (creaturesForWeapon.has(creature.name)) {
                         damageToCreature += wSpec.cd / 100.0;
@@ -539,7 +551,7 @@ function collectStuffBoost(stuffBoosts, wSpec, property, listener) {
         if (maxItem.tag) {
             additional = maxItem.tag.split(",");
         }
-        const tags = wSpec.tags.split(",");
+        const tags = wSpec.tags;
         let satisfyTags = (additional.length > 0) ? intersects(additional, tags) : true;
         if (maxItem.property === property && satisfyTags && satisfyNameOrType) {
             if (listener) {
@@ -588,7 +600,9 @@ function getDamageFromWeaponCards(boost, wSpec) {
 }
 
 function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, strength) {
-    let result = getDamageFromWeaponCards(boost, wSpec) + boost.nerd_rage.displayed_value;
+    let result = 100 + getDamageFromWeaponCards(boost, wSpec) + boost.nerd_rage.displayed_value;
+    const strengthBoost = wSpec.strength_boost / 100.0;
+    const melee = strength * strengthBoost;
     result += collectStuffBoost(stuffBoost.weapon, wSpec, "BDB");
     result += boost.bloody_mess.displayed_value;
     result += boost.adrenaline.displayed_value;
@@ -601,9 +615,7 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, stren
     result += (legendary.mutant.is_used) ? legendary.mutant.value : 0.0;
     result += (legendary.hitman.is_used) ? legendary.hitman.value : 0.0;
     result += (additionalDamage.bdb.is_used) ? additionalDamage.bdb.value : 0.0;
-    const strengthBoost = wSpec.strength_boost / 100.0;
-    const melee = strength * strengthBoost;
-    result = 1 + result / 100.0 + melee;
+    result /= 100.0;
     let bResult = (additionalDamage.ballisticBDB.is_used) ? (additionalDamage.ballisticBDB.value / 100.0) : 0.0;
     let eResult = (additionalDamage.energyBDB.is_used) ? (additionalDamage.energyBDB.value / 100.0) : 0.0;
     let fResult = (additionalDamage.fireBDB.is_used) ? (additionalDamage.fireBDB.value / 100.0) : 0.0;
@@ -620,7 +632,7 @@ function getBDBoost(boost, legendary, additionalDamage, wSpec, stuffBoost, stren
     if (wSpec.type === "Heavy") {
         science = 0.0;
     }
-    return [result + bResult, result + science + eResult, result + fResult, result + pResult, result + cResult, result + rResult];
+    return [result + bResult + melee, result + eResult + science, result + fResult, result + pResult, result + cResult, result + rResult];
 }
 
 // Applies all possible Anti Armor effects (for all creatures)

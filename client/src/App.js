@@ -172,8 +172,8 @@ export default function MyApp() {
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
-            <ATotalDamage weaponName={weaponName} defaultName={wSpec.defaultName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
-            <ToastSpecs creatures={creatures} legendary={legendary} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
+            <ATotalDamage weaponName={weaponName} iconName={wSpec.iconName} defaultName={wSpec.defaultName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
+            <ToastSpecs creatures={creatures} legendary={legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}
@@ -198,9 +198,9 @@ export default function MyApp() {
                      <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={weaponName} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
                 </Tab>
             </Tabs>
-            <div style={{height: '4rem'}}></div>
-            <Container>
-                <Row className="mb-4">
+            <div style={{height: '1.5rem'}}></div>
+            <Container className="mb-4">
+                <Row className="mb-3">
                     <Col>
                         <a className="p-1 m-1 pb-3 d-flex justify-content-start" href="https://www.flaticon.com"><small>Freepik icons</small></a>
                     </Col>
@@ -208,9 +208,11 @@ export default function MyApp() {
                         <a className="p-1 m-1 pb-3 d-flex justify-content-center" href="https://nukacrypt.com/"><small>Launch codes</small></a>
                     </Col>
                     <Col>
-                        <a className="p-1 m-1 pb-3 d-flex justify-content-end" href="https://fallout.fandom.com/wiki/Fallout_76"><small>Fandom F76</small></a>
+                        <a className="p-1 m-1 pb-3 d-flex justify-content-end" href="https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88"><small>Data Sheet</small></a>
                     </Col>
                 </Row>
+                <div className="ps-1 ms-1 version-text">Patch 1.7.14.15 - Update 54</div>
+                <div className="ps-1 ms-1 version-text">Milepost Zero - September 3, 2024</div>
             </Container>
         </div>
     );

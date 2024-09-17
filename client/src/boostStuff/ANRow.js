@@ -14,7 +14,11 @@ function buildPopover() {
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>Team</strong></Popover.Header>
             <Popover.Body>
-                When 'Strange in numbers' is activated the calculator considers that your teammates have mutations you have.
+                <p>When 'Strange in numbers' is activated the calculator considers that your teammates have mutations you have.</p>
+
+                <p>Mutation bonuses are increased on hardcoded inside of perks / spells values, which can be seen in data sheet.</p>
+
+                <p>Not all effects are presented in consumables, usually only those whose values are important for damage.</p>
             </Popover.Body>
         </Popover>
     );

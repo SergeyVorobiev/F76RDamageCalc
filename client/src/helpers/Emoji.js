@@ -1,14 +1,15 @@
-import iBullet from '../resources/icons/bullet3.png';
-import iAmmo from '../resources/icons/ammo5.png';
-import iFireRate from '../resources/icons/fireRate.png';
-import iTAmmo from '../resources/icons/tAmmo.png';
-import iGun from '../resources/icons/gun.png';
-import iRifle from '../resources/icons/rifle.png';
-import iShotgun from '../resources/icons/shotgun.png';
-import iBow from '../resources/icons/bow.png';
-import iMelee from '../resources/icons/melee.png';
-import iHeavy from '../resources/icons/heavy.png';
-import iUnarmed from '../resources/icons/unarmed.png';
+import iBullet from '../resources/icons/bullet3.webp';
+import iAmmo from '../resources/icons/ammo5.webp';
+import iFireRate from '../resources/icons/fireRate.webp';
+import iTAmmo from '../resources/icons/tAmmo.webp';
+import iGun from '../resources/icons/gun.webp';
+import iRifle from '../resources/icons/rifle.webp';
+import iShotgun from '../resources/icons/shotgun.webp';
+import iBow from '../resources/icons/bow.webp';
+import iMelee from '../resources/icons/melee.webp';
+import iHeavy from '../resources/icons/heavy.webp';
+import iUnarmed from '../resources/icons/unarmed.webp';
+import iThrown from '../resources/icons/thrown.webp';
 import Image from 'react-bootstrap/Image';
 
 
@@ -77,6 +78,10 @@ export function heavy(maxHeight) {
 
 export function unarmed(maxHeight) {
     return image(maxHeight, iUnarmed);
+}
+
+export function thrown(maxHeight) {
+    return image(maxHeight, iThrown);
 }
 
 export function addText(imageF, maxHeight, marginLeft, text) {

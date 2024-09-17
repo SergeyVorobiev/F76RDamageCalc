@@ -18,6 +18,9 @@ export const creatureTypes = {
         "humanshowman",
         "hellcatmercenary",
     ]),
+    molerat: new Set([
+        "molerat",
+    ]),
     animal: new Set([
         "angler",
         "bluedevil",

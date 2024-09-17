@@ -4,55 +4,72 @@ import '../css/style.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { bullet, ammo, fireRate } from '../helpers/Emoji';
-import { Tag, Divider, Checkbox, Collapse } from 'antd';
+import { Tag, Divider, Collapse } from 'antd';
 import Button from 'react-bootstrap/Button';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
 import { useState } from 'react';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Badge from 'react-bootstrap/Badge';
+import { getTemplateCopyById } from '../helpers/TemplatesRegister';
+import AmmoView from '../helpers/AmmoView';
+import ProjView from '../helpers/ProjView';
+import GeneralView from '../helpers/GeneralView';
+import AdditionalDView from '../helpers/AdditionalDView';
+import LegendaryView from '../helpers/LegendaryView';
+import CritView from '../helpers/CritView';
+import DamageOverview from '../helpers/DamageOverview';
+import ModRow from './ModRow';
+import Container from 'react-bootstrap/Container';
+import { modsSetter } from '../templates/TemplateItems';
+import WarningPopover from '../helpers/WarningPopover';
 
 
-function buildWarning() {
+function getApplyButton(template, setModalTemplate) {
+    if (template.apply) {
+        return (
+        <>
+            <div className='d-flex justify-content-center'>
+                <Button className='ms-0 mt-3 mb-0' disabled onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
+            </div>
+            <div className='d-flex justify-content-center mt-2'>
+                <WarningPopover variant={"danger"} message={"Temporarily Unavailable"} sign={"!"}></WarningPopover>
+            </div>
+        </>
+        );
+    }
+    return (<></>);
+}
+
+function getResetButton(template, itemsLength, resetButtonActive, setResetButtonActive) {
+    if (itemsLength === 0 || !resetButtonActive) {
+        return (<></>);
+    }
+    function onClick(e) {
+        const cleanTemplate = getTemplateCopyById(template.id);
+        for (const property in cleanTemplate) {
+            template[property] = cleanTemplate[property];
+        }
+        modsSetter.setTemplatesMods([template]);
+        setResetButtonActive(!resetButtonActive);
+    }
+
     return (
-        <Popover className="popover-adjustable">
-            <Popover.Header as="h3"><strong>Warning</strong></Popover.Header>
-            <Popover.Body>
-                The data of this weapon is auto-generated from game files. It could have mods, including default applied,
-                which are not yet verified to present. You can apply this weapon and adjust it manually under the 'Main' -> 'Weapon Specs' section.
-            </Popover.Body>
-        </Popover>
+        <span className='d-flex justify-content-center'>
+            <Button size="sm" variant="warning" className='ms-0 mt-0 mb-3' onClick={onClick}>Reset</Button>
+        </span>
     );
 }
 
-function noMods() {
-    return (
-        <div className="d-flex justify-content-center">
-            <div className="d-flex justify-content-center"><strong>No Mods Data</strong></div>
-            <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildWarning()}>
-                <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
-            </OverlayTrigger>
-        </div>
-    );
-}
-
-export default function WeaponTemplate({template, setModalTemplate}) {
+export default function WeaponTemplate({modsSetter, template, setModalTemplate}) {
     console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
+    const [resetButtonActive, setResetButtonActive] = useState(false);
     const index = template.index;
-    function modRow(modSameType, modsSameType, checkMod, bordered=true, colorNotUsed="default", colorUsed="purple") {
-        const color = (modSameType.isUsed) ? colorUsed : colorNotUsed;
+
+    function modRow(index, modsSameType, checkMod) {
         return (
-            <Row>
-                <div class="col d-flex justify-content-start mb-2">
-                    <Tag style={{ width: '16rem' }} bordered={bordered} color={color}><div className="m-0 p-1"><strong>{modSameType.name}</strong></div></Tag>
-                </div>
-                 <div class="col d-flex justify-content-end mb-2 me-2 pe-1">
-                    <Checkbox onChange={(e) => checkMod(e, modSameType, modsSameType)} checked={modSameType.isUsed}></Checkbox>
-               </div>
-            </Row>
+           <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods}>
+           </ModRow>
         );
     };
 
@@ -68,105 +85,73 @@ export default function WeaponTemplate({template, setModalTemplate}) {
         );
     };
 
-    function applyEffects(effects, isUsed) {
-        for (let i = 0; i < effects.length; i++) {
-            const effect = effects[i];
-            const fieldName = effect[0];
-            const coef = effect[1];
-            const resultName = effect[2];
-            const op = effect[3];
-            if (isUsed) {
-                if (op === "mulAdd") {
-                    template[resultName][1] += (template[fieldName][0] * coef);
-                } else if (op === "mulSet") {
-                    template[resultName][1] = (template[fieldName][0] * coef);
-                } else if (op === "add") {
-                    template[resultName][1] += coef;
-                } else if (op === "set") {
-                    template[resultName][1] = coef;
-                }
-            } else {
-                if (op === "mulAdd") {
-                    template[resultName][1] -= (template[fieldName][0] * coef);
-                } else if (op === "mulSet") {
-                    template[resultName][1] = template[resultName][0];
-                } else if (op === "add") {
-                    template[resultName][1] -= coef;
-                } else if (op === "set") {
-                    template[resultName][1] = template[resultName][0];
-                }
-            }
-        }
-    }
-
-    function checkMod(e, modSameType, modsSameType) {
-        const check = !modSameType.isUsed;
+    function checkMod(e, weaponId, modData, modSameType, modsSameType) {
+        const check = !modSameType[1];
 
         // Disable mods because only one mod of the same type can be selected at the same time.
         for (let i = 0; i < modsSameType.length; i++) {
-            const modSameTypeC = modsSameType[i];
-            if (modSameTypeC.isUsed) {
-                modSameTypeC.isUsed = false;
-                applyEffects(modSameTypeC.effects, false);
-            }
+            modsSameType[i][1] = false;
         }
-        if (check) {
-            modSameType.isUsed = check;
-            applyEffects(modSameType.effects, check);
-        }
+        modSameType[1] = check;
+        modsSetter.setCleanTemplateMods(template);
         setChanged(!changed);
-    }
+        setResetButtonActive(true);
+    };
 
     let result = [];
     let items = [];
+
     // All mods
-    let k = 0;
     if (!template.unverified) {
-        for (let i = 0; i < template.mods.length; i++) {
-            const modsSameType = template.mods[i].categoryMods;
+        const mods = template.allMods;
+        let i = 0;
+        for (const property in mods) {
+            const modsSameType = mods[property];
             let children = [];
 
             // Modes of one type
             for (let j = 0; j < modsSameType.length; j++) {
-                const modSameType = modsSameType[j];
-                children.push(<div key={k}>{modRow(modSameType, modsSameType, checkMod)}</div>);
-                k += 1;
+                children.push(<>{modRow(j, modsSameType, checkMod)}</>);
             }
             const item = {
                     key: i,
-                    label: template.mods[i].categoryName,
+                    label: property,
                     children: children,
             }
             items.push(item);
+            i += 1;
         }
     }
-    if (template.unverified) {
-        result.push(noMods());
-    } else if (items.length === 0) {
+    let divider = (<Divider className='m-1 p-1'>Modifications</Divider>);
+    if (items.length === 0) {
+        divider = (<></>);
         result.push(<></>);
     } else {
-        result.push(<Collapse items={items} />);
+        result.push(<Collapse accordion key={template['id']} items={items} />);
     }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
+    let expProj = template.projExp[1];
     return (
-        <div className="ps-1 pe-1 pb-2" key={index}>
-            <Accordion.Item key={index} eventKey={index} className="p-0 m-0">
-                <Accordion.Header key={index}>
-                    <Col className="col-1 d-flex justify-content-start">
-                        {getImageElement(template.name.toLowerCase().replaceAll(" ", "_"))}
+        <div className="ps-1 pe-1 pt-1 pb-1" key={index} id={template.id} title={template.name}>
+            <Accordion.Item key={index} eventKey={index} className="p-1 m-0 out-accordion">
+                <Accordion.Button className='p-0 ps-2 pe-3 m-0 out-accordion'>
+                <Container fluid className="p-0 m-0">
+                <Row className="p-0 m-0">
+                    <Col className="p-0 ps-0 m-0 center-text">
+                        {getImageElement(template.iconName[template.type[1]], '2.9rem')}
+                        <strong className="ps-4">{template.name}</strong>
                     </Col>
-                    <Col className="col-10 ms-2">
-                        <strong>{template.name}</strong>
-                    </Col>
-                </Accordion.Header>
-                <Accordion.Body>
+                </Row>
+                </Container>
+                </Accordion.Button>
+                <Accordion.Body className="p-1">
                     <Row>
-                        <div class="col d-flex justify-content-start mb-2">
+                        <div class="col d-flex justify-content-start mb-2 pt-1">
                             <Tag bordered={true} color="default"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
                         </div>
-                         <div class="col d-flex justify-content-end mb-2 pe-1">
-                            <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type)}</strong></h6></Tag>
+                         <div class="col d-flex justify-content-end mb-2 pt-1 pe-1">
+                            <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type[1])}</strong></h6></Tag>
                        </div>
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
@@ -194,22 +179,35 @@ export default function WeaponTemplate({template, setModalTemplate}) {
                         <Col>
                             <Row>
                                 {resultBadges("badge bg-lite", bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2), fireRate(iSize), fireRateText)}
-                                {resultBadges("badge bg-lite", ammo(iSize), template.ammo[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", ammo(iSize), template.capacity[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
                             </Row>
 
                         </Col>
                         <Col>
                             <Row>
                                 {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐵", template.cd[1].toFixed(2))}
-                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "🌪️", template.bash[1].toFixed(2), "🩸", template.bleed[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "🌪️", template.bash[1].toFixed(2), "🩸", template.bleed[1])}
+                            </Row>
+                        </Col>
+                        <Col>
+                            <Row>
+                                {resultBadges("badge bg-lite", "🏋", template.weight[1].toFixed(2), "🏃", template.ap[1].toFixed(2), "🧨", expProj.toFixed(2))}
                             </Row>
                         </Col>
                     </Row>
+                    <AdditionalDView adDamage={template.adDamage}></AdditionalDView>
+                    <LegendaryView template={template}></LegendaryView>
+                    <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>
                     <Divider className='mt-2 mb-2'></Divider>
+                    <GeneralView template={template}></GeneralView>
+                    <AmmoView className="pt-2" ammoId={template.ammoId[1]}></AmmoView>
+                    <ProjView className="pt-2" projId={template.projId[1]}></ProjView>
+                    <div className="pt-2" />
+                    <DamageOverview damageData={template.damageData}></DamageOverview>
+                    {divider}
+                    {getResetButton(template, items.length, resetButtonActive, setResetButtonActive)}
                     {result}
-                    <span className='d-flex justify-content-center'>
-                        <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
-                    </span>
+                    {getApplyButton(template, setModalTemplate)}
                 </Accordion.Body>
 
             </Accordion.Item>

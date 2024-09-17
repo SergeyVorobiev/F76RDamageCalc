@@ -50,7 +50,7 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
             </Row>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <AutoHandSelector wSpec={wSpec} setWSpec={setWSpec}></AutoHandSelector>
-            <Divider className="p-0 mt-2 mb-2"></Divider>
+            <Divider className="p-0 mt-2 mb-2">Modifications</Divider>
             <Row className="d-flex">
                 {mods}
             </Row>

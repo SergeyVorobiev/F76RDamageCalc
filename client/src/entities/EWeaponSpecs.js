@@ -1,3 +1,6 @@
+import getMods from '../helpers/Mods';
+
+
 export function convertTemplate(template) {
     return {
         ballistic: {
@@ -167,16 +170,13 @@ export function convertTemplateToSpecs(template) {
     let fireRate = (template.isAuto[1]) ? template.autoRate[1] : (10 / template.manualRate[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
     let mods = [];
-    if (!template.unverified) {
-        for (let i = 0; i < template.mods.length; i++) {
-            let categoryMods = template.mods[i].categoryMods;
-            let categoryName = template.mods[i].categoryName;
-            for (let j = 0; j < categoryMods.length; j++) {
-                let mod = categoryMods[j];
-                if (mod.isUsed) {
-                    mods.push({group: categoryName, id: mod.id, name: mod.name});
-                    break;
-                }
+    for (const modCategoryName in template.allMods) {
+        const categoryMods = template.allMods[modCategoryName];
+        for (let j = 0; j < categoryMods.length; j++) {
+            if (categoryMods[j][1]) {
+                let mod = getMods().get(categoryMods[j][0]);
+                mods.push({group: modCategoryName, id: mod.id, name: mod.name});
+                break;
             }
         }
     }
@@ -184,11 +184,12 @@ export function convertTemplateToSpecs(template) {
     return {
         shot_size: template.shotSize[1],
         reload_time: template.reloadTime[1],
+        reload_speed: template.reloadSpeed[1],
         fire_rate: fireRate,
         anim_action: template.manualRate[1],
         is_auto: template.isAuto[1],
         hand: template.hand[1],
-        ammo_capacity: template.ammo[1],
+        ammo_capacity: template.capacity[1],
         aa: template.antiArmor[1],
         strength_boost: template.strengthBoost[1],
         crit: template.crit[1],
@@ -198,10 +199,11 @@ export function convertTemplateToSpecs(template) {
         cd: template.cd[1],
         creatureType: template.creatureType[1],
         bash: template.bash[1],
-        type: template.type,
+        type: template.type[1],
         level: template.level,
         accuracy: template.accuracy[1],
         defaultName: template.name,
+        iconName: template.iconName[template.type[1]],
         tags: template.tags,
         mods: mods,
     };
@@ -211,6 +213,7 @@ export function defaultWeaponSpecs() {
     return {
         shot_size: 1,
         reload_time: 0,
+        reload_speed: 1,
         fire_rate: 1,
         anim_action: 0,
         is_auto: 1,
@@ -228,8 +231,9 @@ export function defaultWeaponSpecs() {
         accuracy: 100,
         level: 1,
         defaultName: "Weapon",
+        imageName: "Weapon",
         type: "All",
-        tags: "",
+        tags: [],
         mods: [],
     };
 }

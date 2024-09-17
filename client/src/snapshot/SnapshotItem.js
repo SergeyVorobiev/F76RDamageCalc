@@ -120,16 +120,16 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
 }
 
 function headerBody(item, setModalRenameItem) {
-    let wName = item.wSpec.defaultName;
+    let wName = item.wSpec.iconName;
     if (!wName) {
         wName = "Weapon";
     }
     return (
         <Container className='ps-1 pe-1'>
             <div class="row-12 d-flex">
-                <div class='col-2 p-2 d-flex justify-content-start'>
+                <div class='col-2 p-0 d-flex justify-content-start'>
                     <div className="m-auto ms-1">
-                        {getImageElement(wName.toLowerCase().replaceAll(" ", "_"), '2rem')}
+                        {getImageElement(wName, '3rem')}
                     </div>
                 </div>
                 <div class="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
@@ -137,7 +137,7 @@ function headerBody(item, setModalRenameItem) {
                 </div>
                 <div class="col-1 d-flex p-2 justify-content-end">
                     <div className="m-auto me-1">
-                        <Button className="pb-1" id={item.id} variant="outline-dark" onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
+                        <Button className="pb-1" id={item.id} variant="outline-secondary" onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
                             <RenameIcon />
                         </Button>
                     </div>

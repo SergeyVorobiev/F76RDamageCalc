@@ -1,22 +1,22 @@
-const magazines = require.context('../resources/boostStuff/magazines', true, /\.png/);
+const magazines = require.context('../resources/boostStuff/magazines', true, /\.webp/);
 const magazinesList = magazines.keys().map(magazine => magazines(magazine));
 
-const bobbleHeads = require.context('../resources/boostStuff/bobbleHeads', true, /\.png/);
+const bobbleHeads = require.context('../resources/boostStuff/bobbleHeads', true, /\.webp/);
 const bobbleHeadsList = bobbleHeads.keys().map(bobbleHead => bobbleHeads(bobbleHead));
 
-const foods = require.context('../resources/boostStuff/food', true, /\.png/);
+const foods = require.context('../resources/boostStuff/food', true, /\.webp/);
 const foodsList = foods.keys().map(food => foods(food));
 
-const drinks = require.context('../resources/boostStuff/drink', true, /\.png/);
+const drinks = require.context('../resources/boostStuff/drink', true, /\.webp/);
 const drinksList = drinks.keys().map(drink => drinks(drink));
 
-const psychos = require.context('../resources/boostStuff/psycho', true, /\.png/);
+const psychos = require.context('../resources/boostStuff/psycho', true, /\.webp/);
 const psychoList = psychos.keys().map(psycho => psychos(psycho));
 
-const serums = require.context('../resources/boostStuff/serums', true, /\.png/);
+const serums = require.context('../resources/boostStuff/serums', true, /\.webp/);
 const serumList = serums.keys().map(serum => serums(serum));
 
-const others = require.context('../resources/boostStuff/others', true, /\.png/);
+const others = require.context('../resources/boostStuff/others', true, /\.webp/);
 const othersList = others.keys().map(other => others(other));
 
 

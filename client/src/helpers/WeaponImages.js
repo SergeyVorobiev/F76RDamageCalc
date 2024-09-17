@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'react-bootstrap/Image';
-const images = require.context('../resources/weapon_icons', true, /\.png$/);
+const images = require.context('../resources/weapon_icons', true, /\.webp$/);
 const imageList = images.keys().map(image => images(image));
 
 
