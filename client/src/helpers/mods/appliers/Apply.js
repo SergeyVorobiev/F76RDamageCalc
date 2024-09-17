@@ -37,6 +37,9 @@ export class Apply {
         } else {
             to[1] -= (from[0] * value);
         }
+        if (to[1] < 0) {
+            to[1] = 0;
+        }
     }
 
     mullAdd(field, value, apply) {
@@ -48,6 +51,9 @@ export class Apply {
             field[1] += value;
         } else {
             field[1] -= value;
+        }
+        if (field[1] < 0) {
+            field[1] = 0;
         }
     }
 
@@ -65,6 +71,9 @@ export class Apply {
         } else {
             field[1] = field[0];
         }
+        if (field[1] < 0) {
+            field[1] = 0;
+        }
     }
 
     addSetMullAdd(field, value, op, apply) {
@@ -75,5 +84,9 @@ export class Apply {
         } else if (op === 'Set') {
             this.set(field, value, apply);
         }
+    }
+
+    isChangingDefaultDamage() {
+        return false;
     }
 }

@@ -16,7 +16,7 @@ function getProjectileOverlay(proj) {
 }
 
 function getHazardOverlay(hazard) {
-    const overlayButton = (<Button className="d-flex justify-content-center mb-1 m-auto" variant="success" size='sm' style={{width: '15rem'}}>Hazard: {hazard['id']}</Button>);
+    const overlayButton = (<Button className="d-flex justify-content-center mt-1 mb-1 m-auto" variant="success" size='sm' style={{width: '15rem'}}>Hazard: {hazard['id']}</Button>);
     return (
         <WeaponPopoverOverlay popoverHeader={"Hazard"} popoverContent={buildHazardView(hazard)} itemToOverly={overlayButton}></WeaponPopoverOverlay>
     );
@@ -52,7 +52,7 @@ export function getExpView(expl, header="Explosive", popover=false) {
                 }
             }
         }
-        if (expl.object != '') {
+        if (expl.object !== '') {
             if (expl.object.type === 'HAZD') {
                 hazard = getHazardOverlay(expl.object.value);
             } else if (expl.object.type === 'WEAP') {
@@ -71,7 +71,7 @@ export function getExpView(expl, header="Explosive", popover=false) {
         }
 
         let dType = expl.d_type;
-        if (dType && dType != '' && dType != '00000000') {
+        if (dType && dType !== '' && dType !== '00000000') {
             dType = dType.id + " - " + dType.name + " / " + dType.full;
         }
         return (
@@ -81,20 +81,21 @@ export function getExpView(expl, header="Explosive", popover=false) {
                     <Row>
                         {getField(expl, 'Id:', 'id', 'default', '20rem')}
                         {getField(expl, 'Name:', 'name', 'purple', '20rem')}
-                        {getField(expl, 'Damage:', 'damage', 'blue', '20rem')}
-                        {getField(expl, 'Force:', 'force', 'blue', '20rem')}
-                        {getField(expl, 'ExpCurv:', 'exp_curv', 'blue', '20rem')}
+                        {getField(expl, 'Damage:', 'damage', 'blue', '20rem', false)}
+                        {getField(expl, 'Force:', 'force', 'blue', '20rem', false)}
+                        {getField(expl, 'ExpCurv:', 'exp_curv', 'blue', '20rem', false)}
                         {getResolvedField('DType:', dType, 'blue', '20rem')}
                         {getResolvedField('Placed Weapon:', placedWeapon, 'blue', '20rem')}
-                        {getField(expl, 'DValue:', 'd_value', 'blue', '20rem')}
-                        {getField(expl, 'DCurv:', 'd_curv', 'blue', '20rem')}
+                        {getField(expl, 'DValue:', 'd_value', 'blue', '20rem', false)}
+                        {getField(expl, 'DCurv:', 'd_curv', 'blue', '20rem', false)}
                     </Row>
                     <div className="m-1" />
                     {projectile}
+                    {getCardSpell(expl.enchantment)}
                     {hazard}
                     {objectExplosion}
                     {combined}
-                    {getCardSpell(expl.enchantment)}
+
                 </Card.Body>
             </Card>
         );
@@ -159,7 +160,7 @@ function buildProjViewByIds(ids) {
 }
 
 function projInfo(className, ids) {
-    if (!ids || ids.length == 0) {
+    if (!ids || ids.length === 0) {
         return (<></>);
     }
 

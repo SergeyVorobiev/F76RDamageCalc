@@ -7,9 +7,6 @@ from server.weapon_builder.WeaponHandler import WeaponHandler
 
 
 class MissedWeaponChecker:
-    not_apply = ['003fbba1', '0029cc0f', '004e42a1', '00052213', '00045884', '00450366', '001138e0', '0060e0ef',
-                 '00729bfe', '00110d41', '0042b0cd', '000d1eb0', '00424b66', '0010faa7', '001025ac', '000ddb7c',
-                 '0041a39c', '005532b4', '0045ff61', '003879a3', '000042f2']
 
     def __init__(self):
         pass
@@ -30,7 +27,7 @@ class MissedWeaponChecker:
         folder = Root.build_path_from_root(["client", "src", "resources", "weaponTemplates"])
         paths = glob.glob(Root.build_path(folder, ["*.json"]))
         weapons_header, weapon_rows = CSVWeapon.load_weapons()
-        w_extractor = CSVWDataExtractor(weapons_header)
+        w_extractor = CSVWDataExtractor(weapons_header, weapon_rows)
         existed_weapon_ids = set()
 
         def handler(path, weapon):

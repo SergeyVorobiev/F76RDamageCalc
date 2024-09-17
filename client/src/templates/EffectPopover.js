@@ -1,8 +1,6 @@
-import { Tag } from 'antd';
 import Card from 'react-bootstrap/Card';
 import { keyValueTag } from '../helpers/RowBuilder';
 import Row from 'react-bootstrap/Row';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Button from 'react-bootstrap/Button';
 import { getPerkContent } from '../helpers/PerkPopover';
 import { renderWeaponPopover } from '../helpers/WeaponPopoverOverlay';
@@ -19,7 +17,7 @@ function getField(lValue, rValue, color) {
 }
 
 export function getActorData(actor) {
-    if (actor === "" || actor === '00000000') {
+    if (actor === "" || actor === '00000000' || actor === '00000392') {
         return '';
     }
     return actor.id + " / " + actor.name;
@@ -54,8 +52,8 @@ function getGlobDuration(effect) {
     const dur = effect.glob_duration;
     if (dur !== '') {
         return (
-            <Card  className='mt-1 bm-1'>
-                <Card.Header className="bg-spell-header p-1 ps-2">Glob Duration</Card.Header>
+            <Card className='mt-1 mb-1'>
+                <Card.Header className="bg-spell-header p-0 ps-2">Glob Duration</Card.Header>
                 <Card.Body>
                     {getField("Id:", dur.id, "purple")}
                     {getField("Name:", dur.name, "purple")}
@@ -71,8 +69,8 @@ function getGlobMagnitude(effect) {
     const mag = effect.glob_magnitude;
     if (mag !== '') {
         return (
-            <Card className='mt-1 bm-1'>
-                <Card.Header className="bg-spell-header p-1 ps-2">Glob Magnitude</Card.Header>
+            <Card className='mt-1 mb-1'>
+                <Card.Header className="bg-spell-header p-0 ps-2">Glob Magnitude</Card.Header>
                 <Card.Body>
                     {getField("Id:", mag.id, "purple")}
                     {getField("Name:", mag.name, "purple")}
@@ -91,14 +89,13 @@ export function getEffectContent(effect) {
         throw new Error('Projectile Found in spell: ' + id);
     if (mEffect.ability !== '00000000')
         throw new Error('Ability Found in spell: ' + id);
-    if (effect.actor !== '')
-        throw new Error('Actor Found in spell: ' + id);
     const resist = (mEffect.resist === '00000000') ? mEffect.resist : mEffect.resist.full;
     return (
         <>
             {getField("Id:", mEffect.id, 'indigo')}
             {getField("Name:", mEffect.full, "purple")}
             {getField("CodeName:", mEffect.name, "purple")}
+            {getActor("SpellActor:", effect.actor, "purple")}
             {getField("Type:", mEffect.a_type, "purple")}
             {getField("Ability:", mEffect.ability, "purple")}
             {getField("Resistance:", resist, "purple")}
@@ -106,14 +103,15 @@ export function getEffectContent(effect) {
             {getField("Activity:", mEffect.e_type, "purple")}
             {getField("Magnitude:", effect.magnitude, "purple")}
             {getField("Area:", effect.area, "purple")}
+            {getField("OnlyForPlayer:", effect.only_player, "purple")}
             {getField("Duration:", effect.duration, "purple")}
             {getField("DCurv:", effect.d_curv, "purple")}
-            {getGlobDuration(effect)}
-            {getGlobMagnitude(effect)}
             {getExplosiveForPopover(mEffect.explosion)}
             {getField("Projectile:", mEffect.projectile, "purple")}
             {getActor("Actor1:", mEffect.actor_value1, "purple")}
             {getActor("Actor2:", mEffect.actor_value2, "purple")}
+            {getGlobDuration(effect)}
+            {getGlobMagnitude(effect)}
             {getPerkButton(mEffect.perk)}
         </>
     );

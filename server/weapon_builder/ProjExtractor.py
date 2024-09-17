@@ -16,14 +16,19 @@ class ProjExtractor(BaseExtractor):
     def parse_and_update(self, proj, spell_extractor, perk_extractor):
         if proj is None:
             return
-        self.__check_projectiles(proj, spell_extractor, perk_extractor)
-        ProjExtractor.__set_expl_spell(proj['destructible'], spell_extractor, perk_extractor)
-        ProjExtractor.__set_expl_spell(proj['expl'], spell_extractor, perk_extractor)
-        self.__set_expl_object(proj['expl'], spell_extractor, perk_extractor)
-        self.__set_expl_object(proj['destructible'], spell_extractor, perk_extractor)
-        ProjExtractor.__update_expl_curvs(proj['expl'])
-        ProjExtractor.__update_expl_curvs(proj['destructible'])
+        self.parse_explosion(proj['destructible'], spell_extractor, perk_extractor)
+        self.parse_explosion(proj['expl'], spell_extractor, perk_extractor)
         self.update(proj)
+
+    def parse_explosion(self, exp, spell_extractor, perk_extractor):
+        self.__check_expl_projectile(exp, spell_extractor, perk_extractor)
+        self.__set_expl_spell(exp, spell_extractor, perk_extractor)
+        self.__set_expl_object(exp, spell_extractor, perk_extractor)
+        ProjExtractor.__update_expl_curvs(exp)
+
+    def parse_and_update_explosion(self, exp, spell_extractor, perk_extractor):
+        self.parse_explosion(exp, spell_extractor, perk_extractor)
+        self.update(exp)
 
     @staticmethod
     def __update_expl_curvs(expl):
@@ -37,10 +42,6 @@ class ProjExtractor(BaseExtractor):
             expl["d_curv"] = ProjExtractor.__get_curv_value(curv)
         except:
             ...
-
-    def __check_projectiles(self, proj, spell_extractor, perk_extractor):
-        self.__check_expl_projectile(proj['destructible'], spell_extractor, perk_extractor)
-        self.__check_expl_projectile(proj['expl'], spell_extractor, perk_extractor)
 
     def __check_expl_projectile(self, expl, spell_extractor, perk_extractor):
         try:
@@ -62,13 +63,12 @@ class ProjExtractor(BaseExtractor):
         else:
             return ''
 
-    @staticmethod
-    def __set_expl_spell(expl, spell_extractor, perk_extractor):
+    def __set_expl_spell(self, expl, spell_extractor, perk_extractor):
         try:
             spell = expl['enchantment']
             if spell != '' and spell != '00000000':
                 expl['enchantment'] = spell['id']
-                spell_extractor.parse_and_update(spell, perk_extractor)
+                spell_extractor.parse_and_update(spell, self, perk_extractor)
         except:
             ...
 
@@ -88,25 +88,25 @@ class ProjExtractor(BaseExtractor):
                             print("WEAP!!! Unexpected id has been found in an 'Explosive Object': " + obj)
                     if obj['type'] == 'EXPL':
                         obj_expl = obj['value']
-                        ProjExtractor.__set_expl_spell(obj_expl, spell_extractor, perk_extractor)
+                        self.__set_expl_object(obj_expl, spell_extractor, perk_extractor)
+                        self.__set_expl_spell(obj_expl, spell_extractor, perk_extractor)
                         ProjExtractor.__update_expl_curvs(obj_expl)
                         self.__check_expl_projectile(obj_expl, spell_extractor, perk_extractor)
                     elif obj['type'] == 'HAZD':
-                        if obj['value']['id'] == '0033d107':
-                            print()
+                        spell = obj['value']['effect']['value']
+                        obj['value']['effect'] = spell['id']
+                        spell_extractor.parse_and_update(spell, self, perk_extractor)
                     elif obj['type'] == 'MSTT':
                         if obj['value']['spell'] != '':
                             print("MSTT OBJECT contains spell!!!")
                         obj_expl = obj['value']['expl']
-                        ProjExtractor.__set_expl_spell(obj_expl, spell_extractor, perk_extractor)
+                        self.__set_expl_object(obj_expl, spell_extractor, perk_extractor)
+                        self.__set_expl_spell(obj_expl, spell_extractor, perk_extractor)
                         ProjExtractor.__update_expl_curvs(obj_expl)
                         self.__check_expl_projectile(obj_expl, spell_extractor, perk_extractor)
                         obj_hazd = obj['value']['hazd']
                         hazd_spell = obj_hazd['effect']['value']
                         obj_hazd['effect'] = hazd_spell['id']
-                        spell_extractor.parse_and_update(hazd_spell, perk_extractor)
-                    spell = obj['value']['effect']['value']
-                    obj['value']['effect'] = spell['id']
-                    spell_extractor.parse_and_update(spell, perk_extractor)
+                        spell_extractor.parse_and_update(hazd_spell, self, perk_extractor)
         except:
             ...

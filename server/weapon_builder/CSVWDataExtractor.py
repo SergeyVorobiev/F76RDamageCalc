@@ -1,11 +1,20 @@
+from server.weapon_builder.DamageParser import DamageParser
 from server.weapon_builder.NameResolver import NameResolver
 
 
 class CSVWDataExtractor:
     # List of test or debug mods to hide
-    hide_mods = ["004e251a", "004e2518", "004e2519", "00176df8", "00178eaf"]
+    hide_mods = ["004e251a", "004e2518", "004e2519", "00176df8", "00178eaf", "0047187e", "00780410",
+                 "003986ee", "00205bd2", "0049722e", "00312ad4", "00312ad6", "00312ad5", "001879d4", "001879d3",
+                 "0028ebc7", "00439d05", "0030863f", "0027ac2d", "00497236", "00497250", "003f2e3b",
+                 "004677aa", "003f2e3a", "003f2e4a", "00497254", "005a1c8a", "005a7be5", "00439a64",
+                 "003f2e27", "005b6dad", "0045fc87", "005b6db4", "0049723e", "00497249", "005db32f"]
 
-    def __init__(self, w_header):
+    not_apply = ['003fbba1', '0029cc0f', '004e42a1', '00052213', '00045884', '00450366', '001138e0', '0060e0ef',
+                 '00729bfe', '00110d41', '0042b0cd', '000d1eb0', '00424b66', '0010faa7', '001025ac', '000ddb7c',
+                 '0041a39c', '005532b4', '0045ff61', '003879a3', '000042f2']
+
+    def __init__(self, w_header, weapon_rows):
         self.w_types = ["Pistol", "HeavyGun", "Rifle", "Bow", "Shotgun", "MeleeGeneral", "Unarmed", "Thrown"]
         self.w_header = w_header
         self.i_id = w_header.index('ID')
@@ -17,6 +26,7 @@ class CSVWDataExtractor:
         self.i_ammo = w_header.index('AMMO')
         self.i_manual_rate = w_header.index('ATTACK_DELAY')
         self.i_attack_speed = w_header.index("ATTACK_SPEED")
+        self.i_speed = w_header.index("SPEED")
         self.i_capacity = w_header.index("CAPACITY")
         self.i_weight = w_header.index("WEIGHT")
         self.i_ap = w_header.index("AP")
@@ -28,6 +38,8 @@ class CSVWDataExtractor:
         self.i_def_mods = w_header.index("DEF_MODS")
         self.i_ma = w_header.index("MA")
         self.i_crit = w_header.index("CRIT")
+        self.damage_parser = DamageParser(self.i_ammo, self.i_proj, self.i_spell, self.i_damage, self.i_crit,
+                                          weapon_rows)
 
     def get_cname(self, csv_weapon):
         return csv_weapon[self.i_cname]
@@ -44,12 +56,18 @@ class CSVWDataExtractor:
     def get_name(self, csv_weapon):
         return csv_weapon[self.i_name]
 
-    def set_apply(self, template, csv_weapon, not_apply):
+    def get_speed(self, csv_weapon):
+        return float(csv_weapon[self.i_speed])
+
+    def set_speed(self, template, csv_weapon):
+        speed = self.get_speed(csv_weapon)
+        template["speed"] = [speed, speed]
+
+    def set_apply(self, template, csv_weapon, w_type):
         idd = self.get_id(csv_weapon)
-        tags = self.get_tags(csv_weapon)
-        if tags.__contains__("Mine"):
+        if w_type == "Thrown":
             template['apply'] = False
-        if not_apply.__contains__(idd):
+        if CSVWDataExtractor.not_apply.__contains__(idd):
             template['apply'] = False
 
     def set_name(self, template, csv_weapon):
@@ -74,6 +92,10 @@ class CSVWDataExtractor:
             idd = self.get_id(csv_weapon)
             if idd == '0054a165':
                 name = "Gauss Pistol"
+        elif name == "kwell":
+            idd = self.get_id(csv_weapon)
+            if idd == '0000dc55':
+                name = "Death Tambo"
         elif name == '':
             name = NameResolver.weapon_names[csv_weapon[0]]
         template["name"] = name
@@ -94,11 +116,13 @@ class CSVWDataExtractor:
     def set_level(self, template, csv_weapon):
         template["level"] = self.get_max_level(csv_weapon)
 
-    def set_spell(self, template, csv_weapon, spell_extractor, perk_extractor):
+    def set_spell(self, template, csv_weapon, spell_extractor, proj_extractor, perk_extractor):
         spell = self.get_spell(csv_weapon)
         if spell:
-            spell_extractor.parse_and_update(spell, perk_extractor)
+            spell_extractor.parse_and_update(spell, proj_extractor, perk_extractor)
             template["spellId"] = spell["id"]
+            return spell['id']
+        return ''
 
     def get_spell(self, csv_weapon):
         try:
@@ -108,20 +132,6 @@ class CSVWDataExtractor:
 
     def get_levels(self, csv_weapon):
         return csv_weapon[self.i_levels]
-
-    def get_damage_data(self, csv_weapon):
-        return csv_weapon[self.i_damage]
-
-    # Combine get_damage and this together, move this code to get_damage_data and extend it in a way to get all possible
-    # default damage
-    def set_damage_data(self, template, csv_weapon):
-        damage_data = eval(self.get_damage_data(csv_weapon))
-        if damage_data.__len__() == 0:
-            return
-        for d_data in damage_data:
-            d_curv = eval(d_data['curv'][1])['curve']
-            d_data['curv'] = d_curv[d_curv.__len__() - 1]['y']
-        template['damageData'] = damage_data
 
     def set_levels(self, template, csv_weapon):
         template['levels'] = self.get_levels(csv_weapon)
@@ -140,14 +150,11 @@ class CSVWDataExtractor:
         ap = self.get_ap(csv_weapon)
         template['ap'] = [ap, ap]
 
-    def set_base_damage_type(self, template, csv_weapon):
-        pass
-
     def get_crit(self, csv_weapon):
         crit = csv_weapon[self.i_crit]
         return eval(crit)
 
-    def set_crit(self, template, csv_weapon, spell_extractor, perk_extractor):
+    def set_crit(self, template, csv_weapon, spell_extractor, proj_extractor, perk_extractor):
         crit = self.get_crit(csv_weapon)
         template["crMult"] = crit["mult"]
         template["crChar"] = crit["charge"]
@@ -155,9 +162,9 @@ class CSVWDataExtractor:
             spell_id = crit["spell"]["id"]
         except:
             spell_id = '00000000'
-        if spell_id != '00000000':
-            spell_extractor.parse_and_update(crit['spell'], perk_extractor)
-        template["crSpellId"] = [[spell_id], [spell_id]]
+        if spell_id != '00000000' and spell_id != '':
+            spell_extractor.parse_and_update(crit['spell'], proj_extractor, perk_extractor)
+            template["crSpellId"] = [[spell_id], [spell_id]]
 
     def get_tags(self, csv_weapon):
         tags = csv_weapon[self.i_tags].split(" / ")
@@ -205,7 +212,7 @@ class CSVWDataExtractor:
 
     def get_is_auto(self, tags):
         for tag in tags:
-            if tag == "Automatic":
+            if tag == "Automatic" or tag == "AutomaticMelee":
                 return 1
         return 0
 
@@ -216,29 +223,7 @@ class CSVWDataExtractor:
     def get_projectile(self, csv_weapon):
         return csv_weapon[self.i_proj]
 
-    def get_damage(self, csv_weapon):
-        damage = csv_weapon[self.i_damage]
-        damage = eval(damage)
-        result = []
-        self._look_for_ammo_damage(csv_weapon, result)
-        for d in damage:
-            value = d['value']
-            if value > 0:
-                print(f"WARNING! {csv_weapon[1]} has damage value: {value} together with 'DCurv'")
-            type = d['type']
-            type_name = type['name']
-            type_full = type['full']
-            type_id = type['id']
-            curv = eval(d['curv'][1])['curve']
-            max_damage = curv[curv.__len__() - 1]['y']
-            result.append((type_name, type_id, type_name, type_full, max_damage))
-        if result.__len__() == 0:
-            print("DAMAGE IS EMPTY!!!")
-        return result
-
     def _set_explosive_damage(self, expl, result, type):
-        if expl['object'] != '':
-            print()
         try:
             exp_curv = expl['exp_curv']
             exp_curv = eval(exp_curv.split("\n")[1])['curve']
@@ -266,8 +251,6 @@ class CSVWDataExtractor:
             ...
 
     def _look_for_ammo_damage(self, csv_weapon, result):
-        if self.get_id(csv_weapon) == '00450366':
-            print()
         try:
             ammo = eval(csv_weapon[self.i_ammo])
             expl = ammo['projectile']['expl']
@@ -282,29 +265,10 @@ class CSVWDataExtractor:
         except:
             ...
 
-    def set_damage(self, template, csv_weapon):
-        damages = self.get_damage(csv_weapon)
-        for damage in damages:
-            type = damage[0]
-            value = [damage[4], damage[4]]
-            if type == 'dtPhysical':
-                template['bbDamage'] = value
-            elif type == 'dtEnergy':
-                template['ebDamage'] = value
-            elif type == 'dtFire':
-                template['fbDamage'] = value
-            elif type == 'dtPoison':
-                template['pbDamage'] = value
-            elif type == 'dtCryo':
-                template['cbDamage'] = value
-            elif type == 'dtRadiationExposure':
-                template['rbDamage'] = value
-            elif type == 'ammoExp':
-                template['ammoExp'] = value
-            elif type == 'projExp':
-                template['projExp'] = value
-            else:
-                raise Exception(f"Unsupported damage {type}")
+    # Base damage + Base spell
+    def set_base_damage(self, template, csv_weapon):
+        damages = self.damage_parser.build_base_damage(csv_weapon)
+        template['damageData'] = damages
 
     def get_num_projectiles(self, csv_weapon):
         return csv_weapon[self.i_projectiles_num]
@@ -315,13 +279,25 @@ class CSVWDataExtractor:
             num = 1
         template["shotSize"] = [int(num), int(num)]
 
-    # TODO Implement
+    repeatableFireIds = ["0014831c", "006477ec", "005e47ee", "0003f6f8", "005dd5b2"]
+    autoManualIds = ["00182634", "00011bf6", "0042b0cc"]
+
     def get_auto_rate(self, csv_weapon):
+        idd = self.get_id(csv_weapon)
+
+        #  These weapons have special tag - HasRepeatableSingleFire
+        if CSVWDataExtractor.repeatableFireIds.__contains__(idd):
+            return 10 / float(csv_weapon[self.i_manual_rate])
+        elif CSVWDataExtractor.autoManualIds.__contains__(idd):
+            return 20
         return 91
 
     def set_auto_rate(self, template, csv_weapon):
-        auto_rate = self.get_auto_rate(csv_weapon)
+        auto_rate = self.get_auto_rate(csv_weapon) * self.get_speed(csv_weapon)
         template["autoRate"] = [auto_rate, auto_rate]
+
+    def set_def_rate(self, template, csv_weapon):
+        template['defRate'] = self.get_auto_rate(csv_weapon)
 
     def get_manual_rate(self, csv_weapon, w_type):
         if w_type == "Thrown" or w_type == "Melee" or w_type == "Unarmed":
@@ -475,21 +451,17 @@ class CSVWDataExtractor:
             mod_type = item[0]
             for mod_array in item[1]:
                 mod_id = mod_array[0]
+                selected = mod_array[1]
+                mod_array.append(True)  # Can be selected
                 k = 0
-
-                # For example grenades is not appropriated for modding but can have default mods, so we make them
-                # active but not selectable
-                if appropriate:
-                    selectable = 0
-                else:
-                    selectable = -1
-                result = {"type": mod_type, "modifiers": [], "canSelect": True, "useful": False, "hide": False}
+                result = {"type": mod_type, "modifiers": [], "useful": False, "hide": False}
                 mod = mod_rows[mod_id]
                 for mod_field in mod:
                     if k == 0:
                         mod_id = mod_field[0]
                         result["id"] = mod_id
                         result["codeName"] = mod_field[1]
+                        result["ap"] = mod_field[4]
                         mod_name = mod_field[2]
                         if mod_id == '006e2242':
                             mod_name = "Poison"
@@ -499,6 +471,20 @@ class CSVWDataExtractor:
                             mod_name = "Cryo Blade"
                         elif mod_id == "005d7f2c":
                             mod_name = "No Blade"
+                        elif mod_id == "006e2245":
+                            mod_name = "Custom Bear Arm"
+                        elif mod_id == "00630c79":
+                            mod_name = "Energy Electro Enforcer"
+                        elif mod_id == "0032cedc":
+                            mod_name = "Standard Frame"
+                        elif mod_id == "0018c438":
+                            mod_name = "Standard Grip"
+                        elif mod_id == "00312a79":
+                            mod_name = "True Long Barrel"
+                        elif mod_id == "002deda6":
+                            mod_name = "Fierce Receiver"
+                        elif mod_id == "00313924":
+                            mod_name = "Standard Stock"
                         if mod_name == '':
                             try:
                                 mod_name = NameResolver.mod_names[mod_field[0]]
@@ -511,7 +497,7 @@ class CSVWDataExtractor:
                         modifier = {}
                         if mod_field[7] == "Enchantments":
                             spell = eval(mod_field[10])
-                            spell_extractor.parse_and_update(spell, perk_extractor)
+                            spell_extractor.parse_and_update(spell, proj_extractor, perk_extractor)
                         elif mod_field[7] == 'Ammo':
                             ammo = eval(mod_field[10])
                             ammo_extractor.parse_and_update(ammo, proj_extractor, spell_extractor, perk_extractor)
@@ -527,24 +513,27 @@ class CSVWDataExtractor:
                             modifier['curv'] = self.__extract_curv_value(mod_field[11])
                         else:
                             modifier['curv'] = 0
-                        if selectable == 0 and CSVWDataExtractor.not_deselected_mods.__contains__(mod_type):
-                            selectable = -1
                         if not result['useful']:
                             result['useful'] = self.__check_useful(mod_field)
                         result["modifiers"].append(modifier)
                     k += 1
-                if selectable == -1:
-                    result["canSelect"] = False
+
+                # For example grenades is not appropriate for modding but can have default mods, so we make them
+                # active but not selectable
+                if not appropriate or (CSVWDataExtractor.not_deselected_mods.__contains__(mod_type) and selected):
+                    mod_array[2] = False
                 mod_extractor.update(result)
 
-    not_selectable_categories = ["APCost", "Weight", "Value", "Durability", "Keywords", "MaxRange", "MinRange",
+    not_selectable_categories = ["APCost", "Weight", "WeightReduction", "Value", "Durability", "Keywords", "MaxRange",
+                                 "MinRange",
                                  "ConIronSights", "RecoilMaxDegree", "RecoilMinDegree", "MaxConDegree", "MinConDegree",
                                  "SightedTransition", "AimModel", "SightedTransition", "HasAlternateRumble",
                                  "ZoomFOVMult", "ZoomDataCameraOffsetZ", "HasScope", "ZoomData", "BaseStability",
                                  "RecoilArcDeg", "RecoilArcRotateDeg", "SoundLevel", "RecoilShotsForRunaway",
                                  "SecondaryDamage", "NPCAmmoList", "ModelSwap", "Rank", "EquipSlot", "AttackSound",
                                  "IdleSound", "EquipSound", "ImpactDataSet", "MaterialSwaps", "UnEquipSound",
-                                 "ZoomDataCameraOffsetX", "ZoomDataCameraOffsetY", "AimAssist", "CriticalChargeBonus"]
+                                 "ZoomDataCameraOffsetX", "ZoomDataCameraOffsetY", "AimAssist", "CriticalChargeBonus",
+                                 "HoldInputToPower"]
     selectable_categories = ["Enchantments", "DamageBonusMult", "AmmoCapacity", "OverrideProjectile", "ReloadSpeed",
                              "IsAutomatic", "Speed", "ActorValues", "Ammo", "AttackDelay", "CriticalDamageMult",
                              "AttackDamage", "DamageTypeValues", "HasRepeatableSingleFire", "CritEffect", "FullPower",
@@ -570,7 +559,6 @@ class CSVWDataExtractor:
         result = self.__set_mods_usage(def_mods, result, appropriate_for_mods)
         self.__update_mods(mod_extractor, ammo_extractor, proj_extractor, spell_extractor, perk_extractor, result,
                            mod_rows, appropriate_for_mods)
-
         template["allMods"] = result
 
     def appropriate_for_mods(self, csv_weapon):
@@ -621,9 +609,11 @@ class CSVWDataExtractor:
         ammo = self.get_ammo(csv_weapon)
         if ammo is None:
             template['ammoId'] = ['', '']
+            return ''
         else:
             template["ammoId"] = [ammo['id'], ammo['id']]
-        ammo_extractor.parse_and_update(ammo, proj_extractor, spell_extractor, perk_extractor)
+            ammo_extractor.parse_and_update(ammo, proj_extractor, spell_extractor, perk_extractor)
+            return ammo['id']
 
     def get_proj(self, csv_weapon):
         proj_data = csv_weapon[self.i_proj]
@@ -631,20 +621,12 @@ class CSVWDataExtractor:
             return None
         return eval(proj_data)
 
-    # Deprecated, ammoProjId is only used if is overridden by a mod in the app.
-    def set_ammo_proj(self, template, csv_weapon):
-        ammo = self.get_ammo(csv_weapon)
-        projId = ''
-        try:
-            projId = ammo['projectile']['id']
-        except:
-            ...
-        template["ammoProjId"] = [projId, projId]
-
     def set_proj(self, template, csv_weapon, proj_extractor, spell_extractor, perk_extractor):
         proj = self.get_proj(csv_weapon)
         if proj is None:
-            template['expProjId'] = [[], []]
+            template['projId'] = [[], []]
+            return []
         else:
-            template["expProjId"] = [[proj['id']], [proj['id']]]
-        proj_extractor.parse_and_update(proj, spell_extractor, perk_extractor)
+            template["projId"] = [[proj['id']], [proj['id']]]
+            proj_extractor.parse_and_update(proj, spell_extractor, perk_extractor)
+        return [proj['id']]

@@ -1,30 +1,9 @@
-import Popover from 'react-bootstrap/Popover';
 import { Tag, Divider } from 'antd';
 import Card from 'react-bootstrap/Card';
 import { keyValueTag } from '../helpers/RowBuilder';
 import { getEffectsForPopover, getSpellHeader } from '../helpers/SpellView';
 import getSpell from '../helpers/Spell';
-import { weaponPopover } from '../helpers/ViewHelper';
 
-
-function getFull(spell, color) {
-    if (spell.full !== '') {
-        return keyValueTag("Name:", spell.full, color);
-    }
-    return (<></>);
-}
-
-function getIf(spell, name, fieldName, color) {
-    if (name === "perk") {
-        if (spell[name] !== "00000000") {
-            throw new Error('Perk exists: ' + spell[name]);
-        }
-    }
-    if (spell[name]) {
-        return keyValueTag(name, spell[name], color);
-    }
-    return (<></>);
-}
 
 function buildModCard(mod_e, color) {
     if (mod_e.prop === "Enchantments") {
@@ -33,7 +12,7 @@ function buildModCard(mod_e, color) {
         return (
             <Card className="mb-1 mt-1">
                 {keyValueTag(mod_e.op,  mod_e.prop, color)}
-                {getSpellHeader(spell, '100%')}
+                {getSpellHeader(spell, '20rem')}
                 {getEffectsForPopover(effects)}
             </Card>
         );

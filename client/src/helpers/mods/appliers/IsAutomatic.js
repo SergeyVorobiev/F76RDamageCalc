@@ -3,12 +3,8 @@ import { Apply } from './Apply';
 
 export class IsAutomatic extends Apply {
 
-    constructor() {
-        super();
-    }
-
-    apply(template, weaponId, mod, apply) {
-        super.checkOp(mod, weaponId, "Set");
+    apply(template, mod, apply) {
+        super.checkOp(mod, template.id, "Set");
         if (apply) {
             template.isAuto[1] = parseInt(mod.val1);
         } else {

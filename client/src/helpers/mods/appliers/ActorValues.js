@@ -3,13 +3,9 @@ import { Apply } from './Apply';
 
 export class ActorValues extends Apply {
 
-    constructor() {
-        super();
-    }
-
     // TODO: For now 'Add' performs a function of 'Set'.
-    apply(template, weaponId, mod, apply) {
-        super.checkOp(mod, weaponId, "Add");
+    apply(template, mod, apply) {
+        super.checkOp(mod, template.id, "Add");
         const name = mod.val1;
         let value = super.getCurvValue(mod);
         if (value === 0) {
@@ -51,6 +47,9 @@ export class ActorValues extends Apply {
                 break;
             case '006e1052 / STAT_SneakAttackBonus':
                 template.sneak[1] = (apply) ? value : template.sneak[0];
+                break;
+            case '007a6c35 / LGND_ExplosivePayload':
+                template.exp[1] = (apply) ? value : template.exp[0];
                 break;
             default:
                 break;

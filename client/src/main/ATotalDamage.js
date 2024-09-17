@@ -105,8 +105,8 @@ function buildStats(creature, resultDamage, legendary, weaponName) {
                     {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
-                    <Divider className='p-0 m-1'></Divider>
-                    <span className="badge bg-warning mb-1 text-dark"> {weaponName}</span>
+                    <Divider className='p-0 m-1 mb-3'></Divider>
+                    <span className="badge bg-warning mb-0 text-dark p-2"> {weaponName}</span>
                 </Stack>
             </Popover.Body>
         </Popover>
@@ -350,7 +350,7 @@ export default class ATotalDamage extends React.PureComponent {
         <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
             <Card.Header className='p-0 m-0'>
                 <Row className='p-0 m-0'>
-                    <Col className="col-2 d-flex justify-content-start p-0 m-0 mt-1 mb-1 ms-3">
+                    <Col className="col-2 d-flex justify-content-start p-0 m-0 ms-3">
                         {getImageElement(weaponIcon, "5rem")}
                     </Col>
                     <Col className="col-7 d-flex justify-content-center">

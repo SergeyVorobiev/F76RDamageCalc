@@ -1,10 +1,7 @@
-import getAmmo from '../helpers/Ammo';
 import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import { keyValueTag } from '../helpers/RowBuilder';
 import Row from 'react-bootstrap/Row';
-import { Collapse, Divider } from 'antd';
-import { getField, getNameValueField } from './ViewHelper';
+import { Divider } from 'antd';
+import { getField } from './ViewHelper';
 import getSpell from '../helpers/Spell';
 import Button from 'react-bootstrap/Button';
 import { getPerkButton, getEffectContent } from '../templates/EffectPopover';
@@ -13,7 +10,7 @@ import { WeaponPopoverOverlay, renderWeaponPopover } from '../helpers/WeaponPopo
 
 function getOverlay(effect, buttonStyle) {
     const mEffect = effect['m_effect'];
-    const overlayButton = (<Button className="d-flex justify-content-center mb-1 m-auto" size='sm' style={buttonStyle}>Effect: {mEffect['id']}</Button>);
+    const overlayButton = (<Button className="d-flex justify-content-center m-1" size='sm' style={buttonStyle}>Effect: {mEffect['id']}</Button>);
     return (
         <WeaponPopoverOverlay popoverHeader={mEffect.full} popoverContent={getEffectContent(effect)} itemToOverly={overlayButton}></WeaponPopoverOverlay>
     );
@@ -67,22 +64,27 @@ function buildSpellView(spell) {
         <>
             <Row>
                 {getSpellHeader(spell)}
-                <Divider className='m-0 pt-2 pb-1 ps-4 pe-4'>Effects</Divider>
+            </Row>
+            <Divider className='m-0 pt-2 pb-1 ps-4 pe-4'>Effects</Divider>
+            <Row className='d-flex justify-content-center ps-1 pe-1'>
                 {getEffects(effects)}
             </Row>
         </>
     );
 }
 
-export function getCardSpell(spellId) {
+export function getCardSpell(spellId, header) {
     const spell = getSpell().get(spellId);
     if (!spell) {
         return (<></>);
     }
+    if (!header) {
+        header = "Spell"
+    }
     return (
-        <Card>
+        <Card className="bg-spell-body">
             <Card.Header className="bg-spell-header m-0 ps-2 p-1">
-                <small>Spell</small>
+                <small>{header}</small>
             </Card.Header>
             <Card.Body className="p-0 ms-1 me-1">
                 {buildSpellView(spell)}
@@ -91,6 +93,6 @@ export function getCardSpell(spellId) {
     );
 }
 
-export default function SpellView({spellId}) {
-    return getCardSpell(spellId);
+export default function SpellView({spellId, header}) {
+    return getCardSpell(spellId, header);
 }

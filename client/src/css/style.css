@@ -148,8 +148,13 @@
 }
 
 .bg-lite {
-    background-color:#f5f2ef;
+    background-color:#f4f4f4;
     color: #000;
+}
+
+.bg-yellow {
+    background-color:#fff0cc;
+    color: #cf9100;
 }
 
 .bg-lifetime {
@@ -257,11 +262,11 @@
 .version-text {
     font-family: sans-serif;
     text-transform: capitalize;
-    color: #e8e9eb;
+    color: #c5ccd4;
     font-size: .7rem;
     text-shadow:
-        1px 1px 1px #3969a3,
-        0px 1px 0px #0f1252;
+        1px 1px 1px #08294f,
+        0px 1px 0px #0e5ac4;
     letter-spacing: 1px;
 }
 
@@ -269,4 +274,18 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.bg-light-pink {
+    background-color:#fff2f4;
+    color: #000;
+}
+
+.bg-spell-body {
+    background-color:#f9f5ff;
+    color: #000;
+}
+
+.margin-5px {
+    margin: '5px';
 }

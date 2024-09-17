@@ -9,11 +9,11 @@ class WTemplate:
         result["tags"] = ""
         result["level"] = 0
         result["id"] = ""
-        result["damageData"] = ""
+        result["damageData"] = {}
         result["spellId"] = ""
         result["ammoId"] = ['', '']
-        result["expProjId"] = [[], []]
-        result["ammoProjId"] = [[], []]
+        result["projId"] = [[], []]
+        result["crSpellId"] = [[], []]
         result["bbDamage"] = [0, 0]
         result["bmDamage"] = [0, 0]
         result["btDamage"] = [0, 0]
@@ -39,11 +39,16 @@ class WTemplate:
         result["rtDamage"] = [0, 0]
 
         result["projExp"] = [0, 0]
-        result["ammoExp"] = [0, 0]
 
+        # Additional damage
+        result["adDamage"] = []
+
+        # Additional effects from mods
+        result["adEffects"] = [[], []]
         result["shotSize"] = [1, 1]
         result["reloadTime"] = [0, 0]
         result["reloadSpeed"] = [1, 1]
+        result["defRate"] = 91  # Default auto-rate
         result["autoRate"] = [0, 0]
         result["manualRate"] = [0, 0]
         result["isAuto"] = [0, 0]
@@ -56,17 +61,22 @@ class WTemplate:
         result["bleed"] = [0, 0]
         result["exp"] = [0, 0]
         result["cd"] = [0, 0]
+        result["speed"] = [1, 1]
         result["creatureType"] = ["Any", "Any"]
         result["bash"] = [0, 0]
         result["accuracy"] = [100, 100]
         result["ap"] = [0, 0]
         result["weight"] = [0, 0]
-        result["mods"] = []
         result["allMods"] = {}
+        result["defMods"] = []
         result["apply"] = True
         result["levels"] = ""
         result["crMult"] = 2
         result["crChar"] = 1
-        result["crSpellId"] = [[], []]
-        result["loadDefMods"] = False
+
+        result["legendary1"] = {}
+        result["legendary2"] = {}
+        result["legendary3"] = {}
+        result["legendary4"] = {}
+        result["legendary5"] = {}
         return result

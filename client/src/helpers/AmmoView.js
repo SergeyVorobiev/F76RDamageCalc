@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import { Collapse } from 'antd';
 import { getField } from './ViewHelper';
 import { buildProjViewById } from './ProjView';
-import getProj from './Proj';
 
 
 function buildProj(proj) {
@@ -13,7 +12,7 @@ function buildProj(proj) {
         for (let i = 0; i < proj.length; i++) {
             const projId = proj[i];
             result.push(
-                <Card className="m-0 mt-2 p-0">
+                <Card className="m-0 mt-2 p-0 bg-light-pink">
                     <Card.Header className='m-0 p-1 ps-2 bg-proj-header'><small>Projectile</small></Card.Header>
                     <Card.Body className="p-1 m-0">
                         {buildProjViewById(projId)}
@@ -28,7 +27,7 @@ function buildProj(proj) {
 function buildAmmoView(ammoData, proj) {
     return (
         <>
-            <Row>
+            <Row className='bg-lite'>
                 {getField(ammoData, 'Id:', 'id', 'default', '20rem')}
                 {getField(ammoData, 'Code Name:', 'name', 'purple', '20rem')}
                 {getField(ammoData, 'Full Name:', 'full', 'purple', '20rem')}
@@ -49,7 +48,7 @@ function ammoInfo(className, id, overrideProj) {
     }
     const ammoData = getAmmo().get(id);
     let proj = [ammoData['projectile']];
-    if (overrideProj.length > 0) {
+    if (overrideProj && overrideProj.length > 0) {
         proj = overrideProj;
     }
 
@@ -68,6 +67,8 @@ function ammoInfo(className, id, overrideProj) {
     );
 }
 
+
+// overrideProj is deprecated, only Additional projectile seems can be overridden
 export default function AmmoView({className, ammoId, overrideProj}) {
     return ammoInfo(className, ammoId, overrideProj);
 }

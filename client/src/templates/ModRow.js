@@ -6,8 +6,11 @@ import { popoverContent } from './ModPropsPopover';
 import { WeaponPopoverOverlay } from '../helpers/WeaponPopoverOverlay';
 
 
-function getModRow(modData) {
-    const color = (modData['useful']) ? 'purple' : 'grey';
+function getModRow(modData, def) {
+    let color = (modData['useful']) ? 'purple' : 'grey';
+    if (def) {
+        color = 'blue';
+    }
     return (
         <Tag.CheckableTag style={{width: '100%'}}>
             <strong style={{color: color}}>{modData.name}</strong>
@@ -15,17 +18,18 @@ function getModRow(modData) {
     );
 }
 
-export default function ModRow({index, weaponId, modsSameType, checkMod}) {
+export default function ModRow({index, weaponId, modsSameType, checkMod, defMods}) {
     const modSameType = modsSameType[index];
     const modData = getMods().get(modSameType[0]);
-    const modRow = getModRow(modData);
-    const disabled = !modData['canSelect'];
+    let def = defMods.includes(modSameType[0]);
+    const modRow = getModRow(modData, def);
+    const disabled = !modSameType[2];
     const isUsed = modSameType[1];
     if (modData['hide']) {
         return (<></>);
     }
     return (
-        <Row className="p-1">
+        <Row className="p-1" key={modData.id} title={modData.codeName} id={modData.id}>
             <Col>
                 <WeaponPopoverOverlay popoverHeader={modData.name} popoverContent={popoverContent(modData)} itemToOverly={modRow}></WeaponPopoverOverlay>
             </Col>

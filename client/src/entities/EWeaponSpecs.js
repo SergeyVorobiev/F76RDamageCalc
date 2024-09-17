@@ -184,6 +184,7 @@ export function convertTemplateToSpecs(template) {
     return {
         shot_size: template.shotSize[1],
         reload_time: template.reloadTime[1],
+        reload_speed: template.reloadSpeed[1],
         fire_rate: fireRate,
         anim_action: template.manualRate[1],
         is_auto: template.isAuto[1],
@@ -212,6 +213,7 @@ export function defaultWeaponSpecs() {
     return {
         shot_size: 1,
         reload_time: 0,
+        reload_speed: 1,
         fire_rate: 1,
         anim_action: 0,
         is_auto: 1,

@@ -9,10 +9,15 @@ class CSVWeapon:
     weapon_mod_path = Root.build_path_from_root(["server", "resources", "weapon_mods_full.csv"])
     info_mod_path = Root.build_path_from_root(["server", "resources", "info_mods.csv"])
     perk_path = Root.build_path_from_root(["server", "resources", "perks.csv"])
+    spell_path = Root.build_path_from_root(["server", "resources", "spells.csv"])
 
     @staticmethod
     def load_perks(delimiter=","):
         return CSVWeapon.load_weapon_mods(delimiter=delimiter, path=CSVWeapon.perk_path, row_in_array=False)
+
+    @staticmethod
+    def load_spells(delimiter=","):
+        return CSVWeapon.load_weapon_mods(delimiter=delimiter, path=CSVWeapon.spell_path, row_in_array=False)
 
     @staticmethod
     def load_weapon_mods(delimiter=',', path=None, row_in_array=True):

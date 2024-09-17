@@ -16,6 +16,8 @@ import { CritEffect } from './appliers/CritEffect';
 import { AttackDamage } from './appliers/AttackDamage'
 import { DamageTypeValues } from './appliers/DamageTypeValues'
 import { WeightReduction } from './appliers/WeightReduction'
+import { Enchantments } from './appliers/Enchantments'
+import { NumProjectiles } from './appliers/NumProjectiles'
 
 
 export class ModParser {
@@ -42,14 +44,21 @@ export class ModParser {
         this.appliers.set("AttackDamage", new AttackDamage());
         this.appliers.set("DamageTypeValues", new DamageTypeValues());
         this.appliers.set("WeightReduction", new WeightReduction());
+        this.appliers.set("Enchantments", new Enchantments());
+        this.appliers.set("NumProjectiles", new NumProjectiles());
     }
 
-    applyOrRevoke(modData, template, apply) {
+    // mutatingDamage is used when default damages like (ammo, projectile) must be overridden
+    // this types of modes must be applied separately to correctly multiply buffs.
+    applyOrRevoke(modData, template, apply, mutatingDamage=false) {
         for (let i = 0; i < modData.modifiers.length; i++) {
             const mod = modData.modifiers[i];
             const applier = this.appliers.get(mod.prop);
             if (applier) {
-                applier.apply(template, template.id, mod, apply)
+                const changeDefault = applier.isChangingDefaultDamage();
+                if ((mutatingDamage && changeDefault) || (!mutatingDamage && !changeDefault)) {
+                    applier.apply(template, mod, apply);
+                }
             }
         }
     }

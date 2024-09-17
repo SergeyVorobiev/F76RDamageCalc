@@ -113,8 +113,11 @@ function calcReload(additionalDamage, boost, wSpec, stuffBoost) {
     } else if (wSpec.type === "Rifle" && wSpec.is_auto) {
         reloadTime *= (1 - boost.ground_pounder.displayed_value / 100.0);
     }
-    let mult = 1;
-    collectStuffBoost(stuffBoost.weapon, wSpec, "Reload", (value) => mult *= (1 - value / 100.0));
+    let fortify = wSpec.reload_speed;
+
+    // Considering that it fortifies reload speed instead of time as for 'Speed Demon' mutation
+    collectStuffBoost(stuffBoost.weapon, wSpec, "Reload", (value) => fortify += (value / 100.0));
+    const mult = 1.0 / fortify;
     return reloadTime * mult;
 }
 

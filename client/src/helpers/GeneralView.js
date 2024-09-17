@@ -27,16 +27,16 @@ export function print() {
 }
 
 function buildGeneralView(template) {
-    const auto = (template.isAuto[1] == 1) ? "Yes" : "No";
+    const auto = (template.isAuto[1] === 1) ? "Yes" : "No";
     const crit = template.crMult + template.crit[1] / 100.0;
     const crit_spells = template.crSpellId[1];
     let crit_views = [];
     for (let i = 0; i < crit_spells.length; i++) {
-        crit_views.push(<SpellView spellId={crit_spells[i]}></SpellView>);
+        crit_views.push(<SpellView spellId={crit_spells[i]} header={"Crit Spell"}></SpellView>);
     }
     return (
         <>
-            <Row className="mb-2">
+            <Row className="mb-2 bg-lite">
                 {getField(template, 'Id:', 'id', 'default', '20rem')}
                 {getField(template, 'Code Name:', 'cName', 'purple', '20rem')}
                 {getField(template, 'Full Name:', 'name', 'purple', '20rem')}
@@ -51,7 +51,7 @@ function buildGeneralView(template) {
             </Row>
             <DamageView damageData={template['damageData']}></DamageView>
             <div className="mb-2" />
-            <SpellView spellId={template.spellId}></SpellView>
+            <SpellView spellId={template.spellId} header={"Base Spell"}></SpellView>
             <div className="mb-2" />
             {crit_views}
         </>

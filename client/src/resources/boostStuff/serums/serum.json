@@ -121,11 +121,20 @@
       {
         "category": "weapon",
         "property": "Reload",
-        "func": "speedDemon",
-        "defValue": 20,
+        "func": "speedDemonReload",
+        "defValue": 30,
         "value": 0,
         "valueType": "percent",
         "description": "Reload speed"
+      },
+      {
+        "category": "weapon",
+        "property": "Move",
+        "func": "speedDemonMove",
+        "defValue": 20,
+        "value": 0,
+        "valueType": "percent",
+        "description": "Move speed"
       }
     ]
   },
@@ -151,9 +160,9 @@
         "type": "Unarmed",
         "property": "Bleed",
         "func": "talons2",
-        "defValue": 2,
+        "defValue": "5 - 5s",
         "value": 0,
-        "valueType": "number",
+        "valueType": "string",
         "description": "Bleed"
       }
     ]

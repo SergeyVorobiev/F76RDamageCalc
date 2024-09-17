@@ -3,10 +3,6 @@ import { Apply } from './Apply';
 
 export class Keywords extends Apply {
 
-    constructor() {
-        super();
-    }
-
     addTag(template, tag, apply) {
         if (apply) {
             template.tags.push(tag);
@@ -24,12 +20,32 @@ export class Keywords extends Apply {
         }
     }
 
-    apply(template, weaponId, mod, apply) {
+    print(name) {
+        if (!name.includes("IsAmmoType") && !name.includes("dn_Has") && !name.includes("HasS") && !name.includes("legendary")
+            && !name.includes("s_30") && !name.includes("Anims") && !name.includes("remapNode") && !name.includes("CustomItem")
+            && !name.includes("Legendary") && !name.includes("ATX") && !name.includes("UI_") && !name.includes("s_35")
+            && !name.includes("ma_") && !name.includes("s_20") && !name.includes("FeaturedItem") && !name.includes("00000000")
+            && !name.includes("WeaponTypePistol") && !name.includes("WeaponTypeRifle") && !name.includes("VATSWeaponLongBurst")
+            && !name.includes("DamageType") && !name.includes("s_00")) {
+            console.log("Keywords: " + name);
+        }
+    }
+
+    apply(template, mod, apply) {
         const name = mod.val1;
         switch(name) {
             case '00060a81 / dtEnergy':
             case '0033a7c9 / WeaponTypeEnergy':
                 this.addTag(template, "Energy", apply);
+                return;
+            case '0004a0a2 / WeaponTypeAutomatic':
+            case '0034087a / WeaponTypeAutomaticRifle':
+                this.addTag(template, "Automatic", apply);
+                if (apply) {
+                    template.isAuto[1] = 1;
+                } else {
+                    template.isAuto[1] = template.isAuto[0];
+                }
                 return;
             default:
                 break;

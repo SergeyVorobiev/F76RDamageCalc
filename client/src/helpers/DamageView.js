@@ -14,30 +14,41 @@ function getDamagesData(damageData, width='20rem') {
 function getDamageData(damageData, width='20rem') {
     return (
         <Card className='p-0 m-1'>
-        <Row>
-            {getField(damageData.type, 'Id:', 'id', 'default', width)}
-            {getField(damageData.type, 'Code Name:', 'name', 'purple', width)}
-            {getField(damageData.type, 'Name:', 'full', 'purple', width)}
-            {getField(damageData, 'DCurv:', 'curv', 'blue', width)}
-            {getField(damageData, 'Value:', 'value', 'blue', width)}
-        </Row>
+            <Row>
+                {getField(damageData, 'Id:', 'type_id', 'default', width)}
+                {getField(damageData, 'Code Name:', 'type_name', 'purple', width)}
+                {getField(damageData, 'Name:', 'type_full_name', 'purple', width)}
+                {getField(damageData, 'DCurv:', 'curv', 'blue', width)}
+                {getField(damageData, 'Value:', 'value', 'blue', width)}
+                {getField(damageData, 'Magnitude:', 'magnitude', 'blue', width)}
+                {getField(damageData, 'Time:', 'time', 'blue', width)}
+                {getField(damageData, 'Interval:', 'interval', 'blue', width)}
+
+            </Row>
         </Card>
     )
 }
 
+function buildCard(damageData, header, className) {
+    if (damageData) {
+        return (
+            <Card className="bg-light-pink">
+                <Card.Header className={className}>
+                    <small>{header}</small>
+                </Card.Header>
+                <Card.Body className="p-0 m-0">
+                    {getDamagesData(damageData)}
+                </Card.Body>
+            </Card>
+        );
+    }
+    return (<></>);
+}
 
 export default function DamageView({damageData}) {
-    if (!damageData || damageData == '') {
-        return (<></>);
-    }
     return (
-        <Card>
-            <Card.Header className="bg-damage-header m-0 p-1 ps-2 ">
-                <small>Damage</small>
-            </Card.Header>
-            <Card.Body className="p-0 m-0">
-                {getDamagesData(damageData)}
-            </Card.Body>
-        </Card>
+        <>
+            {buildCard(damageData.Base, "Damage", "bg-damage-header m-0 p-1 ps-2")}
+        </>
     );
 }

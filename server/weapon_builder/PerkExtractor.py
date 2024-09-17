@@ -13,7 +13,7 @@ class PerkExtractor(BaseExtractor):
         self.i_effects = perk_header.index("Effects")
         self.perk_rows = perk_rows
 
-    def parse_and_update(self, id):
+    def parse_and_update(self, id, spell_extractor, proj_extractor):
         perk_row = self.perk_rows[id]
         obj = {}
         obj['id'] = perk_row[self.i_id]
@@ -21,10 +21,14 @@ class PerkExtractor(BaseExtractor):
         obj['full'] = perk_row[self.i_full]
         effects = eval(perk_row[self.i_effects])
         for effect in effects:
+            spell = None
             try:
-                mags = effect['value']['mag_effects']
-                SpellExtractor.resolve_d_curv(mags)
+                _ = effect['value']['mag_effects']  # means spell
+                spell = effect['value']
             except:
                 ...
+            if spell:
+                effect['value'] = spell['id']
+                spell_extractor.parse_and_update(spell, proj_extractor, self)
         obj['effects'] = effects
         self.update(obj)

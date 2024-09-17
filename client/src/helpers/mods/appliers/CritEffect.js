@@ -3,11 +3,7 @@ import { Apply } from './Apply';
 
 export class CritEffect extends Apply {
 
-    constructor() {
-        super();
-    }
-
-    apply(template, weaponId, mod, apply) {
+    apply(template, mod, apply) {
         const field = template.crSpellId;
         const value = mod.val1.split(" / ")[0];
         if (mod.op === "Set") {
@@ -16,7 +12,7 @@ export class CritEffect extends Apply {
             } else {
                 field[1] = [...field[0]];
             }
-        } else if (mod.op === "Add") {
+        } else if (mod.op === "Add" || mod.op === "MullAdd") {
             if (apply) {
                 field[1].push(value);
             } else {
@@ -31,5 +27,9 @@ export class CritEffect extends Apply {
                 }
             }
         }
+    }
+
+    isChangingDefaultDamage() {
+        return true;
     }
 }

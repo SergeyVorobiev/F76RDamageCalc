@@ -3,15 +3,8 @@ import { Apply } from './Apply';
 
 export class OverrideProjectile extends Apply {
 
-    constructor() {
-        super();
-    }
-
-    apply(template, weaponId, mod, apply) {
-        let field = template.ammoProjId;
-        if (template.expProjId[0].length > 0) {
-            field = template.expProjId;
-        }
+    apply(template, mod, apply) {
+        const field = template.projId;
         const value = mod.val1.split(" / ")[0];
         if (mod.op === "Set") {
             if (apply) {
@@ -19,7 +12,7 @@ export class OverrideProjectile extends Apply {
             } else {
                 field[1] = [...field[0]];
             }
-        } else if (mod.op === "MullAdd") {
+        } else if (mod.op === "MullAdd" || mod.op === "Add") {
             if (apply) {
                 field[1].push(value);
             } else {
@@ -34,5 +27,9 @@ export class OverrideProjectile extends Apply {
                 }
             }
         }
+    }
+
+    isChangingDefaultDamage() {
+        return true;
     }
 }
