@@ -108,7 +108,7 @@ export default class DamageExtractor {
         // Additional Mod Effects
         const effectIds = template.adEffects[1];
         for (let i = 0; i < effectIds.length; i++) {
-             const effectId = effectIds[i];
+            const effectId = effectIds[i];
             if (effectId !== '00000000' && effectId !== '') {
                 if (typeof effectId !== typeof '') {
                     throw new Error("EffectId is not an Id");
@@ -168,6 +168,9 @@ export default class DamageExtractor {
         let enchTime = ench.time;
         if (!enchTime) {
             enchTime = 0;
+        }
+        if (enchTime === 0) {
+            enchTime = time;
         }
         this.extractEffects(ench.mag_effects, ench.id, result, parent, destructible, curWeapId, enchTime, interval);
     }
@@ -252,6 +255,8 @@ export default class DamageExtractor {
                     // Armor penetration
                     if (dType.id === '00097341') {
                         name = "Armor Penetration";
+                    } else if (dType.id === '0018eee1' || dType.id === '00312d66') {
+                        name = "Damage Bonus";
                     }
                     let source = '';
                     if (crit) {
@@ -272,13 +277,13 @@ export default class DamageExtractor {
         }
 
         // Legendary damage (Normally added manually by using legendary name
-        if (enchId === '00606b61'|| // Juggernaut's
-            enchId === '00110822' || // Hitman
-            enchId === '001e8173' || // Nocturnal
-            enchId === '006c2d5c' || // Junkie's
-            enchId === '00606c8a') { // Steady
-                return null;
-        }
+        //if (enchId === '00606b61'|| // Juggernaut's
+        //    enchId === '00110822' || // Hitman
+        //    enchId === '001e8173' || // Nocturnal
+        //    enchId === '006c2d5c' || // Junkie's
+        //    enchId === '00606c8a') { // Steady
+        //        return null;
+        //}
         let result = mEffect['d_type']['id'];
         if (result) {
             return mEffect['d_type'];
@@ -289,13 +294,13 @@ export default class DamageExtractor {
         }
         let actor1 = mEffect['actor_value1']['id'];
         if (actor1 === '000002e3') { // Damage resistance
-            return mEffect['actor_value1'];
+            return null;
         } else if (actor1 === '00097341') { // Armor Penetration
             return mEffect['actor_value1'];
-        } else if (actor1 === '0018eee1') { // STAT_DmgAll
-            console.log("Actor: " + mEffect.actor_value1.name + " WId: " + curWeapId + " AId: " + mEffect.actor_value1.id + " EId: " + enchId);
-        } else if (actor1 === '00312d66') { // STAT_DmgMelee
-            console.log("Actor: " + mEffect.actor_value1.name + " WId: " + curWeapId + " AId: " + mEffect.actor_value1.id + " EId: " + enchId);
+        } else if (actor1 === '0018eee1') { // STAT_DmgAll this is bonus mult
+            return mEffect['actor_value1'];
+        } else if (actor1 === '00312d66') { // STAT_DmgMelee this is bonus mult
+            return mEffect['actor_value1'];
         } else if (actor1 === '000002d4') { // Health
             console.log("Actor: " + mEffect.actor_value1.name + " WId: " + curWeapId + " AId: " + mEffect.actor_value1.id + " EId: " + enchId);
         }
@@ -423,7 +428,12 @@ export default class DamageExtractor {
             name = "Explosive Damage";
         }
         this.addDamageNode(result, "Projectile", destructible, name, damageType.name, damageType.id, damageType.full, curv,
-        damage, 0, 0, 0, parent, "No", true, false, false);
+            damage, 0, 0, 0, parent, "No", true, false, false);
+
+        if (exp.damage_mult > 0) {
+            this.addDamageNode(result, "Projectile", destructible, "Explosive Damage Multiplier", "ExpDamageMult", "", "", 0,
+                exp.damage_mult, 0, 0, 0, parent, "No", true, false, false);
+        }
     }
 
     addDamageNode(result, source, destructible, view_name, type_name, type_id, type_full_name, curv, value,

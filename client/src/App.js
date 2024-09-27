@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AdditionalDamage from "./main/AdditionalDamage";
-import Legendary from './main/Legendary';
 import ATotalDamage from "./main/ATotalDamage";
 import ToastSpecs from "./main/ToastSpecs";
 import Creature from "./main/Creature";
@@ -181,9 +180,8 @@ export default function MyApp() {
                 className="mt-1 mb-3">
                 <Tab eventKey="Main" title="Main">
                     <Accordion class="accordion">
-                        <WeaponSpecs damage={damage} setDamage={setDamage} wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat}></WeaponSpecs>
+                        <WeaponSpecs damage={damage} setDamage={setDamage} wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
-                        <Legendary legendary={legendary} setLegendary={setLegendary} showStat={showStat} setShowStat={setShowStat}></Legendary>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
                         <Creature creatures={creatures} setCreatures={setCreatures}></Creature>
                     </Accordion>

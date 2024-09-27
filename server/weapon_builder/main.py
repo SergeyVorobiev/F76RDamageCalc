@@ -2,12 +2,14 @@ import Root
 from server.weapon_builder.AmmoExtractor import AmmoExtractor
 from server.weapon_builder.CSVWDataExtractor import CSVWDataExtractor
 from server.weapon_builder.CSVWeapon import CSVWeapon
+from server.weapon_builder.MissedWeaponChecker import MissedWeaponChecker
 from server.weapon_builder.ModExtractor import ModExtractor
 from server.weapon_builder.MutationsInfo import MutationsInfo
 from server.weapon_builder.PerkExtractor import PerkExtractor
 from server.weapon_builder.ProjExtractor import ProjExtractor
 from server.weapon_builder.SpellExtractor import SpellExtractor
 from server.weapon_builder.WTemplate import WTemplate
+from server.weapon_builder.WatsonMod import WatsonMod
 from server.weapon_builder.WeaponHandler import WeaponHandler
 
 
@@ -88,6 +90,7 @@ def add_new(w_data, update_existed=True, save=True, is_print=True):
         spell_extractor.save()
         mod_extractor.save()
         perk_extractor.save()
+        WatsonMod.build_legendary_json()
 k = 0
 
 
@@ -128,10 +131,12 @@ def update_existed(load_mods, save=True, specific=None, is_print=True):
         spell_extractor.save()
         mod_extractor.save()
         perk_extractor.save()
+        WatsonMod.build_legendary_json()
 
 
 if __name__ == '__main__':
-    update_existed(False, True, is_print=True)
+    # update_existed(False, True, is_print=True)
+    WatsonMod.build_legendary_json()
     # MissedWeaponChecker.print_all()
     # WatsonMod.print_mod_operations()
     # WatsonMod.print_actor_values()

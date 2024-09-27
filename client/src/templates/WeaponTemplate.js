@@ -29,7 +29,7 @@ function getApplyButton(template, setModalTemplate) {
         return (
         <>
             <div className='d-flex justify-content-center'>
-                <Button className='ms-0 mt-3 mb-0' disabled onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
+                <Button className='ms-0 mt-3 mb-0' onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
             </div>
             <div className='d-flex justify-content-center mt-2'>
                 <WarningPopover variant={"danger"} message={"Temporarily Unavailable"} sign={"!"}></WarningPopover>
@@ -158,44 +158,24 @@ export default function WeaponTemplate({modsSetter, template, setModalTemplate})
                     <Row>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-ballistic", '💥 B', template.bbDamage[1].toFixed(2), '💥 M', template.bmDamage[1].toFixed(2), '💥 T', template.btDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-energy", '⚡ B', template.ebDamage[1].toFixed(2), '⚡ M', template.emDamage[1].toFixed(2),  '⚡ T', template.etDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges("badge bg-fire", '🔥 B', template.fbDamage[1].toFixed(2), '🔥 M', template.fmDamage[1].toFixed(2), '🔥 T', template.ftDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-poison", '☣️ B', template.pbDamage[1].toFixed(2), '☣️ M', template.pmDamage[1].toFixed(2), '☣️ T', template.ptDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges("badge bg-cold", '❄️️ B', template.cbDamage[1].toFixed(2), '❄️ M', template.cmDamage[1].toFixed(2), '❄️ T', template.ctDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-rad", '☢️ B', template.rbDamage[1].toFixed(2), '☢️️ M', template.rmDamage[1].toFixed(2), '☢️ T', template.rtDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Row>
                                 {resultBadges("badge bg-lite", bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2), fireRate(iSize), fireRateText)}
-                                {resultBadges("badge bg-lite", ammo(iSize), template.capacity[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", ammo(iSize), template.capacity[1].toFixed(0), "🛡️", "+" + template.antiArmor[1].toFixed(1) + "%", "💪", "+" + template.strengthBoost[1].toFixed(1) + "%")}
                             </Row>
 
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐵", template.cd[1].toFixed(2))}
-                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "🌪️", template.bash[1].toFixed(2), "🩸", template.bleed[1])}
+                                {resultBadges("badge bg-lite", "☠️", "+" + template.crit[1].toFixed(1) + "%", "💣", "+" + template.exp[1].toFixed(1) +"%", "🏋", template.weight[1].toFixed(2))}
+                                {resultBadges("badge bg-lite", "🐍", "+" + template.sneak[1].toFixed(1) + "%", "🌪️", "+" + template.bash[1].toFixed(1) + "%", "🏃", template.ap[1].toFixed(2))}
                             </Row>
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "🏋", template.weight[1].toFixed(2), "🏃", template.ap[1].toFixed(2), "🧨", expProj.toFixed(2))}
+                                {resultBadges("badge bg-lite", "🚀", "+" + (template.bonusMult[1] * 100).toFixed(1) + "%", "🦵", "+" + template.cripple[1].toFixed(1) + "%", "-", "-")}
                             </Row>
                         </Col>
                     </Row>
-                    <AdditionalDView adDamage={template.adDamage}></AdditionalDView>
+                    <AdditionalDView template={template}></AdditionalDView>
                     <LegendaryView template={template}></LegendaryView>
                     <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>
                     <Divider className='mt-2 mb-2'></Divider>

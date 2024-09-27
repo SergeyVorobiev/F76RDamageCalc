@@ -66,4 +66,8 @@ export class Keywords extends Apply {
                 break;
         }
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+    }
 }

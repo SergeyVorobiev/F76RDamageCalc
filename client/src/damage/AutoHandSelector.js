@@ -1,4 +1,5 @@
 import { Radio } from 'antd';
+import { memo } from 'react';
 
 
 function empty() {
@@ -48,8 +49,10 @@ function content(wSpec, setWSpec) {
     return empty();
 }
 
-export default function AutoHandSelector({wSpec, setWSpec}) {
+const AutoHandSelector = memo(function AutoHandSelector({wSpec, setWSpec}) {
     return (
        <>{content(wSpec, setWSpec)}</>
     );
-}
+});
+
+export default AutoHandSelector;

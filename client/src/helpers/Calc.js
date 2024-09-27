@@ -318,7 +318,7 @@ export function calcLives(resultDamage, damage, extraDamage, boost, legendary, c
 
 function buildCreatureDamage(boost, additionalDamage, wSpec, stuffBoost, creature) {
     let damageToCreature = (additionalDamage.damageToCreature.is_used) ? (additionalDamage.damageToCreature.value / 100.0) : 0.0;
-    const creatureType = wSpec.creatureType.toLowerCase();
+    const creatureType = "Any"; // TODO: Refactor
     if (wSpec.cd > 0) {
         if (creatureType === "any") {
             damageToCreature += wSpec.cd / 100.0;

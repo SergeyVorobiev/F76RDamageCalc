@@ -8,4 +8,8 @@ export class ReloadSpeed extends Apply {
         super.addSetMullAdd(template.reloadSpeed, value, mod.op, apply);
         template.reloadTime[1] = template.reloadTime[0] / template.reloadSpeed[1];
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+    }
 }

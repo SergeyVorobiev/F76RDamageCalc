@@ -15,4 +15,10 @@ export class Ammo extends Apply {
     isChangingDefaultDamage() {
         return true;
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+        // Expected we do not have legendary which changes ammo type
+        throw new Error("Legendary changes ammo type");
+    }
 }

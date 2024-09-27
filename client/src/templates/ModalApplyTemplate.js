@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { convertTemplate, convertTemplateToSpecs } from '../entities/EWeaponSpecs';
+import { convertTemplateToSpecs } from '../entities/EWeaponSpecs';
 
 
 export default function ModalApplyTemplate(props) {
@@ -16,9 +16,7 @@ export default function ModalApplyTemplate(props) {
 
     function applyTemplate(e) {
         const template = props.modalTemplate.template;
-        const damageItem = convertTemplate(template);
         const specItem = convertTemplateToSpecs(template);
-        props.setDamage(damageItem);
         props.setWSpec(specItem);
         props.setWeaponName(template.name);
         onHide(e);

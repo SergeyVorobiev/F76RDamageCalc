@@ -32,4 +32,10 @@ export class CritEffect extends Apply {
     isChangingDefaultDamage() {
         return true;
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+        // Expected we do not have legendary which changes crit effect
+        throw new Error("Legendary changes crit effect");
+    }
 }

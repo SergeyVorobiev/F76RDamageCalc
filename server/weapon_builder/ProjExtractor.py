@@ -1,5 +1,6 @@
 import Root
 from server.weapon_builder.BaseExtractor import BaseExtractor
+from server.weapon_builder.Curv import Curv
 
 
 class ProjExtractor(BaseExtractor):
@@ -57,11 +58,7 @@ class ProjExtractor(BaseExtractor):
 
     @staticmethod
     def __get_curv_value(curv):
-        if curv != '' and curv != '00000000':
-            curv = eval(curv.split("\n")[1])['curve']
-            return curv[curv.__len__() - 1]['y']
-        else:
-            return ''
+        return Curv.get_value(curv)
 
     def __set_expl_spell(self, expl, spell_extractor, perk_extractor):
         try:

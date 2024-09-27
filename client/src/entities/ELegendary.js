@@ -1,6 +1,6 @@
 export function defaultLegendary() {
     let obj = {
-        current: ["none1", "none2"],
+        current: ["none1", "none2", "none3"],
 
         none1: {
             name: "None",
@@ -15,6 +15,18 @@ export function defaultLegendary() {
         },
 
         none2: {
+            name: "None",
+            value: 0.0,
+            min: 0.0,
+            max: 0.0,
+            step: 0.0,
+            is_used: true,
+            star: 2,
+            id: "none2",
+            gameId: [""],
+        },
+
+        none3: {
             name: "None",
             value: 0.0,
             min: 0.0,

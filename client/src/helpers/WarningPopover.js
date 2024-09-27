@@ -21,3 +21,11 @@ export default function WarningPopover({variant, message, sign}) {
         </OverlayTrigger>
     );
 }
+
+export function CustomPopover({variant, popoverBuilder, sign}) {
+    return (
+        <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={popoverBuilder}>
+            <Badge className="ps-2 pe-2 mb-auto mt-auto" bg={variant} pill>{sign}</Badge>
+        </OverlayTrigger>
+    );
+}

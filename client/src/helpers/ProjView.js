@@ -84,6 +84,7 @@ export function getExpView(expl, header="Explosive", popover=false) {
                         {getField(expl, 'Damage:', 'damage', 'blue', '20rem', false)}
                         {getField(expl, 'Force:', 'force', 'blue', '20rem', false)}
                         {getField(expl, 'ExpCurv:', 'exp_curv', 'blue', '20rem', false)}
+                        {getField(expl, 'DMult:', 'damage_mult', 'blue', '20rem', false, 3)}
                         {getResolvedField('DType:', dType, 'blue', '20rem')}
                         {getResolvedField('Placed Weapon:', placedWeapon, 'blue', '20rem')}
                         {getField(expl, 'DValue:', 'd_value', 'blue', '20rem', false)}

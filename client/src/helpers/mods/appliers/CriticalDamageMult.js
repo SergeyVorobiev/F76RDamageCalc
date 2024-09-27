@@ -12,4 +12,8 @@ export class CriticalDamageMult extends Apply {
             template.crit[1] -= value;
         }
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+    }
 }

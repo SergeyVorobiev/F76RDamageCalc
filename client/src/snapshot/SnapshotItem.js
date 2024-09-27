@@ -46,72 +46,72 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
         let strength = (item.wSpec.strength_boost > 0) ? item.playerStats.strength.value : "-";
         return (
             <>
-            <Card.Body className="p-1 mt-1">
-                <Row>
-                    <Col className="d-flex justify-content-center mb-1">
-                        <Toast style={{ width: '32rem'}} show={true} className="bg-snapshot">
-                            <Toast.Body className="m-0 p-2">
-                            <Row>
-                                <Col>
-                                    {row("💥 Damage:", item.resultDamage.tDamage.toFixed(1) + " x " + item.resultDamage.shotSize)}
-                                    {row("☠️ Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
-                                    {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
-                                    {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
-                                    {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
-                                    {row("⭐", leg1Name, "gold")}
-                                </Col>
-                                <Col>
-                                    {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
-                                    {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
-                                    {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}
-                                    {row("🤕 Head Shot:", headUsed)}
-                                    {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
-                                    {row("⭐ ⭐", leg2Name, "gold")}
-                                </Col>
-                            </Row>
-                            </Toast.Body>
-                        </Toast>
-                    </Col>
-                    <Col className="d-flex justify-content-center mb-1">
-                        <Toast className="bg-snapshot" style={{ width: '32rem' }} show={true}>
-                            <Toast.Body className="m-0 p-2">
-                            <Row>
-                                <Col>
-                                    {row("💪 Strength:", strength, "default", "default")}
-                                    {row("🛡️ Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
-                                    {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
-                                    {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
-                                    {row("Ultracite Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
-                                    {row("Average:", millisToTime(item.averageTime), "blue", "blue")}
-                                </Col>
-                            </Row>
-                            </Toast.Body>
-                        </Toast>
-                    </Col>
-                 </Row>
-            </Card.Body>
-            <div class='card-footer'>
-                <Row>
-                    <div className="col d-flex justify-content-start">
-                        <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
-                        <Button variant="white" className="m-auto ms-2 p-auto" size='sm'>{getImage(item.wSpec.type)}</Button>
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                        <Button onClick={(e) => setModalDownloadSnapshot({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
-                            <UploadIcon />
-                        </Button>
-                        <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
-                            <UpdateIcon />
-                        </Button>
-                        <Button className="ms-1 me-2 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-primary" onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
-                            <PlayIcon />
-                        </Button>
-                        <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-danger" onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
-                            <TrashIcon />
-                        </Button>
-                    </div>
-                </Row>
-            </div>
+                <Card.Body className="p-1 mt-1">
+                    <Row>
+                        <Col className="d-flex justify-content-center mb-1">
+                            <Toast style={{ width: '32rem'}} show={true} className="bg-snapshot">
+                                <Toast.Body className="m-0 p-2">
+                                <Row>
+                                    <Col>
+                                        {row("💥 Damage:", item.resultDamage.tDamage.toFixed(1) + " x " + item.resultDamage.shotSize)}
+                                        {row("☠️ Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
+                                        {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
+                                        {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
+                                        {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
+                                        {row("⭐", leg1Name, "gold")}
+                                    </Col>
+                                    <Col>
+                                        {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
+                                        {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
+                                        {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}
+                                        {row("🤕 Head Shot:", headUsed)}
+                                        {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
+                                        {row("⭐ ⭐", leg2Name, "gold")}
+                                    </Col>
+                                </Row>
+                                </Toast.Body>
+                            </Toast>
+                        </Col>
+                        <Col className="d-flex justify-content-center mb-1">
+                            <Toast className="bg-snapshot" style={{ width: '32rem' }} show={true}>
+                                <Toast.Body className="m-0 p-2">
+                                <Row>
+                                    <Col>
+                                        {row("💪 Strength:", strength, "default", "default")}
+                                        {row("🛡️ Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
+                                        {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
+                                        {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
+                                        {row("Ultracite Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
+                                        {row("Average:", millisToTime(item.averageTime), "blue", "blue")}
+                                    </Col>
+                                </Row>
+                                </Toast.Body>
+                            </Toast>
+                        </Col>
+                     </Row>
+                </Card.Body>
+                <div class='card-footer'>
+                    <Row>
+                        <div className="col d-flex justify-content-start">
+                            <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
+                            <Button variant="white" className="m-auto ms-2 p-auto" size='sm'>{getImage(item.wSpec.type)}</Button>
+                        </div>
+                        <div className="col d-flex justify-content-end">
+                            <Button onClick={(e) => setModalDownloadSnapshot({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
+                                <UploadIcon />
+                            </Button>
+                            <Button onClick={(e) => setModalUpdateItem({id: item.id, name: item.name, show: true})} variant="outline-primary" className="ms-1 me-2 pb-auto" size="sm">
+                                <UpdateIcon />
+                            </Button>
+                            <Button className="ms-1 me-2 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-primary" onClick={(e) => setModalApplyItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                                <PlayIcon />
+                            </Button>
+                            <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} variant="outline-danger" onClick={(e) => setModalDeleteItem({id: e.currentTarget.id, name: e.currentTarget.name, show: true})}>
+                                <TrashIcon />
+                            </Button>
+                        </div>
+                    </Row>
+                </div>
             </>
         );
     } else {

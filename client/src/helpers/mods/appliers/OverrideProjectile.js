@@ -32,4 +32,8 @@ export class OverrideProjectile extends Apply {
     isChangingDefaultDamage() {
         return true;
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+    }
 }

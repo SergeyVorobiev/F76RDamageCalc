@@ -7,4 +7,8 @@ export class NumProjectiles extends Apply {
         const value = super.getValue(mod);
         super.addSetMullAdd(template.shotSize, value, mod.op, apply);
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+
+    }
 }

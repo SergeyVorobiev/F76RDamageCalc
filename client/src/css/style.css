@@ -51,27 +51,32 @@
 }
 
 .bg-ballistic {
-    background-color:#5c6f72;
+    background-color:#768e91;
     color:#ffffff;
 }
 
 .bg-energy {
-    background-color:#792f8f;
+    background-color:#90679c;
+    color:#ffffff;
+}
+
+.bg-bleed {
+    background-color:#f27e93;
     color:#ffffff;
 }
 
 .bg-fire {
-    background-color:#bb433f;
+    background-color:#c95855;
     color:#ffffff;
 }
 
 .bg-poison {
-    background-color:#2e832b;
+    background-color:#5fad5c;
     color:#ffffff;
 }
 
 .bg-cold {
-    background-color:#017e9a;
+    background-color:#40aac2;
     color:#ffffff;
 }
 
@@ -80,7 +85,7 @@
 }
 
 .bg-rad {
-    background-color:#b7b343;
+    background-color:#ccc976;
     color:#ffffff;
 }
 
@@ -90,7 +95,7 @@
 }
 
 .bg-exp {
-    background-color:#736464;
+    background-color:#948672;
     color:#ffffff;
 }
 
@@ -175,6 +180,12 @@
 .ant-dropdown-menu {
     max-height: 300px;
     overflow: auto;
+}
+
+.dropdown-menu {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .popover {

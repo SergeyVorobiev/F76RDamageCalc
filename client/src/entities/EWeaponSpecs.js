@@ -1,87 +1,5 @@
 import getMods from '../helpers/Mods';
-
-
-export function convertTemplate(template) {
-    return {
-        ballistic: {
-            symbol: "B",
-            damage: template.bbDamage[1],
-            used_damage: template.bbDamage[1],
-            use_damage: true,
-            mod_damage: template.bmDamage[1],
-            used_mod_damage: template.bmDamage[1],
-            use_mod_damage: true,
-            time_damage: template.btDamage[1],
-            used_time_damage: template.btDamage[1],
-            use_time_damage: true,
-        },
-
-        energy: {
-            symbol: "E",
-            damage: template.ebDamage[1],
-            used_damage: template.ebDamage[1],
-            use_damage: true,
-            mod_damage: template.emDamage[1],
-            used_mod_damage: template.emDamage[1],
-            use_mod_damage: true,
-            time_damage: template.etDamage[1],
-            used_time_damage: template.etDamage[1],
-            use_time_damage: true,
-        },
-
-        fire: {
-            symbol: "F",
-            damage: template.fbDamage[1],
-            used_damage: template.fbDamage[1],
-            use_damage: true,
-            mod_damage: template.fmDamage[1],
-            used_mod_damage: template.fmDamage[1],
-            use_mod_damage: true,
-            time_damage: template.ftDamage[1],
-            used_time_damage: template.ftDamage[1],
-            use_time_damage: true,
-        },
-
-        poison: {
-            symbol: "P",
-            damage: template.pbDamage[1],
-            used_damage: template.pbDamage[1],
-            use_damage: true,
-            mod_damage: template.pmDamage[1],
-            used_mod_damage: template.pmDamage[1],
-            use_mod_damage: true,
-            time_damage: template.ptDamage[1],
-            used_time_damage: template.ptDamage[1],
-            use_time_damage: true,
-        },
-
-        cold: {
-            symbol: "C",
-            damage: template.cbDamage[1],
-            used_damage: template.cbDamage[1],
-            use_damage: true,
-            mod_damage: template.cmDamage[1],
-            used_mod_damage: template.cmDamage[1],
-            use_mod_damage: true,
-            time_damage: template.ctDamage[1],
-            used_time_damage: template.ctDamage[1],
-            use_time_damage: true,
-        },
-
-       rad: {
-            symbol: "R",
-            damage: template.rbDamage[1],
-            used_damage: template.rbDamage[1],
-            use_damage: true,
-            mod_damage: template.rmDamage[1],
-            used_mod_damage: template.rmDamage[1],
-            use_mod_damage: true,
-            time_damage: template.rtDamage[1],
-            used_time_damage: template.rtDamage[1],
-            use_time_damage: true,
-        },
-    };
-}
+import { collectAllDamages } from '../helpers/mods/DamageSetter';
 
 export function defaultWeaponDamageSpecs() {
     return {
@@ -166,11 +84,23 @@ export function defaultWeaponDamageSpecs() {
     };
 }
 
+// Id, value, type (BDB, TDB...)
+export function getDefaultLegs(legIds=null) {
+    if (legIds) {
+        return [[legIds[0], 0, ""], [legIds[1], 0, ""], [legIds[2], 0, ""], [legIds[3], 0, ""], [legIds[4], 0, ""]];
+    }
+    return [["", 0, ""], ["", 0, ""], ["", 0, ""], ["", 0, ""], ["", 0, ""]];
+
+}
+
 export function convertTemplateToSpecs(template) {
     let fireRate = (template.isAuto[1]) ? template.autoRate[1] : (10 / template.manualRate[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
     let mods = [];
     for (const modCategoryName in template.allMods) {
+        if (modCategoryName.includes("Legendary")) {
+            continue;
+        }
         const categoryMods = template.allMods[modCategoryName];
         for (let j = 0; j < categoryMods.length; j++) {
             if (categoryMods[j][1]) {
@@ -180,7 +110,24 @@ export function convertTemplateToSpecs(template) {
             }
         }
     }
+    const leg1 = template.legendary1.id ? template.legendary1.id : "";
+    const leg2 = template.legendary2.id ? template.legendary2.id : "";
+    const leg3 = template.legendary3.id ? template.legendary3.id : "";
+    const leg4 = template.legendary4.id ? template.legendary4.id : "";
+    const leg5 = template.legendary5.id ? template.legendary5.id : "";
+    const legs = getDefaultLegs([leg1, leg2, leg3, leg4, leg5]);
 
+    // As damage bonus multiplier can be adjusted by legendary it will be calculated separately, so we need to remove
+    // this value from bonus multiplier
+    let bonusMult = template.bonusMult[1] * 100;
+
+    bonusMult = replaceAdjustableLegs(legs, bonusMult);
+    let creatures = [];
+    for (let i = 0; i < template.creature.length; i++) {
+        const creature = template.creature[i];
+        creatures.push({"name": creature.name, "value": creature.value})
+    }
+    const damages = collectAllDamages(template);
     return {
         shot_size: template.shotSize[1],
         reload_time: template.reloadTime[1],
@@ -194,10 +141,10 @@ export function convertTemplateToSpecs(template) {
         strength_boost: template.strengthBoost[1],
         crit: template.crit[1],
         sneak: template.sneak[1],
-        bleed: template.bleed[1],
+        cripple: template.cripple[1],
         exp: template.exp[1],
-        cd: template.cd[1],
-        creatureType: template.creatureType[1],
+        bonus: bonusMult,
+        creature: creatures,
         bash: template.bash[1],
         type: template.type[1],
         level: template.level,
@@ -206,6 +153,8 @@ export function convertTemplateToSpecs(template) {
         iconName: template.iconName[template.type[1]],
         tags: template.tags,
         mods: mods,
+        legendary: legs,
+        damages: damages,
     };
 }
 
@@ -221,13 +170,13 @@ export function defaultWeaponSpecs() {
         ammo_capacity: 1,
         aa: 0,
         strength_boost: 0,
+        bonus: 0,
         crit: 0,
         sneak: 0,
-        bleed: 0,
+        cripple: 0,
         bash: 0,
         exp: 0,
-        cd: 0,
-        creatureType: "Any",
+        creature: [],
         accuracy: 100,
         level: 1,
         defaultName: "Weapon",
@@ -235,5 +184,23 @@ export function defaultWeaponSpecs() {
         type: "All",
         tags: [],
         mods: [],
+        legendary: getDefaultLegs(),
+        damages: [],
     };
+}
+
+function replaceAdjustableLegs(legs, bonusMult) {
+    for (let i = 0; i < legs.length; i++) {
+        const leg = legs[i];
+        switch (leg[0]) {
+            case '004f6aab':
+                bonusMult -= 50;
+                leg[1] = 50;
+                leg[2] = "BDB";
+                break;
+            default:
+                break;
+        }
+    }
+    return bonusMult;
 }
