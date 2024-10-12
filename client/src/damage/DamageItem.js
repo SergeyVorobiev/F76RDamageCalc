@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { Checkbox } from 'antd';
 import { TrashIcon } from '../icons/Icons';
 import Button from 'react-bootstrap/Button';
+import { checkLength } from '../helpers/Input';
 
 
 function getSymbolStyle(dType) {
@@ -32,40 +33,63 @@ function getSymbolStyle(dType) {
     }
 }
 
-function getInputItem(dItem, style) {
+function getInputItem(dItem, wSpec, setWSpec, style) {
     function onCheck(e) {
-
+        dItem.isUsed = e.target.checked;
+        setWSpec({...wSpec});
     }
     function onDamageChange(e) {
-
+        checkLength(e);
+        dItem.damage = parseInt(e.target.value);
+        setWSpec({...wSpec});
+    }
+    function onAccuracyChange(e) {
+        checkLength(e);
+        dItem.accuracy = parseInt(e.target.value);
+        setWSpec({...wSpec});
+    }
+    function onChanceChange(e) {
+        checkLength(e);
+        dItem.chance = parseInt(e.target.value);
+        setWSpec({...wSpec});
+    }
+    function onStackCheck(e) {
+        dItem.stack = e.target.checked;
+        setWSpec({...wSpec});
+    }
+    function onTimeChange(e) {
+        checkLength(e);
+        dItem.time = parseInt(e.target.value);
+        setWSpec({...wSpec});
     }
     return (
     <>
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text>
+                <InputGroup.Text style={{ width: '2.8rem'}}>
                     <Checkbox onChange={onCheck} checked={dItem.isUsed}></Checkbox>
                 </InputGroup.Text>
                 <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
-                <Form.Control style={{ width: '6rem' }} type="number" min="0" value={dItem["damage"]} max={"99999"} maxLength="7" onChange={onDamageChange} />
-                <InputGroup.Text style={{ width: 'auto' }} className={style}>{"🎲"}</InputGroup.Text>
-                <Form.Control style={{ width: '3rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="7" onChange={onDamageChange} />
+                <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"99999"} maxLength="7" onChange={onDamageChange} />
+                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
+                <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
             </InputGroup>
         </Col>
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
+                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
+                <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
                 <InputGroup.Text>
-                    <Checkbox onChange={onCheck} checked={dItem.stack}>Stack</Checkbox>
+                    <Checkbox onChange={onStackCheck} checked={dItem.stack}>Stack</Checkbox>
                 </InputGroup.Text>
-
-                <InputGroup.Text style={{ width: 'auto' }} className={style}>{"⌛"}</InputGroup.Text>
-                <Form.Control style={{ width: '6rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="2" onChange={onDamageChange} />
+                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
+                <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
             </InputGroup>
         </Col>
         </>
     );
 }
-const DamageItem = memo(function DamageItem({item, modalDeleteDamage, setModalDeleteDamage}) {
+const DamageItem = memo(function DamageItem({item, wSpec, setWSpec, modalDeleteDamage, setModalDeleteDamage}) {
     const [symbol, style] = getSymbolStyle(item.kind);
     function onTrashClick(e) {
         setModalDeleteDamage({id: item.index, name: item.name, show: true});
@@ -83,11 +107,10 @@ const DamageItem = memo(function DamageItem({item, modalDeleteDamage, setModalDe
                         </Button>
                     </Col>
                 </Row>
-
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="p-1">
                 <Row>
-                    {getInputItem(item, "bg-lite")}
+                    {getInputItem(item, wSpec, setWSpec, "bg-lite")}
                 </Row>
             </Card.Body>
         </Card>

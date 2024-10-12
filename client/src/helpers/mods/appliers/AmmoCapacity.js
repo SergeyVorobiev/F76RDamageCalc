@@ -14,12 +14,12 @@ export class AmmoCapacity extends Apply {
         }
         super.checkOp(mod, "Legendary", "MullAdd");
         const value = super.getValue(mod);
-        super.mullAddToProperty(wSpec, "ammo_capacity", value, apply);
+        super.mullAddToProperty(wSpec, "ammoCapacity", value, apply);
 
         // Protect if a user change the number
-        wSpec.ammo_capacity = parseInt(wSpec.ammo_capacity);
-        if (wSpec.ammo_capacity < 1) {
-            wSpec.ammo_capacity = 1;
+        wSpec.ammoCapacity = parseInt(wSpec.ammoCapacity);
+        if (wSpec.ammoCapacity < 1) {
+            wSpec.ammoCapacity = 1;
         }
     }
 }

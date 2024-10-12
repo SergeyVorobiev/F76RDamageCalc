@@ -1,4 +1,4 @@
-
+import { setCurrentLegendaryIds } from '../helpers/Global';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -7,6 +7,14 @@ import Card from 'react-bootstrap/Card';
 
 
 const allMarks = {
+
+    marks3: {
+        0: '0',
+        1: '1',
+        2: '2',
+        3: '3',
+    },
+
     marks25: {
         0: '0%',
         5: '5%',
@@ -14,6 +22,14 @@ const allMarks = {
         15: '15%',
         20: '20%',
         25: '25%',
+    },
+
+    marks40: {
+        0: '0%',
+        10: '10%',
+        20: '20%',
+        30: '30%',
+        40: '40%',
     },
 
     marks50: {
@@ -69,10 +85,17 @@ const allMarks = {
         300: '300%',
     },
 
-
+    marks15: {
+        0: '0%',
+        3: '3%',
+        6: '6%',
+        9: '9%',
+        12: '12%',
+        15: '15%',
+    },
 };
 
-function LegSlider({legendaryInfo, marksName, wSpec, setWSpec,   disabled=false}) {
+function LegSlider({legendaryInfo, marksName, wSpec, setWSpec, disabled=false}) {
     const marks = allMarks[marksName];
     const wSpecLeg = wSpec.legendary[legendaryInfo.star - 1];
     let value = legendaryInfo.max;
@@ -84,6 +107,7 @@ function LegSlider({legendaryInfo, marksName, wSpec, setWSpec,   disabled=false}
 
     function slideFinished(e) {
         wSpecLeg[1] = e;
+        setCurrentLegendaryIds(wSpec);
         setWSpec({...wSpec});
     }
     return (

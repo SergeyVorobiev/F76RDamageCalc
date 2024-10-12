@@ -48,7 +48,7 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Container>
+                    <Container className="p-0">
                         <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow1>
                         <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow2>
                         <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow3>

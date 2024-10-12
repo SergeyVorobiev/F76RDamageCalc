@@ -12,8 +12,8 @@ class CSVWDataExtractor:
                  "004677aa", "003f2e3a", "003f2e4a", "00497254", "005a1c8a", "005a7be5", "00439a64",
                  "003f2e27", "005b6dad", "0045fc87", "005b6db4", "0049723e", "00497249", "005db32f"]
 
-    not_apply = ['003fbba1', '0029cc0f', '004e42a1', '00052213', '00045884', '00450366', '001138e0', '0060e0ef',
-                 '00729bfe', '00110d41', '0042b0cd', '000d1eb0', '00424b66', '0010faa7', '001025ac', '000ddb7c',
+    not_apply = ['003fbba1', '0029cc0f', '004e42a1', '00052213', '00045884', '00450366', '001138e0',
+                 '00729bfe', '0042b0cd', '000d1eb0', '00424b66', '0010faa7', '001025ac', '000ddb7c',
                  '0041a39c', '005532b4', '0045ff61', '003879a3', '000042f2']
 
     def __init__(self, w_header, weapon_rows):
@@ -59,11 +59,21 @@ class CSVWDataExtractor:
         return csv_weapon[self.i_name]
 
     def get_speed(self, csv_weapon):
+
         return float(csv_weapon[self.i_speed])
 
     def set_speed(self, template, csv_weapon):
         speed = self.get_speed(csv_weapon)
         template["speed"] = [speed, speed]
+
+    def get_charge(self, csv_weapon):
+        if self.get_id(csv_weapon) == '0055c150':
+            return 2
+        return 0
+
+    def set_charge(self, template, csv_weapon):
+        charge = self.get_charge(csv_weapon)
+        template["chargeTime"] = [charge, charge]
 
     def set_apply(self, template, csv_weapon, w_type):
         idd = self.get_id(csv_weapon)
@@ -633,6 +643,7 @@ class CSVWDataExtractor:
             return ''
         else:
             template["ammoId"] = [ammo['id'], ammo['id']]
+            template["ammoType"] = {"codeName": ammo['name'], "type": ammo['ammo_type'], "name": ammo['full']}
             ammo_extractor.parse_and_update(ammo, proj_extractor, spell_extractor, perk_extractor)
             return ammo['id']
 

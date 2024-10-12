@@ -5,10 +5,13 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function ModalApplyItem(props) {
     console.log("ModalApplyItem");
+    if (!props.show) {
+        return (<></>);
+    }
     function applyItem(e) {
         const item = props.items.map.get(parseInt(e.target.id));
         const copy = JSON.parse(JSON.stringify(item));
-        props.applySnapshot(copy.name, copy.damage, copy.legendary, copy.boostDamage, copy.wSpec, copy.extraDamage, copy.additionalDamages, copy.creatures, copy.player, copy.playerStats, copy.stuff);
+        props.applySnapshot(copy.name, copy.boostDamage, copy.wSpec, copy.extraDamage, copy.additionalDamages, copy.creatures, copy.player, copy.playerStats, copy.stuff);
         props.setModalApplyItem({id: "-1", name: "none", show: false});
     }
     function onHide(e) {

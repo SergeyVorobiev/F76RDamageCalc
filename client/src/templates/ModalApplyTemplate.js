@@ -6,6 +6,9 @@ import { convertTemplateToSpecs } from '../entities/EWeaponSpecs';
 
 export default function ModalApplyTemplate(props) {
     console.log("ModalApplyTemplate");
+    if (!props.modalTemplate.show) {
+        return (<></>);
+    }
     let name = "";
     if (props.modalTemplate.template) {
         name = props.modalTemplate.template.name

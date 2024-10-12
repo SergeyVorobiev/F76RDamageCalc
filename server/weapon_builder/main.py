@@ -30,6 +30,7 @@ def fill_and_save(index, template, csv_weapon, w_extractor, ammo_extractor, proj
     w_extractor.set_cname(template, csv_weapon)
     w_extractor.set_level(template, csv_weapon)
     w_extractor.set_speed(template, csv_weapon)
+    w_extractor.set_charge(template, csv_weapon)
     w_extractor.set_crit(template, csv_weapon, spell_extractor, proj_extractor, perk_extractor)
     w_extractor.set_spell(template, csv_weapon, spell_extractor, proj_extractor, perk_extractor)
     w_extractor.set_ammo(template, csv_weapon, ammo_extractor, proj_extractor, spell_extractor, perk_extractor)
@@ -135,8 +136,8 @@ def update_existed(load_mods, save=True, specific=None, is_print=True):
 
 
 if __name__ == '__main__':
-    # update_existed(False, True, is_print=True)
-    WatsonMod.build_legendary_json()
+    update_existed(False, True, is_print=True)
+    # WatsonMod.build_legendary_json()
     # MissedWeaponChecker.print_all()
     # WatsonMod.print_mod_operations()
     # WatsonMod.print_actor_values()

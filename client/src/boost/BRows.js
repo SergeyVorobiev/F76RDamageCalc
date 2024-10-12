@@ -5,6 +5,7 @@ import '../css/style.css'
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import { Checkbox } from 'antd';
+import { WarningPopover } from '../helpers/WarningPopover';
 
 
 function getPerkColor(category) {
@@ -13,7 +14,7 @@ function getPerkColor(category) {
 
 function badgeIf(value, condition, onClick) {
     if (condition) {
-        return (<Button onClick={onClick} style={{width: '3rem'}} variant="warning">{value}</Button>)
+        return (<Button className="p-1" onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
     }
     return (<></>)
 }
@@ -105,12 +106,15 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
         });
     }
 
-    const w = (xBadge) ? '9rem' : '12rem';
+    const w = (xBadge) ? '9rem' : '11.5rem';
     const cName = "btn text-start " + getPerkColor(card.category);
+    const number = card.rank_values[card.rank - 1];
+    let info = card.info.replaceAll("{1}", number).replace("{2}", parseInt(number / 4)).replace("{3}", parseInt(number * 2));
+    info = info.replaceAll("{4}", number * 3);
     return (
-        <Col className="p-0">
+        <Col className="ps-1 pe-1">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text>
+                <InputGroup.Text className="ps-2 pe-2" >
                     <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
                 </InputGroup.Text>
                 <Button className={cName} style={{width: w}} onClick={onClick}>
@@ -118,12 +122,23 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
                     {card.name}
                 </Button>
                 {badgeIf("x" + card.x, xBadge, onClickX)}
-                <InputGroup.Text style={{width: '4rem'}}>
-                    <div class="badge bg-fire">{card.displayed_value}{symbol}</div>
+                <InputGroup.Text className="justify-content-center p-0" style={{width: '3.5rem'}}>
+                    <div class="badge bg-fire" style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
+                </InputGroup.Text>
+                <InputGroup.Text className="ps-1 pe-1 p-0">
+                    <WarningPopover element={infoButton()} message={info} header="Description" />
                 </InputGroup.Text>
             </InputGroup>
         </Col>
-    )
+    );
+}
+
+function infoButton() {
+    return (
+        <Button className="p-1" variant="white">
+            <strong><small>❗</small></strong>
+        </Button>
+    );
 }
 
 function BRow1({setBoostDamage, boostDamage}) {

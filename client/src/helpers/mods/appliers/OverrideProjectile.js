@@ -34,6 +34,6 @@ export class OverrideProjectile extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-
+        throw new Error("Legendary changes projectile");
     }
 }

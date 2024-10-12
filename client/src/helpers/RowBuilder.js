@@ -39,7 +39,7 @@ export function keyValueTag(leftContent, rightContent, color="default", style={}
 
 export function keyValueBadge(clazz, width, leftContent, rightContent) {
     return (
-        <span style={{ width: width }} class={clazz}>
+        <div style={{ width: width}} class={clazz}>
             <Row className="flex-nowrap ps-0 pe-0 ms-0 me-0">
                 <Col className="text-start text-nowrap ps-0 ms-0 mt-auto mb-auto">
                     {leftContent}
@@ -48,6 +48,6 @@ export function keyValueBadge(clazz, width, leftContent, rightContent) {
                     {rightContent}
                 </Col>
             </Row>
-        </span>
+        </div>
     );
 }

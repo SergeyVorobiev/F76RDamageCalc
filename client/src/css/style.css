@@ -94,6 +94,16 @@
     color:#ffffff;
 }
 
+.bg-light-cream-outline {
+    outline: 1px solid #bdb499;
+    background-color:#f7f2e1;
+    color:#000;
+}
+
+.light-cream-outline {
+    outline: 1px solid #bdb499;
+}
+
 .bg-exp {
     background-color:#948672;
     color:#ffffff;
@@ -157,6 +167,12 @@
     color: #000;
 }
 
+.bg-lite-outline {
+    outline: 1px solid #dedede;
+    background-color:#f4f4f4;
+    color: #000;
+}
+
 .bg-yellow {
     background-color:#fff0cc;
     color: #cf9100;
@@ -183,9 +199,10 @@
 }
 
 .dropdown-menu {
-    min-height: 100px;
+    min-height: 10px;
     max-height: 300px;
     overflow-y: scroll;
+    overflow:auto;
 }
 
 .popover {

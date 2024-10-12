@@ -46,7 +46,7 @@ export class Enchantments extends Apply {
             const effects = result[property];
             for (let i = 0; i < effects.length; i++) {
                 const effect = effects[i];
-                if (effect.type_name === 'STAT_DmgAll') {
+                if (effect.type_name === 'STAT_DmgAll' || effect.type_name === "STAT_DmgMelee") {
                     let value = effect.curv;
                     if (value === 0) {
                         value = effect.magnitude;
@@ -54,11 +54,18 @@ export class Enchantments extends Apply {
                             throw new Error("Effect damage for legendary is 0");
                         }
                     }
-                    value = this.adjustValueByHealth(modId, value, health);
-                    wSpec.legendary[starIndex][1] = (apply) ? value : 0;
+                    const [newValue, depend] = this.adjustValueByHealth(modId, value, health);
+
+                    // We do not want to update values which do not depend on health
+                    // because they can be adjusted by user and updating just reset them to default.
+                    if (!depend && update) {
+                        continue;
+                    }
+
+                    wSpec.legendary[starIndex][1] = (apply) ? newValue : 0;
                     wSpec.legendary[starIndex][2] = (apply) ? "BDB" : "";
                 } else {
-                    throw new Error("Not known effect type for legendary: " + effect.type_name);
+                    // throw new Error("Not known effect type for legendary: " + effect.type_name);
                 }
             }
         }
@@ -71,11 +78,11 @@ export class Enchantments extends Apply {
                     health = 95;
                 }
                 health -= 5;
-                return parseInt(24 / 90 * health + 1);
+                return [parseInt(24 / 90 * health + 1), true];
             case '004f6aa0': // Bloodied
-                return 100 - health;
+                return [100 - health, true];
             default:
-                return value;
+                return [value, false];
         }
     }
 }

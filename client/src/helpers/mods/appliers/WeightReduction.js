@@ -10,6 +10,6 @@ export class WeightReduction extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-
+        // Currently there is no reason to change weight
     }
 }

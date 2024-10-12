@@ -77,9 +77,16 @@ export class Apply {
         }
     }
 
+    setToProperty(obj, property, value) {
+        obj[property] = value;
+    }
+
     set(field, value, apply, allowNegative=false) {
         if (apply) {
             field[1] = value;
+            if (field[1] < 0 && !allowNegative) {
+                field[1] = 0;
+            }
         } else {
             field[1] = field[0];
         }
@@ -88,11 +95,11 @@ export class Apply {
     mullSet(field, value, apply, allowNegative=false) {
         if (apply) {
             field[1] = field[0] * value;
+            if (field[1] < 0 && !allowNegative) {
+                field[1] = 0;
+            }
         } else {
             field[1] = field[0];
-        }
-        if (field[1] < 0 && !allowNegative) {
-            field[1] = 0;
         }
     }
 

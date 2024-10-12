@@ -4,8 +4,8 @@ import CreatureStats from "../creature/CreatureStats";
 import { memo } from 'react';
 
 
-const Creature = memo(function Creature({creatures, setCreatures}) {
-    console.log("Creature")
+const CreatureView = memo(function CreatureView({creatures, setCreatures}) {
+    console.log("CreatureView")
     return (
         <div class="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="4">
@@ -24,4 +24,4 @@ const Creature = memo(function Creature({creatures, setCreatures}) {
     );
 });
 
-export default Creature;
+export default CreatureView;

@@ -29,11 +29,11 @@ function col(name, creatures, setCreatures, creature, res_field, color, min=0, m
 }
 
 const energy = <>&#9889; Energy</>;
-const ballistic = <>&#128165; Ballistic</>;
+const ballistic = <>&#128165; Physical</>;
 const fire = <>&#128293; Fire</>;
 const poison = <>☣️ Poison</>;
-const cold = <>❄️ Cold</>;
-const rad = <>☢️ Rad</>;
+const cold = <>❄️ Cryo</>;
+const rad = <>☢️ Radiation</>;
 const health = <>❤️ Health</>;
 const reduction = <>🧽 Reduction</>;
 const headShot = <>🤕 Head Shot</>;
@@ -41,7 +41,7 @@ const headShot = <>🤕 Head Shot</>;
 function CreatureStats({creatures, setCreatures, creature}) {
     console.log("CreatureStats");
     function onChange(e) {
-        creature.body = e.target.value;
+        creature.userBody = e.target.value;
         setCreatures({...creatures});
     }
 
@@ -70,8 +70,8 @@ function CreatureStats({creatures, setCreatures, creature}) {
                 </Row>
                 <Row>
                     <div className="pt-3 pb-1 d-flex justify-content-center">
-                        <Radio.Group value={creature.body} onChange={onChange}>
-                            <Radio.Button value="normal">Normal</Radio.Button>
+                        <Radio.Group value={creature.userBody} onChange={onChange}>
+                            <Radio.Button value="normal">Default</Radio.Button>
                             <Radio.Button value="scorched">Scorched</Radio.Button>
                             <Radio.Button value="glowing">Glowing</Radio.Button>
                         </Radio.Group>

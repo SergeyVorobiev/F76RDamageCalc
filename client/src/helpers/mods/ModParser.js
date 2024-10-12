@@ -6,6 +6,7 @@ export class ModParser {
 
     constructor() {
         this.appliers = new Appliers().appliers;
+        this.skip_legendary = ["0040bd7c", "004f577d", "004f5776", "004f5778", "004ed02f", "004e89af", "00529a02"];
     }
 
     // mutatingDamage is used when default damages like (ammo, projectile) must be overridden
@@ -26,6 +27,9 @@ export class ModParser {
     // Update means that it can be applied to legendary which reset their value according to health
     // Effects which add and remove their static values can not be updated (otherwise they will stack values every time)
     applyLegendaryModToWSpec(modId, wSpec, starIndex, health, update, apply) {
+        if (this.skip_legendary.includes(modId)) {
+            return;
+        }
         const modData = getMods().get(modId);
         if (modData) {
             for (let i = 0; i < modData.modifiers.length; i++) {

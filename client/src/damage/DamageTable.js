@@ -11,6 +11,7 @@ import AutoHandSelector from '../damage/AutoHandSelector';
 import DamageItem from './DamageItem';
 import DamageAdd from './DamageAdd';
 import ModalDeleteDamage from './ModalDeleteDamage';
+import AmmoInfoView from './AmmoInfoView';
 
 
 function modElement(mod) {
@@ -24,7 +25,7 @@ function modElement(mod) {
     );
 }
 
-const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpec, health}) {
+const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
     console.log("DamageTable");
     const [weaponType, setWeaponType] = useState(wSpec.type);
     const [modalDeleteDamage, setModalDeleteDamage] = useState({id: -1, name: 'none', show: false});
@@ -35,14 +36,14 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
     const mods = wSpec.mods.map((mod) => (modElement(mod)));
     let dItems = [];
     for (let i = 0; i < wSpec.damages.length; i++) {
-        dItems.push(<DamageItem item={wSpec.damages[i]} setModalDeleteDamage={setModalDeleteDamage}></DamageItem>);
+        dItems.push(<DamageItem item={wSpec.damages[i]} wSpec={wSpec} setWSpec={setWSpec} setModalDeleteDamage={setModalDeleteDamage}></DamageItem>);
     }
     return (
         <Container fluid className="p-0">
             <ModalDeleteDamage wSpec={wSpec} setWSpec={setWSpec} modalDeleteDamage={modalDeleteDamage} setModalDeleteDamage={setModalDeleteDamage}></ModalDeleteDamage>
             <DamageAdd wSpec={wSpec} setWSpec={setWSpec}></DamageAdd>
             {dItems}
-            <Divider className="p-0 mt-2 mb-2"></Divider>
+            <Divider className="p-0 mt-2 mb-2">Specs</Divider>
             <WRow wSpec={wSpec} setWSpec={setWSpec}></WRow>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <Row>
@@ -55,6 +56,7 @@ const DamageTable = memo(function DamageTable({setDamage, damage, setWSpec, wSpe
             </Row>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <AutoHandSelector wSpec={wSpec} setWSpec={setWSpec}></AutoHandSelector>
+            <AmmoInfoView wSpec={wSpec}></AmmoInfoView>
             <Divider className="p-0 mt-2 mb-2">Legendary Effects</Divider>
             <LegendarySelector index={0} header={"⭐"} wSpec={wSpec} setWSpec={setWSpec} health={health}></LegendarySelector>
             <LegendarySelector index={1} header={"⭐⭐"} wSpec={wSpec} setWSpec={setWSpec} health={health}></LegendarySelector>

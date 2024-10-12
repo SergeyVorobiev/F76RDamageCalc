@@ -117,3 +117,22 @@ export const creatureTypes = {
         "sentrybot",
     ]),
 }
+
+export function determineType(name) {
+    for (const property in creatureTypes) {
+        if (creatureTypes[property].has(name)) {
+            return property;
+        }
+    }
+    return "";
+}
+
+export function determineBody(name) {
+    if (creatureTypes.glowing.has(name)) {
+        return "glowing";
+    } else if (creatureTypes.scorched.has(name)) {
+        return "scorched";
+    } else {
+        return "normal";
+    }
+}

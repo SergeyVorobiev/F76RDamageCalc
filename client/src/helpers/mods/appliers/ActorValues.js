@@ -78,11 +78,33 @@ export class ActorValues extends Apply {
                     super.add(obj.cripple, value, apply);
                 }
                 break;
+
             case '006c1fa9 / STAT_DmgPowerAttack':
+                if (isLegendary) {
+                    super.addToProperty(obj, "powerAttack", value, apply);
+                } else {
+                    super.add(obj.powerAttack, value, apply);
+                }
+                break;
+            case '006c2221 / STAT_DmgBash':
                 if (isLegendary) {
                     super.addToProperty(obj, "bash", value, apply);
                 } else {
                     super.add(obj.bash, value, apply);
+                }
+                break;
+            case '00527f83 / LGND_ExecuteDmg':
+                if (isLegendary) {
+                    super.addToProperty(obj, "totalD", value, apply);
+                } else {
+                    super.add(obj.totalD, value, apply);
+                }
+                break;
+            case '000002c2 / Strength':
+                if (isLegendary) {
+                    super.addToProperty(obj, "strPoints", value, apply);
+                } else {
+                    super.add(obj.strPoints, value, apply);
                 }
                 break;
             default:

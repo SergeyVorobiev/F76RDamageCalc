@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import { memo } from 'react';
 
 
-const WeaponSpecs = memo(function WeaponSpecs({damage, setDamage, wSpec, setWSpec, showStat, setShowStat, health}) {
+const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setShowStat, health}) {
     console.log("WeaponSpecs");
     const openStat = (e) => {
         setShowStat(!showStat);
@@ -23,7 +23,7 @@ const WeaponSpecs = memo(function WeaponSpecs({damage, setDamage, wSpec, setWSpe
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="p-2">
-                    <DamageTable setDamage={setDamage} damage={damage} setWSpec={setWSpec} wSpec={wSpec} health={health}></DamageTable>
+                    <DamageTable setWSpec={setWSpec} wSpec={wSpec} health={health}></DamageTable>
                 </Accordion.Body>
             </Accordion.Item>
         </div>

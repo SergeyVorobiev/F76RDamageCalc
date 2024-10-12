@@ -11,6 +11,11 @@ export class Speed extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-
+        if (update) {
+            return;
+        }
+        super.checkOp(mod, "Legendary", "MullAdd");
+        const value = super.getValue(mod);
+        super.mullAddToProperty(wSpec, "speed", value, apply);
     }
 }

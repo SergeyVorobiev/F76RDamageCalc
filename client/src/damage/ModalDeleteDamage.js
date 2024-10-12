@@ -6,6 +6,9 @@ import { memo } from 'react';
 
 const ModalDeleteDamage = memo(function ModalDeleteDamage(props) {
     console.log("ModalDeleteDamage");
+    if (!props.modalDeleteDamage.show) {
+        return (<></>);
+    }
     function onHide(e) {
         props.setModalDeleteDamage({id: -1, name: 'none', show:  false});
     }

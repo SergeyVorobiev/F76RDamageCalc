@@ -5,10 +5,11 @@ import Tabs from 'react-bootstrap/Tabs';
 import AdditionalDamage from "./main/AdditionalDamage";
 import ATotalDamage from "./main/ATotalDamage";
 import ToastSpecs from "./main/ToastSpecs";
-import Creature from "./main/Creature";
-import { calcDamage } from "./helpers/Calc";
+import CreatureView from "./main/CreatureView";
+import WeaponFactory from './damage/weapon/WeaponFactory';
+import { calcDamage, graphDamage } from "./helpers/Calc";
 import Accordion from 'react-bootstrap/Accordion';
-import { defaultResultDamage, defaultExtraDamage } from './entities/EResultDamage';
+import { getResult, defaultExtraDamage } from './entities/EResultDamage';
 import { defaultCreatures } from './entities/ECreatures';
 import { defaultLegendary } from './entities/ELegendary';
 import { defaultBoosts } from './entities/EBoosts';
@@ -57,6 +58,19 @@ const defaultPlayer = {
     }
 };
 
+function getDefaultGraphData() {
+    let xValues = [];
+    let yValues = [];
+    for (let i = 0; i <= 50; i++) {
+        xValues.push(20.0 * i);
+        yValues.push(0);
+    }
+    return {
+        xValues: xValues,
+        yValues: yValues,
+    }
+}
+
 export default function MyApp() {
     const start = performance.now();
 
@@ -78,19 +92,17 @@ export default function MyApp() {
 
     const [weaponName, setWeaponName] = useState('Weapon');
 
-    const [damage, setDamage] = useState(defaultWeaponDamageSpecs());
-
     const [wSpec, setWSpec] = useState(defaultWeaponSpecs());
 
     const [showStat, setShowStat] = useState(false);
 
-    const [creatures, setCreatures] = useState(defaultCreatures());
+    const [graphValues, setGraphValues] = useState(getDefaultGraphData());
 
-    const [legendary, setLegendary] = useState(defaultLegendary());
+    const [creatures, setCreatures] = useState(defaultCreatures());
 
     const [boostDamage, setBoostDamage] = useState(defaultBoosts());
 
-    const [resultDamage, setResultDamage] = useState(defaultResultDamage());
+    const [resultDamage, setResultDamage] = useState({});
 
     const [extraDamage, setExtraDamage] = useState(defaultExtraDamage());
 
@@ -130,17 +142,17 @@ export default function MyApp() {
     }, []);
 
     useEffect(() => {
-        setResultDamage(calcDamage(damage, boostDamage, legendary, wSpec, creatures, extraDamage, additionalDamages, stuffBoost, playerStats));
-    }, [damage, boostDamage, legendary, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats]);
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
+        setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
+        setResultDamage(calcDamage(weaponFactory, creatures));
+    }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats]);
 
     // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,
     // but we can omit this cause it is not affected on render time to much.
-    const applySnapshot = (name, cDamage, cLegendary, cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
+    const applySnapshot = (name, cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
         setPlayer(cPlayer);
         setPlayerStats(cPlayerStats);
         setWeaponName(name);
-        setDamage(cDamage);
-        setLegendary(cLegendary);
         setBoostDamage(cBoostDamage);
         setWSpec(cWSpec);
         setExtraDamage(cExtraDamage);
@@ -163,7 +175,7 @@ export default function MyApp() {
         prepareItems(othersL, setStuff);
         const allStuffBoosts = loadBoosts(magaz, bobble, foodD, drinkD, psychoM, serumS, othersL, foodPref, cPlayer);
         setStuffBoost(allStuffBoosts);
-        setCreatures({...creatures})
+        setCreatures({...creatures});
     }
 
     console.log("Init: " + (performance.now() - start).toFixed(3));
@@ -171,8 +183,8 @@ export default function MyApp() {
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
-            <ATotalDamage weaponName={weaponName} iconName={wSpec.iconName} defaultName={wSpec.defaultName} legendary={legendary} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
-            <ToastSpecs creatures={creatures} legendary={legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
+            <ATotalDamage weaponName={weaponName} graphValues={graphValues} iconName={wSpec.iconName} defaultName={wSpec.defaultName} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
+            <ToastSpecs creatures={creatures} legendary={wSpec.legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}
@@ -180,20 +192,20 @@ export default function MyApp() {
                 className="mt-1 mb-3">
                 <Tab eventKey="Main" title="Main">
                     <Accordion class="accordion">
-                        <WeaponSpecs damage={damage} setDamage={setDamage} wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
+                        <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
-                        <Creature creatures={creatures} setCreatures={setCreatures}></Creature>
+                        <CreatureView creatures={creatures} setCreatures={setCreatures}></CreatureView>
                     </Accordion>
                 </Tab>
                 <Tab eventKey="Templates" title="Weapons">
-                    <WeaponTemplates setWeaponName={setWeaponName} setDamage={setDamage} setWSpec={setWSpec}></WeaponTemplates>
+                    <WeaponTemplates setWeaponName={setWeaponName} setWSpec={setWSpec}></WeaponTemplates>
                 </Tab>
                 <Tab eventKey="Boosts" title="Boosts">
-                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} legendary={legendary} setLegendary={setLegendary} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></BoostStuff>
+                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></BoostStuff>
                 </Tab>
                 <Tab eventKey="Snapshots" title="Snapshots">
-                     <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={weaponName} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
+                     <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={weaponName} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
                 </Tab>
             </Tabs>
             <div style={{height: '1.5rem'}}></div>

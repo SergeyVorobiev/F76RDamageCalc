@@ -6,6 +6,9 @@ import { memo } from 'react';
 
 const ModalDeleteItem = memo(function ModalDeleteItem(props) {
     console.log("ModalDeleteItem");
+    if (!props.show) {
+        return (<></>);
+    }
     function onHide(e) {
         props.setModalDeleteItem({id: -1, name: 'none', show:  false});
     }

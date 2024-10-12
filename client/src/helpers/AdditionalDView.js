@@ -32,8 +32,11 @@ function getItems(adDamage, bonusMult, creatures) {
     let result = [];
     for (let i = 0; i < adDamage.length; i++) {
         const damage = adDamage[i];
+        if (damage.ignore) {
+            continue;
+        }
         const [symbol, style] = getSymbolStyle(damage.type, damage.kind);
-        let value = damage.damage;
+        let value = damage.damage.toFixed(1);
         if (bonusMult > 0) {
             const bMult = (value * bonusMult).toFixed(1);
             value += " (+" + bMult + ") ";
@@ -43,6 +46,9 @@ function getItems(adDamage, bonusMult, creatures) {
         }
         if (damage.interval > 0) {
             value += " (" + damage.interval.toFixed(1) + ")";
+        }
+        if (damage.area > 0) {
+            value += " (" + damage.area.toFixed(0) + " area)";
         }
         result.push(<>{keyValueBadge(style, '10rem', symbol,  value)}</>);
     }
@@ -57,6 +63,7 @@ function getItems(adDamage, bonusMult, creatures) {
 
 export default function AdditionalDView({template}) {
     const adDamage = collectAllDamages(template);
+
     if (!adDamage || adDamage.length === 0) {
         return (<></>);
     }

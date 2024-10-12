@@ -130,7 +130,6 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
             <Card className="text-center mb-2">
                 <Card.Body>
                     <ADRow additionalDamage={additionalDamages.tdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks100P} text={qTDB}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.bdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks500} text={qBDB}></ADRow>
                     <ADRow additionalDamage={additionalDamages.ballisticBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.energyBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.fireBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
@@ -138,9 +137,6 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
                     <ADRow additionalDamage={additionalDamages.coldBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.radBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
                     <ADRow additionalDamage={additionalDamages.damageToCreature} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.sneak} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.crit} updateAdditionalDamages={updateAdditionalDamages} marks={marks500}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.swift} updateAdditionalDamages={updateAdditionalDamages} marks={marks50P}></ADRow>
                 </Card.Body>
             </Card>
         </Container>

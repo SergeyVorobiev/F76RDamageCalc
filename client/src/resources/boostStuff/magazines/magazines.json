@@ -320,7 +320,7 @@
         "func": "nukeTheMan",
         "value": 0,
         "valueType": "percent",
-        "description": "Team"
+        "description": "Team Damage"
       }
     ]
   },

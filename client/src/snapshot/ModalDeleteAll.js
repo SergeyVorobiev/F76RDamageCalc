@@ -6,7 +6,9 @@ import { memo } from 'react';
 
 const ModalDeleteAll = memo(function ModalDeleteAll(props) {
     console.log("ModalDeleteAll");
-
+    if (!props.modalDeleteAll) {
+        return (<></>);
+    }
     function onHide(e) {
         props.setModalDeleteAll(false);
     }

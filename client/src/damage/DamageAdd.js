@@ -15,7 +15,7 @@ function getDropdown(wSpec, setWSpec, toastState, setToastState, openNotificatio
             return;
         }
         const type = getDamageTypeFromCellName(e);
-        const damageItem = buildDamageItem(type[0], type[1], type[2], 0, 0, 0, 100, false, wSpec.damages.length, true);
+        const damageItem = buildDamageItem(wSpec.weaponId, "custom", type[0], type[1], type[2], 0, 0, 0, 0, 100, 100, false, wSpec.damages.length, true);
         wSpec.damages.push(damageItem);
 
         // Reindex

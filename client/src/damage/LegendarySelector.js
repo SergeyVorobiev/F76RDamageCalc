@@ -9,6 +9,7 @@ import { getLegendaryByStar, getLegendary } from '../helpers/LegendaryProvider';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import getMods from '../helpers/Mods';
+import { setCurrentLegendaryIds } from '../helpers/Global';
 import { popoverContent } from '../templates/ModPropsPopover';
 import { WeaponPopoverOverlay } from '../helpers/WeaponPopoverOverlay';
 import { ModParser } from '../helpers/mods/ModParser';
@@ -83,17 +84,17 @@ function getEffectTag(effect) {
 }
 
 function getLegendaryAdjust(legendaryInfo, wSpec, setWSpec) {
-    if (legendaryInfo && legendaryInfo.type !== "None") {
+    if (legendaryInfo && legendaryInfo.type !== "Not affect" && legendaryInfo.type !== "Not affect (not tested)") {
         const marksName = "marks" + legendaryInfo.max;
-        const effect = (legendaryInfo.type === "None") ? "No effect" : legendaryInfo.type;
+        const effect = legendaryInfo.type;
         return (
             <>
                 <LegSlider legendaryInfo={legendaryInfo} marksName={marksName} wSpec={wSpec} setWSpec={setWSpec}></LegSlider>
                 {getEffectTag(effect)}
             </>
         );
-    } else if (legendaryInfo && legendaryInfo.type === "None") {
-        return (<>{getEffectTag("No effect")}</>);
+    } else if (legendaryInfo) {
+        return (<>{getEffectTag(legendaryInfo.type)}</>);
     }
     return (<></>);
 }
@@ -101,7 +102,7 @@ function getLegendaryAdjust(legendaryInfo, wSpec, setWSpec) {
 function getLegendaryDetails(legendaryInfo) {
     if (legendaryInfo) {
         return (
-            <div className="m-3"><strong>{legendaryInfo.description}</strong></div>
+            <div className="pt-3 m-3"><strong>{legendaryInfo.description}</strong></div>
         );
     }
     return (<></>);
@@ -136,6 +137,13 @@ function getCollapse(header, legendaryInfo, wSpec, setWSpec, health, index) {
 }
 
 export default function LegendarySelector({header, wSpec, setWSpec, health, index}) {
+    useEffect(() => {
+        setCurrentLegendaryIds(wSpec);
+        if (!wSpec.legendaryHealthUpdated) {
+            wSpec.legendaryHealthUpdated = true;
+            updateLegendary(wSpec, setWSpec, health);
+        }
+    }, [wSpec]);
     useEffect(() => {
         updateLegendary(wSpec, setWSpec, health);
     }, [health]);

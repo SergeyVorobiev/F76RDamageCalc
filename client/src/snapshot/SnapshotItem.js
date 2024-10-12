@@ -5,13 +5,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { Tag } from 'antd';
-import { millisToTime } from '../helpers/Calc';
+import { millisToTime } from '../helpers/Time';
 import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon, UploadIcon } from '../icons/Icons';
 import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
 import { getImage } from '../helpers/WTypeDropdown'
 import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
+import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
+import { memo } from 'react';
 
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
@@ -39,11 +41,11 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
         const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
         const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
         const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
-        const leg1 = item.legendary[item.legendary.current[0]];
-        const leg2 = item.legendary[item.legendary.current[1]];
-        const leg1Name = leg1.name + " (" + leg1.value + "%)";
-        const leg2Name = leg2.name + " (" + leg2.value + "%)";
-        let strength = (item.wSpec.strength_boost > 0) ? item.playerStats.strength.value : "-";
+
+        const leg1Name = getLegendaryNameFromSpec(item.wSpec, 1);
+        const leg2Name = getLegendaryNameFromSpec(item.wSpec, 2);
+        const leg3Name = getLegendaryNameFromSpec(item.wSpec, 3);
+        let strength = (item.wSpec.strengthBoost > 0) ? item.playerStats.strength.value : "-";
         return (
             <>
                 <Card.Body className="p-1 mt-1">
@@ -58,15 +60,16 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                         {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
                                         {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
                                         {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
-                                        {row("⭐", leg1Name, "gold")}
+                                        {row("🤕 Head Shot:", headUsed)}
+
                                     </Col>
                                     <Col>
-                                        {row(addText(ammo, '0.7rem', '0.25rem', "Ammo (🎯 Accuracy):"), item.resultDamage.ammoCapacity + " (" + item.wSpec.accuracy +"%)")}
+                                        {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
                                         {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
                                         {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}
-                                        {row("🤕 Head Shot:", headUsed)}
-                                        {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
+                                        {row("⭐", leg1Name, "gold")}
                                         {row("⭐ ⭐", leg2Name, "gold")}
+                                        {row("⭐ ⭐ ⭐", leg3Name, "gold")}
                                     </Col>
                                 </Row>
                                 </Toast.Body>
@@ -78,7 +81,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                 <Row>
                                     <Col>
                                         {row("💪 Strength:", strength, "default", "default")}
-                                        {row("🛡️ Anti Armor:", (item.resultDamage.bAA * 100.0).toFixed(1) + "%", "default", "default")}
+                                        {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
                                         {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
                                         {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
                                         {row("Ultracite Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
@@ -161,12 +164,14 @@ function header(item, setModalRenameItem, isOpen) {
     }
 }
 
-export default function SnapshotItem({index, isOpen, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
-
+const SnapshotItem = memo(function SnapshotItem({index, isOpen, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+    console.log("SnapshotItem");
     return (
         <Card className="mb-2">
             {header(item, setModalRenameItem, isOpen)}
             {bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
         </Card>
     );
-}
+});
+
+export default SnapshotItem;

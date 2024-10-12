@@ -13,6 +13,6 @@ export class IsAutomatic extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-
+        throw new Error("Legendary changes auto fire");
     }
 }

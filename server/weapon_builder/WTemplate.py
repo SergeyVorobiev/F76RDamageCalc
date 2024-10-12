@@ -12,9 +12,10 @@ class WTemplate:
         result["damageData"] = {}
         result["spellId"] = ""
         result["ammoId"] = ['', '']
+        result["ammoType"] = {"name": '', "type": '', 'codeName': ''}
         result["projId"] = [[], []]
         result["crSpellId"] = [[], []]
-
+        result["strPoints"] = [0, 0]
         result["bbDamage"] = [0, 0]
         result["ebDamage"] = [0, 0]
         result["fbDamage"] = [0, 0]
@@ -43,6 +44,9 @@ class WTemplate:
         result["strengthBoost"] = [0, 0]
         result["crit"] = [0, 0]
         result["sneak"] = [0, 0]
+        result["totalD"] = [0, 0]
+        result["chargeTime"] = [0, 0]
+        result["powerAttack"] = [0, 0]
         result["cripple"] = [0, 0]
         result["bleed"] = [0, 0]
         result["exp"] = [0, 0]
@@ -58,7 +62,6 @@ class WTemplate:
         result["levels"] = ""
         result["crMult"] = 2
         result["crChar"] = 1
-
         result["legendary1"] = {}
         result["legendary2"] = {}
         result["legendary3"] = {}

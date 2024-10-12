@@ -42,7 +42,7 @@ const marksH = {
     defaultValue: 100,
 };
 
-const General = function General({eventKey, categoryName, showStat, setShowStat, player, setPlayer, legendary, setLegendary, boostDamage, setBoostDamage, playerStats, setPlayerStats}) {
+const General = function General({eventKey, categoryName, showStat, setShowStat, player, setPlayer, boostDamage, setBoostDamage, playerStats, setPlayerStats}) {
     const openStat = (e) => {
         setShowStat(!showStat);
         e.stopPropagation();
@@ -54,10 +54,8 @@ const General = function General({eventKey, categoryName, showStat, setShowStat,
     };
 
     function changeHealth() {
-        legendary.bloodied.value = 100 - player.health.value;
         boostDamage.nerd_rage.displayed_value = (boostDamage.nerd_rage.is_used && player.health.value <= 20.0) ? boostDamage.nerd_rage.value : 0.0;
         setPlayer({...player});
-        setLegendary({...legendary});
         setBoostDamage({...boostDamage});
     };
 

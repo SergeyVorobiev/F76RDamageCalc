@@ -16,3 +16,7 @@ export function intersects(array1, array2) {
     }
     return false;
 }
+
+export function deleteItemFromArray(array, index) {
+    array.splice(index, 1);
+}

@@ -23,7 +23,7 @@ function buildLicense() {
     );
 }
 
-const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage, setWSpec}) {
+const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec}) {
     console.log("WeaponTemplates");
     const [modalTemplate, setModalTemplate] = useState({template: null, show: false});
     const [filterName, setFilterName] = useState("");
@@ -50,10 +50,10 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setDamage,
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
                 <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
             </OverlayTrigger>
-            <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWeaponName={setWeaponName} setDamage={setDamage} setWSpec={setWSpec}></ModalApplyTemplate>
+            <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWeaponName={setWeaponName} setWSpec={setWSpec}></ModalApplyTemplate>
             <InputGroup className="ps-1 pe-1 pb-3 flex-nowrap">
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
-                <Form.Control style={{width: '10rem'}} maxLength="65" onChange={filterNameChanged} />
+                <Form.Control style={{width: '10rem'}} maxLength="120" onChange={filterNameChanged} />
             </InputGroup>
             <Accordion class="accordion">
                 <TemplateItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
