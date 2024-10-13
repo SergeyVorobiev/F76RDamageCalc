@@ -87,8 +87,10 @@ class NameResolver:
         "0037f7da": "Meteorite Sword",
         "0043b76a": "High Damage",
         "0062fe89": "Cryo Receiver",
-        "001a7bd3": "Power Attack",
+        "001a7bd3": "Tough",
         "0034cc03": "Pumpkin",
         "0011389e": "Custom Smart Frag Grenade",
         "005d9d1c": "The Gutter",
+        "0040bd7c": "Burrows",
+        "004392cd": "Double",
     }

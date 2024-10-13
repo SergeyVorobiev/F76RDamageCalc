@@ -1,3 +1,6 @@
+from server.weapon_builder.Curv import Curv
+
+
 class DamageParser:
     damage_types = {
         "electrical": {
@@ -109,19 +112,12 @@ class DamageParser:
         if damages:
             for damage in damages:
                 value = damage["value"]
-                curv = self.curv_from_array(damage["curv"])
+                curv = Curv.get_value(damage['curv'])
                 type = damage['type']
                 if not parent:
                     parent = "Base"
                 self.add_damage_node(result, "Base", False, "Base Damage", type['name'], type['id'], type['full'], curv,
                                      value, 0, 0, 0, parent)
-
-    def curv_from_array(self, damage_curv):
-        try:
-            curv = eval(damage_curv[1])["curve"]
-            return curv[curv.__len__() - 1]['y']
-        except:
-            return 0
 
     def crit_damage(self):
         ...
@@ -186,10 +182,7 @@ class DamageParser:
         type_name = damage_type["name"]
         full_name = damage_type["full"]
         damage = explosive['damage']
-        exp_curv = explosive['exp_curv']
-        curv = 0
-        if exp_curv != '':
-            curv = self.curv_from_array(exp_curv.split("\n"))
+        curv = Curv.get_value(explosive['exp_curv'])
         if destructible:
             name = "Destructible Explosive Damage"
         else:
@@ -207,10 +200,7 @@ class DamageParser:
             value = 0
         curv = explosive['d_curv']
         if value > 0 or (curv != '' and curv != '00000000'):
-            if curv != '' and curv != '00000000':
-                curv = self.curv_from_array(curv.split("\n"))
-            else:
-                curv = 0
+            curv = Curv.get_value(curv)
             d_type = explosive['d_type']
             if d_type == '' or d_type == '00000000':
                 damage_type = DamageParser.damage_types['physical']
@@ -297,10 +287,7 @@ class DamageParser:
                     glob_magnitude = 0
                 if glob_magnitude > 0:  # Override magnitude by glob
                     magnitude = glob_magnitude
-                if curv != '':
-                    curv = self.curv_from_array(curv.split("\n"))
-                else:
-                    curv = 0
+                curv = Curv.get_value(curv)
                 if curv == 0 and magnitude == 0:
                     return
                 d_type = self.find_effect_damage_type(m_effect)

@@ -44,4 +44,8 @@ export class DamageTypeValues extends Apply {
             super.add(to, value, apply);
         }
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        throw new Error("Legendary changes damage type values");
+    }
 }

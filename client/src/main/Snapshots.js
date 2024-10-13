@@ -29,8 +29,9 @@ function setNextId(nextId) {
     id = nextId;
 }
 
-const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weaponName, damage, legendary, boostDamage, wSpec, extraDamage, additionalDamages, creatures, resultDamage, applySnapshot}) {
+const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weaponName, boostDamage, wSpec, extraDamage, additionalDamages, creatures, resultDamage, applySnapshot}) {
 
+    console.log("Snapshots");
     const [items, setItems] = useState({map: new Map()});
 
     const [modalNewItemShow, setModalNewItemShow] = useState(false);
@@ -58,6 +59,12 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
     const [weaponType, setWeaponType] = useState("All");
 
     const [isOpen, setIsOpen] = useState(true);
+
+    const [page, setPage] = useState(1);
+
+    const [pageSize, setPageSize] = useState(10);
+
+    const [startIndex, setStartIndex] = useState(0);
 
     useEffect(() => {
         readSnapshotsFromResources(snapshotsFile, setNextId, setItems);
@@ -104,13 +111,15 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
             </InputGroup>
         );
     }
-    const leg1 = legendary[legendary.current[0]];
-    const leg2 = legendary[legendary.current[1]];
-    const leg1Name = (leg1.name === "None") ? "" : leg1.name + " ";
-    const leg2Name = (leg2.name === "None") ? "" : leg2.name + " ";
-    weaponName = leg1Name + leg2Name + wSpec.defaultName;
+    function onPageChanged(page, pageSize) {
+        setStartIndex(pageSize * (page - 1));
+        setPage(page);
+        setPageSize(pageSize);
+    }
+
     // <div class="overflow-auto wrapper"></div>
     return (
+
         <Container className="p-1">
             <Card className="text-center mb-3">
                 <div class='card-header'>
@@ -119,12 +128,12 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
                 <ModalDownloadSnapshots items={items} modalDownloadSnapshots={modalDownloadSnapshots} setModalDownloadSnapshots={setModalDownloadSnapshots}></ModalDownloadSnapshots>
                 <ModalDownloadSnapshot items={items} modalDownloadSnapshot={modalDownloadSnapshot} setModalDownloadSnapshot={setModalDownloadSnapshot}></ModalDownloadSnapshot>
                 <ModalUploadSnapshots items={items} setItems={setItems} setNextId={setNextId} show={modalUploadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots}></ModalUploadSnapshots>
-                <ModalNewItem player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={weaponName} id={id} creatures={creatures} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} items={items} setItems={setItems} setNextId={setNextId} show={modalNewItemShow} setModalNewItemShow={setModalNewItemShow} />
+                <ModalNewItem player={player} playerStats={playerStats} stuffBoost={stuffBoost} id={id} creatures={creatures} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} items={items} setItems={setItems} setNextId={setNextId} show={modalNewItemShow} setModalNewItemShow={setModalNewItemShow} />
                 <ModalDeleteItem items={items} setItems={setItems} itemId={modalDeleteItem.id} show={modalDeleteItem.show} name={modalDeleteItem.name} setModalDeleteItem={setModalDeleteItem} />
                 <ModalDeleteAll items={items} setItems={setItems} modalDeleteAll={modalDeleteAll} setModalDeleteAll={setModalDeleteAll} setNextId={setNextId} />
                 <ModalApplyItem applySnapshot={applySnapshot} items={items} itemId={modalApplyItem.id} show={modalApplyItem.show} name={modalApplyItem.name} setModalApplyItem={setModalApplyItem} />
                 <ModalRenameItem id={modalRenameItem.id} items={items} setItems={setItems} show={modalRenameItem.show} setModalRenameItem={setModalRenameItem}></ModalRenameItem>
-                <ModalUpdateItem player={player} playerStats={playerStats} stuffBoost={stuffBoost} name={modalUpdateItem.name} items={items} setItems={setItems} creatures={creatures} damage={damage} legendary={legendary} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} modalUpdateItem={modalUpdateItem} setModalUpdateItem={setModalUpdateItem}></ModalUpdateItem>
+                <ModalUpdateItem player={player} playerStats={playerStats} stuffBoost={stuffBoost} name={modalUpdateItem.name} items={items} setItems={setItems} creatures={creatures} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} modalUpdateItem={modalUpdateItem} setModalUpdateItem={setModalUpdateItem}></ModalUpdateItem>
                 <Card.Body className="pt-2 ps-1 pe-1">
                     {search()}
                     <div class="d-flex flex-row mt-1 mb-2">
@@ -138,14 +147,13 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
                             {trashAllButton()}
                         </div>
                     </div>
-                    <SnapshotItems items={items} isOpen={isOpen} sortId={sortId} filterName={filterName} weaponType={weaponType} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}  />
+                    <SnapshotItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} items={items} isOpen={isOpen} sortId={sortId} filterName={filterName} weaponType={weaponType} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem} />
                 </Card.Body>
                 <Card.Footer className="text-muted">
                 </Card.Footer>
             </Card>
             <FloatButton.BackTop style={{ right: 120 }} duration={100} visibilityHeight={2000} />
         </Container>
-
     );
 });
 

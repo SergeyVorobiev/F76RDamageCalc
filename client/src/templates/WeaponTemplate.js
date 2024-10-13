@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { getTemplateCopyById } from '../helpers/TemplatesRegister';
 import AmmoView from '../helpers/AmmoView';
 import ProjView from '../helpers/ProjView';
@@ -21,20 +21,51 @@ import DamageOverview from '../helpers/DamageOverview';
 import ModRow from './ModRow';
 import Container from 'react-bootstrap/Container';
 import { modsSetter } from '../templates/TemplateItems';
-import WarningPopover from '../helpers/WarningPopover';
+import { WarningPopover } from '../helpers/WarningPopover';
+import { testedWeapons } from '../helpers/TestedWeapons';
+import { weaponRestrictions } from '../helpers/WeaponRestrictions';
 
 
 function getApplyButton(template, setModalTemplate) {
+    function testedMedal(wId) {
+        const version = testedWeapons[wId];
+        if (version) {
+            return (
+                <WarningPopover element={(
+                    <Button variant="white" className="p-0 ps-2 pe-2 m-0">
+                        <div style={{fontSize: '1.5rem'}}>🎖️</div>
+                    </Button>
+                )} message={version} header={'Tested'} />
+            );
+        }
+        return (<></>);
+    }
+    function restrictions(wId) {
+        const version = weaponRestrictions[wId];
+        if (version) {
+            return (
+                <WarningPopover element={(
+                    <Button variant="white" className="p-0 ps-2 pe-2 m-0">
+                        <div style={{fontSize: '1.5rem'}}>📛</div>
+                    </Button>
+                )} message={version} header={'Restrictions'} />
+            );
+        }
+        return (<></>);
+    }
     if (template.apply) {
         return (
-        <>
-            <div className='d-flex justify-content-center'>
-                <Button className='ms-0 mt-3 mb-0' disabled onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
-            </div>
-            <div className='d-flex justify-content-center mt-2'>
-                <WarningPopover variant={"danger"} message={"Temporarily Unavailable"} sign={"!"}></WarningPopover>
-            </div>
-        </>
+            <Row className="mt-3">
+                <Col className="col-2">
+                    {restrictions(template.id)}
+                </Col>
+                <Col className="col-8 d-flex justify-content-center">
+                    <Button onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
+                </Col>
+                <Col className="col-2 justify-content-end center-text pe-4">
+                    {testedMedal(template.id)}
+                </Col>
+            </Row>
         );
     }
     return (<></>);
@@ -60,8 +91,8 @@ function getResetButton(template, itemsLength, resetButtonActive, setResetButton
     );
 }
 
-export default function WeaponTemplate({modsSetter, template, setModalTemplate}) {
-    console.log("WeaponTemplate: " + template.index);
+const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate}) {
+    // console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
     const index = template.index;
@@ -131,7 +162,7 @@ export default function WeaponTemplate({modsSetter, template, setModalTemplate})
     }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
-    let expProj = template.projExp[1];
+    const badgeStyle = "badge bg-lite-outline";
     return (
         <div className="ps-1 pe-1 pt-1 pb-1" key={index} id={template.id} title={template.name}>
             <Accordion.Item key={index} eventKey={index} className="p-1 m-0 out-accordion">
@@ -158,46 +189,27 @@ export default function WeaponTemplate({modsSetter, template, setModalTemplate})
                     <Row>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-ballistic", '💥 B', template.bbDamage[1].toFixed(2), '💥 M', template.bmDamage[1].toFixed(2), '💥 T', template.btDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-energy", '⚡ B', template.ebDamage[1].toFixed(2), '⚡ M', template.emDamage[1].toFixed(2),  '⚡ T', template.etDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges("badge bg-fire", '🔥 B', template.fbDamage[1].toFixed(2), '🔥 M', template.fmDamage[1].toFixed(2), '🔥 T', template.ftDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-poison", '☣️ B', template.pbDamage[1].toFixed(2), '☣️ M', template.pmDamage[1].toFixed(2), '☣️ T', template.ptDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges("badge bg-cold", '❄️️ B', template.cbDamage[1].toFixed(2), '❄️ M', template.cmDamage[1].toFixed(2), '❄️ T', template.ctDamage[1].toFixed(2))}
-                                {resultBadges("badge bg-rad", '☢️ B', template.rbDamage[1].toFixed(2), '☢️️ M', template.rmDamage[1].toFixed(2), '☢️ T', template.rtDamage[1].toFixed(2))}
-                            </Row>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Row>
-                                {resultBadges("badge bg-lite", bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2), fireRate(iSize), fireRateText)}
-                                {resultBadges("badge bg-lite", ammo(iSize), template.capacity[1].toFixed(0), "🛡️", template.antiArmor[1].toFixed(2), "💪", template.strengthBoost[1].toFixed(2))}
+                                {resultBadges(badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText)}
+                                {resultBadges(badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🛡️", "+" + template.antiArmor[1].toFixed(1) + "%", "💪", "+" + template.strengthBoost[1].toFixed(1) + "%")}
                             </Row>
 
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "☠️", template.crit[1].toFixed(2), "💣", template.exp[1].toFixed(2), "🐵", template.cd[1].toFixed(2))}
-                                {resultBadges("badge bg-lite", "🐍", template.sneak[1].toFixed(2), "🌪️", template.bash[1].toFixed(2), "🩸", template.bleed[1])}
+                                {resultBadges(badgeStyle, "☠️", "+" + template.crit[1].toFixed(1) + "%", "💣", "+" + template.exp[1].toFixed(1) +"%", "🏋", template.weight[1].toFixed(2))}
+                                {resultBadges(badgeStyle, "🐍", "+" + template.sneak[1].toFixed(1) + "%", "🌪️", "+" + template.bash[1].toFixed(1) + "%", "🏃", template.ap[1].toFixed(2))}
                             </Row>
                         </Col>
                         <Col>
                             <Row>
-                                {resultBadges("badge bg-lite", "🏋", template.weight[1].toFixed(2), "🏃", template.ap[1].toFixed(2), "🧨", expProj.toFixed(2))}
+                                {resultBadges(badgeStyle, "🚀", "+" + (template.bonusMult[1] * 100).toFixed(1) + "%", "🦵", "+" + template.cripple[1].toFixed(1) + "%", "🔋", template.chargeTime[1].toFixed(2) + " s")}
+                                {resultBadges(badgeStyle, "-", "-", "🪓", "+" + (template.powerAttack[1] * 100).toFixed(1) + "%", "-", "-")}
                             </Row>
                         </Col>
                     </Row>
-                    <AdditionalDView adDamage={template.adDamage}></AdditionalDView>
-                    <LegendaryView template={template}></LegendaryView>
+                    <AdditionalDView template={template}></AdditionalDView>
                     <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>
+                    <LegendaryView template={template}></LegendaryView>
                     <Divider className='mt-2 mb-2'></Divider>
                     <GeneralView template={template}></GeneralView>
                     <AmmoView className="pt-2" ammoId={template.ammoId[1]}></AmmoView>
@@ -213,4 +225,6 @@ export default function WeaponTemplate({modsSetter, template, setModalTemplate})
             </Accordion.Item>
         </div>
     );
-};
+});
+
+export default WeaponTemplate;

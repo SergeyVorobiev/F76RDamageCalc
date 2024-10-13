@@ -16,5 +16,5 @@ class WEBPConverter:
             if resize is not None:
                 img = cv2.resize(img, resize, interpolation=cv2.INTER_LINEAR)
             path = path[:-self.ext_len] + "webp"
-            cv2.imwrite(path, img, [int(cv2.IMWRITE_WEBP_QUALITY), quality])
+            cv2.imwrite(path, img, [cv2.IMWRITE_WEBP_QUALITY, quality])
             print("Saved: " + path)

@@ -1,0 +1,50 @@
+import { DamageBonusMult } from './DamageBonusMult';
+import { Ammo } from './Ammo';
+import { IsAutomatic } from './IsAutomatic';
+import { Speed } from './Speed';
+import { APCost } from './APCost';
+import { Weight } from './Weight';
+import { AttackDelay } from './AttackDelay';
+import { CriticalDamageMult } from './CriticalDamageMult';
+import { AmmoCapacity } from './AmmoCapacity';
+import { ReloadSpeed } from './ReloadSpeed';
+import { OverrideProjectile } from './OverrideProjectile';
+import { HasRepeatableSingleFire } from './HasRepeatableSingleFire';
+import { ActorValues } from './ActorValues';
+import { Keywords } from './Keywords';
+import { CritEffect } from './CritEffect';
+import { AttackDamage } from './AttackDamage'
+import { DamageTypeValues } from './DamageTypeValues'
+import { WeightReduction } from './WeightReduction'
+import { Enchantments } from './Enchantments'
+import { NumProjectiles } from './NumProjectiles'
+
+
+export default class Appliers {
+    
+    constructor() {
+        
+        // TODO: Has to be generated and set automatically via names instead of manual setting
+        this.appliers = new Map();
+        this.appliers.set("DamageBonusMult", new DamageBonusMult());
+        this.appliers.set("Ammo", new Ammo());
+        this.appliers.set("IsAutomatic", new IsAutomatic());
+        this.appliers.set("Speed", new Speed());
+        this.appliers.set("APCost", new APCost());
+        this.appliers.set("Weight", new Weight());
+        this.appliers.set("AttackDelay", new AttackDelay());
+        this.appliers.set("CriticalDamageMult", new CriticalDamageMult());
+        this.appliers.set("AmmoCapacity", new AmmoCapacity());
+        this.appliers.set("ReloadSpeed", new ReloadSpeed());
+        this.appliers.set("OverrideProjectile", new OverrideProjectile());
+        this.appliers.set("HasRepeatableSingleFire", new HasRepeatableSingleFire());
+        this.appliers.set("ActorValues", new ActorValues());
+        this.appliers.set("Keywords", new Keywords());
+        this.appliers.set("CritEffect", new CritEffect());
+        this.appliers.set("AttackDamage", new AttackDamage());
+        this.appliers.set("DamageTypeValues", new DamageTypeValues());
+        this.appliers.set("WeightReduction", new WeightReduction());
+        this.appliers.set("Enchantments", new Enchantments());
+        this.appliers.set("NumProjectiles", new NumProjectiles());
+    }
+}

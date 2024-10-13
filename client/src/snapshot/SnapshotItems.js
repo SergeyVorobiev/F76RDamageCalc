@@ -1,5 +1,7 @@
 import { memo } from 'react';
 import SnapshotItem from './SnapshotItem'
+import { Pagination } from 'antd';
+
 
 function compareSBQ(item1, item2) {
     return compareCreature(item1, item2, "sbq");
@@ -41,7 +43,7 @@ function compareAverage(item1, item2) {
     return 0;
 }
 
-const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filterName, weaponType, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
+const SnapshotItems = memo(function SnapshotItems({onPageChanged, startIndex, pageSize, page, items, isOpen, sortId, filterName, weaponType, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
     const sorts = [compareAverage, compareSBQ, compareEarle, compareTitan];
     console.log("SnapshotItems");
     const sortAlg = sorts[sortId];
@@ -66,9 +68,29 @@ const SnapshotItems = memo(function SnapshotItems({items, isOpen, sortId, filter
         );
     }
     const values = snapshots.map((item) => (result(item)));
-    return (
-        values
-    );
+    let paginated = [];
+    for (let i = startIndex; i < startIndex + pageSize; i++) {
+        const value = values[i];
+        if (!value) {
+            break;
+        }
+        paginated.push(values[i]);
+    }
+    return getPagination(page, pageSize, onPageChanged, paginated);
 });
 
+function getPagination(page, pageSize, onPageChanged, paginated) {
+    if (paginated.length > 0) {
+        console.log("Paginated: " + paginated.length);
+        return (
+            <>
+                {paginated}
+                <div className="p-1" />
+                <Pagination align="center" current={page} defaultPageSize={pageSize} onChange={onPageChanged} total={paginated.length} />
+            </>
+        );
+    } else {
+        return (<></>);
+    }
+}
 export default SnapshotItems;

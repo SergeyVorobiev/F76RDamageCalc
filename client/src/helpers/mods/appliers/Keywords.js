@@ -38,6 +38,9 @@ export class Keywords extends Apply {
             case '0033a7c9 / WeaponTypeEnergy':
                 this.addTag(template, "Energy", apply);
                 return;
+            case '001e05d6 / HasSilencer':
+                this.addTag(template, "HasSilencer", apply);
+                return;
             case '0004a0a2 / WeaponTypeAutomatic':
             case '0034087a / WeaponTypeAutomaticRifle':
                 this.addTag(template, "Automatic", apply);
@@ -65,5 +68,13 @@ export class Keywords extends Apply {
              default:
                 break;
         }
+    }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        const name = mod.val1;
+        if (name.includes("dt") || name.includes("WeaponType")) {
+            throw new Error("Legendary changes weapon or damage type");
+        }
+
     }
 }

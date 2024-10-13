@@ -8,6 +8,9 @@ import { memo } from 'react';
 
 const ModalDownloadSnapshots = memo (function ModalDownloadSnapshots(props) {
     console.log("ModalDownloadSnapshots");
+    if (!props.modalDownloadSnapshots) {
+        return (<></>);
+    }
     function onHide(e) {
         props.setModalDownloadSnapshots(false);
     }
@@ -35,7 +38,7 @@ const ModalDownloadSnapshots = memo (function ModalDownloadSnapshots(props) {
             <Modal.Body>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">
                     <InputGroup.Text style={{ width: '9rem' }}>File name</InputGroup.Text>
-                    <Form.Control id='dName' className='w-auto' defaultValue={"snapshots"} maxLength="65" />
+                    <Form.Control id='dName' className='w-auto' defaultValue={"snapshots"} maxLength="120" />
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>

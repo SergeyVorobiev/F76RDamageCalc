@@ -7,4 +7,18 @@ export class NumProjectiles extends Apply {
         const value = super.getValue(mod);
         super.addSetMullAdd(template.shotSize, value, mod.op, apply);
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        if (update) {
+            return;
+        }
+        const value = super.getValue(mod);
+        super.checkOp(mod, "legendary", "Add");
+        super.addToProperty(wSpec, "shot_size", value, apply);
+
+        // Protect projectile if a user change the value
+        if (wSpec.shot_size === 0) {
+            wSpec.shot_size = 1;
+        }
+    }
 }

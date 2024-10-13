@@ -4,24 +4,19 @@ import { Apply } from './Apply';
 export class DamageBonusMult extends Apply {
 
     apply(template, mod, apply) {
-        const operation = apply ? 1 : -1;
         const mult = super.getValue(mod);
-        if (mod.op === "Add") {
-            template.bmDamage[1] += (template.bbDamage[0] * mult * operation);
-            template.emDamage[1] += (template.ebDamage[0] * mult * operation);
-            template.fmDamage[1] += (template.fbDamage[0] * mult * operation);
-            template.pmDamage[1] += (template.pbDamage[0] * mult * operation);
-            template.cmDamage[1] += (template.cbDamage[0] * mult * operation);
-            template.rmDamage[1] += (template.rbDamage[0] * mult * operation);
-            template.projExp[1] += (template.projExp[0] * mult * operation);
-        } else if (mod.op === "MullAdd") {
-            template.bbDamage[1] += (template.bbDamage[0] * mult * operation);
-            template.ebDamage[1] += (template.ebDamage[0] * mult * operation);
-            template.fbDamage[1] += (template.fbDamage[0] * mult * operation);
-            template.pbDamage[1] += (template.pbDamage[0] * mult * operation);
-            template.cbDamage[1] += (template.cbDamage[0] * mult * operation);
-            template.rbDamage[1] += (template.rbDamage[0] * mult * operation);
-            template.projExp[1] += (template.projExp[0] * mult * operation);
+        super.addSetMullAdd(template.bonusMult, mult, mod.op, apply, true);
+    }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        super.checkOp(mod, "legendary", "Add");
+        const value = super.getValue(mod);
+        if (update) {
+            return false;
         }
+
+        // Expected that every particular legendary has only one damage bonus multiplier
+        wSpec.legendary[starIndex][1] = (apply) ? value * 100 : 0;
+        wSpec.legendary[starIndex][2] = (apply) ? "BDB" : "";
     }
 }

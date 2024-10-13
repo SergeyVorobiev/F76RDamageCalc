@@ -13,16 +13,7 @@ export default function CritView({crits, weapId}) {
     if (!crits || crits.length === 0) {
         return (<></>);
     }
-    let allItems = [];
-    for (let i = 0; i < crits.length; i++) {
-        let result = {};
-        const ench = crits[i];
-        damageExtractor.extractEnch(ench, result, "Base Crit", false, weapId);
-        for (const property in result) {
-            const spells = result[property];
-            allItems.push(getItems(spells));
-        }
-    }
+    let allItems = getCritDamages(crits, weapId, true);
     if (allItems.length === 0) {
         return (<></>);
     }
@@ -34,6 +25,28 @@ export default function CritView({crits, weapId}) {
             </Row>
         </>
     );
+}
+
+export function getCritDamages(crits, weapId, visual=false) {
+    let allItems = [];
+    if (!crits) {
+        return allItems;
+    }
+    for (let i = 0; i < crits.length; i++) {
+        let result = {};
+        const ench = crits[i];
+        damageExtractor.extractEnch(ench, result, "Base Crit", false, weapId);
+        for (const property in result) {
+            const spells = result[property];
+            if (visual) {
+                allItems.push(getItems(spells));
+
+            } else {
+                allItems.push(spells);
+            }
+        }
+    }
+    return allItems;
 }
 
 function getItems(crits) {
@@ -54,7 +67,7 @@ function getItems(crits) {
         if (damage.interval > 0) {
             value += " (" + damage.interval.toFixed(1) + ")";
         }
-        result.push(<>{keyValueBadge(style, '8rem', symbol,  value)}</>);
+        result.push(<>{keyValueBadge(style, '10rem', symbol,  value)}</>);
     }
     return result;
 }

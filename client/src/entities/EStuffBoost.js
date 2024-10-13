@@ -99,15 +99,12 @@ function deleteBoost(item, stuffBoost) {
         let stuff = stuffBoost[boost.category].get(id);
         if (!stuff) {
             return;
-        } else if (stuff.length < 2) {
+        }
+        const remainStuff = stuff.filter(b => b.parentId !== item.id);
+        if (!remainStuff || remainStuff.length === 0) {
             stuffBoost[boost.category].delete(id);
         } else {
-            stuff = stuff.filter(b => b.parentId !== boost.parentId);
-            if (!stuff || stuff.length === 0) {
-                stuffBoost[boost.category].delete(id);
-            } else {
-                stuffBoost[boost.category].set(id, stuff);
-            }
+            stuffBoost[boost.category].set(id, remainStuff);
         }
     }
 }

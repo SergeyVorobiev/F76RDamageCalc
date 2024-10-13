@@ -1,7 +1,7 @@
 import csvFile from '../resources/creature_resistance_health.csv';
 
 
-export default function readCreaturesFromFile(mapCreatures, setMapCreatures) {
+export default function readCreaturesFromFile(setMapCreatures) {
     fetch(csvFile).then(response => {
         if (!response.ok) {
             throw new Error(response);
@@ -33,10 +33,15 @@ export default function readCreaturesFromFile(mapCreatures, setMapCreatures) {
                             parseFloat(data[7]),
                             parseFloat(data[8])]);
             }
+            const mapCreatures = {
+                names: [],
+                levels: levels,
+                map: new Map(),
+            }
             mapCreatures.map = map;
             mapCreatures.levels = levels;
             mapCreatures.names = Array.from(map, ([key, value]) => ({label: key, key: key }));
-            setMapCreatures({...mapCreatures,});
+            setMapCreatures(mapCreatures);
         };
         reader.readAsText(myBlob);
     }).catch(error => {console.error(error);});

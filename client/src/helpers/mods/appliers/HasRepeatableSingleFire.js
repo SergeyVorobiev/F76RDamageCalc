@@ -11,4 +11,8 @@ export class HasRepeatableSingleFire extends Apply {
             template.isAuto[1] = template.isAuto[0];
         }
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        throw new Error("Legendary changes auto fire");
+    }
 }

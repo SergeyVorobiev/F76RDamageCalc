@@ -16,7 +16,8 @@ function getDamageData(damageData, width='20rem') {
     return (
             <Card className="mt-1 mb-1 bg-lite">
                 <Row>
-                    {getField(damageData, 'Damage id:', 'type_id', 'default', width, false)}
+                    {getField(damageData, 'Damage From:', 'directParent', 'default', width, false)}
+                    {getField(damageData, 'Damage Type Id:', 'type_id', 'default', width, false)}
                     {getField(damageData, 'Code Name:', 'type_name', 'purple', width, false)}
                     {getField(damageData, 'Name:', 'type_full_name', 'purple', width, false)}
                     {getField(damageData, 'DCurv:', 'curv', 'blue', width, false)}

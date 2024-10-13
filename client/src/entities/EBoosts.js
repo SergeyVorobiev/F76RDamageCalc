@@ -10,6 +10,7 @@ export function defaultBoosts() {
             x: 1,
             max_x: 1,
             category: "Luck",
+            info: "{1}% bonus damage means enemies may explode into a gory red paste.",
             cost: [1, 2, 3],
         },
 
@@ -23,6 +24,7 @@ export function defaultBoosts() {
             x: 1,
             max_x: 6,
             category: "Agility",
+            info: "Gain {1}% damage for 30s per kill. Duration refreshes with kills.",
             cost: [1, 2, 3, 4, 5],
         },
 
@@ -36,6 +38,7 @@ export function defaultBoosts() {
             x: 1,
             max_x: 1,
             category: "Legendary",
+            info: "Enemies take {1}% more damage when they attack you, if you're on a team.",
             cost: [1, 2, 3, 4],
         },
 
@@ -49,6 +52,7 @@ export function defaultBoosts() {
             x: 1,
             max_x: 4,
             category: "Charisma",
+            info: "Make your target receive {1}% more damage for {1} seconds after you attack.",
             cost: [1, 2, 3],
         },
 
@@ -63,6 +67,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 3],
+            info: "Deal +{1}% damage to glowing enemies.",
         },
 
         gun_fu: {
@@ -76,6 +81,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2, 3],
+            info: "V.A.T.S. swaps targets on kill with +{1}% damage to your next target.",
         },
 
         incisor: {
@@ -89,6 +95,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 3],
+            info: "Your melee weapons ignore {1}% of your target's armor.",
         },
 
         bow_before_me: {
@@ -102,6 +109,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 3],
+            info: "Your bows and crossbows ignore {1}% armor and have a {2}% chance to stagger.",
         },
 
         exterminator: {
@@ -115,6 +123,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 3],
+            info: "Your attacks ignore {1}% armor of any insect.",
         },
 
         tank_killer: {
@@ -128,6 +137,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 3],
+            info: "Your rifles and pistols ignore {1}% armor and have a {2}% chance to stagger.",
         },
 
         stabilized: {
@@ -141,6 +151,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Intelligence",
             cost: [1, 2, 3],
+            info: "In Power Armor, heavy guns gain more accuracy and ignore {1}% armor.",
         },
 
         covert_operative: {
@@ -154,6 +165,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2, 3],
+            info: "Your ranged sneak attacks do {1}x normal damage.",
         },
 
         mister_sandman: {
@@ -167,6 +179,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2],
+            info: "At night your silenced weapons do an additional {1}% sneak attack damage.",
         },
 
         ninja: {
@@ -180,6 +193,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2, 3],
+            info: "Sneak attacks with melee weapons do an additional {1}% sneak attack damage.",
         },
 
         follow_through: {
@@ -193,6 +207,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Legendary",
             cost: [1, 2, 3, 4],
+            info: "Ranged sneak damage increases damage to target by {1}% for 10 seconds.",
         },
 
         demolition_expert: {
@@ -206,6 +221,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Intelligence",
             cost: [1, 2, 3, 4, 5],
+            info: "Your explosives do +{1}% damage",
         },
 
         science: {
@@ -219,6 +235,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Intelligence",
             cost: [1, 2, 3, 4, 5, 6],
+            info: "Energy damage gains +{1}% bonus.",
         },
 
         better_criticals: {
@@ -232,6 +249,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Luck",
             cost: [1, 2, 3],
+            info: "V.A.T.S. criticals now do +{1}% damage.",
         },
 
         nerd_rage: {
@@ -245,6 +263,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Intelligence",
             cost: [1, 2, 3],
+            info: "While below 20% Health, gain {3} Damage Resist, {1}% damage and 15% AP regen.",
         },
 
         lock_and_load: {
@@ -258,6 +277,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 3],
+            info: "Heavy guns reload +{1}% faster.",
         },
 
         martial_artist: {
@@ -271,6 +291,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 3],
+            info: "Your melee weapons weight {3}% less, and you can swing them {1}% faster.",
         },
 
         scattershot: {
@@ -284,6 +305,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 3],
+            info: "Shotguns now weight {4}% less and you reload them {1}% faster.",
         },
 
         ground_pounder: {
@@ -297,6 +319,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 3],
+            info: "Automatic rifles now reload {1}% faster and have better hip fire accuracy.",
         },
 
         party_girl_boy: {
@@ -310,6 +333,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Charisma",
             cost: [2, 3],
+            info: "The effects of alcohol are {1}x.",
         },
 
         power_user: {
@@ -323,6 +347,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Intelligence",
             cost: [1, 2, 3],
+            info: "Fusion Cores now last {1}% longer.",
         },
 
         strange_in_numbers: {
@@ -336,6 +361,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Charisma",
             cost: [1],
+            info: "Positive mutation effects are {1}% stronger if teammates are mutated too.",
         },
 
         class_freak: {
@@ -349,6 +375,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Luck",
             cost: [1, 2, 3],
+            info: "The negative effects of your mutations are reduced by {1}%.",
         },
 
         gladiator: {
@@ -362,6 +389,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your one-handed melee weapons now do +{1}% damage.",
         },
 
         heavy_gunner: {
@@ -375,6 +403,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your non-explosive heavy guns now do +{1}% damage.",
         },
 
         shotgunner: {
@@ -388,6 +417,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your shotguns now do +{1}% damage.",
         },
 
         slugger: {
@@ -401,6 +431,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your two-handed melee weapons now do +{1}% damage.",
         },
 
         iron_fist: {
@@ -414,6 +445,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Strength",
             cost: [1, 2, 3],
+            info: "Your punching attacks now do +{1}% damage.",
         },
 
         archer: {
@@ -427,6 +459,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your bows and crossbows now do +{1}% damage.",
         },
 
         commando: {
@@ -440,6 +473,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Basic combat training means automatic rifles do +{1}% damage.",
         },
 
         rifleman: {
@@ -453,6 +487,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Perception",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your non-automatic rifles now do +{1}% damage.",
         },
 
         guerrilla: {
@@ -466,6 +501,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your automatic pistols now do +{1}% damage",
         },
 
         gunslinger: {
@@ -479,6 +515,7 @@ export function defaultBoosts() {
             max_x: 1,
             category: "Agility",
             cost: [1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9],
+            info: "Your non-automatic pistols now do +{1}% damage.",
         },
 
         special: {

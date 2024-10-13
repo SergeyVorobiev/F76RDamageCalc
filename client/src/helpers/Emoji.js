@@ -13,6 +13,33 @@ import iThrown from '../resources/icons/thrown.webp';
 import Image from 'react-bootstrap/Image';
 
 
+export function getNumberEmoji(number) {
+    switch(number) {
+        case 0:
+            return "0️⃣";
+        case 1:
+            return "1️⃣";
+        case 2:
+            return "2️⃣";
+        case 3:
+            return "3️⃣";
+        case 4:
+            return "4️⃣";
+        case 5:
+            return "5️⃣";
+        case 6:
+            return "6️⃣";
+        case 7:
+            return "7️⃣";
+        case 8:
+            return "8️⃣";
+        case 9:
+            return "9️⃣";
+        default:
+            return "";
+    }
+}
+
 export function getSymbolText(symbol, text) {
     switch (symbol) {
         case "B":
@@ -33,7 +60,7 @@ export function getSymbolText(symbol, text) {
 }
 
 function image(maxHeight, src, text) {
-    return (<Image style={{ maxHeight: maxHeight }} src={src} fluid />);
+    return (<Image className="p-0 m-0" style={{ maxHeight: maxHeight }} src={src} fluid />);
 }
 
 export function bullet(maxHeight) {

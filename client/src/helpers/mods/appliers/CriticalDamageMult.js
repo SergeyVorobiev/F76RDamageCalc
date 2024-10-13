@@ -12,4 +12,13 @@ export class CriticalDamageMult extends Apply {
             template.crit[1] -= value;
         }
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        if (update) {
+            return;
+        }
+        super.checkOp(mod, "Legendary", "Add");
+        const value = super.getValue(mod) * 100;
+        super.addToProperty(wSpec, "crit", value, apply);
+    }
 }

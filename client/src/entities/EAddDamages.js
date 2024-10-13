@@ -6,12 +6,6 @@ export function defaultAdds() {
             is_used: false,
         },
 
-        bdb: {
-            name: "BDB",
-            value: 0.0,
-            is_used: false,
-        },
-
         ballisticBDB: {
             name: "Ballistic BDB",
             value: 0.0,
@@ -53,23 +47,5 @@ export function defaultAdds() {
             value: 0.0,
             is_used: false,
         },
-
-        sneak: {
-            name: "Sneak",
-            value: 0.0,
-            is_used: false,
-        },
-
-        crit: {
-            name: "Crit",
-            value: 0.0,
-            is_used: false,
-        },
-
-        swift: {
-            name: "Swift",
-            value: 0.0,
-            is_used: false,
-        }
     };
 }

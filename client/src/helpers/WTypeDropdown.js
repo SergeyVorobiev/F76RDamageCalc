@@ -4,15 +4,17 @@ import { memo } from 'react';
 import { addText, gun, rifle, shotgun, bow, melee, heavy, unarmed, thrown } from '../helpers/Emoji';
 
 
-const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, resetPage, onSelect=null, title=null}) {
+const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, resetPage=null, onSelect=null, title=null}) {
     function onSelectCustom(e) {
         setWeaponType(e);
-        resetPage();
-        if (onSelect != null) {
+        if (resetPage) {
+            resetPage();
+        }
+        if (onSelect) {
             onSelect(e);
         }
     }
-    const customTitle = (title == null) ? weaponType : title;
+    const customTitle = (title) ? title : weaponType;
     return (
         <DropdownButton onSelect={onSelectCustom} id="dropdown-basic-button" title={customTitle}>
             <Dropdown.Item eventKey="All">All</Dropdown.Item>

@@ -1,16 +1,18 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
-import {buildItem} from '../helpers/Item';
+import { buildItem } from '../helpers/Item';
 import { memo } from 'react';
 
 
 const ModalUpdateItem = memo (function ModalUpdateItem(props) {
     console.log("ModalUpdateItem");
-
+    if (!props.modalUpdateItem.show) {
+        return (<></>);
+    }
     function onUpdateItem() {
         const oldItem = props.items.map.get(props.modalUpdateItem.id);
-        const item = buildItem(oldItem.id, oldItem.name, props.player, props.playerStats, props.creatures, props.damage, props.legendary, props.boostDamage, props.wSpec, props.extraDamage, props.additionalDamages, props.resultDamage, props.stuffBoost);
+        const item = buildItem(oldItem.id, oldItem.name, props.player, props.playerStats, props.creatures, props.boostDamage, props.wSpec, props.extraDamage, props.additionalDamages, props.resultDamage, props.stuffBoost);
         setItem(item);
         props.setModalUpdateItem({id: -1, show: false});
     }

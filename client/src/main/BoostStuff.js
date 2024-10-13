@@ -20,13 +20,13 @@ function buildLicense() {
     );
 }
 
-const BoostStuff = memo(function BoostStuff({foodPref, setFoodPref, magazines, setMagazines, bobbleHeads, setBobbleHeads, food, setFood, drink, setDrink, psycho, setPsycho, serum, setSerum, others, setOthers, player, setPlayer, stuffBoost, setStuffBoost, showStat, setShowStat, legendary, setLegendary, boostDamage, setBoostDamage, playerStats, setPlayerStats}) {
+const BoostStuff = memo(function BoostStuff({foodPref, setFoodPref, magazines, setMagazines, bobbleHeads, setBobbleHeads, food, setFood, drink, setDrink, psycho, setPsycho, serum, setSerum, others, setOthers, player, setPlayer, stuffBoost, setStuffBoost, showStat, setShowStat, boostDamage, setBoostDamage, playerStats, setPlayerStats}) {
     return (
         <Accordion class="accordion">
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
                 <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
             </OverlayTrigger>
-            <General eventKey="0" categoryName={"General"} showStat={showStat} setShowStat={setShowStat} player={player} setPlayer={setPlayer} legendary={legendary} setLegendary={setLegendary} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></General>
+            <General eventKey="0" categoryName={"General"} showStat={showStat} setShowStat={setShowStat} player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></General>
             <EffectView eventKey="1" player={player} showStat={showStat} setShowStat={setShowStat} categoryName={"Magazines"} items={magazines} setItems={setMagazines} colorName={"orange"} colorValue={"orange"} cardHeight={'16.2rem'} picHeight={'12rem'} getPicture={getMagazine} useHeader={false} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
             <EffectView eventKey="2" showStat={showStat} setShowStat={setShowStat} categoryName={"Bobble Heads"} items={bobbleHeads} setItems={setBobbleHeads} colorName={"blue"} colorValue={"blue"} cardHeight={'12.2rem'} picHeight={'8rem'} getPicture={getBobbleHead} useHeader={true} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
             <EffectView eventKey="3" showStat={showStat} setShowStat={setShowStat} categoryName={"Chemicals"} items={psycho} setItems={setPsycho} colorName={"magenta"} colorValue={"magenta"} cardHeight={'14.8rem'} picHeight={'9rem'} getPicture={getPsycho} useHeader={true} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />

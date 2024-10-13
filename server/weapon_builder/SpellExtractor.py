@@ -1,5 +1,6 @@
 import Root
 from server.weapon_builder.BaseExtractor import BaseExtractor
+from server.weapon_builder.Curv import Curv
 
 
 class SpellExtractor(BaseExtractor):
@@ -37,7 +38,4 @@ class SpellExtractor(BaseExtractor):
     @staticmethod
     def resolve_d_curv(mag_effects):
         for mag in mag_effects:
-            dcurv = mag['d_curv']
-            if dcurv != '' and dcurv != '00000000':
-                dcurv = eval(dcurv.split("\n")[1])['curve']
-                mag['d_curv'] = dcurv[dcurv.__len__() - 1]['y']
+            mag['d_curv'] = Curv.get_value(mag['d_curv'])

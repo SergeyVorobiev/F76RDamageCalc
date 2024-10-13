@@ -12,32 +12,18 @@ class WTemplate:
         result["damageData"] = {}
         result["spellId"] = ""
         result["ammoId"] = ['', '']
+        result["ammoType"] = {"name": '', "type": '', 'codeName': ''}
         result["projId"] = [[], []]
         result["crSpellId"] = [[], []]
+        result["strPoints"] = [0, 0]
         result["bbDamage"] = [0, 0]
-        result["bmDamage"] = [0, 0]
-        result["btDamage"] = [0, 0]
-
         result["ebDamage"] = [0, 0]
-        result["emDamage"] = [0, 0]
-        result["etDamage"] = [0, 0]
-
         result["fbDamage"] = [0, 0]
-        result["fmDamage"] = [0, 0]
-        result["ftDamage"] = [0, 0]
-
         result["pbDamage"] = [0, 0]
-        result["pmDamage"] = [0, 0]
-        result["ptDamage"] = [0, 0]
-
         result["cbDamage"] = [0, 0]
-        result["cmDamage"] = [0, 0]
-        result["ctDamage"] = [0, 0]
-
         result["rbDamage"] = [0, 0]
-        result["rmDamage"] = [0, 0]
-        result["rtDamage"] = [0, 0]
 
+        result["bonusMult"] = [0, 0]
         result["projExp"] = [0, 0]
 
         # Additional damage
@@ -58,11 +44,14 @@ class WTemplate:
         result["strengthBoost"] = [0, 0]
         result["crit"] = [0, 0]
         result["sneak"] = [0, 0]
+        result["totalD"] = [0, 0]
+        result["chargeTime"] = [0, 0]
+        result["powerAttack"] = [0, 0]
+        result["cripple"] = [0, 0]
         result["bleed"] = [0, 0]
         result["exp"] = [0, 0]
-        result["cd"] = [0, 0]
         result["speed"] = [1, 1]
-        result["creatureType"] = ["Any", "Any"]
+        result["creature"] = []
         result["bash"] = [0, 0]
         result["accuracy"] = [100, 100]
         result["ap"] = [0, 0]
@@ -73,7 +62,6 @@ class WTemplate:
         result["levels"] = ""
         result["crMult"] = 2
         result["crChar"] = 1
-
         result["legendary1"] = {}
         result["legendary2"] = {}
         result["legendary3"] = {}

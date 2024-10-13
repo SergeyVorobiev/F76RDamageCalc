@@ -7,6 +7,9 @@ import { memo } from 'react';
 
 const ModalRenameItem = memo(function ModalRenameItem(props) {
     console.log("ModalRenameItem");
+    if (!props.show) {
+        return (<></>);
+    }
     function setItem(item) {
         props.items.map.set(item.id, item);
         const newItems = {

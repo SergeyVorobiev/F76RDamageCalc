@@ -6,10 +6,13 @@ import { popoverContent } from './ModPropsPopover';
 import { WeaponPopoverOverlay } from '../helpers/WeaponPopoverOverlay';
 
 
-function getModRow(modData, def) {
+function getModRow(modData, def, isUsed) {
     let color = (modData['useful']) ? 'purple' : 'grey';
     if (def) {
         color = 'blue';
+    }
+    if (isUsed) {
+        color = 'brown';
     }
     return (
         <Tag.CheckableTag style={{width: '100%'}}>
@@ -22,9 +25,9 @@ export default function ModRow({index, weaponId, modsSameType, checkMod, defMods
     const modSameType = modsSameType[index];
     const modData = getMods().get(modSameType[0]);
     let def = defMods.includes(modSameType[0]);
-    const modRow = getModRow(modData, def);
-    const disabled = !modSameType[2];
     const isUsed = modSameType[1];
+    const modRow = getModRow(modData, def, isUsed);
+    const disabled = !modSameType[2];
     if (modData['hide']) {
         return (<></>);
     }

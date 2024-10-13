@@ -6,6 +6,7 @@ import '../css/style.css';
 import {checkLength} from '../helpers/Input';
 import { Checkbox } from 'antd';
 import { getSymbolText } from '../helpers/Emoji';
+import { memo } from 'react';
 
 
 function column(damage, setDamage, damage_type, damage_name, used_damage_name, use_damage_name, color, name) {
@@ -40,7 +41,8 @@ function column(damage, setDamage, damage_type, damage_name, used_damage_name, u
     );
 }
 
-function DRow({damage, setDamage, damage_type, color}) {
+// Obsolete
+const DRow = memo(function DRow({damage, setDamage, damage_type, color}) {
     return (
         <Row>
             {column(damage, setDamage, damage_type, "damage", "used_damage", "use_damage", color, getSymbolText(damage_type["symbol"], "Damage"))}
@@ -48,6 +50,6 @@ function DRow({damage, setDamage, damage_type, color}) {
             {column(damage, setDamage, damage_type, "time_damage", "used_time_damage", "use_time_damage", color, getSymbolText(damage_type["symbol"], "Time Damage"))}
         </Row>
     );
-}
+});
 
 export default DRow;

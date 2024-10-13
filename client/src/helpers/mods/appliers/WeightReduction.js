@@ -8,4 +8,8 @@ export class WeightReduction extends Apply {
         const value = super.getValue(mod);
         super.mullAdd(template.weight, value, apply);
     }
+
+    applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
+        // Currently there is no reason to change weight
+    }
 }

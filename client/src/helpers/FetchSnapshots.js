@@ -1,18 +1,18 @@
-export function readSnapshotsFromInput(inputId, setIdCallback, setItemsCallback, oldItems=null, add=true, maxItems=10000) {
+export function readSnapshotsFromInput(inputId, setIdCallback, setItemsCallback, oldItems=null, add=true, maxItems=1000) {
 
     const file = document.getElementById(inputId).files[0];
-    readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems)
+    readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems);
 };
 
-export function readSnapshotsFromResources(file, setIdCallback, setItemsCallback, maxItems=10000) {
-    readSnapshotsJson(file, setIdCallback, setItemsCallback, null, true, maxItems=10000);
+export function readSnapshotsFromResources(file, setIdCallback, setItemsCallback, maxItems=1000) {
+    readSnapshotsJson(file, setIdCallback, setItemsCallback, null, true, maxItems=1000);
 };
 
-function readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add=true, maxItems=10000) {
+function readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add=true, maxItems=1000) {
     let map = new Map();
     let k = 0;
     if (oldItems && add) {
-        for (const [key, value] of oldItems.entries()) {
+        for (const [, value] of oldItems.entries()) {
             value.id = k;
             map.set(k++, value);
         }
@@ -31,7 +31,7 @@ function readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add
     setItemsCallback(newItems);
 }
 
-function readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems=10000) {
+function readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems=1000) {
     try {
         const reader = new FileReader();
         reader.onload = e => {
