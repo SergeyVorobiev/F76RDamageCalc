@@ -16,7 +16,7 @@ const ModalDownloadSnapshot = memo (function ModalDownloadSnapshot(props) {
     }
     function downloadName() {
         const name = props.modalDownloadSnapshot.name;
-        return (name === null || name === "") ? "snapshot" : name;
+        return (name === null || name === "") ? "snapshot.json" : name + ".json";
     }
     const item = [props.items.map.get(props.modalDownloadSnapshot.id)];
     const fileName = props.modalDownloadSnapshot.name;

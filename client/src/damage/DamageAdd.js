@@ -46,7 +46,6 @@ function getDropdown(wSpec, setWSpec, toastState, setToastState, openNotificatio
 
 
 export default function DamageAdd({wSpec, setWSpec}) {
-    const key = 'updatable';
     const [toastState, setToastState] = useState(false);
     const [api, contextHolder] = notification.useNotification();
 

@@ -192,7 +192,10 @@ export default class WeaponSpecsAssembler {
 
         // TODO: MeleeGeneral? (means including Unarmed) or just Melee type
         const ninja = (this.wSpec.tags.includes("MeleeGeneral")) ? this.perks.ninja.displayed_value / 100.0 : 0.0;
-        const follow = this.perks.follow_through.displayed_value / 100.0;
+        let follow = this.perks.follow_through.displayed_value / 100.0;
+        if (!this.wSpec.tags.includes("Ranged")) {
+            follow = 0;
+        }
         const weaponSneak = this.wSpec.sneak / 100.0;
         const stuffSneak = (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Sneak") / 100.0);
         return sneak + sandman + ninja + follow + weaponSneak + stuffSneak;

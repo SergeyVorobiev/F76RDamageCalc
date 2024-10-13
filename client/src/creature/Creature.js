@@ -1,6 +1,4 @@
-import React from 'react';
 import { determineType, determineBody } from './CreatureTypes';
-import { deleteItemFromArray } from '../helpers/Array';
 
 
 export default class Creature {
@@ -119,7 +117,6 @@ export default class Creature {
         this.hits += 1;
         this.lifeTime += hit.deltaTime;
         this.lastShotTime = hit.deltaTime;
-        const healthBefore = this.health;
 
         // Run through damages to cause damage
         this.applyDamages(hit, hit.damages);
@@ -362,7 +359,7 @@ export default class Creature {
 
     getCreatureBonusMultiplier(creatureDamageBonuses) {
         let result = 0;
-        for (let [key, damageBonus] of creatureDamageBonuses) {
+        for (let [, damageBonus] of creatureDamageBonuses) {
             if (damageBonus.name === "any") {  // All
                 result += (damageBonus.value / 100.0);
             } else if (damageBonus.name === this.body) { // Body type
@@ -411,14 +408,14 @@ export default class Creature {
         if (!this.reported) {
             this.reported = true;
             this.creatureInfo.totalDamage = "↓" + this.minTotalDamage.toFixed(1) + " - ↑" + this.maxTotalDamage.toFixed(1);
-            this.creatureInfo.normalDamage = "(↓" + (this.minNormalShot / this.bulletCount).toFixed(1) + " - " + (this.maxNormalShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.headShotDamage = "(↓" + (this.minHeadShot / this.bulletCount).toFixed(1) + " - " + (this.maxHeadShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.headExpShotDamage = "(↓" + (this.minHeadExpShot / this.bulletCount).toFixed(1) + " - " + (this.maxHeadExpShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.critNormalDamage = "(↓" + (this.minNormalCritShot / this.bulletCount).toFixed(1) + " - " + (this.maxNormalCritShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.critHeadNormalDamage = "(↓" + (this.minNormalHeadCritShot / this.bulletCount).toFixed(1) + " - " + (this.maxNormalHeadCritShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.explosiveDamage = "(↓" + (this.minExpShot / this.bulletCount).toFixed(1) + " - " + (this.maxExpShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.critExplosiveDamage = "(↓" + (this.minExpCritShot / this.bulletCount).toFixed(1) + " - " + (this.maxExpCritShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
-            this.creatureInfo.critExplosiveHeadDamage = "(↓" + (this.minExpCritHeadShot / this.bulletCount).toFixed(1) + " - " + (this.maxExpCritHeadShot / this.bulletCount).toFixed(1) + "↑) x " + this.bulletCount;
+            this.creatureInfo.normalDamage = "(↓" + (this.minNormalShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.headShotDamage = "(↓" + (this.minHeadShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxHeadShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.headExpShotDamage = "(↓" + (this.minHeadExpShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxHeadExpShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.critNormalDamage = "(↓" + (this.minNormalCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.critHeadNormalDamage = "(↓" + (this.minNormalHeadCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalHeadCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.explosiveDamage = "(↓" + (this.minExpShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.critExplosiveDamage = "(↓" + (this.minExpCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.critExplosiveHeadDamage = "(↓" + (this.minExpCritHeadShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpCritHeadShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
             if (this.isDead()) {
                 this.creatureInfo.ammo = this.hits;
                 this.creatureInfo.reloads = reloads;

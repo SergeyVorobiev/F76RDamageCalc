@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { buildItem } from '../helpers/Item';
 import { memo, useState, useEffect } from 'react';
 import { Checkbox } from 'antd';
-import { getLegendary, getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
+import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 
 
 function getLegendaryPrefix(wSpec) {

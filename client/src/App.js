@@ -9,12 +9,11 @@ import CreatureView from "./main/CreatureView";
 import WeaponFactory from './damage/weapon/WeaponFactory';
 import { calcDamage, graphDamage } from "./helpers/Calc";
 import Accordion from 'react-bootstrap/Accordion';
-import { getResult, defaultExtraDamage } from './entities/EResultDamage';
+import { defaultExtraDamage } from './entities/EResultDamage';
 import { defaultCreatures } from './entities/ECreatures';
-import { defaultLegendary } from './entities/ELegendary';
 import { defaultBoosts } from './entities/EBoosts';
 import { defaultAdds } from './entities/EAddDamages';
-import { defaultWeaponDamageSpecs, defaultWeaponSpecs } from './entities/EWeaponSpecs';
+import { defaultWeaponSpecs } from './entities/EWeaponSpecs';
 import './css/style.css';
 import readCreaturesFromFile from './helpers/FetchCreatures';
 import F76NavBar from './main/F76NavBar';
@@ -138,14 +137,14 @@ export default function MyApp() {
         prepareItems(psychoM);
         prepareItems(serumS);
         prepareItems(othersL);
-        readCreaturesFromFile(mapCreatures, setMapCreatures);
+        readCreaturesFromFile(setMapCreatures);
     }, []);
 
     useEffect(() => {
         const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
         setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
         setResultDamage(calcDamage(weaponFactory, creatures));
-    }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats]);
+    }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats, graphValues.xValues]);
 
     // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,
     // but we can omit this cause it is not affected on render time to much.

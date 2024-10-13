@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import '../css/style.css';
-import { graphDamage } from '../helpers/Calc';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Checkbox } from 'antd';
@@ -24,7 +23,6 @@ import { keyValueBadge } from '../helpers/RowBuilder';
 import { tAmmo, ammo, fireRate, addText } from '../helpers/Emoji';
 import DamageDetails from '../damage/DamageDetails';
 import { getImageElement } from '../helpers/WeaponImages';
-import WeaponFactory from '../damage/weapon/WeaponFactory';
 const { Chart } = await import('chart.js/auto');
 
 
@@ -39,12 +37,11 @@ function help() {
                 <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
                 <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
                 <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
-                <p class="m-1"><strong>Rad resistance</strong> can be overridden by 'infinity' like for Grafton monster or Super Mutant etc.
-                but you will see its actual rad resistance from the game files, therefore calculations for rads weapon will be incorrect.</p>
+                <p class="m-1"><strong>Rad resistance</strong>. Some monsters can have rad resistance overridden by 'infinity' like Grafton monster or Super Mutant etc.</p>
                 <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
                 provided that a creature is standing still under the fire until death. </p>
                 <p class="m-1">However when all else being equal you can rely on this numbers to compare efficiency
-                of many weapons with a pretty good accuracy. Go to the GitHub page via white cat icon for details.</p>
+                of weapons with a pretty good accuracy. Go to the GitHub page via white cat icon for details.</p>
             </Popover.Body>
         </Popover>
     );
@@ -59,7 +56,7 @@ function buildStats(creature, resultDamage, weaponName) {
         armor = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
     }
     function showDamageIf(what, damageLine) {
-        if (damageLine === 0 || damageLine.includes("0.0 - 0.0")) {
+        if (damageLine === 0 || damageLine.includes("0.0 - ↑0.0")) {
             return (<></>);
         }
         return what;
@@ -105,7 +102,7 @@ function buildStats(creature, resultDamage, weaponName) {
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
                     <Divider className='p-0 m-1 mb-3'></Divider>
-                    <span className="badge bg-warning mb-0 text-dark p-2"> {weaponName}</span>
+                    <span className="badge bg-warning mb-0 text-dark p-2"><small>{weaponName}</small></span>
                 </Stack>
             </Popover.Body>
         </Popover>

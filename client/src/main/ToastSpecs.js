@@ -3,7 +3,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import {keyValueRow} from '../helpers/RowBuilder';
 import { getHotPercentage } from '../helpers/Item';
 import { Progress } from 'antd';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
 import {getAverageTime } from "../entities/ECreatures";

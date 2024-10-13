@@ -12,7 +12,7 @@ function readSnapshotsJson(items, setIdCallback, setItemsCallback, oldItems, add
     let map = new Map();
     let k = 0;
     if (oldItems && add) {
-        for (const [key, value] of oldItems.entries()) {
+        for (const [, value] of oldItems.entries()) {
             value.id = k;
             map.set(k++, value);
         }

@@ -21,7 +21,7 @@ import DamageOverview from '../helpers/DamageOverview';
 import ModRow from './ModRow';
 import Container from 'react-bootstrap/Container';
 import { modsSetter } from '../templates/TemplateItems';
-import { WarningPopoverBadge, WarningPopover } from '../helpers/WarningPopover';
+import { WarningPopover } from '../helpers/WarningPopover';
 import { testedWeapons } from '../helpers/TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
 
@@ -162,7 +162,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
-    let expProj = template.projExp[1];
     const badgeStyle = "badge bg-lite-outline";
     return (
         <div className="ps-1 pe-1 pt-1 pb-1" key={index} id={template.id} title={template.name}>

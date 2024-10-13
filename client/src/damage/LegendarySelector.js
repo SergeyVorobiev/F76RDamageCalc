@@ -1,8 +1,7 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import LegSlider from './LegSlider';
 import { Collapse } from 'antd';
 import { getLegendaryByStar, getLegendary } from '../helpers/LegendaryProvider';
@@ -143,7 +142,7 @@ export default function LegendarySelector({header, wSpec, setWSpec, health, inde
             wSpec.legendaryHealthUpdated = true;
             updateLegendary(wSpec, setWSpec, health);
         }
-    }, [wSpec]);
+    }, [wSpec, health]);
     useEffect(() => {
         updateLegendary(wSpec, setWSpec, health);
     }, [health]);

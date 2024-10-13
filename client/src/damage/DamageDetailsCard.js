@@ -3,7 +3,6 @@ import { keyValueRow } from '../helpers/RowBuilder';
 import { memo, useState } from 'react';
 import { getSymbolStyle } from '../helpers/AdditionalDView';
 import { getNumberEmoji } from '../helpers/Emoji.js';
-import { Select } from 'antd';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -17,7 +16,7 @@ function showExplosive(damageData, resultDamage) {
 }
 
 function getAnyCreatureBonus(resultDamage) {
-    for (let [key, bonus] of resultDamage.creatureBonus) {
+    for (let [, bonus] of resultDamage.creatureBonus) {
         if (bonus.name === "any") {
             return bonus.value / 100.0;
         }
@@ -27,7 +26,7 @@ function getAnyCreatureBonus(resultDamage) {
 
 function getCreatureNames(resultDamage) {
     let result = ["general"];
-    for (let [key, bonus] of resultDamage.creatureBonus) {
+    for (let [key,] of resultDamage.creatureBonus) {
         result.push(key);
     }
     return result;

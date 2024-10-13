@@ -176,7 +176,6 @@ function replaceAdjustableLegs(legs, bonusMult) {
             case '004f6aab':
             case '00606b71':
             case '004f6aae':
-            case '004f6aab':
             case '004f6aa7':
                 bonusMult -= 50;
                 leg[1] = 50;

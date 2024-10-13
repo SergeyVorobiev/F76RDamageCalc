@@ -56,8 +56,8 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                 <Row>
                                     <Col>
                                         {row("💥 Damage:", item.resultDamage.tDamage.toFixed(1) + " x " + item.resultDamage.shotSize)}
-                                        {row("☠️ Crit:", critUsed + " " + item.resultDamage.displayedCrit.toFixed(1))}
-                                        {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1))}
+                                        {row("☠️ Crit:", critUsed + " +" + item.resultDamage.displayedCrit.toFixed(1) + "%")}
+                                        {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1) + "%")}
                                         {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
                                         {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
                                         {row("🤕 Head Shot:", headUsed)}
