@@ -1,7 +1,7 @@
 export function readSnapshotsFromInput(inputId, setIdCallback, setItemsCallback, oldItems=null, add=true, maxItems=1000) {
 
     const file = document.getElementById(inputId).files[0];
-    readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems)
+    readSnapshotsFrom(file, setIdCallback, setItemsCallback, oldItems, add, maxItems);
 };
 
 export function readSnapshotsFromResources(file, setIdCallback, setItemsCallback, maxItems=1000) {
