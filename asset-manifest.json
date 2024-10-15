@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/F76RDamageCalc/static/css/main.79578e36.css",
-    "main.js": "/F76RDamageCalc/static/js/main.fe9e5177.js",
-    "static/js/867.dcac2e72.chunk.js": "/F76RDamageCalc/static/js/867.dcac2e72.chunk.js",
+    "main.js": "/F76RDamageCalc/static/js/main.a8c84eb6.js",
+    "static/js/867.c8ffbcb5.chunk.js": "/F76RDamageCalc/static/js/867.c8ffbcb5.chunk.js",
     "static/js/453.0098adef.chunk.js": "/F76RDamageCalc/static/js/453.0098adef.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.835aeaf8e1b3f8880259.csv",
     "static/media/main_logo.webp": "/F76RDamageCalc/static/media/main_logo.6dac8ad663999e82dfec.webp",
@@ -321,12 +321,12 @@
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
     "main.79578e36.css.map": "/F76RDamageCalc/static/css/main.79578e36.css.map",
-    "main.fe9e5177.js.map": "/F76RDamageCalc/static/js/main.fe9e5177.js.map",
-    "867.dcac2e72.chunk.js.map": "/F76RDamageCalc/static/js/867.dcac2e72.chunk.js.map",
+    "main.a8c84eb6.js.map": "/F76RDamageCalc/static/js/main.a8c84eb6.js.map",
+    "867.c8ffbcb5.chunk.js.map": "/F76RDamageCalc/static/js/867.c8ffbcb5.chunk.js.map",
     "453.0098adef.chunk.js.map": "/F76RDamageCalc/static/js/453.0098adef.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.79578e36.css",
-    "static/js/main.fe9e5177.js"
+    "static/js/main.a8c84eb6.js"
   ]
 }
