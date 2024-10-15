@@ -91,6 +91,62 @@ function getResetButton(template, itemsLength, resetButtonActive, setResetButton
     );
 }
 
+function buildInfoRows(info, badgeStyle) {
+    const filteredInfo = [];
+    const filteredMarks = [];
+    const badgesRow = [];
+    for (let i = 1; i < info.length; i += 2) {
+        if (info[i] !== "") {
+            filteredMarks.push(info[i - 1]);
+            filteredInfo.push(info[i]);
+        }
+    }
+    const size = filteredInfo.length;
+    for (let i = 0; i < size; i += 3) {
+        if ((i + 1) === size) {
+            badgesRow.push(resultBadges(badgeStyle, "-", "-", filteredMarks[i], filteredInfo[i], "-", "-"));
+        } else if ((i + 2) === size) {
+            badgesRow.push(resultBadges(badgeStyle, filteredMarks[i], filteredInfo[i], "-", "-", filteredMarks[i + 1], filteredInfo[i + 1]));
+        } else {
+            badgesRow.push(resultBadges(badgeStyle, filteredMarks[i], filteredInfo[i], filteredMarks[i + 1], filteredInfo[i + 1], filteredMarks[i + 2], filteredInfo[i + 2]));
+        }
+    }
+    const badgesCols = [];
+    for (let i = 0; i < badgesRow.length; i += 2) {
+        if ((i + 1) === size) {
+            badgesCols.push(
+                <Col>
+                    <Row>
+                        {badgesRow[i]}
+                    </Row>
+                </Col>
+            );
+        } else {
+            badgesCols.push(
+                <Col>
+                    <Row>
+                        {badgesRow[i]}
+                        {badgesRow[i + 1]}
+                    </Row>
+                </Col>
+            );
+        }
+    }
+    return badgesCols;
+}
+
+function resultBadges(style, left1, right1, left2, right2, left3, right3) {
+    return (
+        <div class="col d-flex justify-content-center">
+            <Stack className='pb-1' direction="horizontal" gap={1}>
+                {keyValueBadge(style, '6.5rem', left1,  right1)}
+                {keyValueBadge(style, '6.5rem', left2,  right2)}
+                {keyValueBadge(style, '6.5rem', left3,  right3)}
+            </Stack>
+        </div>
+    );
+};
+
 const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate}) {
     // console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
@@ -101,18 +157,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
         return (
            <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods}>
            </ModRow>
-        );
-    };
-
-    function resultBadges(style, left1, right1, left2, right2, left3, right3) {
-        return (
-            <div class="col d-flex justify-content-center">
-                <Stack className='pb-1' direction="horizontal" gap={1}>
-                    {keyValueBadge(style, '6.5rem', left1,  right1)}
-                    {keyValueBadge(style, '6.5rem', left2,  right2)}
-                    {keyValueBadge(style, '6.5rem', left3,  right3)}
-                </Stack>
-            </div>
         );
     };
 
@@ -163,6 +207,19 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
     const badgeStyle = "badge bg-lite-outline";
+
+    const critText = (template.crit[1] === 0) ? "" : "+" + template.crit[1].toFixed(1) + "%";
+    const expText = (template.exp[1] === 0) ? "" : "+" + template.exp[1].toFixed(1) +"%";
+    const strText = (template.strengthBoost[1] === 0) ? "" : "+" + template.strengthBoost[1].toFixed(1) + "%";
+    const sneakText = (template.sneak[1] === 0) ? "" : "+" + template.sneak[1].toFixed(1) + "%";
+    const bashText = (template.bash[1] === 0) ? "" : "+" + template.bash[1].toFixed(1) + "%";
+    const aaText = (template.antiArmor[1] === 0) ? "" : "+" + template.antiArmor[1].toFixed(1) + "%";
+    const bonusText = (template.bonusMult[1] === 0) ? "" : (((template.bonusMult[1] < 0) ? "" : "+") + (template.bonusMult[1] * 100).toFixed(1) + "%");
+    const crippleText = (template.cripple[1] === 0) ? "" : "+" + template.cripple[1].toFixed(1) + "%";
+    const batteryText = (template.chargeTime[1] === 0) ? "" : template.chargeTime[1].toFixed(2) + " s";
+    const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1] * 100).toFixed(1) + "%";
+    const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText];
+    const infoRows = buildInfoRows(info, badgeStyle);
     return (
         <div className="ps-1 pe-1 pt-1 pb-1" key={index} id={template.id} title={template.name}>
             <Accordion.Item key={index} eventKey={index} className="p-1 m-0 out-accordion">
@@ -190,22 +247,10 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                         <Col>
                             <Row>
                                 {resultBadges(badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText)}
-                                {resultBadges(badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🛡️", "+" + template.antiArmor[1].toFixed(1) + "%", "💪", "+" + template.strengthBoost[1].toFixed(1) + "%")}
-                            </Row>
-
-                        </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges(badgeStyle, "☠️", "+" + template.crit[1].toFixed(1) + "%", "💣", "+" + template.exp[1].toFixed(1) +"%", "🏋", template.weight[1].toFixed(2))}
-                                {resultBadges(badgeStyle, "🐍", "+" + template.sneak[1].toFixed(1) + "%", "🌪️", "+" + template.bash[1].toFixed(1) + "%", "🏃", template.ap[1].toFixed(2))}
+                                {resultBadges(badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2))}
                             </Row>
                         </Col>
-                        <Col>
-                            <Row>
-                                {resultBadges(badgeStyle, "🚀", "+" + (template.bonusMult[1] * 100).toFixed(1) + "%", "🦵", "+" + template.cripple[1].toFixed(1) + "%", "🔋", template.chargeTime[1].toFixed(2) + " s")}
-                                {resultBadges(badgeStyle, "-", "-", "🪓", "+" + (template.powerAttack[1] * 100).toFixed(1) + "%", "-", "-")}
-                            </Row>
-                        </Col>
+                        {infoRows}
                     </Row>
                     <AdditionalDView template={template}></AdditionalDView>
                     <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>

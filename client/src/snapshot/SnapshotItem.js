@@ -13,7 +13,7 @@ import { getImage } from '../helpers/WTypeDropdown'
 import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
@@ -122,13 +122,21 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
     }
 }
 
-function headerBody(item, setModalRenameItem) {
+function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
     let wName = item.wSpec.iconName;
     if (!wName) {
         wName = "Weapon";
     }
+    function onHeaderClick(e) {
+        setIsItemOpen(!isItemOpen);
+        console.log("Hello");
+    }
+    function onRenameClick(e) {
+        setModalRenameItem({id: item.id, show: true});
+        e.stopPropagation();
+    }
     return (
-        <Container className='ps-1 pe-1'>
+        <Container className='ps-1 pe-1' onClick={onHeaderClick}>
             <div class="row-12 d-flex">
                 <div class='col-2 p-0 d-flex justify-content-start'>
                     <div className="m-auto ms-1">
@@ -140,7 +148,7 @@ function headerBody(item, setModalRenameItem) {
                 </div>
                 <div class="col-1 d-flex p-2 justify-content-end">
                     <div className="m-auto me-1">
-                        <Button className="pb-1" id={item.id} variant="outline-secondary" onClick={(e) => setModalRenameItem({id: item.id, show: true})} size="sm">
+                        <Button className="pb-1" id={item.id} variant="outline-secondary" onClick={onRenameClick} size="sm">
                             <RenameIcon />
                         </Button>
                     </div>
@@ -150,26 +158,30 @@ function headerBody(item, setModalRenameItem) {
     );
 }
 
-function header(item, setModalRenameItem, isOpen) {
+function header(item, setModalRenameItem, isOpen, setIsItemOpen) {
     if (isOpen) {
         return (
             <div class='m-0 p-0 card-header'>
-                {headerBody(item, setModalRenameItem)}
+                {headerBody(item, setModalRenameItem, isOpen, setIsItemOpen)}
             </div>
         );
     } else {
         return (
-            headerBody(item, setModalRenameItem)
+            headerBody(item, setModalRenameItem, isOpen, setIsItemOpen)
         );
     }
 }
 
 const SnapshotItem = memo(function SnapshotItem({index, isOpen, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem}) {
     console.log("SnapshotItem");
+    const [isItemOpen, setIsItemOpen] = useState(isOpen);
+    useEffect(() => {
+        setIsItemOpen(isOpen);
+    }, [isOpen]);
     return (
         <Card className="mb-2">
-            {header(item, setModalRenameItem, isOpen)}
-            {bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
+            {header(item, setModalRenameItem, isItemOpen, setIsItemOpen)}
+            {bodyContent(isItemOpen, index, size, item, setModalDownloadSnapshot, setModalUpdateItem, setModalRenameItem, setModalDeleteItem, setModalApplyItem)}
         </Card>
     );
 });
