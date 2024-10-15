@@ -10,7 +10,7 @@ import { notification } from 'antd';
 
 function getDropdown(wSpec, setWSpec, toastState, setToastState, openNotification) {
     function onSelectCustom(e) {
-        if (wSpec.damages.length >= 8) {
+        if (wSpec.damages.length >= 6) {
             openNotification();
             return;
         }
