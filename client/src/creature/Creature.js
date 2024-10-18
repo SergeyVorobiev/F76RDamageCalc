@@ -35,6 +35,7 @@ export default class Creature {
                 creatureInfo.body = this.body;
             }
         }
+        this.expResistance = true;
         this.reported = false;
         this.hits = 0;
         this.lifeTime = 0;
@@ -247,7 +248,7 @@ export default class Creature {
                 item.time -= dTime;
             }
             const damage = item.value * dTime;
-            this.causeFinalDamage(damage, item.damageType, false);
+            this.causeFinalDamage(damage, item.damageType, false, false);
         }
         this.timeDamages.forEach(this.deleteTimeDamages);
     }
@@ -296,16 +297,16 @@ export default class Creature {
         expValue *= hit.tenderizer;
         expValue += critExp;
         const timeDamage = damageInfo.time > 0;
-        let finalDamage = this.causeFinalDamage(value, damageInfo.type, hit.headShot);
+        let finalDamage = this.causeFinalDamage(value, damageInfo.type, hit.headShot, false);
         this.addDamage(finalDamage, timeDamage, false);
 
         // Explosives add for each bullet (no headshot)
         const nonCritExp = expValue - critExp;
         for (let i = 0; i < this.bulletCount; i++) {
             if (i === 0) { // Seems that crit exp must be added only for one bullet?
-                finalDamage = this.causeFinalDamage(expValue, damageInfo.type, false);
+                finalDamage = this.causeFinalDamage(expValue, damageInfo.type, false, true);
             } else {
-                finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false);
+                finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false, true);
             }
             this.addDamage(finalDamage, timeDamage, true);
         }
@@ -362,6 +363,8 @@ export default class Creature {
         for (let [, damageBonus] of creatureDamageBonuses) {
             if (damageBonus.name === "any") {  // All
                 result += (damageBonus.value / 100.0);
+            } else if (damageBonus.name === this.name) {
+                result += (damageBonus.value / 100.0);
             } else if (damageBonus.name === this.body) { // Body type
                 result += (damageBonus.value / 100.0);
             } else if (damageBonus.name === this.type) {
@@ -375,8 +378,13 @@ export default class Creature {
         return this.lastTotalDamage;
     }
 
-    causeFinalDamage(value, damageType, isHead) {
-        let finalDamage = this.finalDamage(value, damageType) * (1 - this.damageReduction);
+    causeFinalDamage(value, damageType, isHead, explosive) {
+        let finalDamage;
+        if (explosive && !this.expResistance) {
+            finalDamage = value * (1 - this.damageReduction);
+        } else {
+            finalDamage = this.finalDamage(value, damageType) * (1 - this.damageReduction);
+        }
         if (isHead) {
             finalDamage *= this.headMult;
         }
