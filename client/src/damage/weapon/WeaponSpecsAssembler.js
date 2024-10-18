@@ -100,11 +100,20 @@ export default class WeaponSpecsAssembler {
 
         // Consumables
         function collector(item) {
-            const exist = result.get(item.type);
-            if (exist) {
-                exist.value += item.value;
+            let types = [];
+            if (item.name) {
+                types = item.name.split(",");
             } else {
-                result.set(item.type, {name: item.type, value: item.value});
+                types = item.type.split(",");
+            }
+            for (let i = 0; i < types.length; i++) {
+                const type = types[i];
+                const exist = result.get(type);
+                if (exist) {
+                    exist.value += item.value;
+                } else {
+                    result.set(type, {name: type, value: item.value});
+                }
             }
         }
         StuffBoostsCollector.collectAllItems(this.stuffBoost.creature, "BDB", collector);

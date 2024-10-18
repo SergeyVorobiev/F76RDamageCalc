@@ -60,7 +60,7 @@ function getApplyButton(template, setModalTemplate) {
                     {restrictions(template.id)}
                 </Col>
                 <Col className="col-8 d-flex justify-content-center">
-                    <Button onClick={(e) => setModalTemplate({template: template, show: true})}>Apply</Button>
+                    <Button onClick={(e) => setModalTemplate({template: template, show: true})}>Choose</Button>
                 </Col>
                 <Col className="col-2 justify-content-end center-text pe-4">
                     {testedMedal(template.id)}

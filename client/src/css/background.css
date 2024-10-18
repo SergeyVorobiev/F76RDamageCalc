@@ -1,0 +1,20 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-image: url('background.webp');
+    background-size: cover; /* Make sure the image covers the entire background */
+    background-position: center;
+    background-attachment: fixed; /* This makes the background stay still when scrolling */
+    background-repeat: no-repeat; /* Avoid repeating the image */
+}
+
+.background-image {
+    min-height: 100vh; /* Ensures you have enough content to scroll */
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
