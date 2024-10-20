@@ -90,18 +90,17 @@ function getResetButton(template, itemsLength, resetButtonActive, setResetButton
     );
 }
 
-function buildInfoRows(info, badgeStyle) {
+function buildInfoRows(info, badgeStyle, badgesRow) {
     const filteredInfo = [];
     const filteredMarks = [];
-    const badgesRow = [];
     for (let i = 1; i < info.length; i += 2) {
         if (info[i] !== "") {
             filteredMarks.push(info[i - 1]);
             filteredInfo.push(info[i]);
         }
     }
-    const size = filteredInfo.length;
-    let k = 0;
+    let size = filteredInfo.length;
+    let k = badgesRow.length;
     for (let i = 0; i < size; i += 3) {
         if ((i + 1) === size) {
             badgesRow.push(resultBadges(k++, badgeStyle, "-", "-", filteredMarks[i], filteredInfo[i], "-", "-"));
@@ -112,12 +111,22 @@ function buildInfoRows(info, badgeStyle) {
         }
     }
     const badgesCols = [];
-    for (let i = 0; i < badgesRow.length; i += 2) {
+    size = badgesRow.length;
+    for (let i = 0; i < size; i += 3) {
         if ((i + 1) === size) {
             badgesCols.push(
                 <Col key={i}>
                     <Row>
                         {badgesRow[i]}
+                    </Row>
+                </Col>
+            );
+        } else if ((i + 2) === size) {
+            badgesCols.push(
+                <Col key={i}>
+                    <Row>
+                        {badgesRow[i]}
+                        {badgesRow[i + 1]}
                     </Row>
                 </Col>
             );
@@ -127,6 +136,7 @@ function buildInfoRows(info, badgeStyle) {
                     <Row>
                         {badgesRow[i]}
                         {badgesRow[i + 1]}
+                        {badgesRow[i + 2]}
                     </Row>
                 </Col>
             );
@@ -217,7 +227,10 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const batteryText = (template.chargeTime[1] === 0) ? "" : template.chargeTime[1].toFixed(2) + " s";
     const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1] * 100).toFixed(1) + "%";
     const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText];
-    const infoRows = buildInfoRows(info, badgeStyle);
+    let badgesRow = [];
+    badgesRow.push(resultBadges(0, badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText));
+    badgesRow.push(resultBadges(1, badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2)));
+    const infoRows = buildInfoRows(info, badgeStyle, badgesRow);
     return (
         <div className="ps-1 pe-1 pt-1 pb-1" key={template.id} id={template.id} title={template.name}>
             <Accordion.Item eventKey={index} className="p-1 m-0 out-accordion">
@@ -242,13 +255,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
                     <Row>
-                        <Col>
-                            <Row>
-                                {resultBadges(0, badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText)}
-                                {resultBadges(1, badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2))}
-                            </Row>
-                        </Col>
-
+                        {infoRows}
                     </Row>
                     <AdditionalDView template={template}></AdditionalDView>
                     <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>
