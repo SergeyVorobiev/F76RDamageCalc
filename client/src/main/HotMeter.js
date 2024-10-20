@@ -24,12 +24,12 @@ export default function HotMeter({creatures, steps, colors}) {
         return () => clearInterval(interval);
     }, [index, limit]);
     return (
-        <div class='input-group d-flex justify-content-center p-0'>
+        <div className='input-group d-flex justify-content-center p-0'>
             <InputGroup.Text>
                 &#128293;
             </InputGroup.Text>
             <InputGroup.Text>
-                <Progress showInfo={false} percent={percent} steps={steps} size="small" strokeColor={copyColors} />
+                <Progress showInfo={false} percent={percent} steps={steps} type="line" size="small" strokeColor={copyColors} />
             </InputGroup.Text>
         </div>
     );

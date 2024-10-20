@@ -93,7 +93,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                         </Col>
                      </Row>
                 </Card.Body>
-                <div class='card-footer'>
+                <div className='card-footer'>
                     <Row>
                         <div className="col d-flex justify-content-start">
                             <Badge className="mt-auto mb-auto" pill='true' text='white' bg="secondary">{index} / {size}</Badge>
@@ -137,16 +137,16 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
     }
     return (
         <Container className='ps-1 pe-1' onClick={onHeaderClick}>
-            <div class="row-12 d-flex">
-                <div class='col-2 p-0 d-flex justify-content-start'>
+            <div className="row-12 d-flex">
+                <div className='col-2 p-0 d-flex justify-content-start'>
                     <div className="m-auto ms-1">
                         {getImageElement(wName, '3rem')}
                     </div>
                 </div>
-                <div class="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
+                <div className="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
                     <h6 className='m-auto pe-3'>{item.name}</h6>
                 </div>
-                <div class="col-1 d-flex p-2 justify-content-end">
+                <div className="col-1 d-flex p-2 justify-content-end">
                     <div className="m-auto me-1">
                         <Button className="pb-1" id={item.id} variant="outline-secondary" onClick={onRenameClick} size="sm">
                             <RenameIcon />
@@ -161,7 +161,7 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
 function header(item, setModalRenameItem, isOpen, setIsItemOpen) {
     if (isOpen) {
         return (
-            <div class='m-0 p-0 card-header'>
+            <div className='m-0 p-0 card-header'>
                 {headerBody(item, setModalRenameItem, isOpen, setIsItemOpen)}
             </div>
         );

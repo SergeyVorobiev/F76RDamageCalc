@@ -84,7 +84,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
                             steps={50}
                             percent={getHotPercentage(creatures)}
                             format={(percent) => percent}
-                            size={[28, 28]}
+                            size={28}
                             strokeColor="rgb(64, 255, 255)"
                             trailColor="rgba(0, 0, 0, 0.06)"
                             strokeWidth={20} />
@@ -92,13 +92,13 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
                 </Toast.Header>
                 {toastBody}
                 <Row className="pb-2">
-                    <div class="col d-flex justify-content-start">
+                    <div className="col d-flex justify-content-start">
                         {getPrevButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
                     </div>
-                    <div class="col d-flex justify-content-center">
+                    <div className="col d-flex justify-content-center">
                         <Button size="sm" onClick={onClick}>{buttonName}</Button>
                     </div>
-                    <div class="col d-flex justify-content-end">
+                    <div className="col d-flex justify-content-end">
                         {getNextButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
                     </div>
                 </Row>

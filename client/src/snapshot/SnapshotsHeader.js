@@ -28,7 +28,7 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
         return (
             <Row>
                 <Col>
-                    <div class='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-end'>
                         {uploadButton("ms-3")}
                     </div>
                 </Col>
@@ -38,7 +38,7 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
         return (
             <Row>
                 <Col>
-                    <div class='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-end'>
                         {downloadButton()}
                         {uploadButton("ms-3")}
                     </div>
@@ -49,7 +49,7 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
 
     return (
         <>
-            <div class="row d-flex justify-content-center mb-3">
+            <div className="row d-flex justify-content-center mb-3">
                 <Col className="col">
                     <span>
                         {downloadButton()}
@@ -57,8 +57,8 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
                     </span>
                 </Col>
             </div>
-            <div class="row d-flex justify-content-center pt-1 mb-1">
-                <Col class="col">
+            <div className="row d-flex justify-content-center pt-1 mb-1">
+                <Col className="col">
                     <div>
                         <SortRadios algIndex={sortId} setSortId={setSortId} />
                     </div>

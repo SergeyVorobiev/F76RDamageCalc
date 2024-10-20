@@ -12,7 +12,7 @@ const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setSho
         e.stopPropagation();
     }
     return (
-        <div class="ps-1 pe-1 pb-2">
+        <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="0">
                 <Accordion.Header>
                     <InputGroup>
@@ -21,6 +21,7 @@ const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setSho
                         </InputGroup.Text>
                         <Button style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
+
                 </Accordion.Header>
                 <Accordion.Body className="p-2">
                     <DamageTable setWSpec={setWSpec} wSpec={wSpec} health={health}></DamageTable>

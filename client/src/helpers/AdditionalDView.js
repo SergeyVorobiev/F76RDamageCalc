@@ -30,6 +30,7 @@ export function getSymbolStyle(dType, kind) {
 
 function getItems(adDamage, bonusMult, creatures) {
     let result = [];
+    let k = 0;
     for (let i = 0; i < adDamage.length; i++) {
         const damage = adDamage[i];
         if (damage.ignore) {
@@ -50,13 +51,13 @@ function getItems(adDamage, bonusMult, creatures) {
         if (damage.area > 0) {
             value += " (" + damage.area.toFixed(0) + " area)";
         }
-        result.push(<>{keyValueBadge(style, '10rem', symbol,  value)}</>);
+        result.push(keyValueBadge(style, '10rem', symbol, value, k++));
     }
     for (let i = 0; i < creatures.length; i++) {
         const creature = creatures[i];
         const value = "+" + creature.value + "%";
         const name = "🐵 " + creature.name;
-        result.push(<>{keyValueBadge("badge bg-lite m-1", '10rem', name, value)}</>);
+        result.push(keyValueBadge("badge bg-lite m-1", '10rem', name, value, k++));
     }
     return result;
 }

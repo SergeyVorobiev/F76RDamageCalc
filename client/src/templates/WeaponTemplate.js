@@ -83,7 +83,6 @@ function getResetButton(template, itemsLength, resetButtonActive, setResetButton
         modsSetter.setTemplatesMods([template]);
         setResetButtonActive(!resetButtonActive);
     }
-
     return (
         <span className='d-flex justify-content-center'>
             <Button size="sm" variant="warning" className='ms-0 mt-0 mb-3' onClick={onClick}>Reset</Button>
@@ -91,42 +90,53 @@ function getResetButton(template, itemsLength, resetButtonActive, setResetButton
     );
 }
 
-function buildInfoRows(info, badgeStyle) {
+function buildInfoRows(info, badgeStyle, badgesRow) {
     const filteredInfo = [];
     const filteredMarks = [];
-    const badgesRow = [];
     for (let i = 1; i < info.length; i += 2) {
         if (info[i] !== "") {
             filteredMarks.push(info[i - 1]);
             filteredInfo.push(info[i]);
         }
     }
-    const size = filteredInfo.length;
+    let size = filteredInfo.length;
+    let k = badgesRow.length;
     for (let i = 0; i < size; i += 3) {
         if ((i + 1) === size) {
-            badgesRow.push(resultBadges(badgeStyle, "-", "-", filteredMarks[i], filteredInfo[i], "-", "-"));
+            badgesRow.push(resultBadges(k++, badgeStyle, "-", "-", filteredMarks[i], filteredInfo[i], "-", "-"));
         } else if ((i + 2) === size) {
-            badgesRow.push(resultBadges(badgeStyle, filteredMarks[i], filteredInfo[i], "-", "-", filteredMarks[i + 1], filteredInfo[i + 1]));
+            badgesRow.push(resultBadges(k++, badgeStyle, filteredMarks[i], filteredInfo[i], "-", "-", filteredMarks[i + 1], filteredInfo[i + 1]));
         } else {
-            badgesRow.push(resultBadges(badgeStyle, filteredMarks[i], filteredInfo[i], filteredMarks[i + 1], filteredInfo[i + 1], filteredMarks[i + 2], filteredInfo[i + 2]));
+            badgesRow.push(resultBadges(k++, badgeStyle, filteredMarks[i], filteredInfo[i], filteredMarks[i + 1], filteredInfo[i + 1], filteredMarks[i + 2], filteredInfo[i + 2]));
         }
     }
     const badgesCols = [];
-    for (let i = 0; i < badgesRow.length; i += 2) {
+    size = badgesRow.length;
+    for (let i = 0; i < size; i += 3) {
         if ((i + 1) === size) {
             badgesCols.push(
-                <Col>
+                <Col key={i}>
                     <Row>
                         {badgesRow[i]}
                     </Row>
                 </Col>
             );
-        } else {
+        } else if ((i + 2) === size) {
             badgesCols.push(
-                <Col>
+                <Col key={i}>
                     <Row>
                         {badgesRow[i]}
                         {badgesRow[i + 1]}
+                    </Row>
+                </Col>
+            );
+        } else {
+            badgesCols.push(
+                <Col key={i}>
+                    <Row>
+                        {badgesRow[i]}
+                        {badgesRow[i + 1]}
+                        {badgesRow[i + 2]}
                     </Row>
                 </Col>
             );
@@ -135,9 +145,9 @@ function buildInfoRows(info, badgeStyle) {
     return badgesCols;
 }
 
-function resultBadges(style, left1, right1, left2, right2, left3, right3) {
+function resultBadges(key, style, left1, right1, left2, right2, left3, right3) {
     return (
-        <div class="col d-flex justify-content-center">
+        <div key={key} className="col d-flex justify-content-center">
             <Stack className='pb-1' direction="horizontal" gap={1}>
                 {keyValueBadge(style, '6.5rem', left1,  right1)}
                 {keyValueBadge(style, '6.5rem', left2,  right2)}
@@ -148,7 +158,7 @@ function resultBadges(style, left1, right1, left2, right2, left3, right3) {
 };
 
 const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate}) {
-    // console.log("WeaponTemplate: " + template.index);
+    console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
     const index = template.index;
@@ -172,7 +182,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
         setChanged(!changed);
         setResetButtonActive(true);
     };
-
     let result = [];
     let items = [];
 
@@ -207,7 +216,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
     const badgeStyle = "badge bg-lite-outline";
-
     const critText = (template.crit[1] === 0) ? "" : "+" + template.crit[1].toFixed(1) + "%";
     const expText = (template.exp[1] === 0) ? "" : "+" + template.exp[1].toFixed(1) +"%";
     const strText = (template.strengthBoost[1] === 0) ? "" : "+" + template.strengthBoost[1].toFixed(1) + "%";
@@ -219,37 +227,34 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const batteryText = (template.chargeTime[1] === 0) ? "" : template.chargeTime[1].toFixed(2) + " s";
     const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1] * 100).toFixed(1) + "%";
     const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText];
-    const infoRows = buildInfoRows(info, badgeStyle);
+    let badgesRow = [];
+    badgesRow.push(resultBadges(0, badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText));
+    badgesRow.push(resultBadges(1, badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2)));
+    const infoRows = buildInfoRows(info, badgeStyle, badgesRow);
     return (
-        <div className="ps-1 pe-1 pt-1 pb-1" key={index} id={template.id} title={template.name}>
-            <Accordion.Item key={index} eventKey={index} className="p-1 m-0 out-accordion">
+        <div className="ps-1 pe-1 pt-1 pb-1" key={template.id} id={template.id} title={template.name}>
+            <Accordion.Item eventKey={index} className="p-1 m-0 out-accordion">
                 <Accordion.Button className='p-0 ps-2 pe-3 m-0 out-accordion'>
-                <Container fluid className="p-0 m-0">
-                <Row className="p-0 m-0">
-                    <Col className="p-0 ps-0 m-0 center-text">
-                        {getImageElement(template.iconName[template.type[1]], '2.9rem')}
-                        <strong className="ps-4">{template.name}</strong>
-                    </Col>
-                </Row>
-                </Container>
+                    <Container fluid className="p-0 m-0">
+                        <Row className="p-0 m-0">
+                            <Col className="p-0 ps-0 m-0 center-text">
+                                {getImageElement(template.iconName[template.type[1]], '2.9rem')}
+                                <strong className="ps-4">{template.name}</strong>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Accordion.Button>
                 <Accordion.Body className="p-1">
                     <Row>
-                        <div class="col d-flex justify-content-start mb-2 pt-1">
+                        <div className="col d-flex justify-content-start mb-2 pt-1">
                             <Tag bordered={true} color="default"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
                         </div>
-                         <div class="col d-flex justify-content-end mb-2 pt-1 pe-1">
+                         <div className="col d-flex justify-content-end mb-2 pt-1 pe-1">
                             <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type[1])}</strong></h6></Tag>
                        </div>
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
                     <Row>
-                        <Col>
-                            <Row>
-                                {resultBadges(badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText)}
-                                {resultBadges(badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2))}
-                            </Row>
-                        </Col>
                         {infoRows}
                     </Row>
                     <AdditionalDView template={template}></AdditionalDView>
@@ -266,7 +271,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     {result}
                     {getApplyButton(template, setModalTemplate)}
                 </Accordion.Body>
-
             </Accordion.Item>
         </div>
     );

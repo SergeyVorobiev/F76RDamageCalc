@@ -37,17 +37,28 @@ export function keyValueTag(leftContent, rightContent, color="default", style={}
     );
 }
 
-export function keyValueBadge(clazz, width, leftContent, rightContent) {
-    return (
-        <div style={{ width: width}} class={clazz}>
-            <Row className="flex-nowrap ps-0 pe-0 ms-0 me-0">
-                <Col className="text-start text-nowrap ps-0 ms-0 mt-auto mb-auto">
-                    {leftContent}
-                </Col>
-                <Col className="text-end text-nowrap pe-0 me-0 mt-auto mb-auto">
-                    {rightContent}
-                </Col>
-            </Row>
-        </div>
+export function keyValueBadge(clazz, width, leftContent, rightContent, key=-1) {
+    const row = (
+        <Row className="flex-nowrap ps-0 pe-0 ms-0 me-0">
+            <Col className="text-start text-nowrap ps-0 ms-0 mt-auto mb-auto">
+                {leftContent}
+            </Col>
+            <Col className="text-end text-nowrap pe-0 me-0 mt-auto mb-auto">
+                {rightContent}
+            </Col>
+        </Row>
     );
+    if (key > -1) {
+        return (
+            <div key={key} style={{ width: width}} className={clazz}>
+                {row}
+            </div>
+        );
+    } else {
+        return (
+            <div style={{ width: width}} className={clazz}>
+                {row}
+            </div>
+        );
+    }
 }

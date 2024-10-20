@@ -113,7 +113,7 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
         dropdownItems.push(<Dropdown.Item eventKey={creatureName}>{creatureName}</Dropdown.Item>);
     }
     return (
-        <div class="col d-flex justify-content-center mb-2">
+        <div className="col d-flex justify-content-center mb-2">
             <Card className="main-display-adjustable">
                 <Card.Header className="ps-3 p-1">
                     <div className="d-flex">

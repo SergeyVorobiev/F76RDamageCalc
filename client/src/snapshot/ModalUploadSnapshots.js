@@ -36,11 +36,11 @@ const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">
-                        <p class="mb-1"> Choose a json file with snapshots.</p>
+                <div className="mb-3">
+                    <label for="formFile" className="form-label">
+                        <p className="mb-1"> Choose a json file with snapshots.</p>
                     </label>
-                    <input id="snapshotsFile" class="form-control" type="file" readOnly accept=".json" />
+                    <input id="snapshotsFile" className="form-control" type="file" readOnly accept=".json" />
                     <Radio.Group className="mt-4 d-flex justify-content-center" value={addOld} onChange={onChange}>
                         <Radio.Button value="0">Add</Radio.Button>
                         <Radio.Button value="1">Replace</Radio.Button>
