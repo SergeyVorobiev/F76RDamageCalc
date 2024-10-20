@@ -12,7 +12,7 @@ const AdditionalDamage = memo(function AdditionalDamage({additionalDamages, setA
         e.stopPropagation();
     }
     return (
-        <div class="ps-1 pe-1 pb-2">
+        <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="3">
                 <Accordion.Header>
                     <InputGroup>

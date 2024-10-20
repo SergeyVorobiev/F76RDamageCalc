@@ -123,7 +123,7 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
                 </Button>
                 {badgeIf("x" + card.x, xBadge, onClickX)}
                 <InputGroup.Text className="justify-content-center p-0" style={{width: '3.5rem'}}>
-                    <div class="badge bg-fire" style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
+                    <div className="badge bg-fire" style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
                 </InputGroup.Text>
                 <InputGroup.Text className="ps-1 pe-1 p-0">
                     <WarningPopover element={infoButton()} message={info} header="Description" />

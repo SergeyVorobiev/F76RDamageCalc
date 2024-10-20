@@ -55,7 +55,7 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
                 <Form.Control style={{width: '10rem'}} maxLength="120" onChange={filterNameChanged} />
             </InputGroup>
-            <Accordion class="accordion">
+            <Accordion className="accordion">
                 <TemplateItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
             </Accordion>
             <FloatButton.BackTop style={{ right: 60 }} duration={100} visibilityHeight={2000} />

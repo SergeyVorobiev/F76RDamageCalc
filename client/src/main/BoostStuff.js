@@ -22,7 +22,7 @@ function buildLicense() {
 
 const BoostStuff = memo(function BoostStuff({foodPref, setFoodPref, magazines, setMagazines, bobbleHeads, setBobbleHeads, food, setFood, drink, setDrink, psycho, setPsycho, serum, setSerum, others, setOthers, player, setPlayer, stuffBoost, setStuffBoost, showStat, setShowStat, boostDamage, setBoostDamage, playerStats, setPlayerStats}) {
     return (
-        <Accordion class="accordion">
+        <Accordion className="accordion">
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
                 <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
             </OverlayTrigger>

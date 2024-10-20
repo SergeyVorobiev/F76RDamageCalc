@@ -10,7 +10,7 @@ export default function EffectView({foodPref, setFoodPref, player, showStat, set
         e.stopPropagation();
     }
     return (
-        <div class="ps-1 pe-1 pb-2">
+        <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey={eventKey}>
                 <Accordion.Header>
                     <InputGroup>

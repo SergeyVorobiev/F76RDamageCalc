@@ -6,12 +6,12 @@ import Row from 'react-bootstrap/Row';
 import { memo } from 'react';
 
 
-function couple(foodPref, setFoodPref, player, one, second, items, setItems, colorName, colorValue, cardHeight, picHeight, getPicture, useHeader, stuffBoost, setStuffBoost) {
+function couple(key, foodPref, setFoodPref, player, one, second, items, setItems, colorName, colorValue, cardHeight, picHeight, getPicture, useHeader, stuffBoost, setStuffBoost) {
     if (one === null && second === null) {
         return(<></>);
     } else if (second === null) {
         return (
-            <Col className='p-0 m-0 d-flex justify-content-center'>
+            <Col key={key} className='p-0 m-0 d-flex justify-content-center'>
                 <Stack className='pb-1 m-auto' direction="horizontal" gap={2}>
                     <EffectItem foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
                 </Stack>
@@ -19,7 +19,7 @@ function couple(foodPref, setFoodPref, player, one, second, items, setItems, col
         );
     }
     return (
-        <Col className='p-0 m-0 d-flex justify-content-center'>
+        <Col key={key} className='p-0 m-0 d-flex justify-content-center'>
             <Stack className='pb-2 m-auto' direction="horizontal" gap={2}>
                 <EffectItem foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
                 <EffectItem foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={second} height={cardHeight} picHeight={picHeight} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
@@ -33,13 +33,14 @@ const EffectItems = memo(function EffectItems({foodPref, setFoodPref, player, it
     const size = items.length;
     let k = 0;
     let rItems = [];
+    let key = 0;
     while (size > 0 && true) {
         const item1 = items[k++];
         let item2 = null;
         if (k < size) {
             item2 = items[k++];
         }
-        rItems.push(couple(foodPref, setFoodPref, player, item1, item2, items, setItems, colorName, colorValue, cardHeight, picHeight, getPicture, useHeader, stuffBoost, setStuffBoost));
+        rItems.push(couple(key++, foodPref, setFoodPref, player, item1, item2, items, setItems, colorName, colorValue, cardHeight, picHeight, getPicture, useHeader, stuffBoost, setStuffBoost));
         if (k >= size) {
             break;
         }

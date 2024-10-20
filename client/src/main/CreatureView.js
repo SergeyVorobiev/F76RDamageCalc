@@ -7,7 +7,7 @@ import { memo } from 'react';
 const CreatureView = memo(function CreatureView({creatures, setCreatures}) {
     console.log("CreatureView")
     return (
-        <div class="ps-1 pe-1 pb-2">
+        <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="4">
                 <Accordion.Header>
                     <InputGroup>

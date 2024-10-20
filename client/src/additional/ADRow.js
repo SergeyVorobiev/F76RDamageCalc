@@ -93,7 +93,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
                         </InputGroup.Text>
                         {qa(text)}
                         <InputGroup.Text style={{width: '4.6rem'}}>
-                            <div class="badge bg-info" style={{width: '3rem'}}>{additionalDamage.value}</div>
+                            <div className="badge bg-info" style={{width: '3rem'}}>{additionalDamage.value}</div>
                         </InputGroup.Text>
                     </InputGroup>
                     <Slider onChange={slideChanged} tooltip={{ open: false }} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />

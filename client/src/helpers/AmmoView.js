@@ -12,7 +12,7 @@ function buildProj(proj) {
         for (let i = 0; i < proj.length; i++) {
             const projId = proj[i];
             result.push(
-                <Card className="m-0 mt-2 p-0 bg-light-pink">
+                <Card key={i} className="m-0 mt-2 p-0 bg-light-pink">
                     <Card.Header className='m-0 p-1 ps-2 bg-proj-header'><small>Projectile</small></Card.Header>
                     <Card.Body className="p-1 m-0">
                         {buildProjViewById(projId)}

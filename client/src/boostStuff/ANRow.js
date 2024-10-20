@@ -53,7 +53,7 @@ function ANRow({player, setPlayer, boostDamage}) {
                         </InputGroup.Text>
                         {qa()}
                         <InputGroup.Text style={{width: '4.6rem'}}>
-                            <div class="badge bg-info" style={{width: '3rem'}}>{value}</div>
+                            <div className="badge bg-info" style={{width: '3rem'}}>{value}</div>
                         </InputGroup.Text>
                     </InputGroup>
                 </Col>

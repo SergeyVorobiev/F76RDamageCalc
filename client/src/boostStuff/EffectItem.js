@@ -28,6 +28,7 @@ export default function EffectItem({foodPref, setFoodPref, player, item, height,
         setItems([...items]);
         setStuffBoost({...stuffBoost});
     }
+    let k = 0;
     const boosts = item.boosts.map((boost) => {
         let tail = "";
         if (boost.valueType === "percent") {
@@ -40,7 +41,7 @@ export default function EffectItem({foodPref, setFoodPref, player, item, height,
             sign = "+";
         }
         const value = (item.used) ? sign + boost.value + tail : "-";
-        return <div class="margin-5px">{keyValueRow(boost.description, value, colorName, colorValue, 0)}</div>
+        return <div key={k++} className="margin-5px">{keyValueRow(boost.description, value, colorName, colorValue, 0)}</div>
     });
     const filter = item.used ? "grayscale(0%)" : "grayscale(90%)";
     const head = (useHeader) ? (<Card.Header className='d-flex justify-content-center p-0 m-0 pt-1 pb-1'><div style={{fontSize: '0.75rem' , fontWeight: 'bold'}}>{item.name}</div></Card.Header>) : (<></>);

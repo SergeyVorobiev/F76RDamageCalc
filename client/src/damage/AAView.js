@@ -8,7 +8,7 @@ import { Divider } from 'antd';
 
 function resultBadges(style, left1, right1, left2, right2) {
     return (
-        <div class="col d-flex justify-content-center">
+        <div className="col d-flex justify-content-center">
             <Stack className='pb-1' direction="horizontal" gap={1}>
                 {keyValueBadge(style, '9rem', left1,  right1)}
                 {keyValueBadge(style, '9rem', left2,  right2)}

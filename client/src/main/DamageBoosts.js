@@ -11,7 +11,7 @@ const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage,
         e.stopPropagation();
     }
     return (
-        <div class="ps-1 pe-1 pb-2">
+        <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="1">
                 <Accordion.Header>
                     <InputGroup>

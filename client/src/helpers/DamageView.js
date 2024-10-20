@@ -6,14 +6,14 @@ import Card from 'react-bootstrap/Card';
 function getDamagesData(damageData, width='20rem') {
     let result = [];
     for (let i = 0; i < damageData.length; i++) {
-        result.push(getDamageData(damageData[i], width));
+        result.push(getDamageData(i, damageData[i], width));
     }
     return result;
 }
 
-function getDamageData(damageData, width='20rem') {
+function getDamageData(key, damageData, width='20rem') {
     return (
-        <Card className='p-0 m-1'>
+        <Card className='p-0 m-1' key={key}>
             <Row>
                 {getField(damageData, 'Id:', 'type_id', 'default', width)}
                 {getField(damageData, 'Code Name:', 'type_name', 'purple', width)}
@@ -23,7 +23,6 @@ function getDamageData(damageData, width='20rem') {
                 {getField(damageData, 'Magnitude:', 'magnitude', 'blue', width)}
                 {getField(damageData, 'Time:', 'time', 'blue', width)}
                 {getField(damageData, 'Interval:', 'interval', 'blue', width)}
-
             </Row>
         </Card>
     )

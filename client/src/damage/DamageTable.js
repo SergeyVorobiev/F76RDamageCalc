@@ -16,7 +16,7 @@ import AmmoInfoView from './AmmoInfoView';
 
 function modElement(mod) {
     return (
-         <div class="col d-flex">
+         <div className="col d-flex">
             <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
                 <InputGroup.Text className='bg-mod-cat' style={{ width: '8rem' }}>{mod.group}</InputGroup.Text>
                 <InputGroup.Text className='bg-mod-name' style={{ minWidth: '12rem' }}>{mod.name}</InputGroup.Text>
@@ -47,10 +47,10 @@ const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
             <WRow wSpec={wSpec} setWSpec={setWSpec}></WRow>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <Row>
-                <div class="col d-flex justify-content-start">
+                <div className="col d-flex justify-content-start">
                     <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} onSelect={onWeaponChange} title={"Type"}></WTypeDropdown>
                 </div>
-                 <div class="col d-flex justify-content-end pe-1">
+                 <div className="col d-flex justify-content-end pe-1">
                     <Tag bordered={true} color="volcano" className="pt-2"><h6 className="m-auto p-auto"><strong>{getRowWithImage(wSpec.type)}</strong></h6></Tag>
                </div>
             </Row>

@@ -5,12 +5,12 @@ import { getEffectsForPopover, getSpellHeader } from '../helpers/SpellView';
 import getSpell from '../helpers/Spell';
 
 
-function buildModCard(mod_e, color) {
+function buildModCard(key, mod_e, color) {
     if (mod_e.prop === "Enchantments") {
         const spell = getSpell().get(mod_e.val1);
         const effects = spell.mag_effects;
         return (
-            <Card className="mb-1 mt-1">
+            <Card key={key} className="mb-1 mt-1">
                 {keyValueTag(mod_e.op,  mod_e.prop, color)}
                 {getSpellHeader(spell, '20rem')}
                 {getEffectsForPopover(effects)}
@@ -18,7 +18,7 @@ function buildModCard(mod_e, color) {
         );
     } else {
         return (
-            <Card className="mb-1 mt-1">
+            <Card key={key} className="mb-1 mt-1">
                 {keyValueTag(mod_e.op,  mod_e.prop, color)}
                 {keyValueTag('Val1:',  mod_e.val1, color)}
                 {keyValueTag('Val2:',  mod_e.val2, color)}
@@ -33,7 +33,7 @@ function getMods(mods) {
     let color = 'purple';
     for (let i = 0; i < mods.length; i++) {
         const mod_e = mods[i];
-        result.push(buildModCard(mod_e, color));
+        result.push(buildModCard(i, mod_e, color));
         if (color === 'purple') {
             color = 'magenta';
         } else {

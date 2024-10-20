@@ -190,7 +190,7 @@ export default function MyApp() {
                 onSelect={(k) => setKey(k)}
                 className="mt-1 mb-3">
                 <Tab eventKey="Main" title="Main">
-                    <Accordion class="accordion">
+                    <Accordion className="accordion">
                         <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>

@@ -46,7 +46,7 @@ function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     for (let i = 0; i < legs.length; i++) {
         const legName = legs[i].name;
         const legId = legs[i].id;
-        result.push(<Dropdown.Item eventKey={legId}>{legName}</Dropdown.Item>);
+        result.push(<Dropdown.Item key={i} eventKey={legId}>{legName}</Dropdown.Item>);
     }
     const title = (legendaryInfo) ? legendaryInfo.name : "Legendary";
     const mod = (legendaryInfo) ? getMods().get(legendaryInfo.id) : null;

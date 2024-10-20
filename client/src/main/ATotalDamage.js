@@ -33,14 +33,14 @@ function help() {
     return (
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
-                <Popover.Body class="my-popover ms-2 me-2">
-                <p class="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
-                <p class="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
-                <p class="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
-                <p class="m-1"><strong>Rad resistance</strong>. Some monsters can have rad resistance overridden by 'infinity' like Grafton monster or Super Mutant etc.</p>
-                <p class="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
+                <Popover.Body className="my-popover ms-2 me-2">
+                <p className="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
+                <p className="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
+                <p className="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
+                <p className="m-1"><strong>Rad resistance</strong>. Some monsters can have rad resistance overridden by 'infinity' like Grafton monster or Super Mutant etc.</p>
+                <p className="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
                 provided that a creature is standing still under the fire until death. </p>
-                <p class="m-1">However when all else being equal you can rely on this numbers to compare efficiency
+                <p className="m-1">However when all else being equal you can rely on this numbers to compare efficiency
                 of weapons with a pretty good accuracy. Go to the GitHub page via white cat icon for details.</p>
             </Popover.Body>
         </Popover>
@@ -244,14 +244,14 @@ export default class ATotalDamage extends React.PureComponent {
     resultBadges(label, style, aa, damage, sneak, crit, exp=0.0, expCrit=0.0) {
         return (
             <div>
-                <div class="col d-flex justify-content-center">
+                <div className="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
                         {keyValueBadge(style, '6.5rem', label + " D", damage.toFixed(1))}
                         {keyValueBadge(style, '6.5rem', "🛡️ A", (aa * 100.0).toFixed(1))}
                         {keyValueBadge(style, '6.5rem', "🐍 S", sneak.toFixed(1))}
                     </Stack>
                 </div>
-                <div class="col d-flex justify-content-center">
+                <div className="col d-flex justify-content-center">
                     <Stack className='pb-1' direction="horizontal" gap={1}>
                         {keyValueBadge(style, '6.5rem', "☠️ C", crit)}
                         {keyValueBadge(style, '6.5rem', "💣 E", exp.toFixed(1))}
@@ -367,7 +367,7 @@ export default class ATotalDamage extends React.PureComponent {
             </Card.Header>
             <Card.Body className="pt-2">
                 <Row>
-                    <div class="col d-flex justify-content-center mb-2">
+                    <div className="col d-flex justify-content-center mb-2">
                         <Card className="main-display-adjustable">
                             <Card.Header className="pe-0 ps-0">
                                 <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
@@ -393,27 +393,27 @@ export default class ATotalDamage extends React.PureComponent {
                             </Card.Footer>
                         </Card>
                     </div>
-                    <div class="col d-flex justify-content-center mb-2">
+                    <div className="col d-flex justify-content-center mb-2">
                         <Card className="main-display-adjustable">
                             <Card.Header>
                                 <span className="d-flex m-0 p-0 w-100">
-                                    <div class="m-auto p-0 w-100 d-flex justify-content-start">
+                                    <div className="m-auto p-0 w-100 d-flex justify-content-start">
                                         <Badge bg="warning" text="dark">
                                         <strong>DPS: {this.props.graphValues.yValues[0].toFixed(1)}</strong>
                                         </Badge>
                                     </div>
-                                    <div class="m-0 p-0 w-100">
+                                    <div className="m-0 p-0 w-100">
                                         <Progress
                                             type="dashboard"
                                             steps={50}
                                             percent={percentC}
                                             format={(percent) => percent}
-                                            size={[28, 28]}
+                                            size={28}
                                             strokeColor={colors}
                                             trailColor="rgba(0, 0, 0, 0.06)"
                                             strokeWidth={20} />
                                     </div>
-                                    <div class="m-auto p-0 w-100 d-flex justify-content-end">
+                                    <div className="m-auto p-0 w-100 d-flex justify-content-end">
                                         <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
                                     </div>
                                 </span>
@@ -423,7 +423,7 @@ export default class ATotalDamage extends React.PureComponent {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div class="col d-flex justify-content-center mb-2">
+                    <div className="col d-flex justify-content-center mb-2">
                         <Card className="main-display-adjustable">
                             <Card.Body className="pt-2 pb-1 ps-1 pe-1">
                                 {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage)}
@@ -436,7 +436,7 @@ export default class ATotalDamage extends React.PureComponent {
                 </Row>
             </Card.Body>
             <Card.Footer className="text-muted p-1">
-                <Accordion class="accordion p-0 m-0">
+                <Accordion className="accordion p-0 m-0">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header className="m-0 p-0">
                             <HotMeter creatures={this.props.creatures} steps={50} colors={colors} />

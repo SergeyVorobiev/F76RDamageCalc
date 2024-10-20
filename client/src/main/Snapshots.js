@@ -117,12 +117,12 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
         setPageSize(pageSize);
     }
 
-    // <div class="overflow-auto wrapper"></div>
+    // <div className="overflow-auto wrapper"></div>
     return (
 
         <Container className="p-1">
             <Card className="text-center mb-3">
-                <div class='card-header'>
+                <div className='card-header'>
                     <SnapshotsHeader items={items} sortId={sortId} setSortId={setSortId} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
                 </div>
                 <ModalDownloadSnapshots items={items} modalDownloadSnapshots={modalDownloadSnapshots} setModalDownloadSnapshots={setModalDownloadSnapshots}></ModalDownloadSnapshots>
@@ -136,14 +136,14 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
                 <ModalUpdateItem player={player} playerStats={playerStats} stuffBoost={stuffBoost} name={modalUpdateItem.name} items={items} setItems={setItems} creatures={creatures} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} resultDamage={resultDamage} modalUpdateItem={modalUpdateItem} setModalUpdateItem={setModalUpdateItem}></ModalUpdateItem>
                 <Card.Body className="pt-2 ps-1 pe-1">
                     {search()}
-                    <div class="d-flex flex-row mt-1 mb-2">
-                        <div class="col w-100 d-flex justify-content-start">
+                    <div className="d-flex flex-row mt-1 mb-2">
+                        <div className="col w-100 d-flex justify-content-start">
                             {expandButton()}
                         </div>
-                        <div class="col w-100">
+                        <div className="col w-100">
                             <Button className="mb-2" onClick={() => setModalNewItemShow(true)}>+</Button>
                         </div>
-                        <div class="col w-100 d-flex justify-content-end">
+                        <div className="col w-100 d-flex justify-content-end">
                             {trashAllButton()}
                         </div>
                     </div>
