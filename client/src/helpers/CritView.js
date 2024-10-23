@@ -67,7 +67,7 @@ function getItems(crits) {
         if (damage.interval > 0) {
             value += " (" + damage.interval.toFixed(1) + ")";
         }
-        result.push(<>{keyValueBadge(style, '10rem', symbol,  value)}</>);
+        result.push(keyValueBadge(style, '10rem', symbol,  value, i));
     }
     return result;
 }

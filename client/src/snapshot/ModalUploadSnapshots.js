@@ -37,7 +37,7 @@ const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
             </Modal.Header>
             <Modal.Body>
                 <div className="mb-3">
-                    <label for="formFile" className="form-label">
+                    <label htmlFor="formFile" className="form-label">
                         <p className="mb-1"> Choose a json file with snapshots.</p>
                     </label>
                     <input id="snapshotsFile" className="form-control" type="file" readOnly accept=".json" />

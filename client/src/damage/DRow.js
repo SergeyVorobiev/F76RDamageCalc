@@ -35,7 +35,7 @@ function column(damage, setDamage, damage_type, damage_name, used_damage_name, u
                     <Checkbox onChange={onCheck} checked={damage_type[use_damage_name]}></Checkbox>
                 </InputGroup.Text>
                 <InputGroup.Text style={{ width: '10rem' }} className={color}>{name}</InputGroup.Text>
-                <Form.Control className='w-auto' type="number" min="0" value={damage_type[damage_name]} max="99999" maxLength="7" onChange={onChange} />
+                <Form.Control className='w-auto' type="number" min="0" value={damage_type[damage_name]} max="999" maxLength="6" onChange={onChange} />
             </InputGroup>
         </Col>
     );

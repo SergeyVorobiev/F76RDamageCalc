@@ -13,7 +13,7 @@ function getDamageViews(resultDamage) {
         return (<></>);
     }
     for (let i = 0; i < resultDamage.damageDetails.length; i++) {
-        damageViews.push(<DamageDetailsCard resultDamage={resultDamage} damageData={resultDamage.damageDetails[i]} />);
+        damageViews.push(<DamageDetailsCard key={i} resultDamage={resultDamage} damageData={resultDamage.damageDetails[i]} />);
     }
     if (damageViews.length === 0) {
         return (<></>);

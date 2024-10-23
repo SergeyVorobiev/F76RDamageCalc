@@ -34,7 +34,7 @@ function column(wSpec, onChange, icon, name, id, max) {
         value = wSpec[id];
     }
     return (
-        <Col>
+        <Col key={id}>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
                 <InputGroup.Text style={{ width: '2.58rem' }}>{icon}</InputGroup.Text>
                 <InputGroup.Text style={{ width: '10rem' }}>{name}</InputGroup.Text>
@@ -74,7 +74,7 @@ const WRow = memo(function WRow({wSpec, setWSpec}) {
     let creatureViews = [];
     for (let i = 0; i < wSpec.creature.length; i++) {
         const creature = wSpec.creature[i];
-        creatureViews.push(<>{column(wSpec, onChange, "🐵", creature.name, "creature_" + i, 500)}</>)
+        creatureViews.push(column(wSpec, onChange, "🐵", creature.name, "creature_" + i, 500));
     }
     return (
         <Row>

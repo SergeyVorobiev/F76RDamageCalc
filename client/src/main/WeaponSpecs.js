@@ -21,7 +21,6 @@ const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setSho
                         </InputGroup.Text>
                         <Button style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
-
                 </Accordion.Header>
                 <Accordion.Body className="p-2">
                     <DamageTable setWSpec={setWSpec} wSpec={wSpec} health={health}></DamageTable>

@@ -110,7 +110,7 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
     let dropdownItems = [];
     for (let i = 0; i < creatureNames.length; i++) {
         const creatureName = creatureNames[i];
-        dropdownItems.push(<Dropdown.Item eventKey={creatureName}>{creatureName}</Dropdown.Item>);
+        dropdownItems.push(<Dropdown.Item key={i} eventKey={creatureName}>{creatureName}</Dropdown.Item>);
     }
     return (
         <div className="col d-flex justify-content-center mb-2">
