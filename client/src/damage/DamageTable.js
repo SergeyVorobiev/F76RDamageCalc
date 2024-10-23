@@ -16,7 +16,7 @@ import AmmoInfoView from './AmmoInfoView';
 
 function modElement(mod) {
     return (
-         <div className="col d-flex">
+         <div key={mod.id} className="col d-flex">
             <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
                 <InputGroup.Text className='bg-mod-cat' style={{ width: '8rem' }}>{mod.group}</InputGroup.Text>
                 <InputGroup.Text className='bg-mod-name' style={{ minWidth: '12rem' }}>{mod.name}</InputGroup.Text>
@@ -36,7 +36,7 @@ const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
     const mods = wSpec.mods.map((mod) => (modElement(mod)));
     let dItems = [];
     for (let i = 0; i < wSpec.damages.length; i++) {
-        dItems.push(<DamageItem item={wSpec.damages[i]} wSpec={wSpec} setWSpec={setWSpec} setModalDeleteDamage={setModalDeleteDamage}></DamageItem>);
+        dItems.push(<DamageItem key={i} item={wSpec.damages[i]} wSpec={wSpec} setWSpec={setWSpec} setModalDeleteDamage={setModalDeleteDamage}></DamageItem>);
     }
     return (
         <Container fluid className="p-0">

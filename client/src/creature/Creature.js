@@ -63,6 +63,8 @@ export default class Creature {
         this.bulletCount = 1;
         this.minTotalDamage = 0;
         this.maxTotalDamage = 0;
+        this.maxTimeEffects = 0;
+        this.tdCounter = 0;
     }
 
     getName() {
@@ -223,7 +225,9 @@ export default class Creature {
         if (damageInfo.stack) {
             const existedDamages = this.timeDamages.get(damageInfo.index);
             if (existedDamages) {
-                existedDamages.push({damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index});
+                if (existedDamages.length < 10) {
+                    existedDamages.push({damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index});
+                }
             } else {
                 this.timeDamages.set(damageInfo.index, [{damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index}]);
             }
@@ -248,17 +252,26 @@ export default class Creature {
                 item.time -= dTime;
             }
             const damage = item.value * dTime;
+            this.tdCounter += 1;
             this.causeFinalDamage(damage, item.damageType, false, false);
         }
-        this.timeDamages.forEach(this.deleteTimeDamages);
     }
 
     deleteTimeDamages(items, key, map) {
         map.set(key, items.filter(item => item.time > 0));
     }
 
+    getMaxTimeEffects() {
+        return this.maxTimeEffects;
+    }
+
     causeTimeDamages(damageType) {
+        this.tdCounter = 0;
         this.timeDamages.forEach(this.timeDamagesHandler, this);
+        this.timeDamages.forEach(this.deleteTimeDamages);
+        if (this.maxTimeEffects < this.tdCounter) {
+            this.maxTimeEffects = this.tdCounter;
+        }
     }
 
     causeNonTimeDamages(hit, damageInfo) {

@@ -49,7 +49,7 @@ Not fully tested effects:
 1. Bash. (+Basher perk is not presented).
 2. Power Attack.
 3. Recharging is adjusted manually.
-4. Time damage (Is presented with stack support, but not tested).
+4. Time damage (Is presented with stack support (up to 10 for each type of damage)).
 5. Additional time damage effects for crit.
 6. Explosive part from effects seems has no longer reduced by resistance (since V > U52). Implemented but is not active for now.
 7. Follow Through (Is it just sneak base damage boost or total boost of all active sneak effects?).

@@ -70,7 +70,7 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
                     <Checkbox onChange={onCheck} checked={dItem.isUsed}></Checkbox>
                 </InputGroup.Text>
                 <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
-                <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"99999"} maxLength="7" onChange={onDamageChange} />
+                <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
                 <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
                 <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
             </InputGroup>

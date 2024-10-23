@@ -161,8 +161,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
-    const index = template.index;
-
     function modRow(index, modsSameType, checkMod) {
         return (
            <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods}>
@@ -195,7 +193,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
 
             // Modes of one type
             for (let j = 0; j < modsSameType.length; j++) {
-                children.push(<>{modRow(j, modsSameType, checkMod)}</>);
+                children.push(modRow(j, modsSameType, checkMod));
             }
             const item = {
                     key: i,
@@ -209,9 +207,8 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     let divider = (<Divider className='m-1 p-1'>Modifications</Divider>);
     if (items.length === 0) {
         divider = (<></>);
-        result.push(<></>);
     } else {
-        result.push(<Collapse accordion key={template['id']} items={items} />);
+        result.push(<Collapse accordion key={template.index} items={items} />);
     }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
@@ -233,7 +230,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const infoRows = buildInfoRows(info, badgeStyle, badgesRow);
     return (
         <div className="ps-1 pe-1 pt-1 pb-1" key={template.id} id={template.id} title={template.name}>
-            <Accordion.Item eventKey={index} className="p-1 m-0 out-accordion">
+            <Accordion.Item eventKey={template.id} className="p-1 m-0 out-accordion">
                 <Accordion.Button className='p-0 ps-2 pe-3 m-0 out-accordion'>
                     <Container fluid className="p-0 m-0">
                         <Row className="p-0 m-0">

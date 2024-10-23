@@ -129,7 +129,6 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
     }
     function onHeaderClick(e) {
         setIsItemOpen(!isItemOpen);
-        console.log("Hello");
     }
     function onRenameClick(e) {
         setModalRenameItem({id: item.id, show: true});
