@@ -161,7 +161,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
-    const index = template.index;
     function modRow(index, modsSameType, checkMod) {
         return (
            <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods}>
