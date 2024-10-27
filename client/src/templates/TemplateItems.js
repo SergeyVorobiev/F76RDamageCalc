@@ -28,7 +28,7 @@ function getSkeletons(size) {
     let result = [];
     for (let i = 0; i < size; i++) {
         result.push(
-            <div className="p-1">
+            <div key={i} className="p-1">
                 <Accordion.Item className="p-1 m-0 out-accordion">
                     <div className="p-1" style={{height: '3rem'}}>
                         <Skeleton avatar animate paragraph={{ rows: 0, }} />
