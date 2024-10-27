@@ -31,7 +31,7 @@ function getSkeletons(size) {
             <div key={i} className="p-1">
                 <Accordion.Item className="p-1 m-0 out-accordion">
                     <div className="p-1" style={{height: '3rem'}}>
-                        <Skeleton avatar animate paragraph={{ rows: 0, }} />
+                        <Skeleton active={true} avatar paragraph={{ rows: 0, }} />
                     </div>
                 </Accordion.Item>
             </div>
