@@ -229,9 +229,9 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     badgesRow.push(resultBadges(1, badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2)));
     const infoRows = buildInfoRows(info, badgeStyle, badgesRow);
     return (
-        <div className="ps-1 pe-1 pt-1 pb-1" key={template.id} id={template.id} title={template.name}>
+        <div className="p-1" key={template.id} id={template.id} title={template.name}>
             <Accordion.Item eventKey={template.id} className="p-1 m-0 out-accordion">
-                <Accordion.Button className='p-0 ps-2 pe-3 m-0 out-accordion'>
+                <Accordion.Button className='p-0 ps-2 pe-3 m-0 out-accordion' style={{height: '3rem'}}>
                     <Container fluid className="p-0 m-0">
                         <Row className="p-0 m-0">
                             <Col className="p-0 ps-0 m-0 center-text">
