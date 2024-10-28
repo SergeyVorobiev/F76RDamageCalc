@@ -29,7 +29,7 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
     const [filterName, setFilterName] = useState("");
     const [weaponType, setWeaponType] = useState("All");
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(15);
+    const [pageSize, setPageSize] = useState(20);
     const [startIndex, setStartIndex] = useState(0);
     function resetPage() {
         setPage(1);

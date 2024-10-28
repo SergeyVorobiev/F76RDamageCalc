@@ -31,7 +31,7 @@ function getSkeletons(size) {
             <div key={i} className="p-1">
                 <Accordion.Item className="p-1 m-0 out-accordion">
                     <div className="p-1" style={{height: '3rem'}}>
-                        <Skeleton active={true} avatar paragraph={{ rows: 0, }} />
+                        <Skeleton avatar paragraph={{ rows: 0, }} />
                     </div>
                 </Accordion.Item>
             </div>
@@ -40,12 +40,11 @@ function getSkeletons(size) {
     return result;
 }
 
+const templates = buildTemplates();
+
 const TemplateItems = memo(function TemplateItems(props) {
-    const [templates, setTemplates] = useState([]);
+    console.log("TemplateItems");
     const [wData, setWData] = useState({paginated: [], total: 0, loaded: false});
-    useEffect(() => {
-        setTemplates(buildTemplates());
-    }, []);
 
     const filterByName = (item) => {
         if (props.filterName === "" || props.filterName === null) {
@@ -53,18 +52,24 @@ const TemplateItems = memo(function TemplateItems(props) {
         }
         return item.name.includes(props.filterName);
     };
+
     const filterByType = (item) => {
         if (props.weaponType === "All") {
             return true;
         }
         return item.type.includes(props.weaponType);
     }
+
+    // TODO: Not correct as it re-renders trice instead of twice.
     useEffect(() => {
-        setWData({paginated: [], total: wData.paginated.length, loaded: false});
-        fetch("").then(response => {
-            const [paginated, total] = prepareTemplates(props, templates, filterByName, filterByType);
-            setWData({paginated: paginated, total: total, loaded: true});
-        });
+        setWData({paginated: [], current: wData.paginated.length, total: wData.total, loaded: false});
+
+        // Prey with might for those who call this 'setTimeout', 'setInterval' to be burning in hell as long as possible.
+        setTimeout(() => {
+                const [paginated, total] = prepareTemplates(props, filterByName, filterByType);
+                setWData({paginated: paginated, current: paginated.length, total: total, loaded: true});
+            }
+        );
     }, [props.page, props.weaponType, props.filterName, props.pageSize, templates]);
     function showData() {
         if (!wData.loaded) {
@@ -72,7 +77,7 @@ const TemplateItems = memo(function TemplateItems(props) {
                 <>
                     {getSkeletons(wData.total)}
                     <div className="mb-2" />
-                    <Pagination align="center" current={props.page} defaultPageSize={props.pageSize} total={0} />
+                    <Pagination align="center" disabled current={props.page} defaultPageSize={props.pageSize} total={wData.total} />
                 </>
             );
         } else {
@@ -92,8 +97,7 @@ const TemplateItems = memo(function TemplateItems(props) {
 
 export default TemplateItems;
 
-
-function prepareTemplates(props, templates, filterByName, filterByType) {
+function prepareTemplates(props, filterByName, filterByType) {
     const items = templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} modsSetter={modsSetter} template={template} setModalTemplate={props.setModalTemplate}></WeaponTemplate>);
     const lastIndex = items.length - 1;
     let paginated = [];
