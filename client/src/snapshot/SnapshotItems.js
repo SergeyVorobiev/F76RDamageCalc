@@ -76,17 +76,16 @@ const SnapshotItems = memo(function SnapshotItems({onPageChanged, startIndex, pa
         }
         paginated.push(values[i]);
     }
-    return getPagination(page, pageSize, onPageChanged, paginated);
+    return getPagination(page, pageSize, onPageChanged, paginated, values.length);
 });
 
-function getPagination(page, pageSize, onPageChanged, paginated) {
+function getPagination(page, pageSize, onPageChanged, paginated, total) {
     if (paginated.length > 0) {
-        console.log("Paginated: " + paginated.length);
         return (
             <>
                 {paginated}
                 <div className="p-1" />
-                <Pagination align="center" current={page} defaultPageSize={pageSize} onChange={onPageChanged} total={paginated.length} />
+                <Pagination align="center" current={page} defaultPageSize={pageSize} onChange={onPageChanged} total={total} showSizeChanger={false} />
             </>
         );
     } else {
