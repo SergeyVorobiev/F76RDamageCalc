@@ -1,10 +1,11 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.79578e36.css",
-    "main.js": "/F76RDamageCalc/static/js/main.1e0eef58.js",
+    "main.css": "/F76RDamageCalc/static/css/main.686bc8ab.css",
+    "main.js": "/F76RDamageCalc/static/js/main.47dbebd4.js",
     "static/js/867.fa25cab4.chunk.js": "/F76RDamageCalc/static/js/867.fa25cab4.chunk.js",
     "static/js/453.0098adef.chunk.js": "/F76RDamageCalc/static/js/453.0098adef.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.835aeaf8e1b3f8880259.csv",
+    "static/media/u54Test.webp": "/F76RDamageCalc/static/media/u54Test.2b7572bf2b77f8552032.webp",
     "static/media/main_logo.webp": "/F76RDamageCalc/static/media/main_logo.6dac8ad663999e82dfec.webp",
     "static/media/broadsider.webp": "/F76RDamageCalc/static/media/broadsider.01be961ac9dbbb55df15.webp",
     "static/media/gulper_stuffed_foot.webp": "/F76RDamageCalc/static/media/gulper_stuffed_foot.afb1496236656fbc61f6.webp",
@@ -320,13 +321,13 @@
     "static/media/baton.webp": "/F76RDamageCalc/static/media/baton.1c595e18d9b01c5dcd33.webp",
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.79578e36.css.map": "/F76RDamageCalc/static/css/main.79578e36.css.map",
-    "main.1e0eef58.js.map": "/F76RDamageCalc/static/js/main.1e0eef58.js.map",
+    "main.686bc8ab.css.map": "/F76RDamageCalc/static/css/main.686bc8ab.css.map",
+    "main.47dbebd4.js.map": "/F76RDamageCalc/static/js/main.47dbebd4.js.map",
     "867.fa25cab4.chunk.js.map": "/F76RDamageCalc/static/js/867.fa25cab4.chunk.js.map",
     "453.0098adef.chunk.js.map": "/F76RDamageCalc/static/js/453.0098adef.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.79578e36.css",
-    "static/js/main.1e0eef58.js"
+    "static/css/main.686bc8ab.css",
+    "static/js/main.47dbebd4.js"
   ]
 }
