@@ -64,7 +64,7 @@ const TemplateItems = memo(function TemplateItems(props) {
     useEffect(() => {
         setWData({paginated: [], current: wData.paginated.length, total: wData.total, loaded: false});
 
-        // Prey with might for those who call this 'setTimeout', 'setInterval' to be burning in hell as long as possible.
+        // Pray with might for those who call this 'setTimeout', 'setInterval' to be burning in hell as long as possible.
         setTimeout(() => {
                 const [paginated, total] = prepareTemplates(props, filterByName, filterByType);
                 setWData({paginated: paginated, current: paginated.length, total: total, loaded: true});

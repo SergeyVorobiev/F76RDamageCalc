@@ -71,8 +71,6 @@ function getDefaultGraphData() {
 }
 
 export default function MyApp() {
-    const start = performance.now();
-
     const items = [].map((name, index) => {
         return {label: name, key: name}
     });
@@ -177,8 +175,6 @@ export default function MyApp() {
         setCreatures({...creatures});
     }
 
-    console.log("Init: " + (performance.now() - start).toFixed(3));
-
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
@@ -225,6 +221,5 @@ export default function MyApp() {
             </Container>
         </div>
     );
-    console.log("Return: " + (performance.now() - start).toFixed(3));
-    return (<div>{b}</div>);
+    return b;
 }

@@ -4,10 +4,7 @@ import DamageEmulator from '../damage/DamageEmulator';
 
 
 export function calcDamage(weaponFactory, creaturesInfo) {
-    const weapon = weaponFactory.build(WeaponFactory.DEFAULT);
-    const creatures = CreaturesProduction.produce(creaturesInfo, weapon.getAntiArmor());
-    const emulator = new DamageEmulator(weapon, creatures);
-    return emulator.emulate();
+    return new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creaturesInfo).emulate();
 }
 
 export function graphDamage(xValues, reduction, headShot, weaponFactory) {

@@ -65,6 +65,8 @@ export default class Creature {
         this.maxTotalDamage = 0;
         this.maxTimeEffects = 0;
         this.tdCounter = 0;
+        this.sneakPercent = 0;
+        this.critPercent = 0;
     }
 
     getName() {
@@ -286,6 +288,7 @@ export default class Creature {
         }
         let crit = 0;
         if (hit.critShot) {
+            this.critPercent = hit.critBoost;
             crit = baseDamage * hit.critBoost;
         }
         if (damageInfo.type === "dtPhysical" && damageInfo.kind === "physical") {
@@ -297,6 +300,7 @@ export default class Creature {
         const totalBonus = this.getTotalBonus(hit);
         let sneak = 0;
         if (hit.sneakShot) {
+            this.sneakPercent = hit.sneak;
             sneak = baseDamage * hit.sneak * totalBonus;
         }
         let value = baseDamage * bonus * totalBonus;
@@ -428,6 +432,8 @@ export default class Creature {
     formDeadReport(dps, reloads, reloadsTime) {
         if (!this.reported) {
             this.reported = true;
+            this.creatureInfo.sneak = (this.sneakPercent > 0) ? (this.sneakPercent * 100.0).toFixed(1) + "%" : "";
+            this.creatureInfo.crit = (this.critPercent > 0) ? (this.critPercent * 100.0).toFixed(1) + "%" : "";
             this.creatureInfo.totalDamage = "↓" + this.minTotalDamage.toFixed(1) + " - ↑" + this.maxTotalDamage.toFixed(1);
             this.creatureInfo.normalDamage = "(↓" + (this.minNormalShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
             this.creatureInfo.headShotDamage = "(↓" + (this.minHeadShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxHeadShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;

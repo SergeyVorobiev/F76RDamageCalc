@@ -222,7 +222,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const bonusText = (template.bonusMult[1] === 0) ? "" : (((template.bonusMult[1] < 0) ? "" : "+") + (template.bonusMult[1] * 100).toFixed(1) + "%");
     const crippleText = (template.cripple[1] === 0) ? "" : "+" + template.cripple[1].toFixed(1) + "%";
     const batteryText = (template.chargeTime[1] === 0) ? "" : template.chargeTime[1].toFixed(2) + " s";
-    const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1] * 100).toFixed(1) + "%";
+    const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1]).toFixed(1) + "%";
     const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText];
     let badgesRow = [];
     badgesRow.push(resultBadges(0, badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText));
