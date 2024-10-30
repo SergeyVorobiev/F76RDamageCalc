@@ -56,7 +56,7 @@ function buildStats(creature, resultDamage, weaponName) {
         armor = [creature.b, creature.e, creature.f, creature.p, creature.c, creature.r];
     }
     function showDamageIf(what, damageLine) {
-        if (damageLine === 0 || damageLine.includes("0.0 - ↑0.0")) {
+        if (!damageLine || damageLine === "" || damageLine === 0 || damageLine.includes("0.0 - ↑0.0")) {
             return (<></>);
         }
         return what;
@@ -88,6 +88,8 @@ function buildStats(creature, resultDamage, weaponName) {
                     {keyValueRow(" Type:", creature.type, "default", "default")}
                     {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
                     {keyValueRow("🧽 Damage Reduction:", creature.damageReduction, "default", "orange")}
+                    {showDamageIf(keyValueRow("🐍 Sneak:", creature.sneak, "default", "green"), creature.sneak)}
+                    {showDamageIf(keyValueRow("☠️ Crit:", creature.crit, "default", "magenta"), creature.crit)}
                     {keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue")}
                     {showDamageIf(keyValueRow("💥 Normal Damage:", creature.normalDamage, "default", "blue"), creature.normalDamage)}
                     {showDamageIf(keyValueRow("🤕 Head Shot (" + creature.headShot + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}

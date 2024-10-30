@@ -1,30 +1,34 @@
+import CreaturesProduction from '../creature/CreaturesProduction';
+
+
 export default class DamageEmulator {
-    constructor(weapon, creatures) {
+    constructor(weapon, creatureInfos) {
         this.weapon = weapon;
-        this.creatures = creatures;
+        this.creatureInfos = creatureInfos;
     }
 
     emulate(steps=35000) {
+        const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
         for (; step < steps; step++) {
             let deadCount = 0;
             const hit = this.weapon.hit();
-            for (let i = 0; i < this.creatures.length; i++) {
-                const creature = this.creatures[i];
+            for (let i = 0; i < creatures.length; i++) {
+                const creature = creatures[i];
                 if (creature.takeDamage(hit)) {
                     creature.formDeadReport(0, this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
                     deadCount += 1;
                 }
             }
-            if (deadCount === this.creatures.length) {
+            if (deadCount === creatures.length) {
                 break;
             }
         }
 
         // Check death and form a report
         const resultArmor = new Map();
-        for (let i = 0; i < this.creatures.length; i++) {
-            const creature = this.creatures[i];
+        for (let i = 0; i < creatures.length; i++) {
+            const creature = creatures[i];
             if (!creature.isDead()) {
                 creature.formDeadReport(0, this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
             }

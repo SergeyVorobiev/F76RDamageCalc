@@ -14,7 +14,7 @@
 1. [Build](#build-variants)
 2. [Limitations](#limitations)
 3. [Tests](#tests)
-
+   1. [.50Cal Machine Gun](#50-Cal-Machine-Gun)
 
 ## Build variants
 
@@ -51,19 +51,24 @@ Not fully tested effects:
 3. Recharging is adjusted manually.
 4. Time damage (Is presented with stack support (up to 10 for each type of damage)).
 5. Additional time damage effects for crit.
-6. Explosive part from effects seems has no longer reduced by resistance (since V > U52). Implemented but is not active for now.
-7. Follow Through (Is it just sneak base damage boost or total boost of all active sneak effects?).
+6. Follow Through (Is it just sneak base damage boost or total boost of all active sneak effects?).
 
-![View](client/src/resources/forReadme/main.png)
+![View](client/src/resources/forReadme/main.webp)
 
 
-## Tests (<=U52 explosive damage is applied with enemy resistance)
+## Tests
 
 1. Displayed values are rounded, so you will get +-1 difference.
 2. Crit damage is reduced by a boss' reduction even if you see displayed value without any reduction. (<U52, currently not tested).
 3. Sneak and TOFT can work together, it can happen if an enemy hits you occasionally or loses you after (In fact all possible effects can be applied at the same time in one shot).
 
-![Total](client/src/resources/forReadme/total.png)
+![Total](client/src/resources/forReadme/total.webp)
+
+### 50 Cal. Machine Gun
+
+U54:
+![View](client/src/resources/forReadme/Tests/50Cal/u54Test.webp)
+
 
 
 

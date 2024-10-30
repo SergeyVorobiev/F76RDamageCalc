@@ -65,6 +65,10 @@
     color:#ffffff;
 }
 
+.bg-white {
+    background-color: #fff;
+}
+
 .bg-fire {
     background-color:#c95855;
     color:#ffffff;
