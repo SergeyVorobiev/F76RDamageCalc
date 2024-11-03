@@ -66,7 +66,7 @@ Not fully tested effects:
 
 ### 50 Cal. Machine Gun
 
-U54:
+U-54 (sneak / crit + boost cards + legendary + mods + serums):
 ![View](client/src/resources/forReadme/Tests/50Cal/u54Test.webp)
 
 

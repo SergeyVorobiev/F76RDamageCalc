@@ -107,7 +107,7 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
         return (
             <InputGroup className="pb-2 flex-nowrap">
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType}></WTypeDropdown>
-                <Form.Control maxLength="65" onChange={(e) => setFilterName(e.target.value)} />
+                <Form.Control maxLength="70" onChange={(e) => setFilterName(e.target.value)} />
             </InputGroup>
         );
     }

@@ -12,6 +12,7 @@ import { Dropdown } from 'antd';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { millisToTime } from '../helpers/Time';
+import { truncate, truncateLongWords } from '../helpers/Input';
 import { Divider } from 'antd';
 import { keyValueRow } from '../helpers/RowBuilder';
 import { Progress } from 'antd';
@@ -61,7 +62,7 @@ function buildStats(creature, resultDamage, weaponName) {
         }
         return what;
     }
-
+    const wNameTrunc = truncate(weaponName, 55);
     return (
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
@@ -104,7 +105,7 @@ function buildStats(creature, resultDamage, weaponName) {
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
                     <Divider className='p-0 m-1 mb-3'></Divider>
-                    <span className="badge bg-warning mb-0 text-dark p-2"><small>{weaponName}</small></span>
+                    <span className="badge bg-warning mb-0 text-dark p-2"><small>{wNameTrunc}</small></span>
                 </Stack>
             </Popover.Body>
         </Popover>
@@ -243,27 +244,6 @@ export default class ATotalDamage extends React.PureComponent {
         );
     }
 
-    resultBadges(label, style, aa, damage, sneak, crit, exp=0.0, expCrit=0.0) {
-        return (
-            <div>
-                <div className="col d-flex justify-content-center">
-                    <Stack className='pb-1' direction="horizontal" gap={1}>
-                        {keyValueBadge(style, '6.5rem', label + " D", damage.toFixed(1))}
-                        {keyValueBadge(style, '6.5rem', "🛡️ A", (aa * 100.0).toFixed(1))}
-                        {keyValueBadge(style, '6.5rem', "🐍 S", sneak.toFixed(1))}
-                    </Stack>
-                </div>
-                <div className="col d-flex justify-content-center">
-                    <Stack className='pb-1' direction="horizontal" gap={1}>
-                        {keyValueBadge(style, '6.5rem', "☠️ C", crit)}
-                        {keyValueBadge(style, '6.5rem', "💣 E", exp.toFixed(1))}
-                        {keyValueBadge(style, '6.5rem', "💣☠️", (exp + expCrit).toFixed(1))}
-                    </Stack>
-                </div>
-            </div>
-        );
-    }
-
     updateExtraDamage() {
         this.props.setExtraDamage({
             ...this.props.extraDamage,
@@ -354,6 +334,7 @@ export default class ATotalDamage extends React.PureComponent {
         }
 
         const percentC = getHotPercentage(this.props.creatures);
+        const weaponTitleName = truncateLongWords(this.props.weaponName, 25);
         return (
         <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
             <Card.Header className='p-0 m-0'>
@@ -362,12 +343,12 @@ export default class ATotalDamage extends React.PureComponent {
                         {getImageElement(weaponIcon, "5rem")}
                     </Col>
                     <Col className="col-7 d-flex justify-content-center">
-                       <h5 className="m-auto p-auto"> {this.props.weaponName} </h5>
+                       <h5 className="m-auto p-auto"> {weaponTitleName} </h5>
                     </Col>
                     <Col className="col-3 d-flex justify-content-end"></Col>
                 </Row>
             </Card.Header>
-            <Card.Body className="pt-2">
+            <Card.Body className="pt-2 bg-lite">
                 <Row>
                     <div className="col d-flex justify-content-center mb-2">
                         <Card className="main-display-adjustable">
@@ -443,7 +424,7 @@ export default class ATotalDamage extends React.PureComponent {
                         <Accordion.Header className="m-0 p-0">
                             <HotMeter creatures={this.props.creatures} steps={50} colors={colors} />
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body style={{backgroundColor: "#fafcff"}} >
                             <DamageDetails resultDamage={this.props.resultDamage}></DamageDetails>
                         </Accordion.Body>
                     </Accordion.Item>

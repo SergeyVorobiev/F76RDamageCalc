@@ -44,9 +44,10 @@ export default function EffectItem({foodPref, setFoodPref, player, item, height,
         return <div key={k++} className="margin-5px">{keyValueRow(boost.description, value, colorName, colorValue, 0)}</div>
     });
     const filter = item.used ? "grayscale(0%)" : "grayscale(90%)";
+    const outline = item.used ? "shadow-outline-gold" : "";
     const head = (useHeader) ? (<Card.Header className='d-flex justify-content-center p-0 m-0 pt-1 pb-1'><div style={{fontSize: '0.75rem' , fontWeight: 'bold'}}>{item.name}</div></Card.Header>) : (<></>);
     return (
-        <Card style={{ width: '10.5rem', height: height, filter: filter }} onClick={cardClick}>
+        <Card className={outline} style={{ width: '10.5rem', height: height, filter: filter }} onClick={cardClick}>
             <Card.Img variant='top' style={{ height: picHeight}} src={getPicture(item.imName)} />
             {head}
             <Card.Body className="p-1 mt-1">

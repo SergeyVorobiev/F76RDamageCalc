@@ -12,9 +12,9 @@ function getPerkColor(category) {
     return "bg-" + category.toLowerCase() + "-card";
 }
 
-function badgeIf(value, condition, onClick) {
+function badgeIf(value, condition, onClick, style) {
     if (condition) {
-        return (<Button className="p-1" onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
+        return (<Button className={"p-1" + style} onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
     }
     return (<></>)
 }
@@ -105,7 +105,7 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
             ...boostDamage,
         });
     }
-
+    const outline = card.is_used ?  " shadow-outline" : "";
     const w = (xBadge) ? '9rem' : '11.5rem';
     const cName = "btn text-start " + getPerkColor(card.category);
     const number = card.rank_values[card.rank - 1];
@@ -114,18 +114,18 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
     return (
         <Col className="ps-1 pe-1">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text className="ps-2 pe-2" >
+                <InputGroup.Text className={"ps-2 pe-2" + outline} >
                     <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
                 </InputGroup.Text>
-                <Button className={cName} style={{width: w}} onClick={onClick}>
+                <Button className={cName + outline} style={{width: w}} onClick={onClick}>
                     <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
                     {card.name}
                 </Button>
-                {badgeIf("x" + card.x, xBadge, onClickX)}
-                <InputGroup.Text className="justify-content-center p-0" style={{width: '3.5rem'}}>
+                {badgeIf("x" + card.x, xBadge, onClickX, outline)}
+                <InputGroup.Text className={"justify-content-center p-0" + outline} style={{width: '3.5rem'}}>
                     <div className="badge bg-fire" style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
                 </InputGroup.Text>
-                <InputGroup.Text className="ps-1 pe-1 p-0">
+                <InputGroup.Text className={"ps-1 pe-1 p-0" + outline}>
                     <WarningPopover element={infoButton()} message={info} header="Description" />
                 </InputGroup.Text>
             </InputGroup>

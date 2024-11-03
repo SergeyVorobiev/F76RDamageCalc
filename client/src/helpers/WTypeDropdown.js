@@ -32,26 +32,29 @@ const WTypeDropdown = memo(function WTypeDropdown({weaponType, setWeaponType, re
 
 export default WTypeDropdown;
 
-export function getRowWithImage(name, maxHeight='1.1rem', space='0.27rem') {
+export function getRowWithImage(name, customName=null, maxHeight='1.1rem', space='0.27rem') {
+    if (!customName) {
+        customName = name;
+    }
     switch(name) {
         case "Heavy":
-            return addText(heavy, maxHeight, space, name);
+            return addText(heavy, maxHeight, space, customName);
         case "Shotgun":
-            return addText(shotgun, maxHeight, space, name);
+            return addText(shotgun, maxHeight, space, customName);
         case "Rifle":
-            return addText(rifle, maxHeight, space, name);
+            return addText(rifle, maxHeight, space, customName);
         case "Pistol":
-            return addText(gun, maxHeight, space, name);
+            return addText(gun, maxHeight, space, customName);
         case "Bow":
-            return addText(bow, maxHeight, space, name);
+            return addText(bow, maxHeight, space, customName);
         case "Melee":
-            return addText(melee, maxHeight, space, name);
+            return addText(melee, maxHeight, space, customName);
         case "Unarmed":
-            return addText(unarmed, maxHeight, space, name);
+            return addText(unarmed, maxHeight, space, customName);
         case "Thrown":
-            return addText(thrown, maxHeight, space, name);
+            return addText(thrown, maxHeight, space, customName);
         default:
-            return name;
+            return customName;
     }
 };
 

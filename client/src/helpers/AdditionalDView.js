@@ -8,21 +8,21 @@ export function getSymbolStyle(dType, kind) {
     switch(dType) {
         case "dtPhysical":
             if (kind === 'bleed') {
-                return ["🩸", "badge bg-lite m-1"];
+                return ["🩸", "badge bg-lite-shadow m-1"];
             } else if (kind === 'explosive') {
-                return ["🧨", "badge bg-lite m-1"];
+                return ["🧨", "badge bg-lite-shadow m-1"];
             }
-            return ["💥", "badge bg-ballistic m-1"];
+            return ["💥", "badge bg-ballistic-shadow m-1"];
         case "dtEnergy":
-            return ["⚡", "badge bg-energy m-1"];
+            return ["⚡", "badge bg-energy-shadow m-1"];
         case "dtFire":
-            return ["🔥", "badge bg-fire m-1"];
+            return ["🔥", "badge bg-fire-shadow m-1"];
         case "dtCryo":
-            return ["❄️", "badge bg-cold m-1"];
+            return ["❄️", "badge bg-cold-shadow m-1"];
         case "dtPoison":
-            return ["☣️", "badge bg-poison m-1"];
+            return ["☣️", "badge bg-poison-shadow m-1"];
         case "dtRadiationExposure":
-            return ["☢️", "badge bg-rad m-1"];
+            return ["☢️", "badge bg-rad-shadow m-1"];
         default:
             return ["", ""];
     }
@@ -57,7 +57,7 @@ function getItems(adDamage, bonusMult, creatures) {
         const creature = creatures[i];
         const value = "+" + creature.value + "%";
         const name = "🐵 " + creature.name;
-        result.push(keyValueBadge("badge bg-lite m-1", '10rem', name, value, k++));
+        result.push(keyValueBadge("badge bg-lite-shadow m-1", '10rem', name, value, k++));
     }
     return result;
 }

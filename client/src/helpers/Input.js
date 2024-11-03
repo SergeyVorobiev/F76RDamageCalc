@@ -13,3 +13,24 @@ export function checkLength(e) {
     }
     return true;
 }
+
+export function truncate(str, maxLength) {
+    if (!str || str.length <= maxLength) {
+        return str;
+    }
+    return str.slice(0, maxLength) + "…";
+}
+
+export function truncateLongWords(str, maxLength) {
+    if (!str || str.length <= maxLength) {
+        return str;
+    }
+    const words = str.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        let word = words[i];
+        if (word.length > maxLength) {
+            words[i] = truncate(word, maxLength);
+        }
+    }
+    return words.join(' ');
+}

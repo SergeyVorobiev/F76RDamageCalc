@@ -10,6 +10,7 @@ const ModalRenameItem = memo(function ModalRenameItem(props) {
     if (!props.show) {
         return (<></>);
     }
+
     function setItem(item) {
         props.items.map.set(item.id, item);
         const newItems = {
@@ -57,7 +58,7 @@ const ModalRenameItem = memo(function ModalRenameItem(props) {
             <Modal.Body>
                 <InputGroup className="pb-2 flex-nowrap">
                     <InputGroup.Text>New name:</InputGroup.Text>
-                    <Form.Control id="weaponNameInput" defaultValue={name} maxLength="65" />
+                    <Form.Control id="weaponNameInput" defaultValue={name} maxLength="70" />
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>

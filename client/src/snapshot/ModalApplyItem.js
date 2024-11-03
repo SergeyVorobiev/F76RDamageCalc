@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { truncateLongWords } from '../helpers/Input';
 
 
 export default function ModalApplyItem(props) {
@@ -17,7 +18,7 @@ export default function ModalApplyItem(props) {
     function onHide(e) {
         props.setModalApplyItem({id: -1, name: 'none', show: false});
     }
-
+    const name = truncateLongWords(props.name, 25);
     return (
         <Modal
             show = {props.show}
@@ -27,11 +28,11 @@ export default function ModalApplyItem(props) {
             centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Apply Item
+                    <p>Apply Item</p>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Do you want to apply '{props.name}'? Current settings will be replaced.
+                Do you want to apply '{name}'? Current settings will be replaced.
             </Modal.Body>
             <Modal.Footer>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">

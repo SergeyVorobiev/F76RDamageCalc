@@ -45,6 +45,7 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
         setPage(page);
         setPageSize(pageSize);
     }
+    // const key = (modalTemplate.template) ? modalTemplate.template.name : "";
     return (
         <>
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
@@ -53,7 +54,7 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
             <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWeaponName={setWeaponName} setWSpec={setWSpec}></ModalApplyTemplate>
             <InputGroup className="ps-1 pe-1 pb-3 flex-nowrap">
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
-                <Form.Control style={{width: '10rem'}} maxLength="120" onChange={filterNameChanged} />
+                <Form.Control style={{width: '10rem'}} maxLength="70" onChange={filterNameChanged} />
             </InputGroup>
             <Accordion className="accordion">
                 <TemplateItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
