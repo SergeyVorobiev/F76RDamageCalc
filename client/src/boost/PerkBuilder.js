@@ -2,7 +2,7 @@
 export class PerkBuilder {
 
     static build(buildName) {
-        switch(name) {
+        switch(buildName) {
             case "Heavy":
                 return "";
             case "Shotgun":
@@ -20,6 +20,6 @@ export class PerkBuilder {
             case "Thrown":
                 return "";
             default:
-                return customName;
+                return buildName;
         }
     }
