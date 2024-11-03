@@ -41,15 +41,15 @@ function getDropdown() {
     }
     return (
         <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small>Choose a build</small>} variant="warning">
-            <Dropdown.Item eventKey="All">{getRowWithImage("Heavy")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Melee")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Unarmed")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Shotgun")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Bow")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Rifle", "Automatic Rifle")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Rifle", "Non-Automatic Rifle")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Pistol", "Automatic Pistol")}</Dropdown.Item>
-            <Dropdown.Item eventKey="All">{getRowWithImage("Pistol", "Non-Automatic Pistol")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Heavy">{getRowWithImage("Heavy")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Melee">{getRowWithImage("Melee")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Unarmed">{getRowWithImage("Unarmed")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Shotgun">{getRowWithImage("Shotgun")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Bow">{getRowWithImage("Bow")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Automatic Rifle">{getRowWithImage("Rifle", "Automatic Rifle")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Non-Automatic Rifle">{getRowWithImage("Rifle", "Non-Automatic Rifle")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Automatic Pistol">{getRowWithImage("Pistol", "Automatic Pistol")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Non-Automatic Pistol">{getRowWithImage("Pistol", "Non-Automatic Pistol")}</Dropdown.Item>
         </DropdownButton>
     );
 }
