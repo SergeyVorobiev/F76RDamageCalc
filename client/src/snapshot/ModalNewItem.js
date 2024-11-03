@@ -106,7 +106,7 @@ function getInputText(limit, weaponName) {
         return (<></>);
     }
     return (
-        <Form.Control id='wName' className='w-auto' defaultValue={weaponName} maxLength="120" />
+        <Form.Control id='wName' className='w-auto' defaultValue={weaponName} maxLength="70" />
     );
 }
 

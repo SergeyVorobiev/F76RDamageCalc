@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { memo } from 'react';
+import { truncateLongWords } from '../helpers/Input';
 
 
 const ModalDeleteItem = memo(function ModalDeleteItem(props) {
@@ -22,6 +23,7 @@ const ModalDeleteItem = memo(function ModalDeleteItem(props) {
         } catch {}
         props.setModalDeleteItem({id: "-1", name: "none", show: false});
     }
+    const name = truncateLongWords(props.name, 25);
     return (
         <Modal
             show = {props.show}
@@ -35,7 +37,7 @@ const ModalDeleteItem = memo(function ModalDeleteItem(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Do you want to delete '{props.name}'?
+                Do you want to delete '{name}'?
             </Modal.Body>
             <Modal.Footer>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">

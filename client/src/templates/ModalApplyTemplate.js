@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { convertTemplateToSpecs } from '../entities/EWeaponSpecs';
+import { truncateLongWords } from '../helpers/Input';
 
 
 export default function ModalApplyTemplate(props) {
@@ -11,8 +12,9 @@ export default function ModalApplyTemplate(props) {
     }
     let name = "";
     if (props.modalTemplate.template) {
-        name = props.modalTemplate.template.name
+        name = props.modalTemplate.template.name;
     }
+    name = truncateLongWords(name, 25);
     function onHide(e) {
         props.setModalTemplate({template: null, show: false});
     }

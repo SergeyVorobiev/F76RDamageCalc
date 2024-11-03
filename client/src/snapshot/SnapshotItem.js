@@ -14,6 +14,7 @@ import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 import { memo, useState, useEffect } from 'react';
+import { truncateLongWords } from '../helpers/Input';
 
 
 //<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
@@ -125,7 +126,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
 function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
     let wName = item.wSpec.iconName;
     if (!wName) {
-        wName = "Weapon";
+        wName = "default";
     }
     function onHeaderClick(e) {
         setIsItemOpen(!isItemOpen);
@@ -134,18 +135,17 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
         setModalRenameItem({id: item.id, show: true});
         e.stopPropagation();
     }
+    const displayedWeaponName = truncateLongWords(item.name, 25);
     return (
         <Container className='ps-1 pe-1' onClick={onHeaderClick}>
             <div className="row-12 d-flex">
-                <div className='col-2 p-0 d-flex justify-content-start'>
-                    <div className="m-auto ms-1">
+                <div className='col-2 p-0 ps-2 d-flex m-auto justify-content-start'>
                         {getImageElement(wName, '3rem')}
-                    </div>
                 </div>
-                <div className="col-9 pt-1 pb-1 pe-3 d-flex justify-content-center">
-                    <h6 className='m-auto pe-3'>{item.name}</h6>
+                <div className="col-8 pt-1 pb-1 d-flex justify-content-center">
+                    <h6 className='m-auto'>{displayedWeaponName}</h6>
                 </div>
-                <div className="col-1 d-flex p-2 justify-content-end">
+                <div className="col-2 d-flex pe-2 justify-content-end">
                     <div className="m-auto me-1">
                         <Button className="pb-1" id={item.id} variant="outline-secondary" onClick={onRenameClick} size="sm">
                             <RenameIcon />

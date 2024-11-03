@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { buildItem } from '../helpers/Item';
 import { memo } from 'react';
+import { truncateLongWords } from '../helpers/Input';
 
 
 const ModalUpdateItem = memo (function ModalUpdateItem(props) {
@@ -24,7 +25,7 @@ const ModalUpdateItem = memo (function ModalUpdateItem(props) {
         }
         props.setItems(newItems);
     }
-
+    const name = truncateLongWords(props.name, 25);
     const onHide = () => props.setModalUpdateItem({id: -1, show: false});
     return (
         <Modal
@@ -39,7 +40,7 @@ const ModalUpdateItem = memo (function ModalUpdateItem(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Do you want to update '{props.name}'?
+                Do you want to update '{name}'?
             </Modal.Body>
             <Modal.Footer>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">

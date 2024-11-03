@@ -35,7 +35,7 @@ const ModalDownloadSnapshot = memo (function ModalDownloadSnapshot(props) {
             <Modal.Body>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">
                     <InputGroup.Text style={{ width: '9rem' }}>File name</InputGroup.Text>
-                    <Form.Control id='snapshotName' className='w-auto' defaultValue={fileName} maxLength="120" />
+                    <Form.Control id='snapshotName' className='w-auto' defaultValue={fileName} maxLength="70" />
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>

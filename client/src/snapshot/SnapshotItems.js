@@ -64,7 +64,7 @@ const SnapshotItems = memo(function SnapshotItems({onPageChanged, startIndex, pa
     const size = snapshots.length;
     function result(item) {
         return (
-            <SnapshotItem key={item.id} index={index++} isOpen={isOpen} size={size} item={item} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
+            <SnapshotItem key={item.id} title={item.name} index={index++} isOpen={isOpen} size={size} item={item} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem}></SnapshotItem>
         );
     }
     const values = snapshots.map((item) => (result(item)));
