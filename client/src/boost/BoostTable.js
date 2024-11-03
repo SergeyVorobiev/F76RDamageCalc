@@ -70,8 +70,8 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
                         {getStatBadge("luck", boostDamage.special.luck)}
                     </div>
                 </Card.Header>
-                <Card.Body className="bg-lite">
-                    <Container className="p-0">
+                <Card.Body className="bg-lite p-1 m-0">
+                    <Container className="p-0 m-0">
                         <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow1>
                         <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow2>
                         <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow3>
