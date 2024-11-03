@@ -45,7 +45,6 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
         setPage(page);
         setPageSize(pageSize);
     }
-    // const key = (modalTemplate.template) ? modalTemplate.template.name : "";
     return (
         <>
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>

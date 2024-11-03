@@ -142,8 +142,8 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
                 <div className='col-2 p-0 ps-2 d-flex m-auto justify-content-start'>
                         {getImageElement(wName, '3rem')}
                 </div>
-                <div className="col-8 pt-1 pb-1 d-flex justify-content-center" style={{overflow: "ellipsis"}}>
-                    <h6 style={{overflow: "ellipsis"}} className='m-auto'>{displayedWeaponName}</h6>
+                <div className="col-8 pt-1 pb-1 d-flex justify-content-center">
+                    <h6 className='m-auto'>{displayedWeaponName}</h6>
                 </div>
                 <div className="col-2 d-flex pe-2 justify-content-end">
                     <div className="m-auto me-1">

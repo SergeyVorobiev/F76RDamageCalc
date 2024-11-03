@@ -4,21 +4,21 @@ export class PerkBuilder {
     static build(buildName) {
         switch(name) {
             case "Heavy":
-                return addText(heavy, maxHeight, space, customName);
+                return "";
             case "Shotgun":
-                return addText(shotgun, maxHeight, space, customName);
+                return "";
             case "Rifle":
-                return addText(rifle, maxHeight, space, customName);
+                return "";
             case "Pistol":
-                return addText(gun, maxHeight, space, customName);
+                return "";
             case "Bow":
-                return addText(bow, maxHeight, space, customName);
+                return "";
             case "Melee":
-                return addText(melee, maxHeight, space, customName);
+                return "";
             case "Unarmed":
-                return addText(unarmed, maxHeight, space, customName);
+                return "";
             case "Thrown":
-                return addText(thrown, maxHeight, space, customName);
+                return "";
             default:
                 return customName;
         }
