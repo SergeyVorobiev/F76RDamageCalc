@@ -17,6 +17,7 @@ export default class Creature {
         this.headMult = creatureInfo.headShot;
         this.body = creatureInfo.body;
         this.type = creatureInfo.type;
+        this.kind = creatureInfo.kind;
         if (this.type === "" || creatureInfo.rank === "creature") {
             this.type = determineType(creatureInfo.name);
             if (creatureInfo.rank === "creature") {
@@ -385,6 +386,8 @@ export default class Creature {
             } else if (damageBonus.name === this.body) { // Body type
                 result += (damageBonus.value / 100.0);
             } else if (damageBonus.name === this.type) {
+                result += (damageBonus.value / 100.0);
+            } else if (damageBonus.name === this.kind) {
                 result += (damageBonus.value / 100.0);
             }
         }

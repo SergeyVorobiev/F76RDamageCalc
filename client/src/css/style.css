@@ -137,6 +137,7 @@
 .bg-light-cream-outline {
     outline: 1px solid #bdb499;
     background-color:#f7f2e1;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.2);
     color:#000;
 }
 
@@ -151,6 +152,10 @@
 .shadow-outline-gold {
     box-shadow: 0 5px 10px 0 rgba(0,0,0,0.4), 0 5px 10px 0 rgba(0,0,0,0.2);
     outline: 1px solid #ffbf00;
+}
+
+.shadow-gold {
+    box-shadow: 0 1px 3px 0 #ffbf00, 0 1px 3px 0 #ffbf00;
 }
 
 .bg-exp {
@@ -376,4 +381,9 @@
 
 .margin-5px {
     margin: '5px';
+}
+
+.shadow-outline-unselected {
+    box-shadow: 0 1px 3px 0 #c6c9cf, 0 1px 3px 0 #8a8e96;
+    outline: 0px solid #c6c9cf;
 }

@@ -7,7 +7,8 @@ import Popover from 'react-bootstrap/Popover';
 import { memo } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { getRowWithImage } from '../helpers/WTypeDropdown'
+import { getRowWithImage } from '../helpers/WTypeDropdown';
+import PerkBuilder from './PerkBuilder';
 
 
 const popover = (
@@ -34,30 +35,34 @@ function getStatBadge(name, value) {
     );
 }
 
-// TODO: finish build implementation
-function getDropdown() {
+function getDropdown(setBoostDamage, player, setPlayer) {
     function onSelect(e) {
-
+        PerkBuilder.build(e, setBoostDamage, player, setPlayer);
     }
     return (
         <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small>Choose a build</small>} variant="warning">
+        <Dropdown.Item eventKey="Reset">{getRowWithImage("Reset")}</Dropdown.Item>
             <Dropdown.Item eventKey="Heavy">{getRowWithImage("Heavy")}</Dropdown.Item>
-            <Dropdown.Item eventKey="Melee">{getRowWithImage("Melee")}</Dropdown.Item>
-            <Dropdown.Item eventKey="Unarmed">{getRowWithImage("Unarmed")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Heavy Explosive">{getRowWithImage("Heavy", "Heavy Explosive")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Heavy FullHouse">{getRowWithImage("Heavy", "Heavy FullHouse")}</Dropdown.Item>
             <Dropdown.Item eventKey="Shotgun">{getRowWithImage("Shotgun")}</Dropdown.Item>
-            <Dropdown.Item eventKey="Bow">{getRowWithImage("Bow")}</Dropdown.Item>
             <Dropdown.Item eventKey="Automatic Rifle">{getRowWithImage("Rifle", "Automatic Rifle")}</Dropdown.Item>
             <Dropdown.Item eventKey="Non-Automatic Rifle">{getRowWithImage("Rifle", "Non-Automatic Rifle")}</Dropdown.Item>
             <Dropdown.Item eventKey="Automatic Pistol">{getRowWithImage("Pistol", "Automatic Pistol")}</Dropdown.Item>
             <Dropdown.Item eventKey="Non-Automatic Pistol">{getRowWithImage("Pistol", "Non-Automatic Pistol")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Bow">{getRowWithImage("Bow")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Melee One-Handed">{getRowWithImage("Melee", "Melee One-Handed")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Melee Two-Handed">{getRowWithImage("Melee", "Melee Two-Handed")}</Dropdown.Item>
+            <Dropdown.Item eventKey="Unarmed">{getRowWithImage("Unarmed")}</Dropdown.Item>
         </DropdownButton>
     );
 }
 
 const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage}) {
-    console.log("BoostTable")
+    console.log("BoostTable");
     return (
         <Container className="ps-0 pe-0">
+            {getDropdown(setBoostDamage, player, setPlayer)}
             <Card className="mb-3">
                 <Card.Header className='ps-3'>
                     <div className="d-flex justify-content-center">
@@ -70,6 +75,7 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
                         {getStatBadge("luck", boostDamage.special.luck)}
                     </div>
                 </Card.Header>
+
                 <Card.Body className="bg-lite p-1 m-0">
                     <Container className="p-0 m-0">
                         <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow1>
