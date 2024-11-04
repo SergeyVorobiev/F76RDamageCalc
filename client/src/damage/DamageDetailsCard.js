@@ -114,7 +114,7 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
     }
     return (
         <div className="col d-flex justify-content-center mb-2">
-            <Card className="main-display-adjustable">
+            <Card className="main-display-adjustable shadow-outline-unselected">
                 <Card.Header className="ps-3 p-1">
                     <div className="d-flex">
                         <div style={{width: '33%'}} className="d-flex justify-content-start center-text">

@@ -18,11 +18,11 @@ export default function LegendaryView({template}) {
     const isLeg4 = (Object.keys(template.legendary4).length > 0);
     const isLeg5 = (Object.keys(template.legendary5).length > 0);
     if (isLeg1 || isLeg2 || isLeg3 || isLeg4 || isLeg5) {
-        const leg1 = (isLeg1) ? keyValueBadge("bg-yellow m-1", '20rem', "⭐", formatName(template.legendary1.name)) : (<></>);
-        const leg2 = (isLeg2) ? keyValueBadge("bg-yellow m-1", '20rem', "⭐⭐", formatName(template.legendary2.name)) : (<></>);
-        const leg3 = (isLeg3) ? keyValueBadge("bg-yellow m-1", '20rem', "⭐⭐⭐", formatName(template.legendary3.name)) : (<></>);
-        const leg4 = (isLeg4) ? keyValueBadge("bg-yellow m-1", '20rem', "⭐⭐⭐⭐", formatName(template.legendary4.name)) : (<></>);
-        const leg5 = (isLeg5) ? keyValueBadge("bg-yellow m-1", '20rem', "⭐⭐⭐⭐⭐", formatName(template.legendary5.name)) : (<></>);
+        const leg1 = (isLeg1) ? keyValueBadge("bg-yellow m-1 shadow-gold", '20rem', "⭐", formatName(template.legendary1.name)) : (<></>);
+        const leg2 = (isLeg2) ? keyValueBadge("bg-yellow m-1 shadow-gold", '20rem', "⭐⭐", formatName(template.legendary2.name)) : (<></>);
+        const leg3 = (isLeg3) ? keyValueBadge("bg-yellow m-1 shadow-gold", '20rem', "⭐⭐⭐", formatName(template.legendary3.name)) : (<></>);
+        const leg4 = (isLeg4) ? keyValueBadge("bg-yellow m-1 shadow-gold", '20rem', "⭐⭐⭐⭐", formatName(template.legendary4.name)) : (<></>);
+        const leg5 = (isLeg5) ? keyValueBadge("bg-yellow m-1 shadow-gold", '20rem', "⭐⭐⭐⭐⭐", formatName(template.legendary5.name)) : (<></>);
         return (
             <>
                 <Divider className='m-1 p-1'>Legendary</Divider>

@@ -139,9 +139,14 @@ export default function MyApp() {
     }, []);
 
     useEffect(() => {
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
-        setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
-        setResultDamage(calcDamage(weaponFactory, creatures));
+
+        setTimeout(() => {
+                const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
+                setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
+                setResultDamage(calcDamage(weaponFactory, creatures));
+            }, 20
+        );
+
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats, graphValues.xValues]);
 
     // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,

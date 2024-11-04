@@ -68,21 +68,21 @@ function buildStats(creature, resultDamage, weaponName) {
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
             <Popover.Body className="my-popover ms-1 me-1">
                 <Stack  className='pt-2 pb-0' direction="horizontal" gap={1}>
-                    <span style={{ width: '3rem' }} className="badge bg-ballistic">{creature.b.toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-energy">{creature.e.toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-fire">{creature.f.toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-poison">{creature.p.toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-cold">{creature.c.toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-rad">{creature.r.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-ballistic-shadow">{creature.b.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-energy-shadow">{creature.e.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-fire-shadow">{creature.f.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-poison-shadow">{creature.p.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-cold-shadow">{creature.c.toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-rad-shadow">{creature.r.toFixed(1)}</span>
                 </Stack>
                 <Divider className='p-0 m-0'>v</Divider>
                 <Stack  className='pt-0 pb-2' direction="horizontal" gap={1}>
-                    <span style={{ width: '3rem' }} className="badge bg-ballistic">{armor[0].toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-energy">{armor[1].toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-fire">{armor[2].toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-poison">{armor[3].toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-cold">{armor[4].toFixed(1)}</span>
-                    <span style={{ width: '3rem' }} className="badge bg-rad">{armor[5].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-ballistic-shadow">{armor[0].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-energy-shadow">{armor[1].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-fire-shadow">{armor[2].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-poison-shadow">{armor[3].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-cold-shadow">{armor[4].toFixed(1)}</span>
+                    <span style={{ width: '3rem' }} className="badge bg-rad-shadow">{armor[5].toFixed(1)}</span>
                 </Stack>
                 <Stack  className='pb-0' direction="vertical" gap={0}>
                     {keyValueRow(" Body:", creature.body, "default", "default")}
@@ -105,7 +105,7 @@ function buildStats(creature, resultDamage, weaponName) {
                     {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
                     {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
                     <Divider className='p-0 m-1 mb-3'></Divider>
-                    <span className="badge bg-warning mb-0 text-dark p-2"><small>{wNameTrunc}</small></span>
+                    <span className="badge bg-warning mb-0 text-dark p-2 shadow-outline-unselected"><small>{wNameTrunc}</small></span>
                 </Stack>
             </Popover.Body>
         </Popover>

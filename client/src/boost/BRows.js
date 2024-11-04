@@ -6,6 +6,7 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import { Checkbox } from 'antd';
 import { WarningPopover } from '../helpers/WarningPopover';
+import { calculateSpecial } from './BoostHelpers';
 
 
 function getPerkColor(category) {
@@ -17,23 +18,6 @@ function badgeIf(value, condition, onClick, style) {
         return (<Button className={"p-1" + style} onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
     }
     return (<></>)
-}
-
-function calculateSpecial(boostDamage) {
-    for (let key in boostDamage.special) {
-        boostDamage.special[key] = 0;
-    }
-    for (let key in boostDamage) {
-        if (key === "special") {
-            continue;
-        }
-        const card = boostDamage[key];
-        const special = boostDamage.special;
-        const type = card.category.toLowerCase();
-        if (card.is_used) {
-            special[type] += card.cost[card.rank - 1];
-        }
-    }
 }
 
 function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', player=null, setPlayer=null) {
@@ -107,13 +91,15 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
     }
     const outline = card.is_used ?  " shadow-outline" : "";
     const w = (xBadge) ? '9rem' : '11.5rem';
-    const cName = "btn text-start " + getPerkColor(card.category);
+    const perkColor = getPerkColor(card.category);
+    const cName = "btn text-start " + perkColor;
     const number = card.rank_values[card.rank - 1];
     let info = card.info.replaceAll("{1}", number).replace("{2}", parseInt(number / 4)).replace("{3}", parseInt(number * 2));
     info = info.replaceAll("{4}", number * 3);
+    const filter = card.is_used ? "grayscale(0%)" : "grayscale(40%)";
     return (
         <Col className="ps-1 pe-1">
-            <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap">
+            <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
                 <InputGroup.Text className={"ps-2 pe-2" + outline} >
                     <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
                 </InputGroup.Text>
@@ -123,7 +109,7 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
                 </Button>
                 {badgeIf("x" + card.x, xBadge, onClickX, outline)}
                 <InputGroup.Text className={"justify-content-center p-0" + outline} style={{width: '3.5rem'}}>
-                    <div className="badge bg-fire" style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
+                    <div className={"badge " + perkColor} style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
                 </InputGroup.Text>
                 <InputGroup.Text className={"ps-1 pe-1 p-0" + outline}>
                     <WarningPopover element={infoButton()} message={info} header="Description" />
