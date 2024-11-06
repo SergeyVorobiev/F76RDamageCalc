@@ -6,9 +6,14 @@ import { getPerkContent } from '../helpers/PerkPopover';
 import { renderWeaponPopover } from '../helpers/WeaponPopoverOverlay';
 import { getNameValueField } from '../helpers/ViewHelper';
 import { getExplosiveForPopover } from '../helpers/ProjView';
+import { truncate } from '../helpers/Input';
 
 
 function getField(lValue, rValue, color) {
+    if (rValue && typeof rValue === typeof '') {
+        rValue = rValue.toString();
+        rValue = truncate(rValue, 30);
+    }
     return (
         <Row className="d-flex justify-content-center ps-1 pe-1">
             {keyValueTag(lValue, rValue, color)}

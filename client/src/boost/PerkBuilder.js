@@ -75,7 +75,7 @@ export default class PerkBuilder {
                 break;
             case "Unarmed":
                 PerkBuilder.setupCard(boosts.incisor, 3);
-                PerkBuilder.setupCard(boosts.slugger, 3);
+                PerkBuilder.setupCard(boosts.iron_fist, 3);
                 PerkBuilder.setupCard(boosts.party_girl_boy, 2);
                 break;
             default:

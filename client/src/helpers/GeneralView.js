@@ -22,10 +22,6 @@ function getTags(template) {
     return result;
 }
 
-export function print() {
-    console.log("GeneralView");
-}
-
 function buildGeneralView(template) {
     const auto = (template.isAuto[1] === 1) ? "Yes" : "No";
     const crit = template.crMult + template.crit[1] / 100.0;

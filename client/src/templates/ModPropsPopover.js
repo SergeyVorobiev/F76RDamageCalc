@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { keyValueTag } from '../helpers/RowBuilder';
 import { getEffectsForPopover, getSpellHeader } from '../helpers/SpellView';
 import getSpell from '../helpers/Spell';
+import { truncate } from '../helpers/Input';
 
 
 function buildModCard(key, mod_e, color) {
@@ -11,18 +12,20 @@ function buildModCard(key, mod_e, color) {
         const effects = spell.mag_effects;
         return (
             <Card key={key} className="mb-1 mt-1">
-                {keyValueTag(mod_e.op,  mod_e.prop, color)}
+                {keyValueTag(mod_e.op, mod_e.prop, color)}
                 {getSpellHeader(spell, '20rem')}
                 {getEffectsForPopover(effects)}
             </Card>
         );
     } else {
+        const val1 = truncate(mod_e.val1, 30);
+        const val2 = truncate(mod_e.val2, 30);
         return (
             <Card key={key} className="mb-1 mt-1">
-                {keyValueTag(mod_e.op,  mod_e.prop, color)}
-                {keyValueTag('Val1:',  mod_e.val1, color)}
-                {keyValueTag('Val2:',  mod_e.val2, color)}
-                {keyValueTag('Curv:',  mod_e.curv, color)}
+                {keyValueTag(mod_e.op, mod_e.prop, color)}
+                {keyValueTag('Val1:', val1, color)}
+                {keyValueTag('Val2:', val2, color)}
+                {keyValueTag('Curv:', mod_e.curv, color)}
             </Card>
         );
     }
