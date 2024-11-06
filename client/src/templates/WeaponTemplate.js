@@ -22,20 +22,20 @@ import ModRow from './ModRow';
 import Container from 'react-bootstrap/Container';
 import { modsSetter } from '../templates/TemplateItems';
 import { WarningPopover } from '../helpers/WarningPopover';
-import { testedWeapons } from '../helpers/TestedWeapons';
+import { isTested } from './TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
 
 
-function getApplyButton(template, setModalTemplate) {
+function getApplyButton(template, setModalTemplate, onTestClick) {
     function testedMedal(wId) {
-        const version = testedWeapons[wId];
-        if (version) {
+        if (isTested(wId)) {
+
             return (
-                <WarningPopover element={(
-                    <Button variant="white" className="p-0 ps-2 pe-2 m-0">
+                //<WarningPopover element={(
+                    <Button id={wId} variant="white" className="p-0 ps-2 pe-2 m-0" onClick={onTestClick}>
                         <div style={{fontSize: '1.5rem'}}>🎖️</div>
                     </Button>
-                )} message={version} header={'Tested'} />
+                //)} message={version} header={'Tested'} />
             );
         }
         return (<></>);
@@ -157,7 +157,7 @@ function resultBadges(key, style, left1, right1, left2, right2, left3, right3) {
     );
 };
 
-const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate}) {
+const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, onTestClick}) {
     console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
@@ -266,7 +266,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     {divider}
                     {getResetButton(template, items.length, resetButtonActive, setResetButtonActive)}
                     {result}
-                    {getApplyButton(template, setModalTemplate)}
+                    {getApplyButton(template, setModalTemplate, onTestClick)}
                 </Accordion.Body>
             </Accordion.Item>
         </div>

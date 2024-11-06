@@ -98,7 +98,7 @@ const TemplateItems = memo(function TemplateItems(props) {
 export default TemplateItems;
 
 function prepareTemplates(props, filterByName, filterByType) {
-    const items = templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} modsSetter={modsSetter} template={template} setModalTemplate={props.setModalTemplate}></WeaponTemplate>);
+    const items = templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} onTestClick={props.onTestClick} modsSetter={modsSetter} template={template} setModalTemplate={props.setModalTemplate}></WeaponTemplate>);
     const lastIndex = items.length - 1;
     let paginated = [];
     for (let i = props.startIndex; i < props.startIndex + props.pageSize; i++) {

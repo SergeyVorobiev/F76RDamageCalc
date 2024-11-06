@@ -1,5 +1,6 @@
 import Col from 'react-bootstrap/Col';
 import { keyValueTag } from '../helpers/RowBuilder';
+import { truncate } from '../helpers/Input';
 
 
 export function getField(data, name, id, color, width, hideEmpty=true, round=0, cell=-1, css="") {
@@ -15,7 +16,7 @@ export function getResolvedField(name, value, color, width, hideEmpty=true, roun
         value = value.toFixed(round);
     }
     if (hideEmpty) {
-        if (value === 0 || value === '00000000' || value === '') {
+        if (!value || value === 0 || value === '00000000' || value === '') {
             return <></>;
         }
     }
@@ -23,6 +24,9 @@ export function getResolvedField(name, value, color, width, hideEmpty=true, roun
 }
 
 export function getNameValueField(value1, value2, color, width, css="") {
+    if (value2 && typeof value2 === typeof '') {
+        value2 = truncate(value2, 30);
+    }
     return (
         <Col className={'d-flex justify-content-center ' + css} >
             {keyValueTag(value1,  value2, color, {width: width})}

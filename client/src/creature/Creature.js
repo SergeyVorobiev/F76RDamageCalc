@@ -316,21 +316,24 @@ export default class Creature {
         expValue += critExp;
         const timeDamage = damageInfo.time > 0;
         let finalDamage = this.causeFinalDamage(value, damageInfo.type, hit.headShot, false);
-        this.addDamage(finalDamage, timeDamage, false);
+        this.memoDamage(finalDamage, timeDamage, false);
 
         // Explosives add for each bullet (no headshot)
         const nonCritExp = expValue - critExp;
-        for (let i = 0; i < this.bulletCount; i++) {
-            if (i === 0) { // Seems that crit exp must be added only for one bullet?
-                finalDamage = this.causeFinalDamage(expValue, damageInfo.type, false, true);
-            } else {
-                finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false, true);
+        if (expValue > 0) {
+            for (let i = 0; i < this.bulletCount; i++) {
+                if (i === 0) { // Seems that crit exp must be added only for one bullet?
+                    finalDamage = this.causeFinalDamage(expValue, damageInfo.type, false, true);
+                } else {
+                    finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false, true);
+                }
+                this.memoDamage(finalDamage, timeDamage, true);
             }
-            this.addDamage(finalDamage, timeDamage, true);
         }
+
     }
 
-    addDamage(finalDamage, timeDamage, expDamage) {
+    memoDamage(finalDamage, timeDamage, expDamage) {
         this.lastTotalDamage += finalDamage;
         if (!timeDamage && !expDamage) {
             this.lastDamageNoTime += finalDamage;
