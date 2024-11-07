@@ -11,7 +11,7 @@ export default function ModalTestedWeapon(props) {
     function onHide(e) {
         props.setModalTested({data: null, show: false});
     }
-    const data = testedWeapons[props.modalTested.wId];
+    const data = testedWeapons.get(props.modalTested.wId);
     return (
         <Modal
             show = {props.modalTested.show}
@@ -24,7 +24,7 @@ export default function ModalTestedWeapon(props) {
                     Tests
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="pb-1">
                 <TestedCarousel data={data} />
             </Modal.Body>
         </Modal>

@@ -144,7 +144,7 @@ export default function MyApp() {
                 const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
                 setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
                 setResultDamage(calcDamage(weaponFactory, creatures));
-            }, 20
+            }, 10
         );
 
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats, graphValues.xValues]);

@@ -244,10 +244,10 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                 <Accordion.Body className="p-1">
                     <Row>
                         <div className="col d-flex justify-content-start mb-2 pt-1">
-                            <Tag bordered={true} color="default"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
+                            <Tag bordered={true} color="default" className="shadow-outline2"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
                         </div>
                          <div className="col d-flex justify-content-end mb-2 pt-1 pe-1">
-                            <Tag bordered={true} color="volcano"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type[1])}</strong></h6></Tag>
+                            <Tag bordered={true} color="volcano" className="shadow-outline3"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type[1])}</strong></h6></Tag>
                        </div>
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
