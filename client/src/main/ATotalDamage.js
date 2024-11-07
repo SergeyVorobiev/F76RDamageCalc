@@ -223,7 +223,7 @@ export default class ATotalDamage extends React.PureComponent {
                     {this.enemyDropdown(level, levels, this.levelClick)}
                 </Stack>);
         }
-        return (<strong>{name}</strong>)
+        return (<small><strong className="creature-label-text">{name}</strong></small>)
     }
 
     enemy(creature, creatureIcon, updateCreatures, resultDamage, dropdown=false) {
@@ -336,100 +336,101 @@ export default class ATotalDamage extends React.PureComponent {
         const percentC = getHotPercentage(this.props.creatures);
         const weaponTitleName = truncateLongWords(this.props.weaponName, 25);
         return (
-        <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
-            <Card.Header className='p-0 m-0'>
-                <Row className='p-0 m-0'>
-                    <Col className="col-2 d-flex justify-content-start p-0 m-0 ms-3">
-                        {getImageElement(weaponIcon, "5rem")}
-                    </Col>
-                    <Col className="col-7 d-flex justify-content-center">
-                       <h5 className="m-auto p-auto"> {weaponTitleName} </h5>
-                    </Col>
-                    <Col className="col-3 d-flex justify-content-end"></Col>
-                </Row>
-            </Card.Header>
-            <Card.Body className="pt-2 bg-lite">
-                <Row>
-                    <div className="col d-flex justify-content-center mb-2">
-                        <Card className="main-display-adjustable">
-                            <Card.Header className="pe-0 ps-0">
-                                <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
-                                    <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
-                                    <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
-                                    <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
-                                    <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
-                                        <Badge bg="info">?</Badge>
-                                    </OverlayTrigger>
-                                </Stack>
-                            </Card.Header>
-                            <Card.Body className="pt-0 pb-0">
-                                {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damageText}</strong></span>), "default", "red")}
-                                {keyValueRow((<span className="mt-0 mb-0"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedCrit + "%"}</strong></span>), "default", "magenta")}
-                                {keyValueRow((<span className="mt-0 mb-0"><strong>🐍 Sneak:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedSneak + "%"}</strong></span>), "default", "green")}
-                                {keyValueRow((<span className="mt-0 mb-0"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
-                                {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{ammoCapacity}</strong></span>), "default", "default")}
-                                {keyValueRow((<span className="mt-0 mb-0"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
-                            </Card.Body>
-                            <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
-                                <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>
-                                <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: 1 / {this.props.extraDamage.headFreq}</strong></Button>
-                            </Card.Footer>
-                        </Card>
-                    </div>
-                    <div className="col d-flex justify-content-center mb-2">
-                        <Card className="main-display-adjustable">
-                            <Card.Header>
-                                <span className="d-flex m-0 p-0 w-100">
-                                    <div className="m-auto p-0 w-100 d-flex justify-content-start">
-                                        <Badge bg="warning" text="dark">
-                                        <strong>DPS: {this.props.graphValues.yValues[0].toFixed(1)}</strong>
-                                        </Badge>
-                                    </div>
-                                    <div className="m-0 p-0 w-100">
-                                        <Progress
-                                            type="dashboard"
-                                            steps={50}
-                                            percent={percentC}
-                                            format={(percent) => percent}
-                                            size={28}
-                                            strokeColor={colors}
-                                            trailColor="rgba(0, 0, 0, 0.06)"
-                                            strokeWidth={20} />
-                                    </div>
-                                    <div className="m-auto p-0 w-100 d-flex justify-content-end">
-                                        <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
-                                    </div>
-                                </span>
-                            </Card.Header>
-                            <Card.Body>
-                                <canvas id="myChart"></canvas>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    <div className="col d-flex justify-content-center mb-2">
-                        <Card className="main-display-adjustable">
-                            <Card.Body className="pt-2 pb-1 ps-1 pe-1">
-                                {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage)}
-                                {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage)}
-                                {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage)}
-                                {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, true)}
-                            </Card.Body>
-                        </Card>
-                    </div>
-                </Row>
-            </Card.Body>
-            <Card.Footer className="text-muted p-1">
-                <Accordion className="accordion p-0 m-0">
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header className="m-0 p-0">
-                            <HotMeter creatures={this.props.creatures} steps={50} colors={colors} />
-                        </Accordion.Header>
-                        <Accordion.Body style={{backgroundColor: "#fafcff"}} >
-                            <DamageDetails resultDamage={this.props.resultDamage}></DamageDetails>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
-            </Card.Footer>
-        </Card>);
+            <Card style={{ minWidth: mWidth}} className="d-flex justify-content-center text-center mb-0">
+                <Card.Header className='p-0 m-0'>
+                    <Row className='p-0 m-0'>
+                        <Col className="col-2 d-flex justify-content-start p-0 m-0 ms-3">
+                            {getImageElement(weaponIcon, "5rem")}
+                        </Col>
+                        <Col className="col-7 d-flex justify-content-center">
+                           <h5 className="m-auto p-auto weapon-label-text"> {weaponTitleName} </h5>
+                        </Col>
+                        <Col className="col-3 d-flex justify-content-end"></Col>
+                    </Row>
+                </Card.Header>
+                <Card.Body className="pt-2 bg-lite">
+                    <Row>
+                        <div className="col d-flex justify-content-center mb-2">
+                            <Card className="main-display-adjustable">
+                                <Card.Header className="pe-0 ps-0">
+                                    <Stack  className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
+                                        <Checkbox className="pe-1" onChange={this.useCrit} checked={this.props.extraDamage.useCrit}><strong>☠️ CRIT</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useSneak} checked={this.props.extraDamage.useSneak}><strong>🐍 SNEAK</strong></Checkbox>
+                                        <Checkbox className="pe-1" onChange={this.useHead} checked={this.props.extraDamage.useHead}><strong>🤕 HEAD</strong></Checkbox>
+                                        <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={help()}>
+                                            <Badge bg="info">?</Badge>
+                                        </OverlayTrigger>
+                                    </Stack>
+                                </Card.Header>
+                                <Card.Body className="pt-0 pb-0">
+                                    {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damageText}</strong></span>), "default", "red")}
+                                    {keyValueRow((<span className="mt-0 mb-0"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedCrit + "%"}</strong></span>), "default", "magenta")}
+                                    {keyValueRow((<span className="mt-0 mb-0"><strong>🐍 Sneak:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedSneak + "%"}</strong></span>), "default", "green")}
+                                    {keyValueRow((<span className="mt-0 mb-0"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                                    {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{ammoCapacity}</strong></span>), "default", "default")}
+                                    {keyValueRow((<span className="mt-0 mb-0"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
+                                </Card.Body>
+                                <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
+                                    <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>
+                                    <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: 1 / {this.props.extraDamage.headFreq}</strong></Button>
+                                </Card.Footer>
+                            </Card>
+                        </div>
+                        <div className="col d-flex justify-content-center mb-2">
+                            <Card className="main-display-adjustable">
+                                <Card.Header>
+                                    <span className="d-flex m-0 p-0 w-100">
+                                        <div className="m-auto p-0 w-100 d-flex justify-content-start">
+                                            <Badge bg="warning" text="dark">
+                                            <strong>DPS: {this.props.graphValues.yValues[0].toFixed(1)}</strong>
+                                            </Badge>
+                                        </div>
+                                        <div className="m-0 p-0 w-100">
+                                            <Progress
+                                                type="dashboard"
+                                                steps={50}
+                                                percent={percentC}
+                                                format={(percent) => percent}
+                                                size={28}
+                                                strokeColor={colors}
+                                                trailColor="rgba(0, 0, 0, 0.06)"
+                                                strokeWidth={20} />
+                                        </div>
+                                        <div className="m-auto p-0 w-100 d-flex justify-content-end">
+                                            <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
+                                        </div>
+                                    </span>
+                                </Card.Header>
+                                <Card.Body>
+                                    <canvas id="myChart"></canvas>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                        <div className="col d-flex justify-content-center mb-2">
+                            <Card className="main-display-adjustable">
+                                <Card.Body className="pt-2 pb-1 ps-1 pe-1">
+                                    {this.enemy(this.props.creatures.sbq, "🐲", this.updateCreatures, this.props.resultDamage)}
+                                    {this.enemy(this.props.creatures.earle, "👹", this.updateCreatures, this.props.resultDamage)}
+                                    {this.enemy(this.props.creatures.titan, "🐗", this.updateCreatures, this.props.resultDamage)}
+                                    {this.enemy(this.props.creatures.creature, "🐵", this.updateCreatures, this.props.resultDamage, true)}
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Row>
+                </Card.Body>
+                <Card.Footer className="text-muted p-1">
+                    <Accordion className="accordion p-0 m-0">
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header className="m-0 p-0">
+                                <HotMeter creatures={this.props.creatures} steps={50} colors={colors} />
+                            </Accordion.Header>
+                            <Accordion.Body style={{backgroundColor: "#fafcff"}} >
+                                <DamageDetails resultDamage={this.props.resultDamage}></DamageDetails>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                </Card.Footer>
+            </Card>
+        );
     }
 }

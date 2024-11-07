@@ -149,6 +149,14 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.2);
 }
 
+.shadow-outline2 {
+    box-shadow: 0 0px 1px 1px rgba(200,200,200,0.3), 0 1px 1px 1px rgba(200, 200,200,0.1);
+}
+
+.shadow-outline3 {
+    box-shadow: 0 0px 1px 1px rgba(200,0,0,0.05), 0 0px 1px 1px rgba(200,0,0,0.1);
+}
+
 .shadow-outline-gold {
     box-shadow: 0 5px 10px 0 rgba(0,0,0,0.4), 0 5px 10px 0 rgba(0,0,0,0.2);
     outline: 1px solid #ffbf00;
@@ -363,6 +371,23 @@
     letter-spacing: 1px;
 }
 
+.weapon-label-text {
+    color: #141f30;
+    font-size: 1.2rem;
+    text-shadow:
+        0px 0px 1px #b5b0b0,
+        0px 0px 0px #b5b0b0;
+    letter-spacing: 1px;
+}
+
+.creature-label-text {
+    color: #003c99;
+    text-shadow:
+        0px 0px 0px #f7f7f7,
+        0px 0px 0px #0e5ac4;
+    letter-spacing: 1px;
+}
+
 .center-text {
     display: flex;
     flex-direction: row;
@@ -387,3 +412,5 @@
     box-shadow: 0 1px 3px 0 #c6c9cf, 0 1px 3px 0 #8a8e96;
     outline: 0px solid #c6c9cf;
 }
+
+

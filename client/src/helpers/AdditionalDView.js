@@ -41,6 +41,9 @@ function getItems(adDamage, bonusMult, creatures) {
         if (bonusMult > 0) {
             const bMult = (value * bonusMult).toFixed(1);
             value += " (+" + bMult + ") ";
+        } else if (bonusMult < 0) {
+            const bMult = (value * bonusMult).toFixed(1);
+            value += " (" + bMult + ") ";
         }
         if (damage.time > 0) {
             value += " - " + damage.time + "s";

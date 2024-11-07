@@ -1,14 +1,45 @@
-const cal50s = require.context('../resources/forReadme/Tests/50Cal', true, /\.webp$/);
-const cal50sList = cal50s.keys().map(image => cal50s(image));
+const testImagePaths = require.context('../resources/forReadme/Tests', true, /\.webp$/);
+const versionPaths = require.context('../resources/forReadme/Tests', true, /\.json$/);
 
-const u54 = "Patch 1.7.14.15 - Update 54 Milepost Zero - September 3, 2024";
 
-export const testedWeapons = {
-    "0003a0d4": {img: cal50sList, alt: "50Cal", version: u54},
-}
+export const testedWeapons = buildTestedWeapons();
 
 export function isTested(wId) {
-    return (testedWeapons[wId]) ? true : false;
+    return (testedWeapons.get(wId)) ? true : false;
+}
+
+function buildTestedWeapons() {
+    const versions = buildMap(versionPaths);
+    const imagesMap = buildMap(testImagePaths);
+    let resultMap = new Map();
+    imagesMap.forEach((value, key) => {
+        const version = versions.get(key)[0];
+        const obj = {
+            img: value,
+            alt: version.alt,
+            version: version.version,
+        };
+        resultMap.set(key, obj);
+    });
+    return resultMap;
+}
+
+function buildMap(paths) {
+    let result = new Map();
+    paths.keys().map(key => {
+        const firstIndex = key.indexOf("/") + 1;
+        const lastIndex = key.indexOf("/", firstIndex);
+        const id = key.substring(firstIndex, lastIndex);
+        let array = result.get(id);
+        const path = paths(key);
+        if (!array) {
+            result.set(id, [path]);
+        } else {
+            array.push(path);
+        }
+        return result;
+    });
+    return result;
 }
 
 

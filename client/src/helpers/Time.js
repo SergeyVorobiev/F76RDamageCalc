@@ -1,5 +1,5 @@
 export function millisToTime(value) {
-    if (!value || value === Infinity) {
+    if ((!value && value !== 0) || value === Infinity) {
         return "Infinity";
     } else if (value > 3599999999) {
         return "+999:59:59:999";
