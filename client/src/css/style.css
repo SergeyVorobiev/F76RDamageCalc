@@ -149,12 +149,23 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.2);
 }
 
+.shadow-outline-ammo {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 1px 3px 0 rgba(0,0,0,0.2);
+    text-shadow:
+        0px 1px 0px #ffffff,
+        0px 0px 2px #ffffff;
+}
+
 .shadow-outline2 {
     box-shadow: 0 0px 1px 1px rgba(200,200,200,0.3), 0 1px 1px 1px rgba(200, 200,200,0.1);
 }
 
 .shadow-outline3 {
     box-shadow: 0 0px 1px 1px rgba(200,0,0,0.05), 0 0px 1px 1px rgba(200,0,0,0.1);
+}
+
+.shadow-outline4 {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 5px 0 rgba(0,0,0,0.2);
 }
 
 .shadow-outline-gold {
@@ -192,6 +203,40 @@
 .bg-health {
     background-color:#ffa6a6;
     color:#ffffff;
+}
+
+.bg-health-outline {
+    background-color:#ffa6a6;
+    outline: 1px solid #ff8181;
+    color:#ffffff;
+    text-shadow:
+        1px 0px 1px #ff8181,
+        0px 1px 0px #ff8181;
+}
+
+.bg-ammo-outline {
+    background-color:#909eab;
+    outline: 1px solid #808a99;
+    color:#ffffff;
+    text-shadow:
+        1px 0px 1px #808a99,
+        0px 1px 0px #808a99;
+}
+
+.bg-lifetime-outline {
+    background-color:#5141a7;
+    outline: 1px solid #514188;
+    color:#ffffff;
+    text-shadow:
+        1px 0px 1px #514188,
+        0px 1px 0px #514188;
+}
+
+.bg-orange-outline {
+    outline: 1px solid #ffb533;
+    text-shadow:
+        0px 0px 2px #fff6e8;
+
 }
 
 .bg-hazard {

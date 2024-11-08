@@ -18,8 +18,8 @@ function modElement(mod) {
     return (
          <div key={mod.id} className="col d-flex">
             <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
-                <InputGroup.Text className='bg-mod-cat' style={{ width: '8rem' }}>{mod.group}</InputGroup.Text>
-                <InputGroup.Text className='bg-mod-name' style={{ minWidth: '12rem' }}>{mod.name}</InputGroup.Text>
+                <InputGroup.Text className='bg-mod-cat' style={{ width: '8rem' }}><small>{mod.group}</small></InputGroup.Text>
+                <InputGroup.Text className='bg-mod-name' style={{ minWidth: '12rem' }}><small>{mod.name}</small></InputGroup.Text>
             </InputGroup>
         </div>
     );
@@ -56,7 +56,6 @@ const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
             </Row>
             <Divider className="p-0 mt-2 mb-2"></Divider>
             <AutoHandSelector wSpec={wSpec} setWSpec={setWSpec}></AutoHandSelector>
-            <AmmoInfoView wSpec={wSpec}></AmmoInfoView>
             <Divider className="p-0 mt-2 mb-2">Legendary Effects</Divider>
             <LegendarySelector index={0} header={"⭐"} wSpec={wSpec} setWSpec={setWSpec} health={health}></LegendarySelector>
             <LegendarySelector index={1} header={"⭐⭐"} wSpec={wSpec} setWSpec={setWSpec} health={health}></LegendarySelector>
@@ -67,6 +66,7 @@ const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
             <Row className="d-flex">
                 {mods}
             </Row>
+            <AmmoInfoView wSpec={wSpec}></AmmoInfoView>
         </Container>
     );
 });
