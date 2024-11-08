@@ -233,9 +233,9 @@ export default class ATotalDamage extends React.PureComponent {
                     {this.enemyDropdowns(dropdown, creature.name, creature.level, this.props.mapCreatures.names, this.props.mapCreatures.levels)}
                 </Card.Header>
                 <Stack className='ps-0 pe-1' direction="horizontal" gap={1}>
-                    {keyValueBadge("mt-1 mb-1 badge p-1 ms-1 me-0 bg-health", '5.5rem', '❤️', creature.h)}
-                    {keyValueBadge("mt-1 mb-1 p-1 badge bg-ammo ms-auto me-auto", '7rem', tAmmo("0.5rem"), creature.ammo)}
-                    <div style={{width: '6.9rem'}} className="mt-1 mb-1 m-0 badge p-1 bg-lifetime ms-0 me-auto">⌛ {millisToTime(creature.lifeTime)}</div>
+                    {keyValueBadge("mt-1 mb-1 badge p-1 ms-1 me-0 bg-health-outline", '5.5rem', '❤️', creature.h)}
+                    {keyValueBadge("mt-1 mb-1 p-1 badge bg-ammo-outline ms-auto me-auto", '7rem', tAmmo("0.5rem"), creature.ammo)}
+                    <div style={{width: '6.9rem'}} className="mt-1 mb-1 m-0 badge p-1 bg-lifetime-outline ms-0 me-auto">⌛ {millisToTime(creature.lifeTime)}</div>
                     <OverlayTrigger rootClose='true' trigger="click" placement="left" overlay={buildStats(creature, resultDamage, this.props.weaponName)}>
                         <Button size='small' icon={<QuestionOutlined />} />
                     </OverlayTrigger>
@@ -381,8 +381,8 @@ export default class ATotalDamage extends React.PureComponent {
                                 <Card.Header>
                                     <span className="d-flex m-0 p-0 w-100">
                                         <div className="m-auto p-0 w-100 d-flex justify-content-start">
-                                            <Badge bg="warning" text="dark">
-                                            <strong>DPS: {this.props.graphValues.yValues[0].toFixed(1)}</strong>
+                                            <Badge className="bg-orange-outline" bg="warning" text="dark">
+                                                <strong>DPS: {this.props.graphValues.yValues[0].toFixed(1)}</strong>
                                             </Badge>
                                         </div>
                                         <div className="m-0 p-0 w-100">
@@ -397,7 +397,7 @@ export default class ATotalDamage extends React.PureComponent {
                                                 strokeWidth={20} />
                                         </div>
                                         <div className="m-auto p-0 w-100 d-flex justify-content-end">
-                                            <Badge bg="warning" text="dark"><strong>DPS / Res</strong></Badge>
+                                            <Badge bg="warning" className="bg-orange-outline" text="dark"><strong>DPS / Res</strong></Badge>
                                         </div>
                                     </span>
                                 </Card.Header>

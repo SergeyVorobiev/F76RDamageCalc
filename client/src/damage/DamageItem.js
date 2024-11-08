@@ -95,7 +95,7 @@ const DamageItem = memo(function DamageItem({item, wSpec, setWSpec, modalDeleteD
         setModalDeleteDamage({id: item.index, name: item.name, show: true});
     }
     return (
-        <Card className="mt-2 mb-2">
+        <Card className="mt-2 mb-2 shadow-outline4">
             <Card.Header size="small" className={style}>
                 <Row>
                     <Col className="ms-3 m-auto p-0 d-flex justify-content-start">

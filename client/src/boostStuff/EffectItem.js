@@ -29,7 +29,6 @@ const EffectItem = memo(function EffectItem({foodPref, setFoodPref, player, item
         setItems([...items]);
         setStuffBoost({...stuffBoost});
     }
-    let k = 0;
     const boosts = item.boosts.map((boost) => {
         let tail = "";
         if (boost.valueType === "percent") {
