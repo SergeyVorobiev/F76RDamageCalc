@@ -3,14 +3,18 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
 
 
-function buildWarning(message, header='Warning') {
+function buildWarning(message, header, className=null) {
+    if (!className) {
+        className = "popover-adjustable";
+    }
     return (
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>{header}</strong></Popover.Header>
-            <Popover.Body>
+            <Popover.Body className="popover-body3">
                 {message}
             </Popover.Body>
         </Popover>
+
     );
 }
 
@@ -22,10 +26,22 @@ export function WarningPopover({element, message, header='Warning', placement='t
     );
 }
 
-export function WarningPopoverBadge({variant, message, sign}) {
+export function WarningPopoverBadge({className, variant, message, sign, header, placement='top'}) {
+    if (!variant) {
+        variant = "primary";
+    }
+    if (!sign) {
+        sign = "!";
+    }
+    if (!header) {
+        header='Warning';
+    }
+    if (!className) {
+        className = "ps-2 pe-2 m-1";
+    }
     return (
-        <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildWarning(message)}>
-            <Badge className="ps-2 pe-2 m-1" bg={variant} pill>{sign}</Badge>
+        <OverlayTrigger className={className} rootClose='true' trigger="click" placement={placement} overlay={buildWarning(message, header)}>
+            <Badge className={className} bg={variant} pill>{sign}</Badge>
         </OverlayTrigger>
     );
 }

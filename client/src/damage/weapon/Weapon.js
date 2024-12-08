@@ -204,7 +204,7 @@ export default class Weapon {
         if (this.headShotFrequency === 0) {
             this.resultDamage.headShot = false;
         } else {
-            this.resultDamage.headShot = this.hitIfFrequency(this.headShotFrequency);
+            this.resultDamage.headShot = this.chanceTriggered(this.headShotFrequency);
         }
 
         // Crit shot
@@ -231,7 +231,7 @@ export default class Weapon {
         // Damages
         for (let i = 0; i < this.damages.length; i++) {
             const damage = this.damages[i];
-            if (damage.damage > 0 && damage.isUsed && this.chanceTriggered(damage.accuracy) && this.chanceTriggered(damage.chance)) {
+            if (damage.damage > 0 && damage.isUsed && this.chanceTriggered(damage.finalAccuracy) && this.chanceTriggered(damage.chance)) {
                 damage.damage = damage.defDamage * this.chargePenalty;
                 this.resultDamage.damages.push(damage);
             }

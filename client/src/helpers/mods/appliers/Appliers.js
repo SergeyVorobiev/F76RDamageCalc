@@ -13,11 +13,17 @@ import { HasRepeatableSingleFire } from './HasRepeatableSingleFire';
 import { ActorValues } from './ActorValues';
 import { Keywords } from './Keywords';
 import { CritEffect } from './CritEffect';
-import { AttackDamage } from './AttackDamage'
-import { DamageTypeValues } from './DamageTypeValues'
-import { WeightReduction } from './WeightReduction'
-import { Enchantments } from './Enchantments'
-import { NumProjectiles } from './NumProjectiles'
+import { AttackDamage } from './AttackDamage';
+import { DamageTypeValues } from './DamageTypeValues';
+import { WeightReduction } from './WeightReduction';
+import { Enchantments } from './Enchantments';
+import { NumProjectiles } from './NumProjectiles';
+import { ConIronSight } from './ConIronSight';
+import { SightedTransition } from './SightedTransition';
+import { MaxConDegree } from './MaxConDegree';
+import { MinConDegree } from './MinConDegree';
+import { RecoilMaxDegree } from './RecoilMaxDegree';
+import { RecoilMinDegree } from './RecoilMinDegree';
 
 
 export default class Appliers {
@@ -46,5 +52,11 @@ export default class Appliers {
         this.appliers.set("WeightReduction", new WeightReduction());
         this.appliers.set("Enchantments", new Enchantments());
         this.appliers.set("NumProjectiles", new NumProjectiles());
+        this.appliers.set("ConIronSight", new ConIronSight());
+        this.appliers.set("SightedTransition", new SightedTransition());
+        this.appliers.set("MaxConDegree", new MaxConDegree());
+        this.appliers.set("MinConDegree", new MinConDegree());
+        this.appliers.set("RecoilMaxDegree", new RecoilMaxDegree());
+        this.appliers.set("RecoilMinDegree", new RecoilMinDegree());
     }
 }

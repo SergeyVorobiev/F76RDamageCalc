@@ -5,9 +5,37 @@ export default class DamageEmulator {
     constructor(weapon, creatureInfos) {
         this.weapon = weapon;
         this.creatureInfos = creatureInfos;
+        this.bossNames = ["SBQ", "Earle", "Ultracite Titan"];
     }
 
-    emulate(steps=35000) {
+    needToStopByTime(timeLimit, creatures) {
+        if (!timeLimit) {
+            return false;
+        }
+        const name = timeLimit[0];
+        const time = timeLimit[1];
+        if (name === "Average") {
+            let totalTime = 0;
+            for (let i = 0; i < creatures.length; i++) {
+                const creature = creatures[i];
+                if (this.bossNames.includes(creature.name)) {
+                    totalTime += creature.totalTime();
+                }
+            }
+            totalTime = Math.floor(totalTime / 3);
+            return totalTime > time;
+        }
+        for (let i = 0; i < creatures.length; i++) {
+            const creature = creatures[i];
+            if (creature.name === name) {
+                return (creature.totalTime() > time);
+            }
+        }
+        return false;
+    }
+
+    // timeLimit = ["Average", time], ["SBQ", time]
+    emulate(steps=35000, timeLimit=null) {
         const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
         for (; step < steps; step++) {
@@ -16,11 +44,11 @@ export default class DamageEmulator {
             for (let i = 0; i < creatures.length; i++) {
                 const creature = creatures[i];
                 if (creature.takeDamage(hit)) {
-                    creature.formDeadReport(0, this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
+                    creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
                     deadCount += 1;
                 }
             }
-            if (deadCount === creatures.length) {
+            if (deadCount === creatures.length || this.needToStopByTime(timeLimit, creatures)) {
                 break;
             }
         }
@@ -30,7 +58,7 @@ export default class DamageEmulator {
         for (let i = 0; i < creatures.length; i++) {
             const creature = creatures[i];
             if (!creature.isDead()) {
-                creature.formDeadReport(0, this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
+                creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
             }
             resultArmor.set(creature.getName(), creature.getArmor());
         }

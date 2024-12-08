@@ -26,16 +26,13 @@ import { isTested } from './TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
 
 
-function getApplyButton(template, setModalTemplate, onTestClick) {
+function getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick) {
     function testedMedal(wId) {
         if (isTested(wId)) {
-
             return (
-                //<WarningPopover element={(
-                    <Button id={wId} variant="white" className="p-0 ps-2 pe-2 m-0" onClick={onTestClick}>
-                        <div style={{fontSize: '1.5rem'}}>🎖️</div>
-                    </Button>
-                //)} message={version} header={'Tested'} />
+                <Button id={wId} variant="white" className="p-0 ps-2 pe-2 m-0" onClick={onTestClick}>
+                    <div style={{fontSize: '1.5rem'}}>🎖️</div>
+                </Button>
             );
         }
         return (<></>);
@@ -56,13 +53,16 @@ function getApplyButton(template, setModalTemplate, onTestClick) {
     if (template.apply) {
         return (
             <Row className="mt-3">
-                <Col className="col-2">
+                <Col className="col-2 d-flex justify-content-center">
                     {restrictions(template.id)}
                 </Col>
-                <Col className="col-8 d-flex justify-content-center">
-                    <Button onClick={(e) => setModalTemplate({template: template, show: true})}>Choose</Button>
+                <Col className="col-4 d-flex justify-content-center">
+                    <Button style={{minWidth: '6rem'}} onClick={(e) => setModalTemplate({template: template, show: true})}>Choose</Button>
                 </Col>
-                <Col className="col-2 justify-content-end center-text pe-4">
+                <Col className="col-4 d-flex justify-content-center">
+                    <Button style={{minWidth: '6rem'}} onClick={(e) => setModalCalculate({template: template, show: true})}>Calculate</Button>
+                </Col>
+                <Col className="col-2 justify-content-center center-text">
                     {testedMedal(template.id)}
                 </Col>
             </Row>
@@ -157,7 +157,7 @@ function resultBadges(key, style, left1, right1, left2, right2, left3, right3) {
     );
 };
 
-const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, onTestClick}) {
+const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, setModalCalculate, onTestClick}) {
     console.log("WeaponTemplate: " + template.index);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
@@ -176,7 +176,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
             modsSameType[i][1] = false;
         }
         modSameType[1] = check;
-        modsSetter.setCleanTemplateMods(template);
+        modsSetter.cleanTemplateAndApplyCurrentMods(template);
         setChanged(!changed);
         setResetButtonActive(true);
     };
@@ -266,7 +266,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     {divider}
                     {getResetButton(template, items.length, resetButtonActive, setResetButtonActive)}
                     {result}
-                    {getApplyButton(template, setModalTemplate, onTestClick)}
+                    {getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick)}
                 </Accordion.Body>
             </Accordion.Item>
         </div>

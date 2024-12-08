@@ -12,6 +12,7 @@ import DamageItem from './DamageItem';
 import DamageAdd from './DamageAdd';
 import ModalDeleteDamage from './ModalDeleteDamage';
 import AmmoInfoView from './AmmoInfoView';
+import TagInfoView from './TagInfoView';
 
 
 function modElement(mod) {
@@ -67,6 +68,7 @@ const DamageTable = memo(function DamageTable({setWSpec, wSpec, health}) {
                 {mods}
             </Row>
             <AmmoInfoView wSpec={wSpec}></AmmoInfoView>
+            <TagInfoView tags={wSpec.tags}></TagInfoView>
         </Container>
     );
 });

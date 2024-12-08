@@ -515,11 +515,11 @@
       },
       {
         "category": "weapon",
-        "tag": "Knife",
+        "tag": "Knives",
         "property": "BDB",
         "value": 25,
         "valueType": "percent",
-        "description": "Knife"
+        "description": "Knives"
       }
     ]
   }

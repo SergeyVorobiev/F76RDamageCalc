@@ -15,15 +15,11 @@ import Row from 'react-bootstrap/Row';
 
 
 function getLegendaryRow(legendaryId, star) {
-    if (!legendaryId || legendaryId === "" || star > 3) {
+    if (!legendaryId || legendaryId === "" || star > 5) {
         return (<></>);
     } else {
         let stars = "⭐";
-        if (star === 2) {
-            stars = "⭐⭐";
-        } else if (star === 3) {
-            stars = "⭐⭐⭐";
-        }
+        stars = stars.repeat(star);
         const legData = getLegendary(legendaryId);
         if (!legData) {
             return (<></>);
@@ -172,6 +168,8 @@ function getMainToast(creatures, resultDamage, legendary, bonusText, totalBonusT
             {getLegendaryRow(legendary[0][0], 1)}
             {getLegendaryRow(legendary[1][0], 2)}
             {getLegendaryRow(legendary[2][0], 3)}
+            {getLegendaryRow(legendary[3][0], 4)}
+            {getLegendaryRow(legendary[4][0], 5)}
         </Toast.Body>
     );
 }

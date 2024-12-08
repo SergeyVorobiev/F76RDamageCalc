@@ -388,7 +388,7 @@
   },
   {
     "name": "Ballistic Bock",
-    "imName": "beer",
+    "imName": "ballistic_bock",
     "id": "ballistic_bock_drink",
     "type": "drink",
     "used": false,
@@ -404,7 +404,7 @@
   },
   {
     "name": "High Voltage Hefe",
-    "imName": "beer",
+    "imName": "high_voltage_hefe",
     "id": "high_voltage_hefe_drink",
     "type": "drink",
     "used": false,

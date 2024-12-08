@@ -3,10 +3,11 @@ import Col from 'react-bootstrap/Col';
 import { Tag } from 'antd';
 
 
+let k = 0;
 export function keyValueRow(name, value, colorName="purple", colorValue="red", m=1) {
     const rowProps = "flex-nowrap ps-0 pe-0 m-" + m;
     return (
-       <Row className={rowProps}>
+       <Row key={k++} className={rowProps}>
           <Col className="text-start text-nowrap ps-0 ms-0 pe-0 me-0">
             <strong>
                  <Tag bordered={false} color={colorName}>{name}</Tag>
@@ -15,7 +16,7 @@ export function keyValueRow(name, value, colorName="purple", colorValue="red", m
 
           <Col className="text-end text-nowrap pb-0 pe-0 me-0 ps-0 pe-0">
               <strong >
-                <Tag className="me-0" color={colorValue}>{value}</Tag>
+                  <Tag className="me-0" color={colorValue}>{value}</Tag>
               </strong>
           </Col>
        </Row>
@@ -40,17 +41,17 @@ export function keyValueTag(leftContent, rightContent, color="default", style={}
 export function keyValueBadge(clazz, width, leftContent, rightContent, key=-1) {
     const row = (
         <Row className="flex-nowrap ps-0 pe-0 ms-0 me-0">
-            <Col className="text-start text-nowrap ps-0 ms-0 mt-auto mb-auto">
+            <Col className="text-start text-nowrap pe-0 ps-0 ms-0 mt-auto mb-auto">
                 {leftContent}
             </Col>
-            <Col className="text-end text-nowrap pe-0 me-0 mt-auto mb-auto">
+            <Col className="text-end text-nowrap ps-0 pe-0 me-0 mt-auto mb-auto">
                 {rightContent}
             </Col>
         </Row>
     );
     if (key > -1) {
         return (
-            <div key={key} style={{ width: width}} className={clazz}>
+            <div key={key} style={{ width: width }} className={clazz}>
                 {row}
             </div>
         );

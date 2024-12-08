@@ -435,7 +435,11 @@ export default class Creature {
         return this.health <= 0;
     }
 
-    formDeadReport(dps, reloads, reloadsTime) {
+    totalTime() {
+        return parseInt((this.lifeTime - this.lastShotTime) * 1000);
+    }
+
+    formDeadReport(reloads, reloadsTime) {
         if (!this.reported) {
             this.reported = true;
             this.creatureInfo.sneak = (this.sneakPercent > 0) ? (this.sneakPercent * 100.0).toFixed(1) + "%" : "";
@@ -453,7 +457,7 @@ export default class Creature {
                 this.creatureInfo.ammo = this.hits;
                 this.creatureInfo.reloads = reloads;
                 this.creatureInfo.reloadsTime = reloadsTime;
-                this.creatureInfo.lifeTime = parseInt((this.lifeTime - this.lastShotTime) * 1000);
+                this.creatureInfo.lifeTime = this.totalTime();
             } else { // Damage is to small, just emulate
                 const damagedHealth = this.creatureInfo.h - this.health;
                 if (damagedHealth === 0) {

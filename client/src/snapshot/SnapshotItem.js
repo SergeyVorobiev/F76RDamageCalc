@@ -11,13 +11,13 @@ import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
 import { getImage } from '../helpers/WTypeDropdown'
 import { ammo, fireRate, addText } from '../helpers/Emoji';
-import { getImageElement } from '../helpers/WeaponImages'
+import { getImageElement } from '../helpers/WeaponImages';
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 import { memo, useState, useEffect } from 'react';
 import { truncateLongWords } from '../helpers/Input';
+import BoostRowView from './BoostRowView';
 
 
-//<Badge style={{color: '#2a3262', fontWeight: 'bold'}} color="pink" text={value1}  />
 function row(name1, value1, colorName="default", tagColor="default", tagName=true) {
     const line = (tagName) ? <Tag bordered={false} color={colorName}>{name1}</Tag> : name1;
     return (
@@ -41,18 +41,27 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
     if (isOpen) {
         const critUsed = (item.extraDamage.useCrit) ? "(Yes 1/" + item.extraDamage.critFreq + ")" : "(No)";
         const sneakUsed = (item.extraDamage.useSneak) ? "(Yes)" : "(No)";
-        const headUsed = (item.extraDamage.useHead) ? "(Yes 1/" + item.extraDamage.headFreq + ")" : "(No)";
-
+        const headUsed = (item.extraDamage.useHead) ? "(Yes " + item.extraDamage.headFreq + "%)" : "(No)";
         const leg1Name = getLegendaryNameFromSpec(item.wSpec, 1);
         const leg2Name = getLegendaryNameFromSpec(item.wSpec, 2);
         const leg3Name = getLegendaryNameFromSpec(item.wSpec, 3);
+        const leg4Name = getLegendaryNameFromSpec(item.wSpec, 4);
+        const leg5Name = getLegendaryNameFromSpec(item.wSpec, 5);
         let strength = (item.wSpec.strengthBoost > 0) ? item.playerStats.strength.value : "-";
+        const mods = item.wSpec.mods;
+        const modView = [];
+        for (let i = 0; i < mods.length; i++) {
+            const mod = mods[i];
+            modView.push(
+                <div key={mod.name} style={{width: 'auto'}} className="mod-item-shadow m-1 ps-1 pe-1"><div style={{width: 'auto', textWrap: false, fontWeight: 'bold', textAlign: 'center', color: '#555555', fontSize: '0.7rem', overflow: 'hidden', textOverflow: 'ellipsis'}}>{mod.name}</div></div>
+            );
+        }
         return (
             <>
                 <Card.Body className="p-1 mt-1">
                     <Row>
                         <Col className="d-flex justify-content-center mb-1">
-                            <Toast style={{ width: '32rem'}} show={true} className="bg-snapshot">
+                            <Toast style={{ width: '34rem'}} show={true} className="bg-snapshot">
                                 <Toast.Body className="m-0 p-2">
                                 <Row>
                                     <Col>
@@ -60,27 +69,29 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                         {row("☠️ Crit:", critUsed + " +" + item.resultDamage.displayedCrit.toFixed(1) + "%")}
                                         {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1) + "%")}
                                         {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
-                                        {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
                                         {row("🤕 Head Shot:", headUsed)}
-
-                                    </Col>
-                                    <Col>
                                         {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
                                         {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
+                                    </Col>
+                                    <Col>
                                         {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}
+                                        {row("🎯 Accuracy:", "100%")}
                                         {row("⭐", leg1Name, "gold")}
-                                        {row("⭐ ⭐", leg2Name, "gold")}
-                                        {row("⭐ ⭐ ⭐", leg3Name, "gold")}
+                                        {row("⭐⭐", leg2Name, "gold")}
+                                        {row("⭐⭐⭐", leg3Name, "gold")}
+                                        {row("⭐⭐⭐⭐", leg4Name, "gold")}
+                                        {row("⭐⭐⭐⭐⭐", leg5Name, "gold")}
                                     </Col>
                                 </Row>
                                 </Toast.Body>
                             </Toast>
                         </Col>
                         <Col className="d-flex justify-content-center mb-1">
-                            <Toast className="bg-snapshot" style={{ width: '32rem' }} show={true}>
+                            <Toast className="bg-snapshot" style={{ width: '34rem' }} show={true}>
                                 <Toast.Body className="m-0 p-2">
                                 <Row>
                                     <Col>
+                                        {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
                                         {row("💪 Strength:", strength, "default", "default")}
                                         {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
                                         {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
@@ -93,6 +104,10 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                             </Toast>
                         </Col>
                      </Row>
+                     <Row className="d-flex justify-content-center m-1">
+                        {modView}
+                     </Row>
+                     <BoostRowView item={item} />
                 </Card.Body>
                 <div className='card-footer'>
                     <Row>

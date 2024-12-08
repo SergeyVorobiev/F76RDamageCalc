@@ -1,5 +1,7 @@
 export default class DamageBlackList {
     static ignoreMap = {
+        "0055c152": ["005894a9", "005894a7"],
+        "0060e0ef": ["000fd3aa"],
         "0055c166": ["000fd3aa"],
         "0042b0cc": ["001b5edc"],
         "0001ec47": ["000fd3aa"],

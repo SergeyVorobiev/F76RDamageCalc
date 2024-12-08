@@ -12,7 +12,7 @@ function recalculateDynamicItems(foodPref, item, stuffBoost, setStuffBoost, play
     }
 }
 
-const EffectItem = memo(function EffectItem({foodPref, setFoodPref, player, item, height, picHeight, items, setItems, colorName, colorValue, getPicture, useHeader, stuffBoost, setStuffBoost}) {
+const EffectItem = memo(function EffectItem({categoryName, foodPref, setFoodPref, player, item, height, picHeight, imPadding, items, setItems, colorName, colorValue, getPicture, useHeader, stuffBoost, setStuffBoost}) {
     useEffect(() => {
         recalculateDynamicItems(foodPref, item, stuffBoost, setStuffBoost, player);
     }, [player, foodPref]);
@@ -47,8 +47,8 @@ const EffectItem = memo(function EffectItem({foodPref, setFoodPref, player, item
     const outline = item.used ? "shadow-outline-gold" : "shadow-outline-unselected";
     const head = (useHeader) ? (<Card.Header className='d-flex justify-content-center p-0 m-0 pt-1 pb-1'><div style={{textAlign: 'center', width: '100%', fontSize: '0.75rem', backgroundColor: '#f2efe1', fontWeight: 'bold'}}>{item.name}</div></Card.Header>) : (<></>);
     return (
-        <Card className={outline} style={{ width: '10.5rem', height: height, filter: filter }} onClick={cardClick}>
-            <Card.Img variant='top' style={{ height: picHeight}} src={getPicture(item.imName)} />
+        <Card key={item.id} className={outline} style={{ width: '10.5rem', height: height, filter: filter }} onClick={cardClick}>
+            <Card.Img variant='top' style={{ height: picHeight, padding: imPadding}} src={getPicture(item.imName)} />
             {head}
             <Card.Body className="p-1 mt-1">
                 {boosts}

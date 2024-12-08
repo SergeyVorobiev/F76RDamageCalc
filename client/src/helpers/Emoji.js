@@ -60,7 +60,7 @@ export function getSymbolText(symbol, text) {
 }
 
 function image(maxHeight, src, text) {
-    return (<Image className="p-0 m-0" style={{ maxHeight: maxHeight }} src={src} fluid />);
+    return (<Image className="mt-auto mb-auto m-0" style={{ maxHeight: maxHeight }} src={src} fluid />);
 }
 
 export function bullet(maxHeight) {
