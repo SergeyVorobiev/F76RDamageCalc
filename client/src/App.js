@@ -34,6 +34,12 @@ const defPlayerStats = defaultPlayerStats();
 
 const defPlayer = defaultPlayer();
 
+// const version1 = "Patch 1.7.16.13 - Update 56";
+// const version2 = "Gleaming Depths - December 3, 2024";
+
+const version1 = "Patch 1.7.14.15 - Update 54";
+const version2 = "Milepost Zero - September 3, 2024";
+
 function getDefaultGraphData() {
     let xValues = [];
     let yValues = [];
@@ -180,8 +186,8 @@ export default function MyApp() {
                         <a className="p-1 m-1 pb-3 d-flex justify-content-end" href="https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88"><small>Data Sheet</small></a>
                     </Col>
                 </Row>
-                <div className="ps-1 ms-1 version-text">Patch 1.7.16.13 - Update 56</div>
-                <div className="ps-1 ms-1 version-text">Gleaming Depths - December 3, 2024</div>
+                <div className="ps-1 ms-1 version-text">{version1}</div>
+                <div className="ps-1 ms-1 version-text">{version2}</div>
             </Container>
         </div>
     );

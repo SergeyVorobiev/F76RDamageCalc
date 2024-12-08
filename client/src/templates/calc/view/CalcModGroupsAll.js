@@ -1,5 +1,4 @@
 import { Divider, Checkbox } from 'antd';
-import PickedGroups from './PickedGroups';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
