@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.0236dfc0.css",
-    "main.js": "/F76RDamageCalc/static/js/main.a7f90160.js",
-    "static/js/867.fa25cab4.chunk.js": "/F76RDamageCalc/static/js/867.fa25cab4.chunk.js",
-    "static/js/453.0098adef.chunk.js": "/F76RDamageCalc/static/js/453.0098adef.chunk.js",
+    "main.css": "/F76RDamageCalc/static/css/main.8e92fe5c.css",
+    "main.js": "/F76RDamageCalc/static/js/main.968c0666.js",
+    "static/js/867.7484ea86.chunk.js": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js",
+    "static/js/488.b51d605a.chunk.js": "/F76RDamageCalc/static/js/488.b51d605a.chunk.js",
     "static/media/creature_resistance_health.csv": "/F76RDamageCalc/static/media/creature_resistance_health.835aeaf8e1b3f8880259.csv",
     "static/media/main_logo.webp": "/F76RDamageCalc/static/media/main_logo.6dac8ad663999e82dfec.webp",
     "static/media/03_Perks_.webp": "/F76RDamageCalc/static/media/03_Perks_.41c790afd5426f072ac9.webp",
@@ -379,13 +379,13 @@
     "static/media/baton.webp": "/F76RDamageCalc/static/media/baton.1c595e18d9b01c5dcd33.webp",
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.0236dfc0.css.map": "/F76RDamageCalc/static/css/main.0236dfc0.css.map",
-    "main.a7f90160.js.map": "/F76RDamageCalc/static/js/main.a7f90160.js.map",
-    "867.fa25cab4.chunk.js.map": "/F76RDamageCalc/static/js/867.fa25cab4.chunk.js.map",
-    "453.0098adef.chunk.js.map": "/F76RDamageCalc/static/js/453.0098adef.chunk.js.map"
+    "main.8e92fe5c.css.map": "/F76RDamageCalc/static/css/main.8e92fe5c.css.map",
+    "main.968c0666.js.map": "/F76RDamageCalc/static/js/main.968c0666.js.map",
+    "867.7484ea86.chunk.js.map": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js.map",
+    "488.b51d605a.chunk.js.map": "/F76RDamageCalc/static/js/488.b51d605a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0236dfc0.css",
-    "static/js/main.a7f90160.js"
+    "static/css/main.8e92fe5c.css",
+    "static/js/main.968c0666.js"
   ]
 }
