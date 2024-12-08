@@ -7,6 +7,8 @@ import Button from 'react-bootstrap/Button';
 import { Checkbox } from 'antd';
 import { WarningPopover } from '../helpers/WarningPopover';
 import { calculateSpecial } from './BoostHelpers';
+import getPerkImage from './PerkImageProvider';
+import { getMark } from '../templates/calc/view/EmblemCalcRowView';
 
 
 function getPerkColor(category) {
@@ -97,6 +99,8 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
     let info = card.info.replaceAll("{1}", number).replace("{2}", parseInt(number / 4)).replace("{3}", parseInt(number * 2));
     info = info.replaceAll("{4}", number * 3);
     const filter = card.is_used ? "grayscale(0%)" : "grayscale(40%)";
+    const imagePath = getPerkImage(card.im_name);
+    const header = getMark(card.im_name, imagePath, "mt-0 mb-0 ms-0 shadow-outline-gold2", '2rem', '1.8rem', '4px');
     return (
         <Col className="ps-1 pe-1">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
@@ -112,7 +116,7 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
                     <div className={"badge " + perkColor} style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
                 </InputGroup.Text>
                 <InputGroup.Text className={"ps-1 pe-1 p-0" + outline}>
-                    <WarningPopover element={infoButton()} message={info} header="Description" />
+                    <WarningPopover element={infoButton()} message={info} header={header} />
                 </InputGroup.Text>
             </InputGroup>
         </Col>

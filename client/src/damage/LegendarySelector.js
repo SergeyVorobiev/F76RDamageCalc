@@ -38,7 +38,7 @@ function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     function onSelectCustom(e) {
         modParser.applyLegendaryModToWSpec(wSpec.legendary[index][0], wSpec, index, health, false, false);
         modParser.applyLegendaryModToWSpec(e, wSpec, index, health, false, true);
-        wSpec.legendary[index][0] = e
+        wSpec.legendary[index][0] = e;
         setWSpec({...wSpec});
     }
     let result = [];

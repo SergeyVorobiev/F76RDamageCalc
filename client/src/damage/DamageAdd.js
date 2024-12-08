@@ -25,7 +25,6 @@ function getDropdown(wSpec, setWSpec, toastState, setToastState, openNotificatio
         setWSpec({...wSpec});
     }
     return (
-
         <Row className="p-2 mb-2 mt-1">
             <NotificationToast toastState={toastState}></NotificationToast>
             <Col className="d-flex justify-content-center">

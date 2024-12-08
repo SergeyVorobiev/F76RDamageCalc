@@ -16,7 +16,7 @@ export default class ModsSetter {
         throw new Error("Not implemented");
     }
 
-    setCleanTemplateMods(template) {
+    cleanTemplateAndApplyCurrentMods(template) {
         this.resetTemplate(template);
         this.setTemplatesMods([template]);
     }

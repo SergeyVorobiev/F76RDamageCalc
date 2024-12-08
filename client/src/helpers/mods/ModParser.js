@@ -24,8 +24,18 @@ export class ModParser {
         }
     }
 
+    static applySpecific(template, modData, modEffects) {
+        for (let i = 0; i < modData.modifiers.length; i++) {
+            const mod = modData.modifiers[i];
+            const applier = modEffects.get(mod.prop);
+            if (applier) {
+                applier.apply(template, mod, true);
+            }
+        }
+    }
+
     // Update means that it can be applied to legendary which reset their value according to health
-    // Effects which add and remove their static values can not be updated (otherwise they will stack values every time)
+    // Effects which add and remove their static values can not be updated (otherwise they will stack values up every time)
     applyLegendaryModToWSpec(modId, wSpec, starIndex, health, update, apply) {
         if (this.skip_legendary.includes(modId)) {
             return;

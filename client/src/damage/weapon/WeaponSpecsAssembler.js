@@ -1,6 +1,6 @@
 import StuffBoostsCollector from '../../boostStuff/StuffBoostsCollector';
-import { makeDamageItemCopy }
-from '../../helpers/mods/DamageSetter';
+import { makeDamageItemCopy } from '../../helpers/mods/DamageSetter';
+import AccuracyAdjuster from '../../helpers/AccuracyAdjuster';
 
 
 export default class WeaponSpecsAssembler {
@@ -21,6 +21,7 @@ export default class WeaponSpecsAssembler {
             damage.defDamage = damage.damage;
             result.push(damage);
         }
+        this.setFinalAccuracy(result);
         return result;
     }
 
@@ -309,7 +310,7 @@ export default class WeaponSpecsAssembler {
         ammoCapacity += (ammoCapacity * (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, tags, this.stuffBoost.weapon, "Ammo") / 100.0));
         if (this.perks.power_user.is_used) {
             const mult = this.perks.power_user.displayed_value / 100.0 - 1;
-            if (this.wSpec.ammoType.codeName === "FusionCore") {
+            if (this.wSpec.ammoType.codeName === "FusionCore" || tags.includes("FusionCore")) {
                 ammoCapacity += (this.wSpec.ammoCapacity * mult);
             }
         }
@@ -347,5 +348,12 @@ export default class WeaponSpecsAssembler {
         reloadSpeed += StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Reload") / 100.0;
         return this.wSpec.defReloadTime / reloadSpeed;
     }
-    
+
+    // TODO: Intended to adjust accuracy by consumables and perks (accuracy from legendary and mods is adjusted in wSPec or by user)
+    setFinalAccuracy(damages) {
+        const consumables = null; // StuffBoostCollector.collect()
+        AccuracyAdjuster.adjustByLegendary(damages, this.wSpec.legendary);
+        AccuracyAdjuster.adjustByPerks(damages, this.perks);
+        AccuracyAdjuster.adjustByConsumables(damages, consumables);
+    }
 }

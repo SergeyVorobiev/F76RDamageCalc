@@ -1,6 +1,8 @@
 import { memo, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import ModalApplyTemplate from './ModalApplyTemplate';
+import ModalCalculateWeapon from './ModalCalculateWeapon';
+import ModalCalculateWeapons from './ModalCalculateWeapons';
 import ModalTestedWeapon from './ModalTestedWeapon';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
@@ -10,6 +12,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
 import TemplateItems from './TemplateItems';
 import { FloatButton } from 'antd';
+import { Button } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 function buildLicense() {
@@ -24,9 +29,11 @@ function buildLicense() {
     );
 }
 
-const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec}) {
+const WeaponTemplates = memo(function WeaponTemplates(props) {
     console.log("WeaponTemplates");
     const [modalTemplate, setModalTemplate] = useState({template: null, show: false});
+    const [modalCalculate, setModalCalculate] = useState({template: null, show: false});
+    const [modalCalculates, setModalCalculates] = useState({show: false});
     const [modalTested, setModalTested] = useState({wId: '', show: false});
     const [filterName, setFilterName] = useState("");
     const [weaponType, setWeaponType] = useState("All");
@@ -50,19 +57,31 @@ const WeaponTemplates = memo(function WeaponTemplates({setWeaponName, setWSpec})
     function onTestClick(e) {
         setModalTested({wId: e.currentTarget.id, show: true});
     }
+    function findBestClick(e) {
+        setModalCalculates({show: true});
+    }
     return (
         <>
-            <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
-                <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
-            </OverlayTrigger>
+            <Row className="p-auto m-auto mb-2">
+                <Col className="m-auto p-2 d-flex justify-content-start">
+                    <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
+                        <Badge variant="black" pill>!</Badge>
+                    </OverlayTrigger>
+                </Col>
+                <Col className="m-auto p-1 pe-2 d-flex justify-content-end">
+                    <Button size="sm" variant="danger" onClick={findBestClick}><strong className="best-button-shadow">Find The Best</strong></Button>
+                </Col>
+            </Row>
             <ModalTestedWeapon modalTested={modalTested} setModalTested={setModalTested} />
-            <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWeaponName={setWeaponName} setWSpec={setWSpec}></ModalApplyTemplate>
-            <InputGroup className="ps-1 pe-1 pb-3 flex-nowrap">
+            <ModalApplyTemplate modalTemplate={modalTemplate} setModalTemplate={setModalTemplate} setWSpec={props.setWSpec}></ModalApplyTemplate>
+            <ModalCalculateWeapon modalCalculate={modalCalculate} setModalCalculate={setModalCalculate} setWSpec={props.setWSpec} setBoostDamage={props.setBoostDamage} setPlayer={props.setPlayer} setExtraDamage={props.setExtraDamage} setFoodPref={props.setFoodPref} setStuffBoost={props.setStuffBoost} setAdditionalDamages={props.setAdditionalDamages} setPlayerStats={props.setPlayerStats}></ModalCalculateWeapon>
+            <ModalCalculateWeapons modalCalculates={modalCalculates} setModalCalculates={setModalCalculates} setWSpec={props.setWSpec} setBoostDamage={props.setBoostDamage} setPlayer={props.setPlayer} setExtraDamage={props.setExtraDamage} setFoodPref={props.setFoodPref} setStuffBoost={props.setStuffBoost} setAdditionalDamages={props.setAdditionalDamages} setPlayerStats={props.setPlayerStats}></ModalCalculateWeapons>
+            <InputGroup className="ps-1 pe-1 pb-2 flex-nowrap">
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
                 <Form.Control style={{width: '10rem'}} maxLength="70" onChange={filterNameChanged} />
             </InputGroup>
             <Accordion className="accordion">
-                <TemplateItems onTestClick={onTestClick} onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate}></TemplateItems>
+                <TemplateItems onTestClick={onTestClick} onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate} setModalCalculate={setModalCalculate}></TemplateItems>
             </Accordion>
             <FloatButton.BackTop style={{ right: 60 }} duration={100} visibilityHeight={2000} />
         </>

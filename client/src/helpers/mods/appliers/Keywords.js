@@ -34,6 +34,10 @@ export class Keywords extends Apply {
     apply(template, mod, apply) {
         const name = mod.val1;
         switch(name) {
+            case '005c3874 / IsAmmoType_FusionCore':
+            case '005dc32d / IsAmmoType_FusionCore_AntiScorchBeast':
+                this.addTag(template, "FusionCore", apply);
+                return;
             case '00060a81 / dtEnergy':
             case '0033a7c9 / WeaponTypeEnergy':
                 this.addTag(template, "Energy", apply);

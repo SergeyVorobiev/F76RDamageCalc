@@ -1,7 +1,7 @@
 [
   {
     "name": "Adrenal Reaction",
-    "imName": "serum",
+    "imName": "ar_serum",
     "id": "adrenal_reaction_serum",
     "type": "serum",
     "used": false,
@@ -18,7 +18,7 @@
   },
   {
     "name": "Eagle Eyes",
-    "imName": "serum",
+    "imName": "ee_serum",
     "id": "eagle_eyes_serum",
     "type": "serum",
     "used": false,
@@ -45,7 +45,7 @@
   },
   {
     "name": "Carnivore",
-    "imName": "serum",
+    "imName": "c_serum",
     "id": "carnivore_serum",
     "type": "serum",
     "used": false,
@@ -70,7 +70,7 @@
   },
   {
     "name": "Herbivore",
-    "imName": "serum",
+    "imName": "h_serum",
     "id": "herbivore_serum",
     "type": "serum",
     "used": false,
@@ -95,7 +95,7 @@
   },
   {
     "name": "Herd Mentality",
-    "imName": "serum",
+    "imName": "hm_serum",
     "id": "herd_mentality_serum",
     "type": "serum",
     "used": false,
@@ -113,7 +113,7 @@
   },
   {
     "name": "Speed Demon",
-    "imName": "serum",
+    "imName": "sd_serum",
     "id": "speed_demon_serum",
     "type": "serum",
     "used": false,
@@ -140,7 +140,7 @@
   },
   {
     "name": "Talons",
-    "imName": "serum",
+    "imName": "t_serum",
     "id": "talons_serum",
     "type": "serum",
     "used": false,
@@ -169,7 +169,7 @@
   },
   {
     "name": "Twisted Muscles",
-    "imName": "serum",
+    "imName": "tm_serum",
     "id": "twisted_muscles_serum",
     "type": "serum",
     "used": false,

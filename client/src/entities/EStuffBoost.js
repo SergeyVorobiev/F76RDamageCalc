@@ -1,9 +1,5 @@
 import { functions } from '../boostStuff/BoostFunctions';
 
-export const defaultStuffBoost = {
-    creature: new Map(),
-    weapon: new Map(),
-};
 
 export function convertStuffBoost(stuffBoost) {
     const result = new Set();

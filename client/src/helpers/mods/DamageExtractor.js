@@ -466,6 +466,9 @@ export default class DamageExtractor {
     resolveCurv(expCurv) {
         if (expCurv !== '' && expCurv !== '00000000') {
             if (typeof expCurv === typeof '') {
+                console.log("ExpCurv: " + expCurv);
+                throw new Error("expCurv must be already evaluated: " + expCurv);
+                /*
                 let curv = expCurv.split("\n");
                 try {
                     curv = eval(curv[1])["curve"];
@@ -473,6 +476,7 @@ export default class DamageExtractor {
                 } catch(error) {
                     return 0;
                 }
+                */
             } else {
                 return expCurv; // Consider it is a number.
             }

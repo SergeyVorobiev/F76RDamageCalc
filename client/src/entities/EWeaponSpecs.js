@@ -16,7 +16,7 @@ export function getDefaultLegs(legIds=null) {
 
 }
 
-export function convertTemplateToSpecs(template) {
+export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegendary=true) {
     let fireRate = (template.isAuto[1]) ? template.defRate : ((10 / template.manualRate[1]) / template.speed[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
     const defReloadTime = template.reloadTime[1] * template.reloadSpeed[1];
@@ -102,6 +102,7 @@ export function convertTemplateToSpecs(template) {
         ammoType: {name: template.ammoType.name, type: template.ammoType.type, codeName: template.ammoType.codeName},
         level: template.level,
         defaultName: template.name,
+        weaponName: template.name,
         chargeTime: template.chargeTime[1],
         maxChargeTime: template.chargeTime[1],
         iconName: template.iconName[template.type[1]],
@@ -113,13 +114,16 @@ export function convertTemplateToSpecs(template) {
         legendaryHealthUpdated: false,
     };
 
-    // Assign previous legs to not reset them if a weapon does not have legendary
-    for (let i = 0; i < currentLegendaryIds.length; i++) {
-        if (legs[i][0] === "") {
-            const current = currentLegendaryIds[i];
-            if (current[0] !== "") {
-                modParser.applyLegendaryModToWSpec(current[0], wSpec, i, 100, false, true);
-                legs[i] = [current[0], current[1], current[2]];
+    if (assignCurrentlyActiveUserLegendary) {
+
+        // Assign previous legs to not reset them if a weapon does not have legendary
+        for (let i = 0; i < currentLegendaryIds.length; i++) {
+            if (legs[i][0] === "") {
+                const current = currentLegendaryIds[i];
+                if (current[0] !== "") {
+                    modParser.applyLegendaryModToWSpec(current[0], wSpec, i, 100, false, true);
+                    legs[i] = [current[0], current[1], current[2]];
+                }
             }
         }
     }
@@ -154,6 +158,7 @@ export function defaultWeaponSpecs() {
         level: 1,
         ammoType: {name: "", type: "", codeName: ""},
         defaultName: "Weapon",
+        weaponName: "Weapon",
         imageName: "Weapon",
         weaponId: "",
         type: "All",

@@ -13,7 +13,8 @@ export function buildDamageItem(weaponId, damageId, type, kind, name, damage, ti
         "interval": interval,
         "area": area,
         "chance": chance,
-        "accuracy": accuracy,
+        "accuracy": accuracy, // Accuracy from weapon and mods or from user
+        "finalAccuracy": accuracy, // Final accuracy with perks, consumables, legendary
         "stack": stack,
         "index": index,
         "weaponId": weaponId,

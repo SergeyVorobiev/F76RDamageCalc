@@ -3,7 +3,7 @@ export function defaultExtraDamage() {
         useCrit: false,
         useSneak: false,
         useHead: false,
-        critFreq: 1.0,
-        headFreq: 1.0,
+        critFreq: 4.0,
+        headFreq: 80,
     };
 }

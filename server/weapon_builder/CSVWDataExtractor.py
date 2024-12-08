@@ -67,7 +67,8 @@ class CSVWDataExtractor:
         template["speed"] = [speed, speed]
 
     def get_charge(self, csv_weapon):
-        if self.get_id(csv_weapon) == '0055c150':
+        w_id = self.get_id(csv_weapon)
+        if w_id == '0055c150' or w_id == '000d1eb0':
             return 2
         return 0
 
@@ -116,7 +117,7 @@ class CSVWDataExtractor:
     def set_icon_name(self, template, w_name, w_type):
         icon_name = w_name.casefold().replace(" ", "_").replace("\'", "").replace(".", "")
         result = {w_type: icon_name}
-        ids = ['00024f55', '0014831a', '0009983b', '00186171', '002fd97a', '00100ae9', '005ea441', '005a366e']
+        ids = ['00024f55', '0014831a', '0014831b', '0009983b', '00186171', '002fd97a', '00100ae9', '005ea441', '005a366e']
         if ids.__contains__(template['id']):
             result["Rifle"] = icon_name + "_rifle"
         template["iconName"] = result
@@ -549,7 +550,8 @@ class CSVWDataExtractor:
                 mod_array.append(True)  # Can be selected
                 mod = mod_rows[mod_id]
                 result = self._parse_mod(mod, mod_type, ammo_extractor, proj_extractor, spell_extractor, perk_extractor)
-
+                mod_array.append(result["hide"]) # Hidden or not
+                mod_array.append(result["useful"])
                 # For example grenades is not appropriate for modding but can have default mods, so we make them
                 # active but not selectable
                 if not appropriate or (CSVWDataExtractor.not_deselected_mods.__contains__(mod_type) and selected):
@@ -559,7 +561,7 @@ class CSVWDataExtractor:
     not_selectable_categories = ["APCost", "Weight", "WeightReduction", "Value", "Durability", "Keywords", "MaxRange",
                                  "MinRange",
                                  "ConIronSights", "RecoilMaxDegree", "RecoilMinDegree", "MaxConDegree", "MinConDegree",
-                                 "SightedTransition", "AimModel", "SightedTransition", "HasAlternateRumble",
+                                 "SightedTransition", "AimModel", "HasAlternateRumble",
                                  "ZoomFOVMult", "ZoomDataCameraOffsetZ", "HasScope", "ZoomData", "BaseStability",
                                  "RecoilArcDeg", "RecoilArcRotateDeg", "SoundLevel", "RecoilShotsForRunaway",
                                  "SecondaryDamage", "NPCAmmoList", "ModelSwap", "Rank", "EquipSlot", "AttackSound",
@@ -590,6 +592,10 @@ class CSVWDataExtractor:
         self._update_legendary_mods(mod_rows, mod_extractor, ammo_extractor, proj_extractor, spell_extractor, perk_extractor)
         self.__update_mods(mod_extractor, ammo_extractor, proj_extractor, spell_extractor, perk_extractor, result,
                            mod_rows, appropriate_for_mods)
+        for item in result.items():
+            for mod_array in item[1]:
+                if mod_array[1] and mod_array[3]:
+                    print("WARNING HIDDEN MOD!!! Hidden mod is enabled")
         template["allMods"] = result
 
     def appropriate_for_mods(self, csv_weapon):

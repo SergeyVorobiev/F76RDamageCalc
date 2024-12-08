@@ -28,7 +28,7 @@ function weaponPopover(header, content) {
     return (
         <Popover className="popover-adjustable2">
             <Popover.Header>
-                <Row style={{height: '2rem'}}>
+                <Row style={{minHeight: '2rem'}}>
                     <Col className="col-10 d-flex justify-content-start">
                         <strong className="m-auto ms-2">{header}</strong>
                     </Col>

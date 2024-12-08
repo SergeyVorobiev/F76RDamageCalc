@@ -21,9 +21,8 @@ export default function ModalApplyTemplate(props) {
 
     function applyTemplate(e) {
         const template = props.modalTemplate.template;
-        const specItem = convertTemplateToSpecs(template);
+        const specItem = convertTemplateToSpecs(template, false);
         props.setWSpec(specItem);
-        props.setWeaponName(template.name);
         onHide(e);
     }
 

@@ -63,29 +63,29 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
         setWSpec({...wSpec});
     }
     return (
-    <>
-        <Col>
-            <InputGroup className="mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text style={{ width: '2.8rem'}}>
-                    <Checkbox onChange={onCheck} checked={dItem.isUsed}></Checkbox>
-                </InputGroup.Text>
-                <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
-                <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
-                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
-                <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
-            </InputGroup>
-        </Col>
-        <Col>
-            <InputGroup className="mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
-                <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
-                <InputGroup.Text>
-                    <Checkbox onChange={onStackCheck} checked={dItem.stack}>Stack</Checkbox>
-                </InputGroup.Text>
-                <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
-                <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
-            </InputGroup>
-        </Col>
+        <>
+            <Col>
+                <InputGroup className="mb-1 mt-1 flex-nowrap">
+                    <InputGroup.Text style={{ width: '2.8rem'}}>
+                        <Checkbox onChange={onCheck} checked={dItem.isUsed}></Checkbox>
+                    </InputGroup.Text>
+                    <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
+                    <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
+                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
+                    <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
+                </InputGroup>
+            </Col>
+            <Col>
+                <InputGroup className="mb-1 mt-1 flex-nowrap">
+                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
+                    <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
+                    <InputGroup.Text>
+                        <Checkbox onChange={onStackCheck} checked={dItem.stack}>Stack</Checkbox>
+                    </InputGroup.Text>
+                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
+                    <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
+                </InputGroup>
+            </Col>
         </>
     );
 }

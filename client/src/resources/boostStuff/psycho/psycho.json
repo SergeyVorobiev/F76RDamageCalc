@@ -1,7 +1,7 @@
 [
   {
     "name": "Psychobuff",
-    "imName": "psycho",
+    "imName": "pb",
     "id": "psychobuff_psycho",
     "type": "psycho",
     "used": false,
@@ -26,7 +26,7 @@
   },
   {
     "name": "Overdrive",
-    "imName": "psycho",
+    "imName": "o",
     "id": "overdrive_psycho",
     "type": "psycho",
     "used": false,
@@ -52,7 +52,7 @@
   },
   {
     "name": "Psycho",
-    "imName": "psycho",
+    "imName": "p",
     "id": "psycho_psycho",
     "type": "psycho",
     "used": false,
@@ -70,7 +70,7 @@
   },
   {
     "name": "Super Chem MK1",
-    "imName": "psycho",
+    "imName": "sc",
     "id": "super_chem_mk1_psycho",
     "type": "psycho",
     "used": false,
@@ -164,7 +164,7 @@
   },
   {
     "name": "Fury",
-    "imName": "psycho",
+    "imName": "f",
     "id": "fury_psycho",
     "type": "psycho",
     "used": false,
@@ -182,7 +182,7 @@
   },
   {
     "name": "Nuclear Don's blend",
-    "imName": "psycho",
+    "imName": "nd",
     "id": "nuclear_don_blend_psycho",
     "type": "psycho",
     "used": false,

@@ -26,6 +26,7 @@ const ModalRenameItem = memo(function ModalRenameItem(props) {
             name = (name === null || name === '') ? "Weapon" : name;
             let item = props.items.map.get(props.id);
             item.name = name;
+            item.wSpec.weaponName = name;
             setItem(item);
             onHide();
         } catch {

@@ -12,17 +12,15 @@ export default function HotMeter({creatures, steps, colors}) {
     copyColors[index] = copyColors[shiftIndex];
     const percent = getHotPercentage(creatures);
     const limit = percent / 2;
-    const setCount = () => {
-        let newIndex = index + 1;
-        if (newIndex > limit) {
-            newIndex = 0;
-        }
-        setIndex(newIndex);
-    }
     useEffect(() => {
-        const interval = setInterval(() => setCount(), 100);
-        return () => clearInterval(interval);
-    }, [index, limit]);
+        setTimeout(() => {
+            let newIndex = index + 1;
+            if (newIndex > limit) {
+                newIndex = 0;
+            }
+            setIndex(newIndex);
+        }, 150);
+    }); // Depends on index automatically
     return (
         <div className='input-group d-flex justify-content-center p-0'>
             <InputGroup.Text>

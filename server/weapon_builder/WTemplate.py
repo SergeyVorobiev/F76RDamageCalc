@@ -3,6 +3,15 @@ class WTemplate:
     @staticmethod
     def get_empty_template():
         result = {}
+
+        # accuracy data relative values
+        result["maxConDegree"] = [1, 1] # spread
+        result["minConDegree"] = [1, 1]
+        result["recoilMaxDegree"] = [1, 1]
+        result["recoilMinDegree"] = [1, 1]
+        result["conIronSight"] = [1, 1]
+        result["sightedTransition"] = [1, 1]
+
         result["name"] = ""
         result["cName"] = ""
         result["type"] = [""]
@@ -56,6 +65,8 @@ class WTemplate:
         result["accuracy"] = [100, 100]
         result["ap"] = [0, 0]
         result["weight"] = [0, 0]
+
+        # every category contains a list of [id, used, can't be changed, hidden, useful]
         result["allMods"] = {}
         result["defMods"] = []
         result["apply"] = True

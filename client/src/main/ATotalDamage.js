@@ -33,16 +33,18 @@ const colors = getColorsForHotMeter();
 function help() {
     return (
         <Popover className="popover-adjustable">
-            <Popover.Header as="h3"><strong>What&How</strong></Popover.Header>
+            <Popover.Header as="h3"><strong>Note</strong></Popover.Header>
                 <Popover.Body className="my-popover ms-2 me-2">
+                <p className="m-1"><b>All data</b> presented in this calculator is parsed directly from .esm files.</p>
                 <p className="m-1"><strong>CRIT</strong> calculates critical damage, <strong>☠️ Fr:</strong> means crit frequency (1 / 2 - every second shot is crit).</p>
-                <p className="m-1"><strong>SNEAK</strong> calculates sneak damage.</p>
-                <p className="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency ( 1 / 2 - every second shot is head shot)</p>
-                <p className="m-1"><strong>Rad resistance</strong>. Some monsters can have rad resistance overridden by 'infinity' like Grafton monster or Super Mutant etc.</p>
+                <p className="m-1"><strong>SNEAK</strong> calculates sneak damage (100% hits are sneak).</p>
+                <p className="m-1"><strong>HEAD</strong> calculates head shot damage, <strong>🤕 Fr</strong> means head shot frequency (80% - 4 of 5 shots are head shots, kill time for each time can be slightly different due to randomness).</p>
+                <p className="m-1"><strong>Rad resistance.</strong> Some monsters can have rad resistance overridden by 'infinity' like Grafton monster or Super Mutant etc.</p>
                 <p className="m-1"><strong>This calculator</strong> does not represent your real game experience, it has some limitations and it calculates creature's life time
                 provided that a creature is standing still under the fire until death. </p>
                 <p className="m-1">However when all else being equal you can rely on this numbers to compare efficiency
                 of weapons with a pretty good accuracy. Go to the GitHub page via white cat icon for details.</p>
+                <p className="m-1"><b>Usage.</b> At the beginning, go to '<b>Weapons</b>' tab, unfold a weapon's section you like, tap - '<b>Calculate</b>' - '<b>Start</b>' - '<b>Apply</b>', enjoy.</p>
             </Popover.Body>
         </Popover>
     );
@@ -66,7 +68,7 @@ function buildStats(creature, resultDamage, weaponName) {
     return (
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>{creature.name} (Level: {creature.level})</strong></Popover.Header>
-            <Popover.Body className="my-popover ms-1 me-1">
+            <Popover.Body className="popover-body3 ms-1 me-1">
                 <Stack  className='pt-2 pb-0' direction="horizontal" gap={1}>
                     <span style={{ width: '3rem' }} className="badge bg-ballistic-shadow">{creature.b.toFixed(1)}</span>
                     <span style={{ width: '3rem' }} className="badge bg-energy-shadow">{creature.e.toFixed(1)}</span>
@@ -257,12 +259,18 @@ export default class ATotalDamage extends React.PureComponent {
     }
 
     crf(e) {
-        this.props.extraDamage.critFreq = this.props.extraDamage.critFreq % 9 + 1;
+        this.props.extraDamage.critFreq -= 1;
+        if (this.props.extraDamage.critFreq === 0) {
+            this.props.extraDamage.critFreq = 7;
+        }
         this.updateExtraDamage();
     }
 
     hef(e) {
-        this.props.extraDamage.headFreq = this.props.extraDamage.headFreq % 9 + 1;
+        this.props.extraDamage.headFreq += 10;
+        if (this.props.extraDamage.headFreq > 100) {
+            this.props.extraDamage.headFreq = 20;
+        }
         this.updateExtraDamage();
     }
 
@@ -372,7 +380,7 @@ export default class ATotalDamage extends React.PureComponent {
                                 </Card.Body>
                                 <Card.Footer className="ps-0 pe-0 text-muted d-flex justify-content-between">
                                     <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.crf}><strong>☠️ Fr: 1 / {this.props.extraDamage.critFreq}</strong></Button>
-                                    <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: 1 / {this.props.extraDamage.headFreq}</strong></Button>
+                                    <Button style={{ width: '6rem' }} className="ms-2 me-2" size="sm" onClick={this.hef}><strong>🤕 Fr: {this.props.extraDamage.headFreq}%</strong></Button>
                                 </Card.Footer>
                             </Card>
                         </div>
