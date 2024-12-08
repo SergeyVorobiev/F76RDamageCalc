@@ -2,6 +2,6 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "create-react-app": "^5.0.1",
-    "react-bootstrap": "^2.10.2"
+    "react-bootstrap": "^2.10.6"
   }
 }
