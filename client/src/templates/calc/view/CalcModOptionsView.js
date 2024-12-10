@@ -1,5 +1,6 @@
 import {checkLength} from '../../../helpers/Input';
-import { Divider, Checkbox } from 'antd';
+import { Divider } from 'antd';
+import { UCheckbox } from '../../../viewComponents/checkbox/UCheckbox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -80,7 +81,7 @@ function getItem(name, onChange, items, setItems, frHead, setFrHead, frCrit, set
         <Col key={name}>
             <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
                 <InputGroup.Text className={outline} style={{ width: '2.8rem'}}>
-                    <Checkbox className="m-auto" disabled={dis} title={name} onChange={onChange} checked={checked}></Checkbox>
+                    <UCheckbox disabled={dis} title={name} onChange={onChange} checked={checked}></UCheckbox>
                 </InputGroup.Text>
                 <InputGroup.Text className={outline} style={{ width: width }}><small>{name}</small></InputGroup.Text>
                 {getInfo(name, outline, infos)}

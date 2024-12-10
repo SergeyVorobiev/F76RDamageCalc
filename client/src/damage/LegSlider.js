@@ -1,7 +1,7 @@
 import { setCurrentLegendaryIds } from '../helpers/Global';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import { useState } from 'react';
 import { Slider } from 'antd';
 import Card from 'react-bootstrap/Card';
 
@@ -98,6 +98,8 @@ const allMarks = {
 function LegSlider({legendaryInfo, marksName, wSpec, setWSpec, disabled=false}) {
     const marks = allMarks[marksName];
     const wSpecLeg = wSpec.legendary[legendaryInfo.star - 1];
+    const [redraw, setRedraw] = useState(false);
+
     let value = legendaryInfo.max;
 
     // Use adjustable value instead of default max
@@ -105,16 +107,21 @@ function LegSlider({legendaryInfo, marksName, wSpec, setWSpec, disabled=false}) 
         value = wSpecLeg[1];
     }
 
-    function slideFinished(e) {
+    function slideChanged(e) {
         wSpecLeg[1] = e;
+        setRedraw(!redraw);
         setCurrentLegendaryIds(wSpec);
+    }
+
+    function slideFinished(e) {
         setWSpec({...wSpec});
     }
+
     return (
         <Row>
             <Card className="mt-3 mb-2 pt-2 pb-2 ps-3 pe-3">
             <Col className="pt-2">
-                <Slider disabled={!legendaryInfo.adjustable} open={true} onChange={slideFinished} marks={marks} min={legendaryInfo.min} max={legendaryInfo.max} step={legendaryInfo.step} value={value} />
+                <Slider disabled={!legendaryInfo.adjustable} open={true} onAfterChange={slideFinished} onChange={slideChanged} marks={marks} min={legendaryInfo.min} max={legendaryInfo.max} step={legendaryInfo.step} value={value} />
             </Col>
             </Card>
         </Row>

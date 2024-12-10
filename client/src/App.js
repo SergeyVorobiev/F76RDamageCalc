@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/style.css';
+import './css/bsButtons.css';
+import './css/bsCheck.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AdditionalDamage from "./main/AdditionalDamage";
@@ -16,7 +19,6 @@ import { defaultPlayerStats } from './entities/EPlayerStats';
 import { defaultPlayer } from './entities/EPlayer';
 import { defaultAdds } from './entities/EAddDamages';
 import { defaultWeaponSpecs } from './entities/EWeaponSpecs';
-import './css/style.css';
 import readCreaturesFromFile from './helpers/FetchCreatures';
 import F76NavBar from './main/F76NavBar';
 import WeaponSpecs from './main/WeaponSpecs';

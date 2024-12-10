@@ -2,9 +2,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import '../css/style.css';
 import {checkLength} from '../helpers/Input';
-import { Checkbox } from 'antd';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { getSymbolText } from '../helpers/Emoji';
 import { memo } from 'react';
 
@@ -32,7 +31,7 @@ function column(damage, setDamage, damage_type, damage_name, used_damage_name, u
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
                 <InputGroup.Text>
-                    <Checkbox onChange={onCheck} checked={damage_type[use_damage_name]}></Checkbox>
+                    <UCheckbox onChange={onCheck} checked={damage_type[use_damage_name]}></UCheckbox>
                 </InputGroup.Text>
                 <InputGroup.Text style={{ width: '10rem' }} className={color}>{name}</InputGroup.Text>
                 <Form.Control className='w-auto' type="number" min="0" value={damage_type[damage_name]} max="999" maxLength="6" onChange={onChange} />

@@ -3,12 +3,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import '../css/style.css';
-import {checkLength} from '../helpers/Input';
-import { Radio } from 'antd';
+import { checkLength } from '../helpers/Input';
+import BSRadio from '../helpers/views/BSRadio';
 
 
-function col(name, creatures, setCreatures, creature, res_field, color, min=0, max=1000) {
+function col(name, creatures, setCreatures, creature, res_field, color, min=0, max=9999) {
     function onChange(e) {
         checkLength(e);
         if (e.target.value < min) {
@@ -37,10 +36,12 @@ const rad = <>☢️ Radiation</>;
 const health = <>❤️ Health</>;
 const reduction = <>🧽 Reduction</>;
 const headShot = <>🤕 Head Shot</>;
+const creatureTypes = {Normal: 'default', Scorched: 'scorched', Glowing: 'glowing'};
+
 
 function CreatureStats({creatures, setCreatures, creature}) {
     console.log("CreatureStats");
-    function onChange(e) {
+    function onRadioTypeClick(e) {
         creature.userBody = e.target.value;
         setCreatures({...creatures});
     }
@@ -62,19 +63,15 @@ function CreatureStats({creatures, setCreatures, creature}) {
                     {col(rad, creatures, setCreatures, creature, "r", "bg-rad")}
                 </Row>
                 <Row>
-                    {col(health, creatures, setCreatures, creature, "h", "bg-health", 1, 32767)}
-                    {col(reduction, creatures, setCreatures, creature, "damageReduction", "bg-reduction", 0, 0.99)}
+                    {col(health, creatures, setCreatures, creature, "h", "bg-health", 1, 1000000)}
+                    {col(reduction, creatures, setCreatures, creature, "damageReduction", "bg-reduction", 0, 0.9)}
                 </Row>
                 <Row>
                     {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", 1, 2)}
                 </Row>
                 <Row>
                     <div className="pt-3 pb-1 d-flex justify-content-center">
-                        <Radio.Group value={creature.userBody} onChange={onChange}>
-                            <Radio.Button value="normal">Default</Radio.Button>
-                            <Radio.Button value="scorched">Scorched</Radio.Button>
-                            <Radio.Button value="glowing">Glowing</Radio.Button>
-                        </Radio.Group>
+                        <BSRadio pairs={creatureTypes} selectedValue={creature.userBody} onClick={onRadioTypeClick} />
                     </div>
                 </Row>
             </Card.Body>

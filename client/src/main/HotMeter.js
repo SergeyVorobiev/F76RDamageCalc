@@ -19,7 +19,7 @@ export default function HotMeter({creatures, steps, colors}) {
                 newIndex = 0;
             }
             setIndex(newIndex);
-        }, 150);
+        }, 200);
     }); // Depends on index automatically
     return (
         <div className='input-group d-flex justify-content-center p-0'>

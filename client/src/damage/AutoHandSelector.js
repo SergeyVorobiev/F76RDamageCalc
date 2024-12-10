@@ -1,5 +1,5 @@
-import { Radio } from 'antd';
 import { memo } from 'react';
+import BSRadio from '../helpers/views/BSRadio';
 
 
 function empty() {
@@ -8,35 +8,26 @@ function empty() {
     );
 }
 
+const autoW = {"Non Automatic": 0, "Automatic": 1};
+const handW = {"One Handed": 0, "TwoHanded": 1};
+
 function auto(wSpec, setWSpec) {
-    const onChange = (e) => {
+    const onClick = (e) => {
         wSpec.is_auto = parseInt(e.target.value);
         setWSpec({...wSpec});
     };
-
     return (
-        <div className="pt-2 pb-2 d-flex justify-content-center">
-            <Radio.Group value={wSpec.is_auto.toFixed(0)} onChange={onChange}>
-                <Radio.Button value="0">Non Automatic</Radio.Button>
-                <Radio.Button value="1">Automatic</Radio.Button>
-            </Radio.Group>
-        </div>
+        <BSRadio className="pt-2 pb-2 d-flex justify-content-center" pairs={autoW} selectedValue={wSpec.is_auto} onClick={onClick} />
     );
 }
 
 function hand(wSpec, setWSpec) {
-    const onChange = (e) => {
+    const onClick = (e) => {
         wSpec.hand = parseInt(e.target.value);
         setWSpec({...wSpec});
     };
-
     return (
-        <div className="pt-2 pb-2 d-flex justify-content-center">
-            <Radio.Group value={wSpec.hand.toFixed(0)} onChange={onChange}>
-                <Radio.Button value="1">One Handed</Radio.Button>
-                <Radio.Button value="2">Two Handed</Radio.Button>
-            </Radio.Group>
-        </div>
+        <BSRadio className="pt-2 pb-2 d-flex justify-content-center" pairs={handW} selectedValue={wSpec.hand} onClick={onClick} />
     );
 }
 

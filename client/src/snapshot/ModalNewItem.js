@@ -4,7 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { buildItem } from '../helpers/Item';
 import { memo, useState, useEffect } from 'react';
-import { Checkbox } from 'antd';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 
 
@@ -90,7 +90,7 @@ const ModalNewItem = memo(function ModalNewItem(props) {
             <Modal.Footer>
                 <div style={{width: '100%'}} className="d-flex">
                     <div style={{width: '50%'}} className="center-text">
-                        <Checkbox onChange={onPrefixChange} checked={legPrefixCheck}>Legendary Prefix</Checkbox>
+                        <UCheckbox onChange={onPrefixChange} checked={legPrefixCheck}>Legendary Prefix</UCheckbox>
                     </div>
                     <div className="d-flex justify-content-end" style={{width: '50%'}}>
                         <Button disabled={limit} onClick={onClick}>Add</Button>

@@ -1,8 +1,7 @@
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Col from 'react-bootstrap/Col';
 import Popover from 'react-bootstrap/Popover';
-import { LeftOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import Button from 'react-bootstrap/Button';
 import ReactDOM from 'react-dom/client';
 import Row from 'react-bootstrap/Row';
 
@@ -33,7 +32,9 @@ function weaponPopover(header, content) {
                         <strong className="m-auto ms-2">{header}</strong>
                     </Col>
                     <Col>
-                        <Button className="m-auto" shape="circle" icon={getIcon()} style={{display: 'none'}} id="WeaponDetailsPopoverBackButton" onClick={popoverBack}></Button>
+                        <Button className="" style={{display: 'none', borderRadius: '1rem', height: '2.0rem', paddingTop: '0.22rem', paddingLeft: '0.4rem'}} variant="blue-white-border" id="WeaponDetailsPopoverBackButton" onClick={popoverBack}>
+                            <h6>⇜</h6>
+                        </Button>
                     </Col>
                 </Row>
             </Popover.Header>
@@ -66,12 +67,4 @@ function popoverBack(e) {
         document.getElementById("WeaponDetailsPopoverBackButton").style.display = 'none';
     }
     ReactDOM.createRoot(document.getElementById("WeaponDetailsPopover")).render(popoverContent[number]);
-}
-
-function getIcon() {
-    return (
-        <div style={{padding: '0.21rem 0.1rem 0rem 0rem'}}>
-            <LeftOutlined />
-        </div>
-    );
 }

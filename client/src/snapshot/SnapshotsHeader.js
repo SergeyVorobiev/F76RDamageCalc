@@ -2,10 +2,11 @@ import {UploadIcon, DownloadIcon} from '../icons/Icons';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import SortRadios from '../snapshot/SortRadios';
+import BSRadio from '../helpers/views/BSRadio';
 import { memo } from 'react';
 
 
+const sortNames = {Average: 0, SBQ: 1, Earle: 2, 'U-Titan': 3};
 const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSnapshots, setModalUploadSnapshots, sortId, setSortId}) {
     console.log("SnapshotsHeader");
     function downloadButton() {
@@ -60,7 +61,7 @@ const SnapshotsHeader = memo(function SnapshotsHeader({items, setModalDownloadSn
             <div className="row d-flex justify-content-center pt-1 mb-1">
                 <Col className="col">
                     <div>
-                        <SortRadios algIndex={sortId} setSortId={setSortId} />
+                        <BSRadio pairs={sortNames} selectedValue={sortId} setSelectedValue={setSortId} parseValueInt={true} />
                     </div>
                 </Col>
             </div>

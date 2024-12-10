@@ -3,12 +3,14 @@ import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { readSnapshotsFromInput } from '../helpers/FetchSnapshots';
 import { memo, useState } from 'react';
-import { Radio } from 'antd';
+import BSRadio from '../helpers/views/BSRadio';
 
+
+const radio = {Add: '0', Replace: '1'};
 
 const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
     console.log("ModalUploadSnapshots")
-    const [addOld, setAddOld] = useState("0");
+    const [addOld, setAddOld] = useState('0');
     if (!props.show) {
         return (<></>);
     }
@@ -16,13 +18,10 @@ const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
         props.setModalUploadSnapshots(false)
     }
     function readFile() {
-        const add = (addOld === "0") ? true : false;
+        const add = (addOld === '0');
         readSnapshotsFromInput("snapshotsFile", props.setNextId, props.setItems, props.items.map, add);
         props.setModalUploadSnapshots(false)
     }
-    const onChange = (e) => {
-        setAddOld(e.target.value);
-    };
     return (
         <Modal
             show = {props.show}
@@ -41,10 +40,7 @@ const ModalUploadSnapshots = memo(function ModalUploadSnapshots(props) {
                         <p className="mb-1"> Choose a json file with snapshots.</p>
                     </label>
                     <input id="snapshotsFile" className="form-control" type="file" readOnly accept=".json" />
-                    <Radio.Group className="mt-4 d-flex justify-content-center" value={addOld} onChange={onChange}>
-                        <Radio.Button value="0">Add</Radio.Button>
-                        <Radio.Button value="1">Replace</Radio.Button>
-                    </Radio.Group>
+                    <BSRadio className="mt-4 d-flex justify-content-center" pairs={radio} selectedValue={addOld} setSelectedValue={setAddOld} />
                 </div>
             </Modal.Body>
             <Modal.Footer>

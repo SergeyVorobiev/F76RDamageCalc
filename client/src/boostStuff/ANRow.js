@@ -1,12 +1,11 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import '../css/style.css'
-import { Checkbox } from 'antd';
 import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import Button from 'react-bootstrap/Button';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 
 
 function buildPopover() {
@@ -43,10 +42,9 @@ function ANRow({player, setPlayer, boostDamage}) {
             <Row>
                 <Card className="mb-2 pt-2 pb-2 ps-3 pe-3">
                 <Col>
-
                     <InputGroup className="mb-1">
                         <InputGroup.Text style={{ width: '2.5rem' }} >
-                            <Checkbox onChange={changeTeam} checked={player.team}></Checkbox>
+                            <UCheckbox onChange={changeTeam} checked={player.team}></UCheckbox>
                         </InputGroup.Text>
                         <InputGroup.Text style={{ width: '6.9rem' }}>
                             <strong>👨‍👩‍👧‍👦 Team</strong>
