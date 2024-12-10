@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Divider, Checkbox } from 'antd';
+import { Divider } from 'antd';
+import { UCheckbox } from '../../../viewComponents/checkbox/UCheckbox';
 import PickedGroups from './PickedGroups';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -35,7 +36,7 @@ function getModItem(name, groups, onGroupChange) {
         <Col key={name}>
             <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
                 <InputGroup.Text className={outline} style={{ width: '2.8rem'}}>
-                    <Checkbox className="m-auto" title={name} onChange={onGroupChange} checked={checked}></Checkbox>
+                    <UCheckbox title={name} onChange={onGroupChange} checked={checked}></UCheckbox>
                 </InputGroup.Text>
                 <InputGroup.Text className={outline} style={{ width: '15rem' }}><small>{name}</small></InputGroup.Text>
             </InputGroup>

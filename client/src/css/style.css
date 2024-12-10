@@ -1,3 +1,14 @@
+:root {
+  --bg-strength-card-color: #7ba283;
+  --bg-perception-card-color: #696148;
+  --bg-endurance-card-color: #55b6c5;
+  --bg-charisma-card-color: #d18a44;
+  --bg-intelligence-card-color: #aca68f;
+  --bg-agility-card-color: #cc9e7b;
+  --bg-luck-card-color: #a8a2b9;
+  --bg-legendary-card-color: #5c6f72;
+}
+
 @media only screen and (min-width: 386px) {
     .popover-adjustable {
         width: 20rem;
@@ -425,51 +436,51 @@
 }
 
 .bg-strength-card {
-    background-color:#7ba283 !important;
+    background-color: var(--bg-strength-card-color) !important;
     color: #fff !important;
-    border-color: #7ba283 !important;
+    border-color: var(--bg-strength-card-color) !important;
 }
 
 .bg-perception-card {
-    background-color:#696148 !important;
+    background-color: var(--bg-perception-card-color) !important;
     color: #fff !important;
-    border-color: #696148 !important;
+    border-color: var(--bg-perception-card-color) !important;
 }
 
 .bg-charisma-card {
-    background-color:#d18a44 !important;
+    background-color: var(--bg-charisma-card-color) !important;
     color: #fff !important;
-    border-color: #d18a44 !important;
+    border-color: var(--bg-charisma-card-color) !important;
 }
 
 .bg-intelligence-card {
-    background-color:#aca68f !important;
+    background-color: var(--bg-intelligence-card-color) !important;
     color: #fff !important;
-    border-color: #aca68f !important;
+    border-color: var(--bg-intelligence-card-color) !important;
 }
 
 .bg-endurance-card {
-    background-color:#55b6c5 !important;
+    background-color: var(--bg-endurance-card-color) !important;
     color: #fff !important;
-    border-color: #55b6c5 !important;
+    border-color: var(--bg-endurance-card-color) !important;
 }
 
 .bg-agility-card {
-    background-color:#cc9e7b !important;
+    background-color: var(--bg-agility-card-color) !important;
     color: #fff !important;
-    border-color: #cc9e7b !important;
+    border-color: var(--bg-agility-card-color) !important;
 }
 
 .bg-luck-card {
-    background-color:#a8a2b9 !important;
+    background-color: var(--bg-luck-card-color) !important;
     color: #fff !important;
-    border-color: #a8a2b9 !important;
+    border-color: var(--bg-luck-card-color) !important;
 }
 
 .bg-legendary-card {
-    background-color:#5c6f72 !important;
+    background-color: var(--bg-legendary-card-color) !important;
     color: #fff !important;
-    border-color: #5c6f72 !important;
+    border-color: var(--bg-legendary-card-color) !important;
 }
 
 .bg-proj-header {
@@ -563,6 +574,12 @@
 .shadow-outline-result-item {
     box-shadow: 0 2px 2px 0 #767394, 0 1px 2px 0 #739094;
     border-color: #eeeeee !important;
+}
+
+.stat-button {
+    width: '4rem';
+    backgroundColor: '#007cf5' !important;
+    color: 'white';
 }
 
 

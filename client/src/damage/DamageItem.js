@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { Checkbox } from 'antd';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { TrashIcon } from '../icons/Icons';
 import Button from 'react-bootstrap/Button';
 import { checkLength } from '../helpers/Input';
@@ -67,7 +67,7 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
             <Col>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">
                     <InputGroup.Text style={{ width: '2.8rem'}}>
-                        <Checkbox onChange={onCheck} checked={dItem.isUsed}></Checkbox>
+                        <UCheckbox onChange={onCheck} checked={dItem.isUsed}></UCheckbox>
                     </InputGroup.Text>
                     <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
                     <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
@@ -80,7 +80,7 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
                     <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
                     <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
                     <InputGroup.Text>
-                        <Checkbox onChange={onStackCheck} checked={dItem.stack}>Stack</Checkbox>
+                        <UCheckbox onChange={onStackCheck} checked={dItem.stack}>Stack</UCheckbox>
                     </InputGroup.Text>
                     <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
                     <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />

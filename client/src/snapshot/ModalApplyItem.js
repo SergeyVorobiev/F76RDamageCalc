@@ -24,11 +24,10 @@ export default function ModalApplyItem(props) {
             show = {props.show}
             onHide = {onHide}
             size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
             centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    <p>Apply Item</p>
+                    Apply Item
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

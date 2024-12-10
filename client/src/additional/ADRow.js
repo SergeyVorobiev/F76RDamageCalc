@@ -1,12 +1,13 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import '../css/style.css'
-import {Slider, Checkbox} from 'antd';
+import { Slider } from 'antd';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
+import { useState } from 'react';
 
 
 function buildPopover(text) {
@@ -61,10 +62,16 @@ function addIconName(name) {
             return name;
     }
 }
+
 function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
+    const [redraw, setRedraw] = useState(false);
     const width = (text === '' || text === null) ? '8.9rem' : '7rem';
     function slideChanged(e) {
+        setRedraw(!redraw);
         additionalDamage.value = e;
+    }
+
+    function onAfterChange(e) {
         updateAdditionalDamages();
     }
 
@@ -72,6 +79,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
         additionalDamage.is_used = e.target.checked;
         updateAdditionalDamages();
     }
+
     let isUsed = false;
     let disabled = false;
     if (typeof additionalDamage.is_used === "undefined") {
@@ -86,7 +94,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
                 <Col>
                     <InputGroup className="mb-1">
                         <InputGroup.Text style={{ width: '2.5rem' }} >
-                            <Checkbox onChange={onChange} checked={isUsed} disabled={disabled}></Checkbox>
+                            <UCheckbox onChange={onChange} checked={isUsed} disabled={disabled} checkBgColor={'#00b6ff'}></UCheckbox>
                         </InputGroup.Text>
                         <InputGroup.Text style={{ width: width }}>
                             <strong>{addIconName(additionalDamage.name)}</strong>
@@ -96,7 +104,7 @@ function ADRow({additionalDamage, updateAdditionalDamages, marks, text=''}) {
                             <div className="badge bg-info" style={{width: '3rem'}}>{additionalDamage.value}</div>
                         </InputGroup.Text>
                     </InputGroup>
-                    <Slider onChange={slideChanged} tooltip={{ open: false }} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
+                    <Slider onChange={slideChanged} onAfterChange={onAfterChange} tooltip={{ open: false }} marks={marks.marks} min={marks.min} max={marks.max} step={marks.step} value={additionalDamage.value} />
                 </Col>
             </Card>
         </Row>

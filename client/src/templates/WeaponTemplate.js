@@ -212,7 +212,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     }
     const fireRateText = (template.isAuto[1]) ? template.autoRate[1].toFixed(2) : (10 / template.manualRate[1]).toFixed(2);
     const iSize = '0.75rem';
-    const badgeStyle = "badge bg-lite-outline";
+    const badgeStyle = "badge bg-lite-outline m-1";
     const critText = (template.crit[1] === 0) ? "" : "+" + template.crit[1].toFixed(1) + "%";
     const expText = (template.exp[1] === 0) ? "" : "+" + template.exp[1].toFixed(1) +"%";
     const strText = (template.strengthBoost[1] === 0) ? "" : "+" + template.strengthBoost[1].toFixed(1) + "%";

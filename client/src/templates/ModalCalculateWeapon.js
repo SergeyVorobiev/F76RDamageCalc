@@ -10,7 +10,7 @@ import PickedGroups from './calc/view/PickedGroups';
 import CalcMain from './calc/view/CalcMain';
 import CalcConsumables from './calc/view/CalcConsumables';
 import CalcLegendary from './calc/view/CalcLegendary';
-import SortRadios from '../snapshot/SortRadios';
+import BSRadio from '../helpers/views/BSRadio';
 import WeaponEmblem from './WeaponEmblem';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,7 +22,6 @@ import LegendaryCalcRowView from './calc/view/LegendaryCalcRowView';
 import ModsCalcRowView from './calc/view/ModsCalcRowView';
 import EmblemCalcRowView from './calc/view/EmblemCalcRowView';
 import AccuracyHelper from '../helpers/AccuracyHelper';
-import AntRadio from '../helpers/views/AntRadio';
 import { Divider } from 'antd';
 import getPerkImage from '../boost/PerkImageProvider';
 import { getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary } from './calc/CalcEntities';
@@ -34,6 +33,8 @@ let firstShown = false;
 
 const creatureName = ["Average", "SBQ", "Earle", "UTitan"];
 
+const creatureOptions = {Average: '0', SBQ: '1', Earle: '2', 'U-Titan': '3'};
+
 export default function ModalCalculateWeapon(props) {
     // console.log("ModalCalculateWeapon");
     const [count, setCount] = useState({config: {}, current: 0, percent: 0, bestTime: Infinity});
@@ -44,7 +45,7 @@ export default function ModalCalculateWeapon(props) {
     const [leg, setLeg] = useState(getDefaultLegendary());
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
-    const [cId, setCId] = useState(0);
+    const [cId, setCId] = useState('0');
     const [accuracyPref, setAccuracyPref] = useState(AccuracyHelper.BALANCE);
 
     if (!props.modalCalculate.show) {
@@ -92,7 +93,7 @@ export default function ModalCalculateWeapon(props) {
 
     function startCalculation(e) {
         parameterCalculator = new ParameterCalculator(props.modalCalculate.template.id, PickedGroups.get(), cards, frCrit, frHead, main, stuff, leg, accuracyPref);
-        parameterCalculator.prepareAndCalcFirst(creatureName[cId]);
+        parameterCalculator.prepareAndCalcFirst(creatureName[parseInt(cId)]);
         setCount({config: parameterCalculator.getCurrentConfig(), current: parameterCalculator.getCount(), percent: parameterCalculator.getCompletionPercent(), bestTime: parameterCalculator.getBestTime()});
         setCalculating(1);
     }
@@ -160,12 +161,12 @@ export default function ModalCalculateWeapon(props) {
             let show = !TemplateTools.hasDefaultLegendary(props.modalCalculate.template);
             return (
                 <>
-                    <div className="d-flex justify-content-center"><SortRadios algIndex={cId} setSortId={setCId} /></div>
+                    <BSRadio className="d-flex justify-content-center" pairs={creatureOptions} selectedValue={cId} setSelectedValue={setCId} />
                     <Divider className="mt-4 mb-2">
                         Accuracy
                         <WarningPopoverBadge className="ms-3" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
                     </Divider>
-                    <AntRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} value={accuracyPref} setValue={setAccuracyPref} />
+                    <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
                     <CalcModGroups template={props.modalCalculate.template}></CalcModGroups>
                     <CalcCards cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>

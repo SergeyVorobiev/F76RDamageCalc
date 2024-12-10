@@ -1,7 +1,8 @@
 import getMods from '../helpers/Mods';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Tag, Checkbox } from 'antd';
+import { Tag } from 'antd';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { popoverContent } from './ModPropsPopover';
 import { WeaponPopoverOverlay } from '../helpers/WeaponPopoverOverlay';
 
@@ -37,7 +38,7 @@ export default function ModRow({index, weaponId, modsSameType, checkMod, defMods
                 <WeaponPopoverOverlay popoverHeader={modData.name} popoverContent={popoverContent(modData)} itemToOverly={modRow}></WeaponPopoverOverlay>
             </Col>
             <Col className="col-auto d-flex justify-content-end">
-                <Checkbox onChange={(e) => checkMod(e, weaponId, modData, modSameType, modsSameType)} disabled={disabled} checked={isUsed}></Checkbox>
+                <UCheckbox onChange={(e) => checkMod(e, weaponId, modData, modSameType, modsSameType)} disabled={disabled} checked={isUsed}></UCheckbox>
             </Col>
         </Row>
     );

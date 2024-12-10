@@ -15,7 +15,7 @@ function column2(wSpec, onChange1, onChange2, icon, name, id1, id2, max1, max2, 
     return (
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
-                <WarningPopover message={message} header={name} element={<InputGroup.Text color='red' style={{ width: '2.58rem', backgroundColor: '#ff5795' }}>{icon}</InputGroup.Text>} />
+                <WarningPopover message={message} header={name} element={<InputGroup.Text color='red' style={{ width: '2.58rem', backgroundColor: '#ff5795', cursor: 'pointer' }}>{icon}</InputGroup.Text>} />
                 <InputGroup.Text style={{ width: '6rem' }}>{name}</InputGroup.Text>
                 <Form.Control style={{ minWidth: '4rem' }} type="number" min="0" value={value1} max={max1} maxLength="5" onChange={onChange1} id={id1} />
                 <InputGroup.Text style={{ width: '2rem' }}>/</InputGroup.Text>

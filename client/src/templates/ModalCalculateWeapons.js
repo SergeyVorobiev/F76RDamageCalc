@@ -9,11 +9,10 @@ import PickedGroups from './calc/view/PickedGroups';
 import CalcMain from './calc/view/CalcMain';
 import CalcConsumables from './calc/view/CalcConsumables';
 import CalcLegendary from './calc/view/CalcLegendary';
-import SortRadios from '../snapshot/SortRadios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import BSRadio from '../helpers/views/BSRadio';
 import { WarningPopoverBadge } from '../helpers/WarningPopover';
-import AntRadio from '../helpers/views/AntRadio';
 import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
 import TemplateTools from './TemplateTools';
 import { modGroups, weaponIds } from './TemplateItems';
@@ -39,6 +38,8 @@ const calcIterations = 12;
 
 const creatureName = ["Average", "SBQ", "Earle", "UTitan"];
 
+const creatureOptions = {Average: '0', SBQ: '1', Earle: '2', 'U-Titan': '3'};
+
 function getDefaultModGroups() {
     let result = {};
     for (const name of modGroups) {
@@ -60,7 +61,7 @@ export default function ModalCalculateWeapons(props) {
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
     const [completion, setCompletion] = useState({current: 0, size: 0});
-    const [creatureId, setCreatureId] = useState(0);
+    const [creatureId, setCreatureId] = useState('0');
     const [accuracyPref, setAccuracyPref] = useState(AccuracyHelper.BALANCE);
     const [weaponResult, setWeaponResult] = useState([]);
     const [type, setType] = useState("All");
@@ -149,7 +150,7 @@ export default function ModalCalculateWeapons(props) {
                     }
                 }
                 parameterCalculator = new ParameterCalculator(wId, gNames, cards, frCrit, frHead, main, stuff, leg, accuracyPref);
-                parameterCalculator.prepareAndCalcFirst(creatureName[creatureId]);
+                parameterCalculator.prepareAndCalcFirst(creatureName[parseInt(creatureId)]);
             }
         }
         if (!wId) {
@@ -282,12 +283,12 @@ export default function ModalCalculateWeapons(props) {
             return (
                 <>
                     <CalcWGroupsDropdown type={type} setType={setType}></CalcWGroupsDropdown>
-                    <div className="d-flex justify-content-center"><SortRadios algIndex={creatureId} setSortId={setCreatureId} /></div>
+                    <BSRadio className="d-flex justify-content-center" pairs={creatureOptions} selectedValue={creatureId} setSelectedValue={setCreatureId} />
                     <Divider className="mt-4 mb-2">
                         Accuracy
                         <WarningPopoverBadge className="ms-3" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
                     </Divider>
-                    <AntRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} value={accuracyPref} setValue={setAccuracyPref} />
+                    <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
                     <CalcModGroupsAll groups={groups} setGroups={setGroups}></CalcModGroupsAll>
                     <CalcCards cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>

@@ -8,7 +8,7 @@ import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
 import {getAverageTime } from "../entities/ECreatures";
 import { getLegendary } from '../helpers/LegendaryProvider';
-import { Button } from 'antd';
+import Button from 'react-bootstrap/Button';
 import AAView from '../damage/AAView';
 import DamageDetailsCard from '../damage/DamageDetailsCard';
 import Row from 'react-bootstrap/Row';
@@ -92,7 +92,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
                         {getPrevButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
                     </div>
                     <div className="col d-flex justify-content-center">
-                        <Button size="sm" onClick={onClick}>{buttonName}</Button>
+                        <Button className="btn-blue-white-border pt-1 pb-1 ps-2 pe-2" onClick={onClick}>{buttonName}</Button>
                     </div>
                     <div className="col d-flex justify-content-end">
                         {getNextButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
@@ -115,7 +115,7 @@ function getPrevButton(showView, detailsLength, detailIndex, setDetailIndex) {
     if (showView === 0 || detailsLength === 0) {
         return (<></>);
     } else {
-        return (<Button size="sm" variant="outline-secondary" className="ms-2" onClick={onClick}>{symbol}</Button>);
+        return (<Button size="sm" variant="blue-white-border" className="ms-2" onClick={onClick}>{symbol}</Button>);
     }
 }
 
@@ -130,7 +130,7 @@ function getNextButton(showView, detailsLength, detailIndex, setDetailIndex) {
     if (showView === 0 || detailsLength === 0) {
         return (<></>);
     } else {
-        return (<Button size="sm" variant="outline-secondary" className="me-2" onClick={onClick}>>></Button>);
+        return (<Button size="sm" variant="blue-white-border" className="me-2" onClick={onClick}>>></Button>);
     }
 }
 

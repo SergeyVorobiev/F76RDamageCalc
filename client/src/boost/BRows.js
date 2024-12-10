@@ -4,11 +4,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import '../css/style.css'
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
-import { Checkbox } from 'antd';
 import { WarningPopover } from '../helpers/WarningPopover';
 import { calculateSpecial } from './BoostHelpers';
 import getPerkImage from './PerkImageProvider';
 import { getMark } from '../templates/calc/view/EmblemCalcRowView';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 
 
 function getPerkColor(category) {
@@ -101,11 +101,12 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
     const filter = card.is_used ? "grayscale(0%)" : "grayscale(40%)";
     const imagePath = getPerkImage(card.im_name);
     const header = getMark(card.im_name, imagePath, "mt-0 mb-0 ms-0 shadow-outline-gold2", '2rem', '1.8rem', '4px');
+    const bgCardColor = getComputedStyle(document.documentElement).getPropertyValue("--" + perkColor + "-color");
     return (
         <Col className="ps-1 pe-1">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
                 <InputGroup.Text className={"ps-2 pe-2" + outline} >
-                    <Checkbox onChange={isUsed} checked={card.is_used}></Checkbox>
+                    <UCheckbox onChange={isUsed} checked={card.is_used} checkBgColor={bgCardColor}></UCheckbox>
                 </InputGroup.Text>
                 <Button className={cName + outline} style={{width: w}} onClick={onClick}>
                     <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
