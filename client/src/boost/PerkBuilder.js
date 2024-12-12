@@ -119,7 +119,7 @@ export default class PerkBuilder {
         return result;
     }
 
-    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, explosive, crit, sneak, night, useSerums, player) {
+    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player) {
         let boosts = defaultBoosts();
         if (main) {
             PerkBuilder.setupCard(boosts.bloody_mess, 3);
@@ -170,7 +170,9 @@ export default class PerkBuilder {
         if (main) {
             switch(wType) {
                 case "Heavy":
-                    PerkBuilder.setupCard(boosts.stabilized, 3); // Works with rockets / grenades?
+                    if (pa) {
+                        PerkBuilder.setupCard(boosts.stabilized, 3); // Works with rockets / grenades?
+                    }
                     PerkBuilder.setupCard(boosts.lock_and_load, 3); // Works with rockets / grenades?
                     if (!explosiveTag) { // Are rockets / grenades weapons boosted by heavy cards?
                         PerkBuilder.setupCard(boosts.heavy_gunner, 11);

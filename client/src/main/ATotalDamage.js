@@ -53,7 +53,7 @@ export default class ATotalDamage extends React.PureComponent {
                             <GraphInfoView className="main-display-adjustable" graphValues={this.props.graphValues} percent={percentC} colors={colors} />
                         </div>
                         <div className="col d-flex justify-content-center mb-2">
-                            <EnemiesInfoView className="main-display-adjustable" sbq={this.props.creatures.sbq} earle={this.props.creatures.earle} titan={this.props.creatures.titan} creature={this.props.creatures.creature} setCreatures={this.props.setCreatures} resultDamage={this.props.resultDamage} weaponName={this.props.weaponName} mapCreatures={this.props.mapCreatures} />
+                            <EnemiesInfoView className="main-display-adjustable"  creatures={this.props.creatures} setCreatures={this.props.setCreatures} resultDamage={this.props.resultDamage} weaponName={this.props.weaponName} mapCreatures={this.props.mapCreatures} />
                         </div>
                     </Row>
                 </Card.Body>

@@ -4,8 +4,7 @@ import getMods from '../Mods';
 export class ModTools {
 
     static hasSilencerById(modId) {
-        const modData = getMods().get(modId);
-        ModTools.hasSilencer(modData);
+        return ModTools.hasSilencer(getMods().get(modId));
     }
 
     static hasSilencer(modData) {

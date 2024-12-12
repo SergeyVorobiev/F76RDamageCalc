@@ -85,16 +85,16 @@ function enemy(creature, creatureIcon, updateCreatures, resultDamage, weaponName
 export default function EnemiesInfoView(props) {
     function updateCreatures() {
         props.setCreatures({
-                ...this.props.creatures,
+                ...props.creatures,
         });
     }
     return (
         <Card className={props.className}>
             <Card.Body className="pt-2 pb-1 ps-1 pe-1">
-                {enemy(props.sbq, "🐲", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
-                {enemy(props.earle, "👹", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
-                {enemy(props.titan, "🐗", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
-                {enemy(props.creature, "🐵", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures, true)}
+                {enemy(props.creatures.sbq, "🐲", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
+                {enemy(props.creatures.earle, "👹", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
+                {enemy(props.creatures.titan, "🐗", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures)}
+                {enemy(props.creatures.creature, "🐵", updateCreatures, props.resultDamage, props.weaponName, props.mapCreatures, true)}
             </Card.Body>
         </Card>
     );

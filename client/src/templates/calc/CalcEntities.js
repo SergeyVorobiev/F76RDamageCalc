@@ -1,5 +1,5 @@
 export function getDefaultCards() {
-    return {"Main Boosts": true, "Temp Boosts": false, "Leg Boosts": false, "Team": true, "Low HP": true, "Sneak": false, "Crit": false};
+    return {"Main Boosts": true, "Temp Boosts": false, "Leg Boosts": false, "Team": true, "Low HP": true, "Power Armor": true, "Sneak": false, "Crit": false};
 }
 
 export function getDefaultMain() {

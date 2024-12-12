@@ -11,15 +11,7 @@ import { getMagazine, getBobbleHead, getFood, getDrink, getPsycho, getSerum, get
 
 export default class ConsumablesBuilder {
 
-    static addItems(wType, player, magazines, bobbleHeads, chemicals, food, drink, serums, others) {
-        const consumables = [];
-        ConsumablesBuilder.addOtherItems(wType, consumables);
-        ConsumablesBuilder.addPsycho(wType, consumables);
-        return ConsumablesBuilder.buildFromList(consumables, player);
-    }
-
     static getImagePathById(cId) {
-        //const lastIndex = cId.lastIndexOf("_");
         const type = cId.substring(cId.lastIndexOf("_") + 1);
         let jsonItems = null;
         let getter = null;
@@ -76,7 +68,7 @@ export default class ConsumablesBuilder {
             combination.push("down_home_cooking_magazine");
         }
 
-        // TODO: Do unarmed really will work here?
+        // TODO: Does unarmed really work here?
         if (wType === "Melee" || wType === "Unarmed") {
             combination.push("blood_on_the_harp_magazine");
             if (crit) {
@@ -288,14 +280,14 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static prepare(consumables=null) {
-        prepareItems(magazines, consumables);
-        prepareItems(bobbleHeads, consumables);
-        prepareItems(food, consumables);
-        prepareItems(drink, consumables);
-        prepareItems(psycho, consumables);
-        prepareItems(serum, consumables);
-        prepareItems(others, consumables);
+    static prepare(consumableObjs, consumableNames=null) {
+        prepareItems(consumableObjs["Magazines"], consumableNames);
+        prepareItems(consumableObjs["BobbleHeads"], consumableNames);
+        prepareItems(consumableObjs["Food"], consumableNames);
+        prepareItems(consumableObjs["Drink"], consumableNames);
+        prepareItems(consumableObjs["Psycho"], consumableNames);
+        prepareItems(consumableObjs["Serum"], consumableNames);
+        prepareItems(consumableObjs["Others"], consumableNames);
     }
 
     static getEmptyConsumableBoosts() {
@@ -306,38 +298,57 @@ export default class ConsumablesBuilder {
     }
 
     static getFood() {
-        return food;
+        return JSON.parse(JSON.stringify(food));
     }
 
     static getDrink() {
-        return drink;
+        return JSON.parse(JSON.stringify(drink));
     }
 
     static getPsycho() {
-        return psycho;
+        return JSON.parse(JSON.stringify(psycho));
     }
 
     static getSerum() {
-        return serum;
+        return JSON.parse(JSON.stringify(serum));
     }
 
     static getOthers() {
-        return others;
+        return JSON.parse(JSON.stringify(others));
     }
 
     static getMagazines() {
-        return magazines;
+        return JSON.parse(JSON.stringify(magazines));
     }
 
     static getBobbleHeads() {
-        return bobbleHeads;
+        return JSON.parse(JSON.stringify(bobbleHeads));
     }
 
     static buildFromList(consumablesList, player) {
-        const consumables = new Set(consumablesList);
-        const foodPref = {carnivore: consumables.has("carnivore_serum"), herbivore: consumables.has("herbivore_serum")};
-        ConsumablesBuilder.prepare(consumables);
-        const consumableBoosts = loadBoosts(magazines, bobbleHeads, food, drink, psycho, serum, others, foodPref, player);
-        return [foodPref, consumableBoosts];
+        const consumablesSet = new Set(consumablesList);
+        const foodPref = {carnivore: consumablesSet.has("carnivore_serum"), herbivore: consumablesSet.has("herbivore_serum")};
+        const consumables = {};
+        consumables["Magazines"] = ConsumablesBuilder.getMagazines();
+        consumables["BobbleHeads"] = ConsumablesBuilder.getBobbleHeads();
+        consumables["Food"] = ConsumablesBuilder.getFood();
+        consumables["Drink"] = ConsumablesBuilder.getDrink();
+        consumables["Psycho"] = ConsumablesBuilder.getPsycho();
+        consumables["Serum"] = ConsumablesBuilder.getSerum();
+        consumables["Others"] = ConsumablesBuilder.getOthers();
+        ConsumablesBuilder.prepare(consumables, consumablesSet);
+        const consumableBoosts = loadBoosts(consumables["Magazines"], consumables["BobbleHeads"],consumables["Food"],
+        consumables["Drink"], consumables["Psycho"], consumables["Serum"], consumables["Others"], foodPref, player);
+        return [foodPref, consumableBoosts, consumables];
+    }
+
+    static setConsumableItems(consumables, setMagazines, setBobbleHeads, setFood, setDrink, setPsycho, setSerum, setOthers) {
+        setMagazines(consumables["Magazines"]);
+        setBobbleHeads(consumables["BobbleHeads"]);
+        setFood(consumables["Food"]);
+        setDrink(consumables["Drink"]);
+        setPsycho(consumables["Psycho"]);
+        setSerum(consumables["Serum"]);
+        setOthers(consumables["Others"]);
     }
 }
