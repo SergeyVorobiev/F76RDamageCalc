@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -37,6 +37,7 @@ const creatureOptions = {Average: '0', SBQ: '1', Earle: '2', 'U-Titan': '3'};
 
 export default function ModalCalculateWeapon(props) {
     // console.log("ModalCalculateWeapon");
+    const minHeight = useRef(null);
     const [count, setCount] = useState({config: {}, current: 0, percent: 0, bestTime: Infinity});
     const [calculating, setCalculating] = useState(0); // 0 - start, 1 - calculating, 2 - finished
     const [cards, setCards] = useState(getDefaultCards());
@@ -143,8 +144,15 @@ export default function ModalCalculateWeapon(props) {
         const leftValue = count.current + " - " + count.percent + "%";
         const rightValue = count.bestTime;
         const wrapText = (calculating === 2);
+        const currentElement = document.getElementById("modal-calc-item");
+        if (currentElement) {
+            const curHeight = currentElement.offsetHeight;
+            if (!minHeight.current || minHeight.current < curHeight) {
+                minHeight.current = curHeight;
+            }
+        }
         return (
-            <>
+            <div style={{minHeight: minHeight.current}} id="modal-calc-item">
                 <div className="mb-2 d-flex justify-content-center">
                     {keyValueTag(leftValue,  rightValue, 'volcano', {width: '100%', height: '1.34rem', fontSize: '1rem'}, false)}
                 </div>
@@ -152,7 +160,7 @@ export default function ModalCalculateWeapon(props) {
                 <ModsCalcRowView minHeight='2.9rem' mods={count.config.mods} fontSize='65%' wrapText={wrapText} />
                 <EmblemCalcRowView imNames={count.config.perks} imageProvider={getPerkImage} iconSize='2.0rem' imageSize='1.864rem' borderRadius='5px' />
                 <EmblemCalcRowView imNames={count.config.consumables} imageProvider={ConsumablesBuilder.getImagePathById} iconSize='2.0rem' imageSize='1.864rem' />
-            </>
+            </div>
         );
     }
 

@@ -6,6 +6,7 @@ const infos = {
     "Main Boosts": "Cards like Heavy Gunner, Stabilized...",
     "Leg Boosts": "TOFT, Follow Through.",
     "Low HP": "20% / 100%",
+    "Power Armor": "Used only for 'Heavy', ignored for other groups",
 }
 
 export default function CalcCards(props) {

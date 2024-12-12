@@ -47,13 +47,6 @@ export default class ParameterCalculator {
             </p>
         </>
     );
-    static info1 = "Calculate through different settings to find the best. Gun-Foo, Glow Sight, Exterminator, Bash and Mister Sandman are not participated in calculations. " +
-                    "Legendary1, Legendary2, Legendary3, Legendary4, Legendary5, Customname, Frontsight modification groups are excluded i.e. If " +
-                    "some of mods from these groups are de / selected by default they will not be changed. Legendary for weapons are calculated separately except for weapons which have default legendary. " +
-                    "There are mods from some groups (like 'Grip') that can have potential benefits which are not seen by the calculator. It is usually groups with " +
-                    "next modifications: APCost, MaxRange, MinRange, ConIronSights, RecoilMaxDegree, RecoilMinDegree, MaxConDegree, MinConDegree, SightedTransition, " +
-                    "BaseStability, RecoilArcDeg, RecoilArcRotateDeg. Lack of AP, in most of the cases, can be solved by using tea / coffee. Range, recoil, spread can be approximately fused into accuracy parameter, but " +
-                    "as the calculator does not have this sophisticated converter you have to choose what of these mods are best for you manually. Sometimes for 'Agility' category the best configuration can require more than 15 points as it is slightly overwhelmed. In this case you have to handle this manually (otherwise it would greatly increase the number of combinations to check)";
     constructor(id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accuracyPreference) {
         this.id = id;
         this.modGroups = modGroups;
@@ -473,13 +466,14 @@ export default class ParameterCalculator {
         const leg = this.cards["Leg Boosts"];
         const team = this.cards["Team"];
         const lowHp = this.cards["Low HP"];
+        const pa = this.cards["Power Armor"];
         const explosive = (wSpec.exp > 0);
         const crit = this.cards["Crit"];
         const sneak = this.cards["Sneak"];
         const night = this.main["Night"];
         const useSerums = this.stuff["Serums"];
         const drink = this.stuff["Drink"];
-        const boosts = PerkBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, explosive, crit, sneak, night, useSerums, player);
+        const boosts = PerkBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player);
         this.perkImageNames = PerkBuilder.getImageNamesForPickedCards(boosts);
         return boosts;
     }

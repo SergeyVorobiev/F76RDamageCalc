@@ -111,7 +111,6 @@ export default function MyApp() {
     const [foodPref, setFoodPref] = useState({carnivore: false, herbivore: false});
 
     useEffect(() => {
-        ConsumablesBuilder.prepare();
         readCreaturesFromFile(setMapCreatures);
     }, []);
 
@@ -141,7 +140,8 @@ export default function MyApp() {
         creatures.sbq.damageToCreature = cCreatures.sbq.damageToCreature;
         creatures.earle.damageToCreature = cCreatures.earle.damageToCreature;
         creatures.titan.damageToCreature = cCreatures.titan.damageToCreature;
-        const [foodPref, allStuffBoosts] = ConsumablesBuilder.buildFromList(cStuff, cPlayer);
+        const [foodPref, allStuffBoosts, consumables] = ConsumablesBuilder.buildFromList(cStuff, cPlayer);
+        ConsumablesBuilder.setConsumableItems(consumables, setMagazines, setBobbleHeads, setFood, setDrink, setPsycho, setSerum, setOthers);
         setFoodPref(foodPref);
         setStuffBoost(allStuffBoosts);
         setCreatures({...creatures});

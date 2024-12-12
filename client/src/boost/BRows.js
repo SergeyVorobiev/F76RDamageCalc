@@ -106,7 +106,7 @@ function getItem(card, setBoostDamage, boostDamage, xBadge=false, symbol='%', pl
         <Col className="ps-1 pe-1">
             <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
                 <InputGroup.Text className={"ps-2 pe-2" + outline} >
-                    <UCheckbox onChange={isUsed} checked={card.is_used} checkBgColor={bgCardColor}></UCheckbox>
+                    <UCheckbox onChange={isUsed} checked={card.is_used} checkBorderColor={bgCardColor} checkBgColor={bgCardColor}></UCheckbox>
                 </InputGroup.Text>
                 <Button className={cName + outline} style={{width: w}} onClick={onClick}>
                     <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
