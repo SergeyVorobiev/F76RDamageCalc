@@ -69,13 +69,15 @@ function CreatureStats({creatures, setCreatures, creature}) {
                 <Row>
                     {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", 1, 2)}
                 </Row>
+
+            </Card.Body>
+            <Card.Footer className="text-muted">
                 <Row>
-                    <div className="pt-3 pb-1 d-flex justify-content-center">
+                    <div className="pt-1 pb-1 d-flex justify-content-center">
                         <BSRadio pairs={creatureTypes} selectedValue={creature.userBody} onClick={onRadioTypeClick} />
                     </div>
                 </Row>
-            </Card.Body>
-            <Card.Footer className="text-muted"></Card.Footer>
+            </Card.Footer>
         </Card>
 
     );

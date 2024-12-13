@@ -30,6 +30,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ConsumablesBuilder from './boostStuff/ConsumablesBuilder';
+import RaceView from './race/view/RaceView';
 
 
 const defPlayerStats = defaultPlayerStats();
@@ -163,6 +164,7 @@ export default function MyApp() {
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
                         <CreatureView creatures={creatures} setCreatures={setCreatures}></CreatureView>
+                        <RaceView />
                     </Accordion>
                 </Tab>
                 <Tab eventKey="Templates" title="Weapons">

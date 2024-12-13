@@ -1,26 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import { Progress } from 'antd';
-
-
 const { Chart } = await import('chart.js/auto');
 
-let chart = null;
 
-function drawChart(graphValues) {
+function drawChart(chartRef, graphValues) {
 
     // This branch is not used so as chart updating seems not to work no matter what, or to work occasionally.
-    if (chart && 0) {
+    if (chartRef.current && 0) {
         // this.chart.data.labels.pop();
         // this.chart.data.labels.push(this.xValues);
-        chart.data.datasets.forEach((dataset) => {
+        chartRef.current.data.datasets.forEach((dataset) => {
             dataset.data.push(graphValues.yValues);
         });
-        chart.update();
+        chartRef.current.update();
     } else {
-        if (chart) {chart.destroy();}
-        chart = new Chart(document.getElementById('myChart'), {
+        if (chartRef.current) {chartRef.current.destroy();}
+        chartRef.current = new Chart(document.getElementById('myChart'), {
             type: "line",
             data: {
             labels: graphValues.xValues,
@@ -45,8 +42,9 @@ function drawChart(graphValues) {
 }
 
 export default function GraphInfoView(props) {
+    const chartRef = useRef(null);
     useEffect(() => {
-        drawChart(props.graphValues);
+        drawChart(chartRef, props.graphValues);
     });
     return (
         <Card className={props.className}>

@@ -69,9 +69,9 @@ export default function SummaryView(props) {
         <Card className={props.className}>
             <Card.Header className="pe-0 ps-0">
                 <Stack className='p-0 m-0 justify-content-evenly' direction="horizontal" gap={1}>
-                    <UCheckbox onChange={useCrit} checked={props.extraDamage.useCrit}><strong className="ps-1">☠️ CRIT</strong></UCheckbox>
-                    <UCheckbox onChange={useSneak} checked={props.extraDamage.useSneak}><strong className="ps-1">🐍 SNEAK</strong></UCheckbox>
-                    <UCheckbox onChange={useHead} checked={props.extraDamage.useHead}><strong className="ps-1">🤕 HEAD</strong></UCheckbox>
+                    <UCheckbox onChange={useCrit} checked={props.extraDamage.useCrit}><strong className="ps-1"><small>☠️ CRIT</small></strong></UCheckbox>
+                    <UCheckbox onChange={useSneak} checked={props.extraDamage.useSneak}><strong className="ps-1"><small>🐍 SNEAK</small></strong></UCheckbox>
+                    <UCheckbox onChange={useHead} checked={props.extraDamage.useHead}><strong className="ps-1"><small>🤕 HEAD</small></strong></UCheckbox>
                     <MainInfoButton />
                 </Stack>
             </Card.Header>
