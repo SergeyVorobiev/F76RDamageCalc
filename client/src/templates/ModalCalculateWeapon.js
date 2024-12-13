@@ -20,6 +20,7 @@ import { keyValueTag } from '../helpers/RowBuilder';
 import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
 import LegendaryCalcRowView from './calc/view/LegendaryCalcRowView';
 import ModsCalcRowView from './calc/view/ModsCalcRowView';
+import ParametersApplier from './calc/ParametersApplier';
 import EmblemCalcRowView from './calc/view/EmblemCalcRowView';
 import AccuracyHelper from '../helpers/AccuracyHelper';
 import { Divider } from 'antd';
@@ -75,19 +76,8 @@ export default function ModalCalculateWeapon(props) {
 
     function applyTemplate(e) {
         if (parameterCalculator) {
-            const result = parameterCalculator.getBestParameters();
-            const parameters = result.Parameters;
-            props.setWSpec(parameters.wSpec);
-            props.setBoostDamage(parameters.boostDamage);
-            props.setPlayer(parameters.player);
-            props.setPlayerStats(parameters.playerStats);
-            props.setAdditionalDamages(parameters.additionalDamages);
-            props.setExtraDamage(parameters.extraDamage);
-
-            // Have to recalculate it for best result to set appropriate selection to items.
-            const [foodPref, stuffBoost] = ConsumablesBuilder.buildFromList(parameters.consumableList, parameters.player);
-            props.setFoodPref(foodPref);
-            props.setStuffBoost(stuffBoost);
+            const parameters = parameterCalculator.getBestParameters().Parameters;
+            ParametersApplier.applyCalculatedParameters(parameters, props);
         }
         onHide(e);
     }

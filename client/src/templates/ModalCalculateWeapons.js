@@ -13,12 +13,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import BSRadio from '../helpers/views/BSRadio';
 import { WarningPopoverBadge } from '../helpers/WarningPopover';
-import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
 import TemplateTools from './TemplateTools';
 import { modGroups, weaponIds } from './TemplateItems';
 import CalcWGroupsDropdown from "./calc/view/CalcWGroupsDropdown";
 import CalcCurrentItem from "./calc/view/CalcCurrentItem";
 import CalcResultItems from "./calc/view/CalcResultItems";
+import ParametersApplier from './calc/ParametersApplier';
 import { getImage } from '../helpers/WTypeDropdown';
 import { Divider } from 'antd';
 import { Progress } from 'antd';
@@ -87,17 +87,7 @@ export default function ModalCalculateWeapons(props) {
             const result = parameters.get(wNameToApply);
             if (result) {
                 const parameters = result.Parameters;
-                props.setWSpec(parameters.wSpec);
-                props.setBoostDamage(parameters.boostDamage);
-                props.setPlayer(parameters.player);
-                props.setPlayerStats(parameters.playerStats);
-                props.setAdditionalDamages(parameters.additionalDamages);
-                props.setExtraDamage(parameters.extraDamage);
-
-                // Have to recalculate it for best result to set appropriate selection to items.
-                const [foodPref, stuffBoost] = ConsumablesBuilder.buildFromList(parameters.consumableList, parameters.player);
-                props.setFoodPref(foodPref);
-                props.setStuffBoost(stuffBoost);
+                ParametersApplier.applyCalculatedParameters(parameters, props);
                 onHide(null);
             }
         }
