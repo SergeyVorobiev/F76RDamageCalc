@@ -426,7 +426,7 @@ export default class ParameterCalculator {
         const boostDamage = this.buildPerks(wSpec, player);
         this.memoConfig(wSpec, consumableBoostsList);
         const creatures = defaultCreatures();
-        const [, consumableBoosts] = ConsumablesBuilder.buildFromList(consumableBoostsList, player);
+        const [, consumableBoosts,] = ConsumablesBuilder.buildFromList(consumableBoostsList, player);
         const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, consumableBoosts, playerStats);
         const timeLimit = (this.bestTime === Infinity) ? null : [this.creatureName, this.bestTime];
         const result = new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creatures).emulate(35000, timeLimit);
