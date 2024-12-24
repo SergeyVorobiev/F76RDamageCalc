@@ -8,7 +8,7 @@ import { memo } from 'react';
 const F76NavBar = memo(function F76NavBar() {
     console.log("NavBar");
     return (
-        <Navbar className="bg-body-tertiary ps-1">
+        <Navbar className="ps-1">
             <Navbar.Collapse className="justify-content-start">
                 <Navbar.Brand>
                     <Image  style={{ maxHeight: '7rem' }} src={logo} fluid />

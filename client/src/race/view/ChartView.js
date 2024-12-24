@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 const { Chart } = await import('chart.js/auto');
 
@@ -9,6 +9,7 @@ function getData(values, label, color) {
             label: label,
             data: values,
             borderColor: color,
+            pointRadius: 1.5,
             borderWidth: 2,
             fill: false,
         }],
@@ -52,19 +53,25 @@ function getConfig(data) {
     };
 }
 
-function drawChart(chartRef, config, chartId) {
-    if (chartRef.current) {
-        // chartRef.current.update();
-        chartRef.current.destroy();
+function drawChart(config, chartId) {
+    const curChart = Chart.getChart(chartId);
+    if (curChart) {
+        curChart.destroy();
     }
-    chartRef.current = new Chart(document.getElementById(chartId), config);
+    new Chart(document.getElementById(chartId), config);
+}
+
+function getCanvas(id) {
+    if (!id) {
+        return (<></>);
+    }
+    return (<canvas id={id}></canvas>);
 }
 
 export default function ChartView(props) {
-    const chartRef = useRef(null);
-    const config = getConfig(getData(props.values, "Energy Resistance", props.color));
+    const config = getConfig(getData(props.values, props.title + " Resistance", props.color));
     useEffect(() => {
-        drawChart(chartRef, config, props.chartId);
+        drawChart(config, props.chartId);
     });
     return (
         <Card className={props.className} style={{minWidth: '18rem'}}>
@@ -72,7 +79,7 @@ export default function ChartView(props) {
                 {props.title}
             </Card.Header>
             <Card.Body className="d-flex justify-content-center p-0">
-                <canvas id={props.chartId}></canvas>
+                {getCanvas(props.chartId)}
             </Card.Body>
         </Card>
     );

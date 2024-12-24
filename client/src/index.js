@@ -5,14 +5,19 @@ import TApp from './TApp';
 import reportWebVitals from './reportWebVitals';
 
 
-/*
-    <App />
-    <TApp />
-*/
+function windowSizeChanged() {
+    const width =  window.innerWidth;
+    const height = window.innerHeight;
+    document.documentElement.style.setProperty('--screen-modal-body-height-80', (height * 0.8).toFixed(0) + "px");
+    document.documentElement.style.setProperty('--screen-modal-body-width-80', (width * 0.8).toFixed(0) + "px");
+    document.documentElement.style.setProperty('--screen-modal-body-height-70', (height * 0.7).toFixed(0) + "px");
+    document.documentElement.style.setProperty('--screen-modal-body-width-70', (width * 0.7).toFixed(0) + "px");
+    document.documentElement.style.setProperty('--screen-modal-body-height-60', (height * 0.6).toFixed(0) + "px");
+    document.documentElement.style.setProperty('--screen-modal-body-width-60', (width * 0.6).toFixed(0) + "px");
+}
+windowSizeChanged();
 
-// Setup some screen mesures to use them in css
-document.documentElement.style.setProperty('--screen-modal-body-height', (window.innerHeight * 0.8).toFixed(0) + "px");
-document.documentElement.style.setProperty('--screen-modal-body-width', (window.innerWidth * 0.8).toFixed(0) + "px");
+window.onresize = windowSizeChanged;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
