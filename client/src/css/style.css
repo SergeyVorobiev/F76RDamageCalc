@@ -373,6 +373,27 @@
     color: #000;
 }
 
+.width-fit {
+    width: fit-content;
+}
+
+.lite-shadow {
+    box-shadow: 0 1px 1px 0px #e3e3e3;
+}
+
+.bg-lite-shadow2 {
+    background-color:#f4f4f4;
+    box-shadow: 0 1px 2px 0 #605810, 0 1px 2px 0 #605810;
+    color: #000;
+}
+
+.bg-text-shadow {
+    text-shadow:
+        1px 0px 1px #000000,
+        0px 1px 1px #000000;
+    color: #fff;
+}
+
 .bg-lite-outline {
     outline: 1px solid #dedede;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.2);
@@ -409,21 +430,28 @@
 }
 
 @media only screen and (orientation: landscape) {
-    .modal-scroll {
-        max-height: var(--screen-modal-body-width, '500px');
-        overflow-y: auto;
-        overflow:auto;
+    .modal-scroll-80-60 {
+        max-height: var(--screen-modal-body-height-60);
+        overflow: auto;
+    }
+
+    .modal-scroll-60 {
+        max-height: var(--screen-modal-body-height-60);
+        overflow: auto;
     }
 }
 
 @media only screen and (orientation: portrait) {
-    .modal-scroll {
-        max-height: var(--screen-modal-body-height, '500px');
-        overflow-y: auto;
-        overflow:auto;
+    .modal-scroll-80-60 {
+        max-height: var(--screen-modal-body-height-80);
+        overflow: auto;
+    }
+
+    .modal-scroll-60 {
+        max-height: var(--screen-modal-body-height-60);
+        overflow: auto;
     }
 }
-
 
 .popover {
     --bs-popover-max-width: 350px;
@@ -580,6 +608,24 @@
     width: '4rem';
     backgroundColor: '#007cf5' !important;
     color: 'white';
+}
+
+.tag {
+    width: fit-content;
+    max-width: 100%;
+    height: 1.3rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0.4rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    background-color: #ffede1;
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #5e2600;
+    color: #8b3800;
+
 }
 
 

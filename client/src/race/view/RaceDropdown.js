@@ -25,7 +25,7 @@ const RaceDropdown = memo(function RaceDropdown(props) {
         props.setRaceName(e);
     }
     return (
-        <Row className="p-2 mb-2 mt-1">
+        <Row className="p-1 mb-2 mt-0">
             <Col className="d-flex justify-content-center">
                 <DropdownButton variant='warning' size="sm" onSelect={onSelect} title={<strong>{raceName}</strong>}>
                     {getItems(props.pairs)}

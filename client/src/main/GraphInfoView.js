@@ -1,50 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import { Progress } from 'antd';
 const { Chart } = await import('chart.js/auto');
 
 
-function drawChart(chartRef, graphValues) {
-
-    // This branch is not used so as chart updating seems not to work no matter what, or to work occasionally.
-    if (chartRef.current && 0) {
-        // this.chart.data.labels.pop();
-        // this.chart.data.labels.push(this.xValues);
-        chartRef.current.data.datasets.forEach((dataset) => {
-            dataset.data.push(graphValues.yValues);
-        });
-        chartRef.current.update();
-    } else {
-        if (chartRef.current) {chartRef.current.destroy();}
-        chartRef.current = new Chart(document.getElementById('myChart'), {
-            type: "line",
-            data: {
+function getConfig(graphValues) {
+    return {
+        type: "line",
+        data: {
             labels: graphValues.xValues,
             datasets: [{
-                    data: graphValues.yValues,
-                    borderColor: "red",
-                    borderWidth: "2",
-                    pointRadius: "1",
-                    fill: true
-                }]
+                data: graphValues.yValues,
+                borderColor: "red",
+                borderWidth: "2",
+                pointRadius: "1",
+                fill: true
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                animation: false,
-            }
-        });
+            animation: false,
+        }
+    };
+}
+
+const chartId = "mainResChart";
+
+function drawChart(graphValues) {
+    const curChart = Chart.getChart(chartId);
+    if (curChart) {
+        curChart.destroy();
     }
+    new Chart(document.getElementById(chartId), getConfig(graphValues));
 }
 
 export default function GraphInfoView(props) {
-    const chartRef = useRef(null);
     useEffect(() => {
-        drawChart(chartRef, props.graphValues);
+        drawChart(props.graphValues);
     });
     return (
         <Card className={props.className}>
@@ -72,7 +69,7 @@ export default function GraphInfoView(props) {
                 </span>
             </Card.Header>
             <Card.Body>
-                <canvas id="myChart"></canvas>
+                <canvas id={chartId}></canvas>
             </Card.Body>
         </Card>
     );

@@ -7,19 +7,43 @@ let k = 0;
 export function keyValueRow(name, value, colorName="purple", colorValue="red", m=1) {
     const rowProps = "flex-nowrap ps-0 pe-0 m-" + m;
     return (
-       <Row key={k++} className={rowProps}>
-          <Col className="text-start text-nowrap ps-0 ms-0 pe-0 me-0">
-            <strong>
-                 <Tag bordered={false} color={colorName}>{name}</Tag>
-            </strong>
-          </Col>
+        <Row key={k++} className={rowProps}>
+            <Col className="text-start text-nowrap ps-0 ms-0 pe-0 me-0">
+                <strong>
+                    <Tag bordered={false} color={colorName}>{name}</Tag>
+                </strong>
+            </Col>
+            <Col className="text-end text-nowrap pb-0 pe-0 me-0 ps-0 pe-0">
+                <strong >
+                    <Tag className="me-0" color={colorValue}>{value}</Tag>
+                </strong>
+            </Col>
+        </Row>
+    );
+}
 
-          <Col className="text-end text-nowrap pb-0 pe-0 me-0 ps-0 pe-0">
-              <strong >
-                  <Tag className="me-0" color={colorValue}>{value}</Tag>
-              </strong>
-          </Col>
-       </Row>
+export function leftRight(left, right, rowClass=null) {
+    return (
+
+        <Row key={k++} className={rowClass}>
+            <Col xs={10} className="d-flex justify-content-start pe-0">
+                {left}
+            </Col>
+            <Col xs={2} className="d-flex justify-content-end ps-0">
+                {right}
+            </Col>
+        </Row>
+
+    );
+}
+
+export function getTagFlexView(tag, tagClassName, color, bordered, align) {
+    return (
+        <div className={"d-flex justify-content-" + align}>
+            <Tag key={tag} className={tagClassName} bordered={bordered} color={color}>
+                {tag}
+            </Tag>
+        </div>
     );
 }
 

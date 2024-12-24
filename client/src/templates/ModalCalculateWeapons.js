@@ -311,12 +311,12 @@ export default function ModalCalculateWeapons(props) {
                     </Col>
                 </Row>
             </Modal.Header>
-            <Modal.Body className="modal-scroll pt-2 p-3">
+            <Modal.Body className="modal-scroll-80-60 pt-2 p-3">
                 {getProgress(calculating)}
                 {getSettings(calculating)}
             </Modal.Body>
-            <Modal.Footer>
-                <InputGroup className="mb-1 mt-1 flex-nowrap">
+            <Modal.Footer className="p-2">
+                <InputGroup className="mb-0 mt-0 flex-nowrap">
                     {getButtons(calculating)}
                 </InputGroup>
             </Modal.Footer>

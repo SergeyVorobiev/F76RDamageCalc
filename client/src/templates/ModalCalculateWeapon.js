@@ -207,13 +207,13 @@ export default function ModalCalculateWeapon(props) {
                     </Col>
                 </Row>
             </Modal.Header>
-            <Modal.Body className="modal-scroll">
+            <Modal.Body className="modal-scroll-80-60">
                 {nameView()}
                 {getCounter(calculating)}
                 {getSettings(calculating)}
             </Modal.Body>
-            <Modal.Footer>
-                <InputGroup className="mb-1 mt-1 flex-nowrap">
+            <Modal.Footer className="p-2">
+                <InputGroup className="mb-0 mt-0 flex-nowrap">
                     {getButtons(calculating)}
                 </InputGroup>
             </Modal.Footer>

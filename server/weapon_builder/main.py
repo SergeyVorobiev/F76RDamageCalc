@@ -136,9 +136,9 @@ def update_existed(load_mods, save=True, specific=None, is_print=True):
 
 
 if __name__ == '__main__':
-    update_existed(False, True, is_print=True)
+    # update_existed(False, True, is_print=True)
     # WatsonMod.build_legendary_json()
     # MissedWeaponChecker.print_all()
     # WatsonMod.print_mod_operations()
     # WatsonMod.print_actor_values()
-    # MutationsInfo().print_mutations_info()
+    MutationsInfo().print_mutations_info()
