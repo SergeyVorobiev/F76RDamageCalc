@@ -45,6 +45,8 @@ export function getDummy() {
         lifeTime: Infinity,
         level: 1,
         damageToCreature: 0,
+        immuneToPoison: false,
+        immuneToRadiation: false,
     };
 }
 
@@ -84,6 +86,8 @@ export function defaultCreatures() {
             lifeTime: Infinity,
             level: 1,
             damageToCreature: 0,
+            immuneToPoison: false,
+            immuneToRadiation: false,
         },
 
         sbq: {
@@ -120,6 +124,8 @@ export function defaultCreatures() {
             lifeTime: Infinity,
             level: "Max",
             damageToCreature: 0,
+            immuneToPoison: false,
+            immuneToRadiation: true,
         },
 
         earle: {
@@ -156,6 +162,8 @@ export function defaultCreatures() {
             lifeTime: Infinity,
             level: "Max",
             damageToCreature: 0,
+            immuneToPoison: false,
+            immuneToRadiation: true,
         },
 
         titan: {
@@ -192,6 +200,8 @@ export function defaultCreatures() {
             lifeTime: Infinity,
             level: "Max",
             damageToCreature: 0,
+            immuneToPoison: false,
+            immuneToRadiation: true,
         }
     };
 }

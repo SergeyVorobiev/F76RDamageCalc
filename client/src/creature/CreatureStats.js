@@ -5,9 +5,13 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { checkLength } from '../helpers/Input';
 import BSRadio from '../helpers/views/BSRadio';
+import { leftRight } from '../helpers/RowBuilder';
+import CreatureDataProvider from './CreatureDataProvider';
+import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
+import { useState } from 'react';
 
 
-function col(name, creatures, setCreatures, creature, res_field, color, min=0, max=9999) {
+function col(name, creatures, setCreatures, creature, res_field, color, canDisable, enabled, setEnabled, min=0, max=9999) {
     function onChange(e) {
         checkLength(e);
         if (e.target.value < min) {
@@ -18,11 +22,37 @@ function col(name, creatures, setCreatures, creature, res_field, color, min=0, m
             ...creatures,
         });
     }
+    function getCheckbox(canDisable) {
+        const chColor = (res_field === "p") ? "#237504" : "#a4aa04";
+        function onChange(e) {
+            const result = !enabled
+            setEnabled(result);
+            if (res_field === "p") {
+                creature.immuneToPoison = !result;
+            } else {
+                creature.immuneToRadiation = !result;
+            }
+            setCreatures({
+                ...creatures,
+            });
+        }
+        if (canDisable) {
+            return (
+                <InputGroup.Text style={{width: '2.6rem'}}>
+                    <UCheckbox checked={enabled} checkBorderColor={chColor} checkBgColor={chColor} onChange={onChange}></UCheckbox>
+                </InputGroup.Text>
+            );
+        }
+        return <></>;
+    }
+    const width = (canDisable) ? '7.4rem' : '10rem';
+    const value = (enabled) ? creature[res_field] : "Inf";
     return (
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
-                <InputGroup.Text className={color} style={{ width: '9rem' }}>{name}</InputGroup.Text>
-                <Form.Control className='w-auto' type="number" min={min} value={creature[res_field]} max={max} maxLength="7" onChange={onChange} />
+                {getCheckbox(canDisable)}
+                <InputGroup.Text className={color} style={{ width: width }}>{name}</InputGroup.Text>
+                <Form.Control className='w-auto' disabled={!enabled} type="number" min={min} value={value} max={max} maxLength="7" onChange={onChange} />
             </InputGroup>
         </Col>);
 }
@@ -40,34 +70,38 @@ const creatureTypes = {Normal: 'default', Scorched: 'scorched', Glowing: 'glowin
 
 
 function CreatureStats({creatures, setCreatures, creature}) {
+    const [poisonEnabled, setPoisonEnabled] = useState(true);
+    const [radiationEnabled, setRadiationEnabled] = useState(true);
     console.log("CreatureStats");
     function onRadioTypeClick(e) {
         creature.userBody = e.target.value;
         setCreatures({...creatures});
     }
-
+    let name = CreatureDataProvider.capitalizeCreatureName(creature.name);
     return (
         <Card className="text-center mb-3">
-            <Card.Header>{creature.name} {creature.level}</Card.Header>
+            <Card.Header>
+                {leftRight(<b className="ps-1 creature-label-text" style={{display: 'flex', alignItems: 'center', fontSize: '1.0rem'}}>{name}</b>, <span><b style={{color: '#091503'}}>Lvl:</b> <b style={{fontSize: '1.1rem', color: '#bb0000'}}>{creature.level}</b></span>, 9, 3)}
+            </Card.Header>
             <Card.Body>
                 <Row>
-                    {col(ballistic, creatures, setCreatures, creature, "b", "bg-ballistic")}
-                    {col(energy, creatures, setCreatures, creature, "e", "bg-energy")}
+                    {col(ballistic, creatures, setCreatures, creature, "b", "bg-ballistic", false, true, null)}
+                    {col(energy, creatures, setCreatures, creature, "e", "bg-energy", false, true, null)}
                 </Row>
                 <Row>
-                    {col(fire, creatures, setCreatures, creature, "f", "bg-fire")}
-                    {col(poison, creatures, setCreatures, creature, "p", "bg-poison")}
+                    {col(fire, creatures, setCreatures, creature, "f", "bg-fire", false, true, null)}
+                    {col(poison, creatures, setCreatures, creature, "p", "bg-poison", true, poisonEnabled, setPoisonEnabled)}
                 </Row>
                 <Row>
-                    {col(cold, creatures, setCreatures, creature, "c", "bg-cold")}
-                    {col(rad, creatures, setCreatures, creature, "r", "bg-rad")}
+                    {col(cold, creatures, setCreatures, creature, "c", "bg-cold", false, true, null)}
+                    {col(rad, creatures, setCreatures, creature, "r", "bg-rad", true, radiationEnabled, setRadiationEnabled)}
                 </Row>
                 <Row>
-                    {col(health, creatures, setCreatures, creature, "h", "bg-health", 1, 1000000)}
-                    {col(reduction, creatures, setCreatures, creature, "damageReduction", "bg-reduction", 0, 0.9)}
+                    {col(health, creatures, setCreatures, creature, "h", "bg-health", false, true, null, 1, 999999)}
+                    {col(reduction, creatures, setCreatures, creature, "damageReduction", "bg-reduction", false, true, null, 0, 0.9)}
                 </Row>
                 <Row>
-                    {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", 1, 2)}
+                    {col(headShot, creatures, setCreatures, creature, "headShot", "bg-head-shot", false, true, null, 1, 2)}
                 </Row>
 
             </Card.Body>

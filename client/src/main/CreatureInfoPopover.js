@@ -4,11 +4,13 @@ import { Divider } from 'antd';
 import { keyValueRow } from '../helpers/RowBuilder';
 import { truncate } from '../helpers/Input';
 import { tAmmo, addText } from '../helpers/Emoji';
+import CreatureDataProvider from '../creature/CreatureDataProvider';
 
 
-function getResBadge(className, value) {
+function getResBadge(className, value, immune) {
+    const result = (immune) ? "Infinity" : value.toFixed(1);
     return (
-        <span style={{ width: '2.7rem' }} className={className}><small>{value.toFixed(1)}</small></span>
+        <span style={{ width: '2.7rem' }} className={className}><small>{result}</small></span>
     );
 }
 
@@ -29,28 +31,27 @@ export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
     const wNameTrunc = truncate(weaponName, 55);
     const showHeadExp = (creature.explosiveDamage === creature.headExpShotDamage);
     const showCritHeadExp = (creature.critExplosiveDamage === creature.critExplosiveHeadDamage);
-    let capitalized = creature.name.charAt(0).toUpperCase() + creature.name.slice(1);
-    capitalized = capitalized.replaceAll("_", " ");
+    let capitalized = CreatureDataProvider.capitalizeCreatureName(creature.name);
     return (
         <Popover title="CreatureInfoPopover" className="popover-adjustable">
             <Popover.Header className="d-flex justify-content-center"><strong style={{fontSize: '0.9rem'}}>{capitalized} (Level: {creature.level})</strong></Popover.Header>
             <Popover.Body className="popover-body3 ms-1 me-1">
                 <Stack className='pt-0 pb-0 d-flex jufstify-content-center' direction="horizontal" gap={1}>
-                    {getResBadge("badge bg-ballistic-shadow", creature.b)}
-                    {getResBadge("badge bg-energy-shadow", creature.e)}
-                    {getResBadge("badge bg-fire-shadow", creature.f)}
-                    {getResBadge("badge bg-poison-shadow", creature.p)}
-                    {getResBadge("badge bg-cold-shadow", creature.c)}
-                    {getResBadge("badge bg-rad-shadow", creature.r)}
+                    {getResBadge("badge bg-ballistic-shadow", creature.b, false)}
+                    {getResBadge("badge bg-energy-shadow", creature.e, false)}
+                    {getResBadge("badge bg-fire-shadow", creature.f, false)}
+                    {getResBadge("badge bg-poison-shadow", creature.p, creature.immuneToPoison)}
+                    {getResBadge("badge bg-cold-shadow", creature.c, false)}
+                    {getResBadge("badge bg-rad-shadow", creature.r, creature.immuneToRadiation)}
                 </Stack>
                 <Divider className='p-0 m-0'>v</Divider>
                 <Stack  className='pt-0 pb-2' direction="horizontal" gap={1}>
-                    {getResBadge("badge bg-ballistic-shadow", armor[0])}
-                    {getResBadge("badge bg-energy-shadow", armor[1])}
-                    {getResBadge("badge bg-fire-shadow", armor[2])}
-                    {getResBadge("badge bg-poison-shadow", armor[3])}
-                    {getResBadge("badge bg-cold-shadow", armor[4])}
-                    {getResBadge("badge bg-rad-shadow", armor[5])}
+                    {getResBadge("badge bg-ballistic-shadow", armor[0], false)}
+                    {getResBadge("badge bg-energy-shadow", armor[1], false)}
+                    {getResBadge("badge bg-fire-shadow", armor[2], false)}
+                    {getResBadge("badge bg-poison-shadow", armor[3], creature.immuneToPoison)}
+                    {getResBadge("badge bg-cold-shadow", armor[4], false)}
+                    {getResBadge("badge bg-rad-shadow", armor[5], creature.immuneToRadiation)}
                 </Stack>
                 <Stack  className='pb-0' direction="vertical" gap={0}>
                     {keyValueRow(" Body:", creature.body, "default", "default")}

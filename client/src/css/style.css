@@ -63,28 +63,18 @@
 @media only screen and (min-width: 386px) {
     .main-display-adjustable {
         width: 24rem;
-        max-height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
     }
 }
 
 @media only screen and (max-width: 385px) {
     .main-display-adjustable {
         width: 22rem;
-        max-height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
     }
 }
 
 @media only screen and (max-width: 360px) {
     .main-display-adjustable {
-        min-width: 21rem;
-        width: 22rem;
-        max-height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
+        width: 21rem;
     }
 }
 
@@ -424,9 +414,8 @@
 
 .dropdown-menu {
     min-height: 10px;
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: scroll;
-    overflow:auto;
 }
 
 @media only screen and (orientation: landscape) {

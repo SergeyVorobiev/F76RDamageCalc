@@ -75,3 +75,35 @@
   --bs-btn-padding-x: 0.8rem;
   --bs-btn-font-size: 0.86rem;
 }
+
+.btn-blue-label {
+    margin: 0.15rem;
+    color: #003c99;
+    letter-spacing: 1px;
+    text-shadow:
+        0px 0px 0px #f7f7f7,
+        0px 0px 0px #0e5ac4;
+  --bs-btn-color: #26455a;
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: #cfd8de;
+
+  --bs-btn-hover-color: #0077c8;
+  --bs-btn-hover-bg: #f7fcff;
+  --bs-btn-hover-border-color: #0077c8;
+
+  --bs-btn-active-color: #0098ff;
+  --bs-btn-active-bg: #f7fcff;
+  --bs-btn-active-border-color: #49b5ff;
+
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+
+  --bs-btn-disabled-color: #0098ff;
+  --bs-btn-disabled-bg: #0d6efd;
+  --bs-btn-disabled-border-color: #0d6efd;
+
+  --bs-btn-border-radius: 0.2rem;
+  --bs-btn-padding-y: 0.0rem;
+  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-font-size: 0.86rem;
+}
