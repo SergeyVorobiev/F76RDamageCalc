@@ -6,7 +6,6 @@ import ConsumableItems from './ConsumableItems';
 import ConsumableToast from './ConsumableToast';
 import ConsumableFilter from './ConsumableFilter';
 import FilterDisplay from './FilterDisplay';
-import Row from 'react-bootstrap/Row';
 
 
 const ConsumablesView = memo(function ConsumablesView() {

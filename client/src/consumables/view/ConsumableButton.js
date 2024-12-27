@@ -57,7 +57,7 @@ function getEffectValues(effects, tag) {
 }
 
 function getEffectFilterInfo(resultName, durationText, max, valueColor) {
-    return leftRight(<>{resultName} {durationText}</>, <a style={{color: valueColor}}>{max}</a>, "m-0 p-1");
+    return leftRight(<>{resultName} {durationText}</>, <a style={{color: valueColor}}>{max}</a>, 9, 3, "m-0 p-1");
 }
 
 export default function ConsumableButton(props) {

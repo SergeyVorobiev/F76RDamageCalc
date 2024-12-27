@@ -80,7 +80,7 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
                     <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
                     <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
                     <InputGroup.Text>
-                        <UCheckbox onChange={onStackCheck} checked={dItem.stack}>Stack</UCheckbox>
+                        <UCheckbox className="me-2" onChange={onStackCheck} checked={dItem.stack}> Stack</UCheckbox>
                     </InputGroup.Text>
                     <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
                     <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />

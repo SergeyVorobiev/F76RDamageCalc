@@ -1,6 +1,7 @@
 import csvFile from '../resources/creature_resistance_health.csv';
 
 
+// DEPRECATED (JSON file is used now)
 export default function readCreaturesFromFile(setMapCreatures) {
     fetch(csvFile).then(response => {
         if (!response.ok) {

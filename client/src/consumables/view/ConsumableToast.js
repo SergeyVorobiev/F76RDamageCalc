@@ -15,12 +15,6 @@ const darkBlue = {
     color: '#003e5d',
 }
 
-const orange = {
-    backgroundColor: '#ffede1',
-    borderColor: '#b76800',
-    color: '#bd5d00',
-}
-
 const blue = {
     backgroundColor: '#f7fbff',
     borderColor: '#0072a3',

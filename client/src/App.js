@@ -19,7 +19,6 @@ import { defaultPlayerStats } from './entities/EPlayerStats';
 import { defaultPlayer } from './entities/EPlayer';
 import { defaultAdds } from './entities/EAddDamages';
 import { defaultWeaponSpecs } from './entities/EWeaponSpecs';
-import readCreaturesFromFile from './helpers/FetchCreatures';
 import F76NavBar from './main/F76NavBar';
 import WeaponSpecs from './main/WeaponSpecs';
 import DamageBoosts from './main/DamageBoosts';
@@ -58,19 +57,6 @@ function getDefaultGraphData() {
 }
 
 export default function MyApp() {
-    const items = [].map((name, index) => {
-        return {label: name, key: name}
-    });
-
-    const levels = [1].map((name, index) => {
-        return {label: name, key: name}
-    });
-
-    const [mapCreatures, setMapCreatures] = useState({
-        names: items,
-        levels: levels,
-        map: new Map(),
-    });
 
     const [key, setKey] = useState('Main');
 
@@ -113,10 +99,6 @@ export default function MyApp() {
     const [foodPref, setFoodPref] = useState({carnivore: false, herbivore: false});
 
     useEffect(() => {
-        readCreaturesFromFile(setMapCreatures);
-    }, []);
-
-    useEffect(() => {
 
         setTimeout(() => {
                 const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
@@ -152,7 +134,7 @@ export default function MyApp() {
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
-            <ATotalDamage weaponName={wSpec.weaponName} graphValues={graphValues} iconName={wSpec.iconName} defaultName={wSpec.defaultName} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} mapCreatures={mapCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
+            <ATotalDamage weaponName={wSpec.weaponName} graphValues={graphValues} iconName={wSpec.iconName} defaultName={wSpec.defaultName} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
             <ToastSpecs creatures={creatures} legendary={wSpec.legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"

@@ -1,8 +1,8 @@
 // Custom checkbox
 export function UCheckbox(props) {
-    let className = "form-check-input";
+    let className = "form-check-input ";
     if (props.className) {
-        className = props.className;
+        className += props.className;
     }
     let bgColor = null;
     let bColor = null;

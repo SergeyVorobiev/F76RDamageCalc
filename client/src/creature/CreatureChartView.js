@@ -16,7 +16,7 @@ function getData(values, label, color) {
     };
 }
 
-function getConfig(data) {
+function getConfig(data, titleText) {
     return {
         type: 'line',
         data: data,
@@ -44,7 +44,7 @@ function getConfig(data) {
                 y: {
                     title: {
                         display: true,
-                        text: 'Resistance',
+                        text: titleText,
                         color: 'black', // Customize title color
                     },
                 }
@@ -68,12 +68,12 @@ function getCanvas(id) {
     return (<canvas id={id}></canvas>);
 }
 
-export default function ChartView(props) {
-    const config = getConfig(getData(props.values, props.title + " Resistance", props.color));
+export default function CreatureChartView(props) {
+    const titleText = (props.title === "❤️ Health") ? "Health" : "Resistance";
+    const config = getConfig(getData(props.values, props.title, props.color), titleText);
     useEffect(() => {
         drawChart(config, props.chartId);
     });
-
     return (
         <Card className={props.className} style={{minWidth: '18rem'}}>
             <Card.Header className={props.headerClassName}>

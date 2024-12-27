@@ -18,6 +18,8 @@ export default class Creature {
         this.body = creatureInfo.body;
         this.type = creatureInfo.type;
         this.kind = creatureInfo.kind;
+        this.immuneToRadiation = creatureInfo.immuneToRadiation;
+        this.immuneToPoison = creatureInfo.immuneToPoison;
         if (this.type === "" || creatureInfo.rank === "creature") {
             this.type = determineType(creatureInfo.name);
             if (creatureInfo.rank === "creature") {
@@ -416,6 +418,11 @@ export default class Creature {
     }
 
     finalDamage(value, type) {
+        if (type === "dtRadiationExposure" && this.immuneToRadiation) {
+            return 0;
+        } else if (type === "dtPoison" && this.immuneToPoison) {
+            return 0;
+        }
         const armor = this.getArmorValue(type);
         if (armor === Infinity) {
             return 0;

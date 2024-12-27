@@ -1,6 +1,7 @@
 import InputGroup from 'react-bootstrap/InputGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import CreatureStats from "../creature/CreatureStats";
+import CreatureDataView from "../creature/CreatureDataView";
 import { memo } from 'react';
 
 
@@ -18,6 +19,7 @@ const CreatureView = memo(function CreatureView({creatures, setCreatures}) {
                 </Accordion.Header>
                 <Accordion.Body className="ps-1 pe-1">
                     <CreatureStats creatures={creatures} setCreatures={setCreatures} creature={creatures.creature}></CreatureStats>
+                    <CreatureDataView />
                 </Accordion.Body>
             </Accordion.Item>
         </div>
