@@ -31,6 +31,9 @@ import Container from 'react-bootstrap/Container';
 import ConsumablesBuilder from './boostStuff/ConsumablesBuilder';
 import RaceView from './race/view/RaceView';
 import ConsumablesView from './consumables/view/ConsumablesView';
+import SSLink from './main/SSLink';
+import LCLink from './main/LCLink';
+import FILink from './main/FILink';
 
 
 const defPlayerStats = defaultPlayerStats();
@@ -98,16 +101,16 @@ export default function MyApp() {
 
     const [foodPref, setFoodPref] = useState({carnivore: false, herbivore: false});
 
+    const [consumableTouched, setConsumableTouched] = useState([]);
     useEffect(() => {
-
         setTimeout(() => {
                 const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
                 setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
                 setResultDamage(calcDamage(weaponFactory, creatures));
-            }, 10
+            }, 0
         );
 
-    }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, playerStats, graphValues.xValues]);
+    }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats, graphValues.xValues]);
 
     // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,
     // but we can omit this cause it is not affected on render time to much.
@@ -141,7 +144,7 @@ export default function MyApp() {
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
                 className="mt-1 mb-3">
-                <Tab eventKey="Main" title="Main">
+                <Tab eventKey="Main" title={<span className="tab-text">Main</span>}>
                     <Accordion className="accordion">
                         <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
@@ -151,31 +154,32 @@ export default function MyApp() {
                         <ConsumablesView />
                     </Accordion>
                 </Tab>
-                <Tab eventKey="Templates" title="Weapons">
+                <Tab eventKey="Templates" title={<span className="tab-text">Weapons</span>}>
                     <WeaponTemplates setWSpec={setWSpec} setBoostDamage={setBoostDamage} setPlayer={setPlayer} setExtraDamage={setExtraDamage} setFoodPref={setFoodPref} setStuffBoost={setStuffBoost} setAdditionalDamages={setAdditionalDamages} setPlayerStats={setPlayerStats} setMagazines={setMagazines} setBobbleHeads={setBobbleHeads} setFood={setFood} setDrink={setDrink} setPsycho={setPsycho} setSerum={setSerum} setOthers={setOthers}></WeaponTemplates>
                 </Tab>
-                <Tab eventKey="Boosts" title="Boosts">
-                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></BoostStuff>
+                <Tab eventKey="Boosts" title={<span className="tab-text">Boosts</span>}>
+                    <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats} setConsumableTouched={setConsumableTouched}></BoostStuff>
                 </Tab>
-                <Tab eventKey="Snapshots" title="Snapshots">
+                <Tab eventKey="Snapshots" title={<span className="tab-text">Snapshots</span>}>
                      <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={wSpec.weaponName} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
                 </Tab>
             </Tabs>
             <div style={{height: '1.5rem'}}></div>
+
             <Container className="mb-4">
-                <Row className="mb-3">
-                    <Col>
-                        <a className="p-1 m-1 pb-3 d-flex justify-content-start" href="https://www.flaticon.com"><small>Freepik icons</small></a>
+                <div className="ps-1 ms-1 version-text">{version1}</div>
+                <div className="ps-1 ms-1 mb-4 version-text">{version2}</div>
+                <Row className="p-1 mb-3">
+                    <Col className="p-0 m-0">
+                        <FILink />
                     </Col>
-                    <Col>
-                        <a className="p-1 m-1 pb-3 d-flex justify-content-center" href="https://nukacrypt.com/"><small>Launch codes</small></a>
+                    <Col className="p-0 m-0">
+                        <LCLink />
                     </Col>
-                    <Col>
-                        <a className="p-1 m-1 pb-3 d-flex justify-content-end" href="https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88"><small>Data Sheet</small></a>
+                    <Col className="p-0 m-0">
+                        <SSLink />
                     </Col>
                 </Row>
-                <div className="ps-1 ms-1 version-text">{version1}</div>
-                <div className="ps-1 ms-1 version-text">{version2}</div>
             </Container>
         </div>
     );

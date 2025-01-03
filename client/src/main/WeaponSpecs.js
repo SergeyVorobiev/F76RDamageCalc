@@ -17,9 +17,9 @@ const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setSho
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '10rem'}}>
-                            Weapon Specs
+                            <span className="ac-text">Weapon Specs</span>
                         </InputGroup.Text>
-                        <Button style={{width: '4rem'}} onClick={openStat}>Stats</Button>
+                        <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="p-2">

@@ -3,6 +3,7 @@
     "name": "Big Guns",
     "imName": "bh_big_guns",
     "id": "big_guns_bobble",
+    "gameId": "004fe4e8",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -20,6 +21,7 @@
     "name": "Unarmed",
     "imName": "bh_unarmed",
     "id": "unarmed_bobble",
+    "gameId": "0042fee8",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -37,6 +39,7 @@
     "name": "Energy",
     "imName": "bh_energy",
     "id": "energy_bobble",
+    "gameId": "004fe4f0",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -44,7 +47,7 @@
         "category": "weapon",
         "tag": "Energy",
         "property": "BDB",
-        "value": 25,
+        "value": 20,
         "valueType": "percent",
         "description": "Energy"
       }
@@ -54,6 +57,7 @@
     "name": "Explosive",
     "imName": "bh_explosive",
     "id": "explosive_bobble",
+    "gameId": "004fe4f2",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -70,6 +74,7 @@
     "name": "Melee",
     "imName": "bh_melee",
     "id": "melee_bobble",
+    "gameId": "0042feda",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -87,6 +92,7 @@
     "name": "Repair",
     "imName": "bh_repair",
     "id": "repair_bobble",
+    "gameId": "0042fede",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -104,6 +110,7 @@
     "name": "Small guns",
     "imName": "bh_small_guns",
     "id": "small_guns_bobble",
+    "gameId": "0042fee2",
     "type": "bobble",
     "used": false,
     "boosts": [
@@ -122,6 +129,7 @@
     "name": "Strength",
     "imName": "bh_strength",
     "id": "strength_bobble",
+    "gameId": "0042fee6",
     "type": "bobble",
     "used": false,
     "boosts": [

@@ -6,30 +6,30 @@ import Row from 'react-bootstrap/Row';
 import { memo } from 'react';
 
 
-function couple(key, categoryName, foodPref, setFoodPref, player, one, second, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost) {
+function couple(key, categoryName, foodPref, setFoodPref, player, one, second, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched) {
     if (one === null && second === null) {
         return(<></>);
     } else if (second === null) {
         return (
-            <Col key={key} className='p-0 m-0 d-flex justify-content-center'>
-                <Stack className='pb-1 m-auto' direction="horizontal" gap={2}>
-                    <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
+            <Col key={key} className='p-0 ms-1 me-1 m-0 d-flex justify-content-center'>
+                <Stack className='pb-2 m-auto' direction="horizontal" gap={2}>
+                    <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
                 </Stack>
             </Col>
         );
     }
     return (
-        <Col key={key} className='p-0 m-0 d-flex justify-content-center'>
+        <Col key={key} className='p-0 ms-1 me-1 m-0 d-flex justify-content-center'>
             <Stack className='pb-2 m-auto' direction="horizontal" gap={2}>
-                <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
-                <EffectItem key={second.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={second} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} />
+                <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
+                <EffectItem key={second.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={second} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
             </Stack>
         </Col>
     );
 }
 
-const EffectItems = memo(function EffectItems({categoryName, foodPref, setFoodPref, player, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost}) {
-    console.log("EffectItems")
+const EffectItems = memo(function EffectItems({categoryName, foodPref, setFoodPref, player, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched}) {
+    console.log("EffectItems " + categoryName);
     const size = items.length;
     let k = 0;
     let rItems = [];
@@ -40,7 +40,7 @@ const EffectItems = memo(function EffectItems({categoryName, foodPref, setFoodPr
         if (k < size) {
             item2 = items[k++];
         }
-        rItems.push(couple(key++, categoryName, foodPref, setFoodPref, player, item1, item2, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost));
+        rItems.push(couple(key++, categoryName, foodPref, setFoodPref, player, item1, item2, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched));
         if (k >= size) {
             break;
         }

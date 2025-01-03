@@ -1,12 +1,12 @@
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
-import {keyValueRow} from '../helpers/RowBuilder';
+import { keyValueRow } from '../helpers/RowBuilder';
 import { getHotPercentage } from '../helpers/Item';
 import { Progress } from 'antd';
 import { memo, useState } from 'react';
 import { ammo, fireRate, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages'
-import {getAverageTime } from "../entities/ECreatures";
+import { getAverageTime, getCreatureTime } from "../entities/ECreatures";
 import { getLegendary } from '../helpers/LegendaryProvider';
 import Button from 'react-bootstrap/Button';
 import AAView from '../damage/AAView';
@@ -164,7 +164,8 @@ function getMainToast(creatures, resultDamage, legendary, bonusText, totalBonusT
             {keyValueRow(addText(ammo, '0.7rem', '0.27rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
             {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
-            {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "red")}
+            {keyValueRow('💀 Average Bosses Time:', getAverageTime(creatures), "default", "red")}
+            {keyValueRow('👹 Creature Time:', getCreatureTime(creatures.creature), "default", "red")}
             {getLegendaryRow(legendary[0][0], 1)}
             {getLegendaryRow(legendary[1][0], 2)}
             {getLegendaryRow(legendary[2][0], 3)}

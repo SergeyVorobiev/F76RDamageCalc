@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { numberToString } from '../../helpers/StringHelpers';
 
 
 const darkBlue = {
@@ -34,7 +35,19 @@ const redRounded = {
     borderRadius: '0.5rem',
 }
 
-function mainView(item) {
+const orange = {
+    backgroundColor: '#fffaf0',
+    borderColor: '#ffa800',
+    color: '#b77100',
+}
+
+const magenta = {
+    backgroundColor: '#fff1fa',
+    borderColor: '#ca007c',
+    color: '#ab1672',
+}
+
+export function mainView(item) {
     return (
         <>
             <div className="d-flex flex-nowrap" style={{width: '100%'}}>
@@ -45,9 +58,13 @@ function mainView(item) {
                     <b className="tag" style={darkBlue}>{item.name}</b>
                 </div>
             </div>
+
+            {getItemDescription(item)}
+            {getWeight(item)}
             <ConsumableTagsView className="pt-2" tags={item.tags} color='blue' title="Tags" />
             <ConsumableTagsView className="pt-2" color='magenta' tags={item.effectTags} title="Effect Tags" />
             {getAddictionPercent(item)}
+
         </>
     );
 }
@@ -65,6 +82,18 @@ function getArea(effect) {
     );
 }
 
+function getTag3(value, style, mt, mb) {
+    return (
+        <div style={{width: '100%'}} className={"mt-" + mt + " mb-" + mb + " d-flex justify-content-center"}>
+            <div className="tag mt-1" style={style}>
+                <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
+                    {value}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function getAddictionPercent(item) {
     let addictionChance = "";
     if (item.addiction_chance > 0) {
@@ -73,15 +102,29 @@ function getAddictionPercent(item) {
     if (addictionChance === "") {
         return (<></>);
     }
+    return getTag3(addictionChance, redRounded, 3, 1)
+}
+
+function getWeight(item) {
+    const weight = "Weight: " + numberToString(item.weight, 3);
+    return getTag3(weight, indigo, 1, 0)
+}
+
+function getItemDescription(item) {
+    const desc = item.desc
+    if (!desc || desc === "") {
+        return (<></>);
+    }
+    const mt = 2;
+    const mb = 2;
     return (
-        <div style={{width: '100%'}} className="mt-3 mb-0 d-flex justify-content-center">
-        <div className="tag mt-1" style={redRounded}>
-            <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                {addictionChance}
+        <div style={{width: '100%', backgroundColor: '#fffaf0'}} className={"mt-" + mt + " mb-" + mb + " d-flex justify-content-center"}>
+            <div style={{padding: '0.3rem'}}>
+                <small><b style={{color: '#bf6400'}}>{desc}</b></small>
             </div>
         </div>
-        </div>
     );
+    return getTag3(item.desc, orange, 1, 0)
 }
 
 function getDuration(effect) {
@@ -96,37 +139,89 @@ function getDuration(effect) {
     if (duration === 0) {
         return (<></>);
     }
+    return getTag("Duration", duration, durationName);
+}
+
+function getTag(title, value, name) {
     return (
-        <div className="tag mt-1">
+         <div key={value + name} className="tag mt-1">
             <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                Duration: <a style={{color: 'red'}}>{duration.toFixed(1)}</a> {durationName}
+                {title}: <a style={{fontSize: '0.80rem', color: 'red'}}>{numberToString(value, 3)}</a> {name}
             </div>
         </div>
     );
 }
 
-function getMagnitude(effect) {
-    let magnitude = 0;
-    let magnitudeName = "";
-    if (effect.curve_max_value) {
-        magnitude = effect.curve_max_value;
-        magnitudeName = "(" + effect.d_curv.split("\n")[0] + ")";
-    } else if (effect.glob_magnitude === '') {
-        magnitude = effect.magnitude;
-    } else {
-        magnitude = effect.glob_magnitude.value;
-        magnitudeName = "(" + effect.glob_magnitude.name + ")";
-    }
-    if (magnitude === 0) {
-        return (<></>);
-    }
+function getTag2(value, style) {
     return (
-        <div className="tag mt-1">
+         <div className="tag mt-1" style={style}>
             <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                Magnitude: <a style={{color: 'red'}}>{magnitude.toFixed(3)}</a> {magnitudeName}
+                {value}
             </div>
         </div>
     );
+}
+
+function getDescription(effect) {
+    if (!effect.m_effect.desc || effect.m_effect.desc === "") {
+        return (<></>);
+    }
+    return getTag2(effect.m_effect.desc, orange);
+}
+
+function getActor(effect) {
+    const actor = effect.m_effect.actor_value1;
+    if (!actor || typeof actor === typeof '' ) {
+        return (<></>);
+    }
+    return getTag2(actor.name, orange);
+}
+
+function getParenPerkName(effect) {
+    const perk_name = effect.m_effect.parent_perk_name;
+    if (!perk_name || perk_name === '' ) {
+        return (<></>);
+    }
+    return getTag2(perk_name, orange);
+}
+
+function getSource(effect) {
+    if (!effect.source || effect.source === '') {
+        return (<></>);
+    }
+    return getTag2("Src: " + effect.source, indigo);
+}
+
+function getMagnitude(effect) {
+    let magnitude = effect.magnitude;
+    let magnitudeName = "";
+    let curveMagnitude = 0;
+    let curveMagnitudeName = "";
+    let globMagnitude = 0;
+    let globMagnitudeName = "";
+    if (effect.curve_max_value) {
+        curveMagnitude = effect.curve_max_value;
+        curveMagnitudeName = "(" + effect.d_curv.split("\n")[0] + ")";
+    }
+    if (effect.glob_magnitude !== '') {
+        globMagnitude = effect.glob_magnitude.value;
+        globMagnitudeName = "(" + effect.glob_magnitude.name + ")";
+    }
+    if (magnitude === 0 && curveMagnitude === 0 && globMagnitude === 0) {
+        return (<></>);
+    }
+    const result = [];
+    if (magnitude !== 0) {
+        result.push(getTag("Magnitude", magnitude, magnitudeName));
+    }
+    if (curveMagnitude !== 0) {
+        result.push(getTag("Magnitude", curveMagnitude, curveMagnitudeName));
+    }
+    if (globMagnitude !== 0) {
+        result.push(getTag("Magnitude", globMagnitude, globMagnitudeName));
+    }
+
+    return result;
 }
 
 function getParent(effect) {
@@ -134,29 +229,30 @@ function getParent(effect) {
     let parent;
     if (id && id !== '') {
         parent = "(" + id + ") " + effect.m_effect.spell_full;
-        return (
-            <div className="tag mt-1" style={indigo}>
-                <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                    {parent}
-                </div>
-            </div>
-        );
+        return getTag2(parent, indigo);
     }
     return (<></>);
 }
 
 function getProperty(effect) {
     const name = effect.m_effect.parent_name
-    if (name !== '') {
-        return (
-            <div className="tag mt-1" style={indigo}>
-                <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                    {name}
-                </div>
-            </div>
-        );
+    if (name && name !== '') {
+        return getTag2(name, indigo);
     }
     return (<></>);
+}
+
+function getEffectTagNameView(effect) {
+    if (!effect.tag || effect.tag === "") {
+        return (<></>);
+    }
+    return (
+        <div className="d-flex justify-content-end">
+            <div className="tag mt-1" style={magenta}>
+                {effect.tag}
+            </div>
+        </div>
+    );
 }
 
 function getEffectView(effect, ind) {
@@ -174,6 +270,7 @@ function getEffectView(effect, ind) {
                 </div>
             </Card.Header>
             <div className="p-1 pb-2">
+                {getEffectTagNameView(effect)}
                 <div className="tag mt-1" style={blue}>
                     {mEffect.name}
                 </div>
@@ -181,7 +278,11 @@ function getEffectView(effect, ind) {
                 {getDuration(effect)}
                 {getArea(effect)}
                 {getParent(effect)}
+                {getSource(effect)}
                 {getProperty(effect)}
+                {getDescription(effect)}
+                {getActor(effect)}
+                {getParenPerkName(effect)}
             </div>
             <Card.Footer className="p-0">
                 <Container className='p-1'>
@@ -200,7 +301,7 @@ function getEffectView(effect, ind) {
     );
 }
 
-function detailsView(item) {
+export function detailsView(item) {
     const effects = item.effects;
     const result = [];
     for (let i = 0; i < effects.length; i++) {

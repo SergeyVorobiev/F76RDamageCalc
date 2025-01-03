@@ -5,6 +5,7 @@ import CreatureInfoButton from './CreatureInfoButton';
 import { keyValueBadge } from '../helpers/RowBuilder';
 import { tAmmo } from '../helpers/Emoji';
 import { millisToTime } from '../helpers/Time';
+import { numberToString } from '../helpers/StringHelpers';
 import CreatureDataProvider from '../creature/CreatureDataProvider';
 import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
 
@@ -59,13 +60,14 @@ function enemy(creature, creatureIcon, updateCreatures, resultDamage, weaponName
     }
     const names = CreatureDataProvider.getCreatureNames();
     const levels = CreatureDataProvider.getCreatureLevels();
+    // const levels = CreatureDataProvider.getLevelsList(creature.name);
     return (
         <Card className='pt-0 mt-0 mb-1'>
             <Card.Header className='pt-0 pb-0'>
                 {enemyDropdowns(dropdown, creature.name, creature.level, names, levels, enemyClick, levelClick)}
             </Card.Header>
             <Stack className='ps-0 pe-1' direction="horizontal" gap={1}>
-                {keyValueBadge("mt-1 mb-1 badge p-1 ms-1 me-0 bg-health-outline", '5.5rem', '❤️', creature.h)}
+                {keyValueBadge("mt-1 mb-1 badge p-1 ms-1 me-0 bg-health-outline", '5.5rem', '❤️', numberToString(creature.h, 2))}
                 {keyValueBadge("mt-1 mb-1 p-1 badge bg-ammo-outline ms-auto me-auto", '7rem', tAmmo("0.5rem"), creature.ammo)}
                 {keyValueBadge("mt-1 mb-1 p-1 badge bg-lifetime-outline ms-auto me-auto", '7rem', (<small>⌛</small>), millisToTime(creature.lifeTime))}
                 <CreatureInfoButton creature={creature} resultDamage={resultDamage} weaponName={weaponName} />

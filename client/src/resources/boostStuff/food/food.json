@@ -3,11 +3,12 @@
     "name": "Tasty Mutant Hound Stew",
     "imName": "tasty_mutant_hound_stew",
     "id": "tasty_mutant_hound_stew_food",
+    "gameId": "003c60df",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -23,6 +24,7 @@
     "name": "Blight Soup",
     "imName": "blight_soup",
     "id": "blight_soup_food",
+    "gameId": "002944eb",
     "type": "Plant",
     "used": false,
     "boosts": [
@@ -42,6 +44,7 @@
     "name": "Deathclaw Steak",
     "imName": "deathclaw_steak",
     "id": "deathclaw_steak_food",
+    "gameId": "00101293",
     "type": "Meet",
     "used": false,
     "boosts": [
@@ -61,6 +64,7 @@
     "name": "Deathclaw Wellington",
     "imName": "deathclaw_wellington",
     "id": "deathclaw_wellington_food",
+    "gameId": "001a71e7",
     "type": "Meet",
     "used": false,
     "boosts": [
@@ -80,11 +84,12 @@
     "name": "Glowing Steak",
     "imName": "glowing_steak",
     "id": "glowing_steak_food",
+    "gameId": "003b9424",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -100,14 +105,17 @@
     "name": "Gulper Stuffed Foot",
     "imName": "gulper_stuffed_foot",
     "id": "gulper_stuffed_foot_food",
-    "type": "Candy",
+    "gameId": "00669394",
+    "type": "Meat",
     "used": false,
     "boosts": [
       {
         "id": "food_strength",
         "category": "weapon",
         "property": "Strength",
-        "value": 2,
+        "func": "foodCalc",
+        "defValue": 2,
+        "value": 0,
         "valueType": "number",
         "description": "Strength"
       }
@@ -117,11 +125,12 @@
     "name": "Light Mutant Hound Chops",
     "imName": "light_mutant_hound_chops",
     "id": "light_mutant_hound_chops_food",
+    "gameId": "007331d1",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -137,11 +146,12 @@
     "name": "Mutant Hound Chops",
     "imName": "light_mutant_hound_chops",
     "id": "mutant_hound_chops_food",
+    "gameId": "0021188e",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -157,6 +167,7 @@
     "name": "Megasloth Mushroom Soup",
     "imName": "blight_soup",
     "id": "megasloth_mushroom_soup_food",
+    "gameId": "00294519",
     "type": "Plant",
     "used": false,
     "boosts": [
@@ -176,6 +187,7 @@
     "name": "Mole Rat Chunks",
     "imName": "mole_rat_chunks",
     "id": "mole_rat_chunks_food",
+    "gameId": "00046943",
     "type": "Meet",
     "used": false,
     "boosts": [
@@ -195,6 +207,7 @@
     "name": "Mole Rat Jerky",
     "imName": "molerat_jerky",
     "id": "mole_rat_jerky_food",
+    "gameId": "00674bba",
     "type": "Meet",
     "used": false,
     "boosts": [
@@ -214,11 +227,12 @@
     "name": "Mutton Chops",
     "imName": "mutton_chops",
     "id": "mutton_chops_food",
+    "gameId": "0046ecb2",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -234,11 +248,12 @@
     "name": "Light Mutton Chops",
     "imName": "mutton_chops",
     "id": "light_mutton_chops_food",
+    "gameId": "007331d0",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -254,6 +269,7 @@
     "name": "Stingwing Filet",
     "imName": "stingwing_filet",
     "id": "stingwing_filet_food",
+    "gameId": "00046945",
     "type": "Meet",
     "used": false,
     "boosts": [
@@ -273,11 +289,12 @@
     "name": "Tasty Mutton Meat Pie",
     "imName": "tasty_mutton_meat_pie",
     "id": "tasty_mutton_meat_pie_food",
+    "gameId": "0046ecb1",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -290,14 +307,35 @@
     ]
   },
   {
-    "name": "Light Yao Guai Ribs",
-    "imName": "yao_guai_ribs",
-    "id": "light_yao_guai_ribs_food",
+    "name": "Spiked Venison & Tato Stew",
+    "imName": "tasty_mutant_hound_stew",
+    "id": "spiked_venison_tato_stew",
+    "gameId": "006406de",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
         "id": "food_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "func": "foodCalc",
+        "defValue": 15,
+        "value": 0,
+        "valueType": "percent",
+        "description": "BDB"
+      }
+    ]
+  },
+  {
+    "name": "Light Yao Guai Ribs",
+    "imName": "yao_guai_ribs",
+    "id": "light_yao_guai_ribs_food",
+    "gameId": "007331d2",
+    "type": "Meet",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -313,11 +351,12 @@
     "name": "Yao Guai Ribs",
     "imName": "yao_guai_ribs",
     "id": "yao_guai_ribs_food",
+    "gameId": "00046955",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -333,11 +372,12 @@
     "name": "Tasty Yao Guai Roast",
     "imName": "yao_guai_roast",
     "id": "yao_guai_roast_food",
+    "gameId": "0004696d",
     "type": "Meet",
     "used": false,
     "boosts": [
       {
-        "id": "food_bdb",
+        "id": "food_bdb_melee",
         "category": "weapon",
         "type": "Melee,Unarmed",
         "property": "BDB",
@@ -346,6 +386,42 @@
         "value": 0,
         "valueType": "percent",
         "description": "Melee"
+      }
+    ]
+  },
+  {
+    "name": "Mystery Candy",
+    "imName": "candy",
+    "id": "mystery_candy_food",
+    "gameId": "00620385",
+    "type": "Candy",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Nuka Cola Candy",
+    "imName": "nuka_cola_candy",
+    "id": "nuca_cola_candy_food",
+    "gameId": "0067b396",
+    "type": "Candy",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 1,
+        "valueType": "number",
+        "description": "Strength"
       }
     ]
   }

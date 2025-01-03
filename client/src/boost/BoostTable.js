@@ -40,7 +40,7 @@ function getDropdown(setBoostDamage, player, setPlayer) {
         PerkBuilder.build(e, setBoostDamage, player, setPlayer);
     }
     return (
-        <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small>Choose a build</small>} variant="warning">
+        <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small><b>Choose a build</b></small>} variant="warning">
         <Dropdown.Item eventKey="Reset">{getRowWithImage("Reset")}</Dropdown.Item>
             <Dropdown.Item eventKey="Heavy">{getRowWithImage("Heavy")}</Dropdown.Item>
             <Dropdown.Item eventKey="Heavy Explosive">{getRowWithImage("Heavy", "Heavy Explosive")}</Dropdown.Item>

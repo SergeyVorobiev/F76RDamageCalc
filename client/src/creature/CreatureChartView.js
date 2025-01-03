@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import Card from 'react-bootstrap/Card';
 const { Chart } = await import('chart.js/auto');
 
@@ -68,7 +68,7 @@ function getCanvas(id) {
     return (<canvas id={id}></canvas>);
 }
 
-export default function CreatureChartView(props) {
+const CreatureChartView = memo(function CreatureChartView(props) {
     const titleText = (props.title === "❤️ Health") ? "Health" : "Resistance";
     const config = getConfig(getData(props.values, props.title, props.color), titleText);
     useEffect(() => {
@@ -84,4 +84,6 @@ export default function CreatureChartView(props) {
             </Card.Body>
         </Card>
     );
-}
+});
+
+export default CreatureChartView

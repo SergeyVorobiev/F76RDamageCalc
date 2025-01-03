@@ -66,7 +66,7 @@ export const functions = {
 
         // Hardcoded in 003c4037
         if (mult > 1) {
-            return 75.0
+            return 62.5
         }
         return defValue;
     },
@@ -74,7 +74,14 @@ export const functions = {
     eagleEyesNegative: (player, defValue) => {
         const mult = getFreakReduction(player);
         return defValue * mult;
+    },
 
+    empathSerum: (player, defValue) => {
+        const mult = getStrangeMult(player);
+        if (mult > 1) {
+            return 2;
+        }
+        return defValue;
     },
 
     carnivoreSerum: (player, defValue) => {

@@ -10,6 +10,10 @@ export function getAverageTime(creatures) {
     return millisToTime(getAverageTimeMillis(creatures));
 }
 
+export function getCreatureTime(creature) {
+    return millisToTime(creature.lifeTime);
+}
+
 export function getDummy() {
     return {
         rank: "dummy",

@@ -3,6 +3,7 @@
     "name": "Psychobuff",
     "imName": "pb",
     "id": "psychobuff_psycho",
+    "gameId": "00058aac",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -28,6 +29,7 @@
     "name": "Overdrive",
     "imName": "o",
     "id": "overdrive_psycho",
+    "gameId": "00058aad",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -37,14 +39,13 @@
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
-
         "description": "Damage"
       },
       {
         "id": "psycho_crit",
         "category": "weapon",
         "property": "Crit",
-        "value": 15,
+        "value": 30,
         "valueType": "percent",
         "description": "Crit"
       }
@@ -54,6 +55,7 @@
     "name": "Psycho",
     "imName": "p",
     "id": "psycho_psycho",
+    "gameId": "0003377d",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -69,9 +71,28 @@
     ]
   },
   {
+    "name": "Psychotats",
+    "imName": "pt",
+    "id": "psycho_psychotats",
+    "gameId": "00058aaa",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 25,
+        "valueType": "percent",
+        "description": "Damage"
+      }
+    ]
+  },
+  {
     "name": "Super Chem MK1",
-    "imName": "sc",
+    "imName": "mk1",
     "id": "super_chem_mk1_psycho",
+    "gameId": "005a5db3",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -95,9 +116,115 @@
     ]
   },
   {
+    "name": "Super Chem MK2",
+    "imName": "mk2",
+    "id": "super_chem_mk2_psycho",
+    "gameId": "005a5db4",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "value": 30,
+        "valueType": "percent",
+        "property": "BDB",
+        "description": "Melee"
+      },
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      },
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Damage"
+      }
+    ]
+  },
+  {
+    "name": "Super Chem MK3",
+    "imName": "mk3",
+    "id": "super_chem_mk3_psycho",
+    "gameId": "005a5db5",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "value": 30,
+        "valueType": "percent",
+        "property": "BDB",
+        "description": "Melee"
+      },
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      },
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Damage"
+      }
+    ]
+  },
+  {
+    "name": "Super Chem MK4",
+    "imName": "mk4",
+    "id": "super_chem_mk4_psycho",
+    "gameId": "005a5db6",
+    "type": "psycho",
+    "used": false,
+    "boosts": [
+      {
+        "id": "psycho_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "value": 30,
+        "valueType": "percent",
+        "property": "BDB",
+        "description": "Melee"
+      },
+      {
+        "id": "psycho_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      },
+      {
+        "id": "psycho_bdb",
+        "category": "weapon",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Damage"
+      }
+    ]
+  },
+  {
     "name": "Calmex",
     "imName": "calmex",
     "id": "calmex_psycho",
+    "gameId": "00058aa7",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -115,6 +242,7 @@
     "name": "Buffout",
     "imName": "buffout",
     "id": "buffout_psycho",
+    "gameId": "00033778",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -132,6 +260,7 @@
     "name": "Bufftats",
     "imName": "bufftats",
     "id": "bufftats_psycho",
+    "gameId": "00058aa5",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -149,6 +278,7 @@
     "name": "X-Cell",
     "imName": "x_cell",
     "id": "x_cell_psycho",
+    "gameId": "001506f4",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -166,6 +296,7 @@
     "name": "Fury",
     "imName": "f",
     "id": "fury_psycho",
+    "gameId": "000628ca",
     "type": "psycho",
     "used": false,
     "boosts": [
@@ -184,6 +315,7 @@
     "name": "Nuclear Don's blend",
     "imName": "nd",
     "id": "nuclear_don_blend_psycho",
+    "gameId": "005955a5",
     "type": "psycho",
     "used": false,
     "boosts": [

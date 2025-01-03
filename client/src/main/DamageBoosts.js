@@ -16,9 +16,9 @@ const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage,
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '10rem'}}>
-                            Cards
+                            <span className="ac-text">Cards</span>
                         </InputGroup.Text>
-                        <Button style={{width: '4rem'}} onClick={openStat}>Stats</Button>
+                        <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="ps-1 pe-1">

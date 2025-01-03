@@ -21,7 +21,7 @@ const ConsumablesView = memo(function ConsumablesView() {
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '14rem'}}>
-                            Consumables
+                            <span className="ac-text">Consumables</span>
                         </InputGroup.Text>
                     </InputGroup>
                 </Accordion.Header>

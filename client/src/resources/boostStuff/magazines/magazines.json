@@ -3,6 +3,7 @@
     "name": "Attack of the fishmen",
     "imName": "attack_of_the_fishmen",
     "id": "attack_of_the_fishmen_magazine",
+    "gameId": "0043038b",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -20,6 +21,7 @@
     "name": "Curse of the burned",
     "imName": "curse_of_the_burned",
     "id": "curse_of_the_burned_magazine",
+    "gameId": "004303a9",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -37,6 +39,7 @@
     "name": "Invasion of the zetans",
     "imName": "invasion_of_the_zetans",
     "id": "invasion_of_the_zetans_magazine",
+    "gameId": "00430394",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -54,6 +57,7 @@
     "name": "Rise of the mutants",
     "imName": "rise_of_the_mutants",
     "id": "rise_of_the_mutants_magazine",
+    "gameId": "0043038e",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -71,6 +75,7 @@
     "name": "When apes go bananas",
     "imName": "when_apes_go_bananas",
     "id": "when_apes_go_bananas_magazine",
+    "gameId": "00430397",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -88,13 +93,14 @@
     "name": "The starlet sniper",
     "imName": "the_starlet_sniper",
     "id": "the_starlet_sniper_magazine",
+    "gameId": "004303a6",
     "type": "magazines",
     "used": false,
     "boosts": [
       {
         "category": "weapon",
         "property": "BDB",
-        "value": 25,
+        "value": 35,
         "valueType": "percent",
         "description": "Scoped"
       }
@@ -104,6 +110,7 @@
     "name": "Home in the hills",
     "imName": "home_in_the_hills",
     "id": "home_in_the_hills_magazine",
+    "gameId": "004303bf",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -121,16 +128,17 @@
     "name": "Down home cooking",
     "imName": "down_home_cooking",
     "id": "down_home_cooking_magazine",
+    "gameId": "004303b6",
     "type": "magazines",
     "used": false,
     "boosts": [
       {
         "category": "weapon",
-        "name": "Tomahawk",
+        "type": "Thrown",
         "property": "BDB",
-        "value": 30,
+        "value": 50,
         "valueType": "percent",
-        "description": "Tomahawk"
+        "description": "Thrown"
       }
     ]
   },
@@ -138,6 +146,7 @@
     "name": "Blood on the harp",
     "imName": "blood_on_the_harp",
     "id": "blood_on_the_harp_magazine",
+    "gameId": "004303d0",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -155,6 +164,7 @@
     "name": "Corsair queen",
     "imName": "corsair_queen",
     "id": "corsair_queen_magazine",
+    "gameId": "004303d6",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -172,6 +182,7 @@
     "name": "Demon slaves demon sands",
     "imName": "demon_slaves_demon_sands",
     "id": "demon_slaves_demon_sands_magazine",
+    "gameId": "004303d9",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -189,6 +200,7 @@
     "name": "The future of hunting",
     "imName": "the_future_of_hunting",
     "id": "the_future_of_hunting_magazine",
+    "gameId": "004303f5",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -206,6 +218,7 @@
     "name": "Acceptable overkill",
     "imName": "acceptable_overkill",
     "id": "acceptable_overkill_magazine",
+    "gameId": "004303f8",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -223,6 +236,7 @@
     "name": "Little guns for little ladies",
     "imName": "little_guns_for_little_ladies",
     "id": "little_guns_for_little_ladies_magazine",
+    "gameId": "004303fb",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -241,6 +255,7 @@
     "name": "Take aim, army style",
     "imName": "take_aim_army_style",
     "id": "take_aim_army_style_magazine",
+    "gameId": "00430407",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -257,6 +272,7 @@
     "name": "Bear proofing your campsite",
     "imName": "bear_proofing_your_campsite",
     "id": "bear_proofing_your_campsite_magazine",
+    "gameId": "0043040a",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -275,6 +291,7 @@
     "name": "Plasma the weapon of tomorrow",
     "imName": "plasma_the_weapon_of_tomorrow",
     "id": "plasma_the_weapon_of_tomorrow_magazine",
+    "gameId": "0043040d",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -292,6 +309,7 @@
     "name": "Guide to hunting commies",
     "imName": "guide_to_hunting_commies",
     "id": "guide_to_hunting_commies_magazine",
+    "gameId": "00430410",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -310,6 +328,7 @@
     "name": "Nuke the man",
     "imName": "nuke_the_man",
     "id": "nuke_the_man_magazine",
+    "gameId": "00432cc4",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -328,13 +347,13 @@
     "name": "Wendigo",
     "imName": "wendigo",
     "id": "wendigo_magazine",
+    "gameId": "00430388",
     "type": "magazines",
     "used": false,
     "boosts": [
       {
         "category": "creature",
-        "type": "cryptid",
-        "name": "wendigo,wendigocolossus",
+        "name": "wendigo",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -346,6 +365,7 @@
     "name": "Mothman",
     "imName": "mothman",
     "id": "mothman_magazine",
+    "gameId": "004fe4e4",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -364,13 +384,13 @@
     "name": "Grafton",
     "imName": "hills_grafton",
     "id": "grafton_magazine",
+    "gameId": "0043037f",
     "type": "magazines",
     "used": false,
     "boosts": [
       {
         "category": "creature",
-        "type": "cryptid",
-        "name": "grafton",
+        "name": "grafton,e09b_grafton,sfs08_grafton,sfs09_grafton",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -382,6 +402,7 @@
     "name": "Snallygaster",
     "imName": "snallygaster",
     "id": "snallygaster_magazine",
+    "gameId": "00430382",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -400,6 +421,7 @@
     "name": "Flatwoods Alien",
     "imName": "flatwoods_monster",
     "id": "flatwoods_alien_magazine",
+    "gameId": "00430385",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -418,6 +440,7 @@
     "name": "Tomorrow technology",
     "imName": "tomorrow_technology",
     "id": "tomorrow_technology_magazine",
+    "gameId": "00432d04",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -435,6 +458,7 @@
     "name": "Giant super weapons",
     "imName": "giant_super_weapons",
     "id": "giant_super_weapons_magazine",
+    "gameId": "00432d07",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -452,6 +476,7 @@
     "name": "U.S. Army goes to space",
     "imName": "us_army_goes_to_space",
     "id": "us_army_goes_to_space_magazine",
+    "gameId": "00432d0d",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -469,6 +494,7 @@
     "name": "Rock-o-bot takes the nation by storm",
     "imName": "rockobot_takes_the_nation_by_storm",
     "id": "rockobot_takes_the_nation_by_storm_magazine",
+    "gameId": "00432d10",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -485,6 +511,7 @@
     "name": "Future of warfare",
     "imName": "future_of_warfare",
     "id": "future_of_warfare_magazine",
+    "gameId": "00432d13",
     "type": "magazines",
     "used": false,
     "boosts": [
@@ -502,6 +529,7 @@
     "name": "Camouflage special",
     "imName": "camouflage_special",
     "id": "camouflage_special_magazine",
+    "gameId": "00432d4e",
     "type": "magazines",
     "used": false,
     "boosts": [

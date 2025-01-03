@@ -22,6 +22,21 @@ const marks100 = {
     defaultValue: 5,
 };
 
+const marks50 = {
+    marks: {
+        5: '5',
+        10: '10',
+        20: '20',
+        30: '30',
+        40: '40',
+        50: '50'
+    },
+    min: 5,
+    max: 50,
+    step: 0.25,
+    defaultValue: 5,
+};
+
 const marksH = {
     marks: {
         5: '5%',
@@ -65,9 +80,9 @@ const General = function General({eventKey, categoryName, showStat, setShowStat,
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '10rem'}}>
-                            {categoryName}
+                            <span className="ac-text">{categoryName}</span>
                         </InputGroup.Text>
-                        <Button style={{width: '4rem'}} onClick={openStat}>Stats</Button>
+                        <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="ps-1 pe-1 pb-1">
@@ -76,7 +91,7 @@ const General = function General({eventKey, categoryName, showStat, setShowStat,
                             <Card.Body className="pb-2">
                                 <ANRow player={player} setPlayer={setPlayer} boostDamage={boostDamage}></ANRow>
                                 <ADRow additionalDamage={player.health} updateAdditionalDamages={changeHealth} marks={marksH}></ADRow>
-                                <ADRow additionalDamage={playerStats.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks100}></ADRow>
+                                <ADRow additionalDamage={playerStats.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks50}></ADRow>
                             </Card.Body>
                         </Card>
                     </Container>
