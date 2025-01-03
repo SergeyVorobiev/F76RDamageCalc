@@ -84,7 +84,7 @@ export default class CreatureDataProvider {
             const values = creatureData[name];
             result.push(values[values.length -1].x);
         }
-        const max = Math.max(...result);
+        let max = Math.max(...result);
         if (max < 1) {
             max = 1;
         }
