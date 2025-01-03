@@ -31,7 +31,11 @@ function getEffectValues(effects, tag) {
             }
         }
     }
-    if (resultValues.length === 0 || resultNames.size > 1 || resultNames.size === 0) {
+    const valueColor = '#fc5972';
+    if (resultNames.size > 1) {
+        return getEffectFilterInfo("Multiple Effects", "", "", valueColor);
+    }
+    if (resultValues.length === 0 || resultNames.size === 0) {
         return null;
     }
     let resultName = Array.from(resultNames)[0];
@@ -46,7 +50,6 @@ function getEffectValues(effects, tag) {
     if (maxDuration > 0) {
         durationText = " (" + maxDuration + ")"
     }
-    const valueColor = '#fc5972';
     if (resultValues.length === 1 || min === max) {
         return getEffectFilterInfo(resultName, durationText, max, valueColor);
     } else if (resultValues.length === 2 && min < 0) {
@@ -57,6 +60,9 @@ function getEffectValues(effects, tag) {
 }
 
 function getEffectFilterInfo(resultName, durationText, max, valueColor) {
+    if (max === 0 || max === "0") {
+        max = "";
+    }
     return leftRight(<>{resultName} {durationText}</>, <a style={{color: valueColor}}>{max}</a>, 9, 3, "m-0 p-1");
 }
 
@@ -68,6 +74,10 @@ export default function ConsumableButton(props) {
     }
     const textBgColor = ConsumableTools.getItemColorDark(props.type);
     const textStyle = (effectValues) ? {borderRadius: '1px', backgroundColor: textBgColor} : {};
+    let itemType = props.type;
+    if (!itemType || itemType === "Chemical") {
+        itemType = "Other";
+    }
     return (
         <div>
             <Button id={props.item['id']} className="lite-shadow" variant="blue-white-border" style={{width: '100%', margin: '0.1rem', paddingTop: '0.2rem', paddingBottom: '0.1rem', padding: "0.3rem"}} onClick={props.onClick}>
@@ -78,7 +88,7 @@ export default function ConsumableButton(props) {
                     <b className="p-0 bg-text-shadow">{effectValues}</b>
                 </div>
                 <div className="d-flex pt-2 justify-content-end">
-                    <div className="badge bg-lite-shadow2" style={{backgroundColor: typeColor}}>{props.type}</div>
+                    <div className="badge bg-lite-shadow2" style={{backgroundColor: typeColor}}>{itemType}</div>
                 </div>
             </Button>
         </div>

@@ -12,10 +12,11 @@ export function UCheckbox(props) {
     if (props.checkBorderColor && props.checked) {
         bColor = props.checkBorderColor;
     }
+    const ms = (props.children) ? "ms-1" : "ms-0";
     return (
         <div>
             <input id={props.id} title={props.title} style={{cursor: 'pointer', borderColor: bColor, backgroundColor: bgColor}} className={className} type="checkbox" disabled={props.disabled} checked={props.checked} onChange={props.onChange} />
-            <label className="form-check-label">
+            <label className={"form-check-label " + ms}>
                 {props.children}
             </label>
         </div>

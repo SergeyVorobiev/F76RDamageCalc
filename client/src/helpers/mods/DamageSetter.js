@@ -23,6 +23,10 @@ export function buildDamageItem(weaponId, damageId, type, kind, name, damage, ti
     };
 }
 
+export function buildBleedDamage(damage, time, chance=100, accuracy=100, stack=false) {
+    return buildDamageItem("", "", "dtPhysical", "bleed", "Bleed", damage, time, 0, 0, chance, accuracy, stack, -1, true);
+}
+
 export function convertDamageDataToDamageItem(damageData) {
     const type = getDamageTypeFromCellName(damageData.type_name);
     const damage = getDamageValue(damageData);

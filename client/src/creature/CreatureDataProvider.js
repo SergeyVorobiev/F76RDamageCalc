@@ -74,6 +74,32 @@ export default class CreatureDataProvider {
         return creatureLevels;
     }
 
+    static getMaxLevel(name) {
+        const creatureData = CreatureDataProvider.getCreatureData(name);
+        if (!creatureData) {
+            return 1;
+        }
+        const result = [];
+        for (const name in creatureData) {
+            const values = creatureData[name];
+            result.push(values[values.length -1].x);
+        }
+        let max = Math.max(...result);
+        if (max < 1) {
+            max = 1;
+        }
+        return max;
+    }
+
+    static getLevelsList(name) {
+        const maxLevel = CreatureDataProvider.getMaxLevel(name);
+        const result = [];
+        for (let i = 1; i <= maxLevel; i++) {
+            result.push(i);
+        }
+        return result;
+    }
+
     static capitalizeCreatureName(creatureName) {
         let name = creatureName.charAt(0).toUpperCase() + creatureName.slice(1);
         return name.replaceAll("_", " ");

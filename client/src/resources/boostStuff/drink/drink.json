@@ -3,7 +3,8 @@
     "name": "Whiskey",
     "imName": "whiskey",
     "id": "whiskey_drink",
-    "type": "drink",
+    "gameId": "000366c1",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -22,7 +23,8 @@
     "name": "Vodka",
     "imName": "vodka",
     "id": "vodka_drink",
-    "type": "drink",
+    "gameId": "000366c3",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -41,7 +43,8 @@
     "name": "Beer",
     "imName": "beer",
     "id": "beer_drink",
-    "type": "drink",
+    "gameId": "0011ea93",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -60,7 +63,8 @@
     "name": "Blackwater Brew",
     "imName": "blackwater_brew",
     "id": "blackwater_brew_drink",
-    "type": "drink",
+    "gameId": "003b5fc9",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -79,7 +83,8 @@
     "name": "Bourbon",
     "imName": "bourbon",
     "id": "bourbon_drink",
-    "type": "drink",
+    "gameId": "000366c4",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -98,7 +103,26 @@
     "name": "Chally's Milk",
     "imName": "chally_milk",
     "id": "chally_milk_drink",
-    "type": "drink",
+    "gameId": "00553ed5",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Fussfungle",
+    "imName": "steeped_thistle_tea",
+    "id": "fussfungle_drink",
+    "gameId": "00648161",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -115,7 +139,8 @@
     "name": "Cranberry Moonshine",
     "imName": "cranberry_moonshine",
     "id": "cranberry_moonshine_drink",
-    "type": "drink",
+    "gameId": "0016a13c",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -134,7 +159,8 @@
     "name": "Firecracker Berry Juice",
     "imName": "firecracker_berry_juice",
     "id": "firecracker_berry_juice_drink",
-    "type": "drink",
+    "gameId": "00294524",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -151,7 +177,68 @@
     "name": "Liquid Courage",
     "imName": "liquid_courage",
     "id": "liquid_courage_drink",
-    "type": "drink",
+    "gameId": "0057ae02",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Muttberry Shine",
+    "imName": "moonshine",
+    "id": "muttberry_shine_drink",
+    "gameId": "000115e2",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Tater Shine",
+    "imName": "moonshine",
+    "id": "tater_shine_drink",
+    "gameId": "000115e0",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Sunday Shine",
+    "imName": "moonshine",
+    "id": "sunday_shine_drink",
+    "gameId": "000115e3",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -170,7 +257,8 @@
     "name": "Mountain Honey",
     "imName": "mountain_honey",
     "id": "mountain_honey_drink",
-    "type": "drink",
+    "gameId": "000070a0",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -189,7 +277,8 @@
     "name": "New River Red Ale",
     "imName": "new_river_red_ale",
     "id": "new_river_red_ale_drink",
-    "type": "drink",
+    "gameId": "003b5fca",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -208,7 +297,8 @@
     "name": "Nuka Cola Dark",
     "imName": "nuka_cola_dark",
     "id": "nuka_cola_dark_drink",
-    "type": "drink",
+    "gameId": "00113294",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -224,10 +314,29 @@
     ]
   },
   {
+    "name": "Nuka Cola Twist",
+    "imName": "nuka_twist",
+    "id": "nuka_cola_twist_drink",
+    "gameId": "00660864",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
     "name": "Oak Holler Lager",
     "imName": "oak_holler_lager",
     "id": "oak_holler_lager_drink",
-    "type": "drink",
+    "type": "Drink",
+    "gameId": "003b5fcb",
     "used": false,
     "boosts": [
       {
@@ -246,7 +355,8 @@
     "name": "Old Possum",
     "imName": "old_possum",
     "id": "old_possum_drink",
-    "type": "drink",
+    "gameId": "003b5fcc",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -265,7 +375,28 @@
     "name": "Pickaxe Pilsner",
     "imName": "pickaxe_pilsner",
     "id": "pickaxe_pilsner_drink",
-    "type": "drink",
+    "gameId": "003b5fcd",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "func": "partyGirlBoy",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Rodgers' Reserve Beer",
+    "imName": "beer",
+    "id": "rodgers_reserver_beer_drink",
+    "gameId": "0050b5aa",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -284,7 +415,8 @@
     "name": "Rum",
     "imName": "rum",
     "id": "rum_drink",
-    "type": "drink",
+    "gameId": "00145857",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -303,7 +435,8 @@
     "name": "Simple Fern Flower Tea",
     "imName": "fern_flower_tea",
     "id": "simple_fern_flower_tea_drink",
-    "type": "drink",
+    "gameId": "003d787c",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -320,7 +453,8 @@
     "name": "Steeped Fern Flower Tea",
     "imName": "steeped_fern_flower_tea",
     "id": "steeped_fern_flower_tea_drink",
-    "type": "drink",
+    "gameId": "002944d9",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -337,7 +471,8 @@
     "name": "Steeped Thistle Tea",
     "imName": "steeped_thistle_tea",
     "id": "steeped_thistle_tea_drink",
-    "type": "drink",
+    "gameId": "002944e7",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -354,7 +489,8 @@
     "name": "Sweet Mut Fruit",
     "imName": "sweetmutfruit",
     "id": "sweetmutfruit_drink",
-    "type": "drink",
+    "gameId": "003c60ee",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -371,7 +507,8 @@
     "name": "Wine",
     "imName": "wine",
     "id": "wine_drink",
-    "type": "drink",
+    "gameId": "000366c2",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -390,15 +527,25 @@
     "name": "Ballistic Bock",
     "imName": "ballistic_bock",
     "id": "ballistic_bock_drink",
-    "type": "drink",
+    "gameId": "0046983f",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
         "category": "weapon",
+        "type": "!,Melee,Unarmed",
         "property": "BBDB",
         "value": 15,
         "valueType": "percent",
         "description": "BBDB"
+      },
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": -1,
+        "valueType": "number",
+        "description": "Strength"
       }
     ]
   },
@@ -406,7 +553,8 @@
     "name": "High Voltage Hefe",
     "imName": "high_voltage_hefe",
     "id": "high_voltage_hefe_drink",
-    "type": "drink",
+    "gameId": "003ec3e7",
+    "type": "Drink",
     "used": false,
     "boosts": [
       {
@@ -415,6 +563,132 @@
         "value": 15,
         "valueType": "percent",
         "description": "EBDB"
+      },
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": -1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Gulpershine Vintage",
+    "imName": "mire_magic_moonshine",
+    "id": "gulpershine_vintage_drink",
+    "gameId": "00655d13",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_bdb_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "property": "BDB",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Melee"
+      },
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 4,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Mire Magic Moonshine",
+    "imName": "mire_magic_moonshine",
+    "id": "mire_magic_moonshine_drink",
+    "gameId": "00622f8b",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_bdb_melee",
+        "category": "weapon",
+        "type": "Melee",
+        "property": "BDB",
+        "value": 50,
+        "valueType": "percent",
+        "description": "Melee"
+      },
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": 2,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Hoppy Hunter IPA",
+    "imName": "beer",
+    "id": "hoppy_hunter_ipa_drink",
+    "gameId": "00454128",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "category": "creature",
+        "type": "animal",
+        "property": "BDB",
+        "value": 15,
+        "valueType": "percent",
+        "description": "Animals"
+      },
+      {
+        "id": "drink_strength",
+        "category": "weapon",
+        "property": "Strength",
+        "value": -1,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
+    "name": "Sugar-Free Nukashine",
+    "imName": "nukashine",
+    "id": "sugar_free_nukashine_drink",
+    "gameId": "005fd9a7",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_bdb_unarmed",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Unarmed"
+      }
+    ]
+  },
+  {
+    "name": "Vintage Nukashine",
+    "imName": "nukashine",
+    "id": "vintage_nukashine_drink",
+    "gameId": "0047bc08",
+    "type": "Drink",
+    "used": false,
+    "boosts": [
+      {
+        "id": "food_bdb_unarmed",
+        "category": "weapon",
+        "type": "Unarmed",
+        "property": "BDB",
+        "value": 100,
+        "valueType": "percent",
+        "description": "Unarmed"
       }
     ]
   }

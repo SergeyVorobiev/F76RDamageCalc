@@ -12,16 +12,35 @@ export default class StuffBoostsCollector {
         });
     }
 
+    static weaponNameOrTypeSatisfied(weaponName, weaponType, maxItem) {
+        if (maxItem.name) {
+            return maxItem.name.split(",").includes(weaponName);
+        } else if (maxItem.type) {
+            let types = maxItem.type.split(",");
+            if (types.length === 0) {
+                return true;
+            }
+            const lastType = types[0];
+            let satisfyNameOrType;
+            if (lastType === "!") { // Not include
+                types = types.slice(1);
+                satisfyNameOrType = true;
+            } else {
+                satisfyNameOrType = false;
+            }
+            if (types.includes(weaponType)) {
+                satisfyNameOrType = !satisfyNameOrType;
+            }
+            return satisfyNameOrType;
+        }
+        return true;
+    }
+
     static collect(weaponName, weaponType, weaponTags, stuffBoosts, property, customStacker=null) {
         let result = 0.0;
         stuffBoosts.forEach((value, key) => {
             const maxItem = StuffBoostsCollector.getMaxItem(value);
-            let satisfyNameOrType = true;
-            if (maxItem.name) {
-                satisfyNameOrType = maxItem.name.split(",").includes(weaponName);
-            } else if (maxItem.type) {
-                satisfyNameOrType = maxItem.type.split(",").includes(weaponType);
-            }
+            const satisfyNameOrType = StuffBoostsCollector.weaponNameOrTypeSatisfied(weaponName, weaponType, maxItem);
             let additional = [];
             if (maxItem.tag) {
                 additional = maxItem.tag.split(",");

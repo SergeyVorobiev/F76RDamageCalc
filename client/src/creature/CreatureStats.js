@@ -50,8 +50,8 @@ function col(name, creatures, setCreatures, creature, res_field, color, canDisab
     return (
         <Col>
             <InputGroup className="mb-1 mt-1 flex-nowrap">
-                {getCheckbox(canDisable)}
                 <InputGroup.Text className={color} style={{ width: width }}>{name}</InputGroup.Text>
+                {getCheckbox(canDisable)}
                 <Form.Control className='w-auto' disabled={!enabled} type="number" min={min} value={value} max={max} maxLength="7" onChange={onChange} />
             </InputGroup>
         </Col>);

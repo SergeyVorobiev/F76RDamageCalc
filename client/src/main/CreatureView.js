@@ -13,7 +13,7 @@ const CreatureView = memo(function CreatureView({creatures, setCreatures}) {
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '14rem'}}>
-                            Creature
+                            <span className="ac-text">Creature</span>
                         </InputGroup.Text>
                     </InputGroup>
                 </Accordion.Header>

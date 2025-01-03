@@ -10,7 +10,7 @@ export function keyValueRow(name, value, colorName="purple", colorValue="red", m
         <Row key={k++} className={rowProps}>
             <Col className="text-start text-nowrap ps-0 ms-0 pe-0 me-0">
                 <strong>
-                    <Tag bordered={false} color={colorName}>{name}</Tag>
+                    <Tag style={{overflow: 'clip'}} bordered={false} color={colorName}>{name}</Tag>
                 </strong>
             </Col>
             <Col className="text-end text-nowrap pb-0 pe-0 me-0 ps-0 pe-0">

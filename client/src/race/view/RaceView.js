@@ -52,7 +52,7 @@ const RaceView = memo(function RaceView() {
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '14rem'}}>
-                            Races
+                            <span className="ac-text">Races</span>
                         </InputGroup.Text>
                     </InputGroup>
                 </Accordion.Header>

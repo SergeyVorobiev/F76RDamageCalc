@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import ConsumableButton from './ConsumableButton';
 import ConsumableTools from '../ConsumableTools';
 import { memo, useState } from 'react';
-import { Pagination } from 'antd';
+import { Pagination, FloatButton } from 'antd';
 
 
 function nameComparator(item1, item2) {
@@ -14,7 +14,7 @@ function nameComparator(item1, item2) {
 
 export const sortItems = consItems.sort(nameComparator);
 
-function getItem(id) {
+export function getItem(id) {
     for (let i = 0; i < sortItems.length; i++) {
         const item = sortItems[i];
         if (item.id === id) {
@@ -76,8 +76,10 @@ const ConsumableItems = memo(function ConsumableItems(props) {
     }
     return (
         <Container>
+            <Pagination className="pt-1 pb-3" align="center" current={props.currentPage} defaultPageSize={pageSize} onChange={onPageChanged} total={items.length} />
             {paginated}
             <Pagination className="pt-3" align="center" current={props.currentPage} defaultPageSize={pageSize} onChange={onPageChanged} total={items.length} />
+            <FloatButton.BackTop style={{ right: 60 }} duration={100} visibilityHeight={2000} />
         </Container>
 
     );

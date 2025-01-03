@@ -64,8 +64,6 @@ export default class ConsumablesBuilder {
             combination.push("invasion_of_the_zetans_magazine");
         } else if (wName === "Cryolator") {
             combination.push("when_apes_go_bananas_magazine");
-        } else if (wName === "Tomahawk") {
-            combination.push("down_home_cooking_magazine");
         }
 
         // TODO: Does unarmed really work here?
@@ -112,7 +110,9 @@ export default class ConsumablesBuilder {
             combination.push("rockobot_takes_the_nation_by_storm_magazine");
         }
         combination.push("demon_slaves_demon_sands_magazine");
-        combination.push("wendigo_magazine");
+
+        // Seems that wendigo colossus does not have 'wendigo' tag it has only unique 'wendigocolossus' tag
+        // combination.push("wendigo_magazine");
         result.push(combination);
         return result;
     }
@@ -138,7 +138,7 @@ export default class ConsumablesBuilder {
         } else if (wType === "Unarmed") {
             combination.push("unarmed_bobble");
             combination.push("strength_bobble");
-        } else if (wType === "Melee") {
+        } else if (wType === "Melee") { // Does Unarmed work here?
             combination.push("melee_bobble");
             combination.push("strength_bobble");
         }
@@ -165,6 +165,11 @@ export default class ConsumablesBuilder {
         const combination = [];
         if (wType === "Melee" || wType === "Unarmed") {
             combination.push("whiskey_drink");
+            if (wType === "Melee") {
+                combination.push("gulpershine_vintage_drink");
+            } else {
+                combination.push("sugar_free_nukashine_drink"); // Possibly gulpershine will also work as unarmed is a melee
+            }
         }
         if (crit) {
             combination.push("sweetmutfruit_drink");
@@ -235,10 +240,12 @@ export default class ConsumablesBuilder {
         }
         if (wType === "Melee") {
             combination.push("twisted_muscles_serum");
+            combination.push("empath_serum");
         }
         if (wType === "Unarmed") {
             combination.push("twisted_muscles_serum");
             combination.push("talons_serum");
+            combination.push("empath_serum");
         }
         if (wType !== "Melee" && wType !== "Unarmed") {
             combination.push("speed_demon_serum");

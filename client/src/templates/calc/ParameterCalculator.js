@@ -79,7 +79,7 @@ export default class ParameterCalculator {
 
         // Currently accuracy mods do not influence on damage but, best
         // values still can be calculated (without paying attention to distance)
-        // specify such a mods in advance to reduce the number of computations
+        // specify such mods in advance to reduce the number of computations
         this.bestAccuracyMods = null;
     }
 

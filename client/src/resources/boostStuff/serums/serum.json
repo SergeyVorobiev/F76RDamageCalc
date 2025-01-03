@@ -3,6 +3,7 @@
     "name": "Adrenal Reaction",
     "imName": "ar_serum",
     "id": "adrenal_reaction_serum",
+    "gameId": "00505bd4",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -20,6 +21,7 @@
     "name": "Eagle Eyes",
     "imName": "ee_serum",
     "id": "eagle_eyes_serum",
+    "gameId": "0050a5c9",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -44,9 +46,29 @@
     ]
   },
   {
+    "name": "Empath",
+    "imName": "e_serum",
+    "id": "empath_serum",
+    "gameId": "0050a5d2",
+    "type": "serum",
+    "used": false,
+    "boosts": [
+      {
+        "category": "weapon",
+        "property": "Strength",
+        "func": "empathSerum",
+        "defValue": 1,
+        "value": 0,
+        "valueType": "number",
+        "description": "Strength"
+      }
+    ]
+  },
+  {
     "name": "Carnivore",
     "imName": "c_serum",
     "id": "carnivore_serum",
+    "gameId": "0050a5bf",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -72,6 +94,7 @@
     "name": "Herbivore",
     "imName": "h_serum",
     "id": "herbivore_serum",
+    "gameId": "0050a5c4",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -97,6 +120,7 @@
     "name": "Herd Mentality",
     "imName": "hm_serum",
     "id": "herd_mentality_serum",
+    "gameId": "0050a5e3",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -115,6 +139,7 @@
     "name": "Speed Demon",
     "imName": "sd_serum",
     "id": "speed_demon_serum",
+    "gameId": "0050a5f3",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -142,6 +167,7 @@
     "name": "Talons",
     "imName": "t_serum",
     "id": "talons_serum",
+    "gameId": "0050a5f6",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -171,6 +197,7 @@
     "name": "Twisted Muscles",
     "imName": "tm_serum",
     "id": "twisted_muscles_serum",
+    "gameId": "0050a5f9",
     "type": "serum",
     "used": false,
     "boosts": [
@@ -188,7 +215,7 @@
         "category": "weapon",
         "type": "Unarmed",
         "property": "BDB",
-        "func": "talons1",
+        "func": "twistedMuscles",
         "defValue": 25,
         "value": 0,
         "valueType": "percent",

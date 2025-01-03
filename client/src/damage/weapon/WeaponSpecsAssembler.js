@@ -1,5 +1,5 @@
 import StuffBoostsCollector from '../../boostStuff/StuffBoostsCollector';
-import { makeDamageItemCopy } from '../../helpers/mods/DamageSetter';
+import { makeDamageItemCopy, buildBleedDamage } from '../../helpers/mods/DamageSetter';
 import AccuracyAdjuster from '../../helpers/AccuracyAdjuster';
 
 
@@ -21,6 +21,7 @@ export default class WeaponSpecsAssembler {
             damage.defDamage = damage.damage;
             result.push(damage);
         }
+        result = result.concat(this.getDamageFromStuff());
         this.setFinalAccuracy(result);
         return result;
     }
@@ -233,6 +234,20 @@ export default class WeaponSpecsAssembler {
         cResult += (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "CBDB"));
         rResult += (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "RBDB"));
         return {dtPhysical: bResult / 100.0, dtEnergy: eResult / 100.0, dtFire: fResult / 100.0, dtPoison: pResult / 100.0, dtCryo: cResult / 100.0, dtRadiationExposure: rResult / 100.0};
+    }
+
+    getDamageFromStuff() {
+        const damages = [];
+        function stacker(value) {
+            const values = value.split(" - ");
+            const damageValue = parseFloat(values[0]);
+            const time = parseFloat(values[1].slice(0, values[1].length - 1));
+            const damage = buildBleedDamage(damageValue, time);
+            damage.defDamage = damageValue;
+            damages.push(damage);
+        }
+        StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Bleed", stacker);
+        return damages;
     }
 
     getBonusMultFromPerks() {

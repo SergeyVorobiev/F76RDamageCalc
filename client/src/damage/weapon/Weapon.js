@@ -245,6 +245,7 @@ export default class Weapon {
         }
         return this.hitCount % frequency === 0;
     }
+
     // between 0 - 100
     chanceTriggered(chance) {
         if (this.alwaysMaxHit) {
