@@ -74,10 +74,13 @@ export default function ModalCalculateWeapon(props) {
 
     function applyTemplate(e) {
         if (parameterCalculator) {
-            const parameters = parameterCalculator.getBestParameters().Parameters;
-            ParametersApplier.applyCalculatedParameters(parameters, props);
+            setCalculating(3);
+            setTimeout(() => {
+                const parameters = parameterCalculator.getBestParameters().Parameters;
+                ParametersApplier.applyCalculatedParameters(parameters, props);
+                onHide(e);
+            }, 100);
         }
-        onHide(e);
     }
 
     function startCalculation(e) {
@@ -114,13 +117,15 @@ export default function ModalCalculateWeapon(props) {
             return (
                 <Button className="w-100 me-1" onClick={onHide}>Stop And Close</Button>
             );
-        } else {
+        } else if (calculating === 2) {
             return (
                 <>
                     <Button className="w-100 me-1" onClick={applyTemplate}>Apply</Button>
                     <Button className="w-100 ms-1" onClick={onHide}>Cancel</Button>
                 </>
             );
+        } else {
+            return (<></>);
         }
     }
 
@@ -208,6 +213,42 @@ export default function ModalCalculateWeapon(props) {
         );
     }
 
+    function getModalView() {
+        if (calculating ===  3) {
+            return (
+                <Modal.Body className="modal-scroll-80-60">
+                    <b>Loading...</b>
+                </Modal.Body>
+            );
+        }
+        return (
+            <>
+                <Modal.Header className="d-flex justify-content-center p-1">
+                    <Row className="p-1" style={{width: '100%'}}>
+                        <Col className="d-flex justify-content-start p-0" xs={2}>
+                            <WeaponEmblem template={props.modalCalculate.template} iconSize='2.5rem' />
+                        </Col>
+                        <Col xs={8} className="d-flex justify-content-center">
+                            <div className="p-auto m-auto" style={{fontSize: '1rem', fontWeight: 'bold'}}>{name}</div>
+                        </Col>
+                        <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
+                            <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
+                        </Col>
+                    </Row>
+                </Modal.Header>
+                <Modal.Body className="modal-scroll-80-60">
+                    {nameView()}
+                    {getCounter(calculating)}
+                    {getSettings(calculating)}
+                </Modal.Body>
+                <Modal.Footer className="p-2">
+                    <InputGroup className="mb-0 mt-0 flex-nowrap">
+                        {getButtons(calculating)}
+                    </InputGroup>
+                </Modal.Footer>
+            </>
+        );
+    }
     return (
         <Modal
             show = {props.modalCalculate.show}
@@ -215,29 +256,7 @@ export default function ModalCalculateWeapon(props) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-            <Modal.Header className="d-flex justify-content-center p-1">
-                <Row className="p-1" style={{width: '100%'}}>
-                    <Col className="d-flex justify-content-start p-0" xs={2}>
-                        <WeaponEmblem template={props.modalCalculate.template} iconSize='2.5rem' />
-                    </Col>
-                    <Col xs={8} className="d-flex justify-content-center">
-                        <div className="p-auto m-auto" style={{fontSize: '1rem', fontWeight: 'bold'}}>{name}</div>
-                    </Col>
-                    <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
-                        <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
-                    </Col>
-                </Row>
-            </Modal.Header>
-            <Modal.Body className="modal-scroll-80-60">
-                {nameView()}
-                {getCounter(calculating)}
-                {getSettings(calculating)}
-            </Modal.Body>
-            <Modal.Footer className="p-2">
-                <InputGroup className="mb-0 mt-0 flex-nowrap">
-                    {getButtons(calculating)}
-                </InputGroup>
-            </Modal.Footer>
+            {getModalView()}
         </Modal>
     );
 }

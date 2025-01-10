@@ -51,7 +51,7 @@ function col(name, creatures, setCreatures, creature, res_field, color, canDisab
     if (res_field === "p" || res_field === "r") {
         disabled = (res_field === "p") ? creature.immuneToPoison : creature.immuneToRadiation;
     }
-    const width = (canDisable) ? '7.4rem' : '10rem';
+    const width = (canDisable) ? '7.45rem' : '10rem';
     const value = creature[res_field];
     return (
         <Col>
