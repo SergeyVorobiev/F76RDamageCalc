@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.d3cfaf1f.css",
-    "main.js": "/F76RDamageCalc/static/js/main.3af2ea5f.js",
+    "main.css": "/F76RDamageCalc/static/css/main.53cf7552.css",
+    "main.js": "/F76RDamageCalc/static/js/main.c0c6c721.js",
     "static/js/867.7484ea86.chunk.js": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js",
     "static/js/488.b51d605a.chunk.js": "/F76RDamageCalc/static/js/488.b51d605a.chunk.js",
     "static/media/03_Perks_.webp": "/F76RDamageCalc/static/media/03_Perks_.41c790afd5426f072ac9.webp",
@@ -391,13 +391,13 @@
     "static/media/baton.webp": "/F76RDamageCalc/static/media/baton.1c595e18d9b01c5dcd33.webp",
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.d3cfaf1f.css.map": "/F76RDamageCalc/static/css/main.d3cfaf1f.css.map",
-    "main.3af2ea5f.js.map": "/F76RDamageCalc/static/js/main.3af2ea5f.js.map",
+    "main.53cf7552.css.map": "/F76RDamageCalc/static/css/main.53cf7552.css.map",
+    "main.c0c6c721.js.map": "/F76RDamageCalc/static/js/main.c0c6c721.js.map",
     "867.7484ea86.chunk.js.map": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js.map",
     "488.b51d605a.chunk.js.map": "/F76RDamageCalc/static/js/488.b51d605a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d3cfaf1f.css",
-    "static/js/main.3af2ea5f.js"
+    "static/css/main.53cf7552.css",
+    "static/js/main.c0c6c721.js"
   ]
 }
