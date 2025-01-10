@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 import './css/bsButtons.css';
+import './css/buttons.css';
 import './css/bsCheck.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AdditionalDamage from "./main/AdditionalDamage";
-import ATotalDamage from "./main/ATotalDamage";
+import MainCardsDisplay from "./main/MainCardsDisplay";
 import ToastSpecs from "./main/ToastSpecs";
-import CreatureView from "./main/CreatureView";
+import CreaturesView from "./creature/CreaturesView";
 import WeaponFactory from './damage/weapon/WeaponFactory';
 import { calcDamage, graphDamage } from "./helpers/Calc";
 import Accordion from 'react-bootstrap/Accordion';
 import { defaultExtraDamage } from './entities/EResultDamage';
-import { defaultCreatures } from './entities/ECreatures';
+import { defaultCreatures, buildCreatureNames } from './entities/ECreatures';
 import { defaultBoosts } from './entities/EBoosts';
 import { defaultPlayerStats } from './entities/EPlayerStats';
 import { defaultPlayer } from './entities/EPlayer';
@@ -102,18 +103,36 @@ export default function MyApp() {
     const [foodPref, setFoodPref] = useState({carnivore: false, herbivore: false});
 
     const [consumableTouched, setConsumableTouched] = useState([]);
-    useEffect(() => {
-        setTimeout(() => {
-                const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
-                setGraphValues(graphDamage(graphValues.xValues, creatures.creature.damageReduction, creatures.creature.headShot, weaponFactory));
-                setResultDamage(calcDamage(weaponFactory, creatures));
-            }, 0
-        );
 
+    // Refs
+    const creatureNamesRef = useRef(buildCreatureNames(creatures));
+
+    const applySnapshotRef = useRef(null);
+
+    const wSpecRef = useRef(null);
+
+    const resultDamageRef = useRef(null);
+
+    const playerRef = useRef(null);
+
+    const playerStatsRef = useRef(null);
+
+    const stuffBoostRef = useRef(null);
+
+    const boostDamageRef = useRef(null);
+
+    const extraDamageRef = useRef(null);
+
+    const additionalDamagesRef = useRef(null);
+
+    const creaturesRef = useRef(null);
+
+    useEffect(() => {
+            const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
+            setGraphValues(graphDamage(graphValues.xValues, 0, creatures.creature1.headShot, weaponFactory));
+            setResultDamage(calcDamage(weaponFactory, creatures));
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats, graphValues.xValues]);
 
-    // Build new address every pass so it forces to re-render ModalApplyItem dialog for no reason,
-    // but we can omit this cause it is not affected on render time to much.
     const applySnapshot = (cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
         setPlayer(cPlayer);
         setPlayerStats(cPlayerStats);
@@ -121,23 +140,28 @@ export default function MyApp() {
         setWSpec(cWSpec);
         setExtraDamage(cExtraDamage);
         setAdditionalDamages(cAdditionalDamages);
-        creatures.creature.damageToCreature = cCreatures.creature.damageToCreature;
-        creatures.creature.headShot = cCreatures.creature.headShot;
-        creatures.creature.damageReduction = cCreatures.creature.damageReduction;
-        creatures.sbq.damageToCreature = cCreatures.sbq.damageToCreature;
-        creatures.earle.damageToCreature = cCreatures.earle.damageToCreature;
-        creatures.titan.damageToCreature = cCreatures.titan.damageToCreature;
         const [foodPref, allStuffBoosts, consumables] = ConsumablesBuilder.buildFromList(cStuff, cPlayer);
         ConsumablesBuilder.setConsumableItems(consumables, setMagazines, setBobbleHeads, setFood, setDrink, setPsycho, setSerum, setOthers);
         setFoodPref(foodPref);
         setStuffBoost(allStuffBoosts);
-        setCreatures({...creatures});
+        setCreatures({...cCreatures});
     }
 
+    applySnapshotRef.current = applySnapshot;
+    wSpecRef.current = wSpec;
+    resultDamageRef.current = resultDamage;
+    playerRef.current = player;
+    playerStatsRef.current = playerStats;
+    stuffBoostRef.current = stuffBoost;
+    boostDamageRef.current = boostDamage;
+    extraDamageRef.current = extraDamage;
+    additionalDamagesRef.current = additionalDamages;
+    creaturesRef.current = creatures;
+    creatureNamesRef.current = buildCreatureNames(creatures);
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
-            <ATotalDamage weaponName={wSpec.weaponName} graphValues={graphValues} iconName={wSpec.iconName} defaultName={wSpec.defaultName} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></ATotalDamage>
+            <MainCardsDisplay creatureNamesRef={creatureNamesRef} wSpecRef={wSpecRef} graphValues={graphValues} resultDamage={resultDamage} creatures={creatures} setCreatures={setCreatures} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></MainCardsDisplay>
             <ToastSpecs creatures={creatures} legendary={wSpec.legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat}></ToastSpecs>
             <Tabs
                 id="tab"
@@ -149,19 +173,19 @@ export default function MyApp() {
                         <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
-                        <CreatureView creatures={creatures} setCreatures={setCreatures}></CreatureView>
+                        <CreaturesView creatureNamesRef={creatureNamesRef} creatures={creatures} setCreatures={setCreatures} resultDamageRef={resultDamageRef}></CreaturesView>
                         <RaceView />
                         <ConsumablesView />
                     </Accordion>
                 </Tab>
                 <Tab eventKey="Templates" title={<span className="tab-text">Weapons</span>}>
-                    <WeaponTemplates setWSpec={setWSpec} setBoostDamage={setBoostDamage} setPlayer={setPlayer} setExtraDamage={setExtraDamage} setFoodPref={setFoodPref} setStuffBoost={setStuffBoost} setAdditionalDamages={setAdditionalDamages} setPlayerStats={setPlayerStats} setMagazines={setMagazines} setBobbleHeads={setBobbleHeads} setFood={setFood} setDrink={setDrink} setPsycho={setPsycho} setSerum={setSerum} setOthers={setOthers}></WeaponTemplates>
+                    <WeaponTemplates creatureNamesRef={creatureNamesRef} setWSpec={setWSpec} setBoostDamage={setBoostDamage} setPlayer={setPlayer} setExtraDamage={setExtraDamage} setFoodPref={setFoodPref} setStuffBoost={setStuffBoost} setAdditionalDamages={setAdditionalDamages} setPlayerStats={setPlayerStats} setMagazines={setMagazines} setBobbleHeads={setBobbleHeads} setFood={setFood} setDrink={setDrink} setPsycho={setPsycho} setSerum={setSerum} setOthers={setOthers}></WeaponTemplates>
                 </Tab>
                 <Tab eventKey="Boosts" title={<span className="tab-text">Boosts</span>}>
                     <BoostStuff foodPref={foodPref} setFoodPref={setFoodPref} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} food={food} setFood={setFood} drink={drink} setDrink={setDrink} psycho={psycho} setPsycho={setPsycho} serum={serum} setSerum={setSerum} others={others} setOthers={setOthers} player={player} setPlayer={setPlayer} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} showStat={showStat} setShowStat={setShowStat} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats} setConsumableTouched={setConsumableTouched}></BoostStuff>
                 </Tab>
                 <Tab eventKey="Snapshots" title={<span className="tab-text">Snapshots</span>}>
-                     <Snapshots player={player} playerStats={playerStats} stuffBoost={stuffBoost} weaponName={wSpec.weaponName} boostDamage={boostDamage} wSpec={wSpec} extraDamage={extraDamage} additionalDamages={additionalDamages} creatures={creatures} resultDamage={resultDamage} applySnapshot={applySnapshot}></Snapshots>
+                     <Snapshots playerRef={playerRef} playerStatsRef={playerStatsRef} stuffBoostRef={stuffBoostRef} boostDamageRef={boostDamageRef} wSpecRef={wSpecRef} extraDamageRef={extraDamageRef} additionalDamagesRef={additionalDamagesRef} creaturesRef={creaturesRef} resultDamageRef={resultDamageRef} applySnapshotRef={applySnapshotRef}></Snapshots>
                 </Tab>
             </Tabs>
             <div style={{height: '1.5rem'}}></div>

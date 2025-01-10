@@ -15,6 +15,8 @@ import WeaponEmblem from './WeaponEmblem';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { WarningPopoverBadge } from '../helpers/WarningPopover';
+import CreatureDataProvider from '../creature/CreatureDataProvider';
+import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
 import TemplateTools from './TemplateTools';
 import { keyValueTag } from '../helpers/RowBuilder';
 import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
@@ -32,10 +34,6 @@ let parameterCalculator = null;
 
 let firstShown = false;
 
-const creatureName = ["Average", "SBQ", "Earle", "UTitan"];
-
-const creatureOptions = {Average: '0', SBQ: '1', Earle: '2', 'U-Titan': '3'};
-
 export default function ModalCalculateWeapon(props) {
     // console.log("ModalCalculateWeapon");
     const minHeight = useRef(null);
@@ -47,7 +45,7 @@ export default function ModalCalculateWeapon(props) {
     const [leg, setLeg] = useState(getDefaultLegendary());
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
-    const [cId, setCId] = useState('0');
+    const [selectedCreature, setSelectedCreature] = useState('average');
     const [accuracyPref, setAccuracyPref] = useState(AccuracyHelper.BALANCE);
 
     if (!props.modalCalculate.show) {
@@ -83,8 +81,8 @@ export default function ModalCalculateWeapon(props) {
     }
 
     function startCalculation(e) {
-        parameterCalculator = new ParameterCalculator(props.modalCalculate.template.id, PickedGroups.get(), cards, frCrit, frHead, main, stuff, leg, accuracyPref);
-        parameterCalculator.prepareAndCalcFirst(creatureName[parseInt(cId)]);
+        parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, props.modalCalculate.template.id, PickedGroups.get(), cards, frCrit, frHead, main, stuff, leg, accuracyPref);
+        parameterCalculator.prepareAndCalcFirst(selectedCreature);
         setCount({config: parameterCalculator.getCurrentConfig(), current: parameterCalculator.getCount(), percent: parameterCalculator.getCompletionPercent(), bestTime: parameterCalculator.getBestTime()});
         setCalculating(1);
     }
@@ -123,7 +121,6 @@ export default function ModalCalculateWeapon(props) {
                     <Button className="w-100 ms-1" onClick={onHide}>Cancel</Button>
                 </>
             );
-
         }
     }
 
@@ -154,15 +151,39 @@ export default function ModalCalculateWeapon(props) {
         );
     }
 
+    function getCreatureNames() {
+        const result = ["average"];
+        for (const fieldName in props.creatureNamesRef.current) {
+            const data = props.creatureNamesRef.current[fieldName];
+            result.push(data[0]);
+        }
+        return result;
+    }
+
+    function onSelectCreatureName(e) {
+        setSelectedCreature(e);
+    }
+
+    const creatureNames = getCreatureNames();
+    let selectedCreatureName;
+    if (creatureNames.includes(selectedCreature)) {
+        selectedCreatureName = CreatureDataProvider.capitalizeCreatureName(selectedCreature);
+    } else {
+        selectedCreatureName = "Average";
+        setSelectedCreature("average");
+    }
+
     function getSettings(calculating) {
         if (calculating === 0) {
             let show = !TemplateTools.hasDefaultLegendary(props.modalCalculate.template);
             return (
                 <>
-                    <BSRadio className="d-flex justify-content-center" pairs={creatureOptions} selectedValue={cId} setSelectedValue={setCId} />
-                    <Divider className="mt-4 mb-2">
+                    <div className="d-flex justify-content-center">
+                        <SimpleNameDropdown variant='blue-label' size='sm' onSelect={onSelectCreatureName} names={creatureNames} title={<strong>{selectedCreatureName}</strong>} />
+                    </div>
+                    <Divider className="mt-3 mb-2">
                         Accuracy
-                        <WarningPopoverBadge className="ms-3" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
+                        <WarningPopoverBadge className="ms-3" sign="?" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
                     </Divider>
                     <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
@@ -203,7 +224,7 @@ export default function ModalCalculateWeapon(props) {
                         <div className="p-auto m-auto" style={{fontSize: '1rem', fontWeight: 'bold'}}>{name}</div>
                     </Col>
                     <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
-                        <WarningPopoverBadge message={ParameterCalculator.info} header={"Description"} placement={'left'} />
+                        <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
                     </Col>
                 </Row>
             </Modal.Header>

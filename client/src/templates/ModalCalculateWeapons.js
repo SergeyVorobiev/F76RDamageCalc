@@ -24,6 +24,8 @@ import { Divider } from 'antd';
 import { Progress } from 'antd';
 import AccuracyHelper from '../helpers/AccuracyHelper';
 import { getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary } from './calc/CalcEntities';
+import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
+import CreatureDataProvider from '../creature/CreatureDataProvider';
 
 
 let parameterCalculator = null;
@@ -35,10 +37,6 @@ let currentWIndex = 0;
 let parameters = null;
 
 const calcIterations = 12;
-
-const creatureName = ["Average", "SBQ", "Earle", "UTitan"];
-
-const creatureOptions = {Average: '0', SBQ: '1', Earle: '2', 'U-Titan': '3'};
 
 function getDefaultModGroups() {
     let result = {};
@@ -61,7 +59,7 @@ export default function ModalCalculateWeapons(props) {
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
     const [completion, setCompletion] = useState({current: 0, size: 0});
-    const [creatureId, setCreatureId] = useState('0');
+    const [selectedCreature, setSelectedCreature] = useState('average');
     const [accuracyPref, setAccuracyPref] = useState(AccuracyHelper.BALANCE);
     const [weaponResult, setWeaponResult] = useState([]);
     const [type, setType] = useState("All");
@@ -139,8 +137,8 @@ export default function ModalCalculateWeapons(props) {
                         gNames.push(name);
                     }
                 }
-                parameterCalculator = new ParameterCalculator(wId, gNames, cards, frCrit, frHead, main, stuff, leg, accuracyPref);
-                parameterCalculator.prepareAndCalcFirst(creatureName[parseInt(creatureId)]);
+                parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, wId, gNames, cards, frCrit, frHead, main, stuff, leg, accuracyPref);
+                parameterCalculator.prepareAndCalcFirst(selectedCreature);
             }
         }
         if (!wId) {
@@ -268,15 +266,38 @@ export default function ModalCalculateWeapons(props) {
         );
     }
 
+    function getCreatureNames() {
+        const result = ["average"];
+        for (const fieldName in props.creatureNamesRef.current) {
+            const data = props.creatureNamesRef.current[fieldName];
+            result.push(data[0]);
+        }
+        return result;
+    }
+
     function getSettings(calculating) {
+        function onSelectCreatureName(e) {
+            setSelectedCreature(e);
+        }
+
+        const creatureNames = getCreatureNames();
+        let selectedCreatureName;
+        if (creatureNames.includes(selectedCreature)) {
+            selectedCreatureName = CreatureDataProvider.capitalizeCreatureName(selectedCreature);
+        } else {
+            selectedCreatureName = "Average";
+            setSelectedCreature("average");
+        }
         if (calculating === 0) {
             return (
                 <>
                     <CalcWGroupsDropdown type={type} setType={setType}></CalcWGroupsDropdown>
-                    <BSRadio className="d-flex justify-content-center" pairs={creatureOptions} selectedValue={creatureId} setSelectedValue={setCreatureId} />
-                    <Divider className="mt-4 mb-2">
+                    <div className="d-flex justify-content-center">
+                        <SimpleNameDropdown variant='blue-label' size='sm' onSelect={onSelectCreatureName} names={creatureNames} title={<strong>{selectedCreatureName}</strong>} />
+                    </div>
+                    <Divider className="mt-3 mb-2">
                         Accuracy
-                        <WarningPopoverBadge className="ms-3" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
+                        <WarningPopoverBadge className="ms-3" sign="?" message={AccuracyHelper.ACCURACY_INFO} header={"Accuracy"} placement={'bottom'} />
                     </Divider>
                     <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
@@ -307,7 +328,7 @@ export default function ModalCalculateWeapons(props) {
                         <div className="p-auto m-auto text-shadow-indigo" style={{fontSize: '1.1rem', letterSpacing: '1px', fontWeight: 'bold'}}>{header}</div>
                     </Col>
                     <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
-                        <WarningPopoverBadge message={ParameterCalculator.info} header={"Description"} placement={'left'} />
+                        <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
                     </Col>
                 </Row>
             </Modal.Header>

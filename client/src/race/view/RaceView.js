@@ -2,6 +2,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import ResistanceView from './ResistanceView';
 import RaceTagView from './RaceTagView';
+import RaceBodyView from './RaceBodyView';
 import { memo, useState } from 'react';
 import raceItems from '../../resources/race.json';
 import RaceDropdown from './RaceDropdown';
@@ -20,7 +21,6 @@ function raceComparator(race1, race2) {
 
 for (let i = 0; i < raceItems.length; i++) {
         const item = raceItems[i];
-
         const it = raceMap.get(item.full);
         if (it) {
             console.log("Same name: " + it.id + " " + item.id);
@@ -37,6 +37,15 @@ function getRaceTagView(race) {
     }
     return (
         <RaceTagView tags={race.tags} />
+    );
+}
+
+function getRaceBodyView(race) {
+    if (!race) {
+        return (<></>);
+    }
+    return (
+        <RaceBodyView bodyData={race.bodyData} />
     );
 }
 
@@ -61,6 +70,7 @@ const RaceView = memo(function RaceView() {
                         <RaceDropdown pairs={racePairs} raceName={raceName} setRaceName={setRaceName} />
                         <GeneralRaceView race={race} />
                         {getRaceTagView(race)}
+                        {getRaceBodyView(race)}
                         <ResistanceView race={race} />
                     </Container>
                 </Accordion.Body>

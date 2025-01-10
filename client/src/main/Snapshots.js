@@ -29,9 +29,30 @@ function setNextId(nextId) {
     id = nextId;
 }
 
-const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weaponName, boostDamage, wSpec, extraDamage, additionalDamages, creatures, resultDamage, applySnapshot}) {
+const Snapshots = memo(function Snapshots(props) {
 
     console.log("Snapshots");
+
+    const player = props.playerRef.current;
+
+    const playerStats = props.playerStatsRef.current;
+
+    const stuffBoost = props.stuffBoostRef.current;
+
+    const boostDamage = props.boostDamageRef.current;
+
+    const wSpec = props.wSpecRef.current;
+
+    const extraDamage = props.extraDamageRef.current;
+
+    const additionalDamages = props.additionalDamagesRef.current;
+
+    const creatures = props.creaturesRef.current;
+
+    const resultDamage = props.resultDamageRef.current;
+
+    const applySnapshot = props.applySnapshotRef.current;
+
     const [items, setItems] = useState({map: new Map()});
 
     const [modalNewItemShow, setModalNewItemShow] = useState(false);
@@ -54,8 +75,6 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
 
     const [modalApplyItem, setModalApplyItem] = useState({id: "-1", name: 'none', show: false});
 
-    const [sortId, setSortId] = useState(0);
-
     const [weaponType, setWeaponType] = useState("All");
 
     const [isOpen, setIsOpen] = useState(true);
@@ -66,9 +85,34 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
 
     const [startIndex, setStartIndex] = useState(0);
 
+    const [sortCreatureName, setSortCreatureName] = useState({name: "average"});
+
     useEffect(() => {
         readSnapshotsFromResources(snapshotsFile, setNextId, setItems);
     }, []);
+
+    function buildUniqueCreatureNames() {
+        const defaultItems = ["average"];
+        const uniqueNames = new Set(defaultItems);
+        if (!items || !items.map || items.map.size === 0) {
+            return defaultItems;
+        }
+        for (const [, item] of items.map) {
+            const creatures = item.creatures;
+            for (const fieldName in creatures) {
+                const creature = creatures[fieldName];
+                uniqueNames.add(creature.name);
+            }
+        }
+        return [...uniqueNames];
+    }
+
+    const uniqueCreatureNames = buildUniqueCreatureNames();
+
+    // Set silently, no need to re-render
+    if (!uniqueCreatureNames.includes(sortCreatureName.name)) {
+        sortCreatureName.name = "average";
+    }
 
     function trashAllButton() {
         if (items === null || items.map === null || items.map.size < 2) {
@@ -119,11 +163,10 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
 
     // <div className="overflow-auto wrapper"></div>
     return (
-
         <Container className="p-1">
             <Card className="text-center mb-3">
                 <div className='card-header'>
-                    <SnapshotsHeader items={items} sortId={sortId} setSortId={setSortId} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
+                    <SnapshotsHeader items={items} sortCreatureName={sortCreatureName} setSortCreatureName={setSortCreatureName} uniqueCreatureNames={uniqueCreatureNames} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
                 </div>
                 <ModalDownloadSnapshots items={items} modalDownloadSnapshots={modalDownloadSnapshots} setModalDownloadSnapshots={setModalDownloadSnapshots}></ModalDownloadSnapshots>
                 <ModalDownloadSnapshot items={items} modalDownloadSnapshot={modalDownloadSnapshot} setModalDownloadSnapshot={setModalDownloadSnapshot}></ModalDownloadSnapshot>
@@ -147,7 +190,7 @@ const Snapshots = memo(function Snapshots({player, playerStats, stuffBoost, weap
                             {trashAllButton()}
                         </div>
                     </div>
-                    <SnapshotItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} items={items} isOpen={isOpen} sortId={sortId} filterName={filterName} weaponType={weaponType} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem} />
+                    <SnapshotItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} items={items} isOpen={isOpen} sortCreatureName={sortCreatureName} filterName={filterName} weaponType={weaponType} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem} />
                 </Card.Body>
                 <Card.Footer className="text-muted">
                 </Card.Footer>

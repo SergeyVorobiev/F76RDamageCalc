@@ -5,6 +5,7 @@ import { keyValueRow } from '../helpers/RowBuilder';
 import { truncate } from '../helpers/Input';
 import { tAmmo, addText } from '../helpers/Emoji';
 import CreatureDataProvider from '../creature/CreatureDataProvider';
+import { Tag } from 'antd';
 
 
 function getResBadge(className, value, immune) {
@@ -12,6 +13,24 @@ function getResBadge(className, value, immune) {
     return (
         <span style={{ width: '2.7rem' }} className={className}><small>{result}</small></span>
     );
+}
+
+function prepareTags(creature) {
+    const tags3 = [];
+    let tags;
+    for (let i = 0; i < creature.tags.length; i++) {
+        if (i % 3 === 0) {
+            tags = [];
+            tags3.push(tags);
+        }
+        tags.push(creature.tags[i]);
+    }
+    const result = [];
+    for (let i = 0; i < tags3.length; i++) {
+        const curTags = tags3[i];
+        result.push(<div key={curTags.toString()} className="mt-1 mb-1 d-flex justify-content-center"><Tag color="purple"><b>{curTags.join(" ∙ ")}</b></Tag></div>);
+    }
+    return result;
 }
 
 export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
@@ -53,16 +72,16 @@ export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
                     {getResBadge("badge bg-cold-shadow", armor[4], false)}
                     {getResBadge("badge bg-rad-shadow", armor[5], creature.immuneToRadiation)}
                 </Stack>
+                {prepareTags(creature)}
                 <Stack  className='pb-0' direction="vertical" gap={0}>
-                    {keyValueRow(" Body:", creature.body, "default", "default")}
-                    {keyValueRow(" Type:", creature.type, "default", "default")}
+                    {keyValueRow(" Body:", creature.curBody, "default", "default")}
                     {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
-                    {keyValueRow("🧽 Damage Reduction:", creature.damageReduction, "default", "orange")}
+                    {keyValueRow("🧽 Damage Reduction:", (creature.damageReduction * 100).toFixed(0) + "%", "default", "orange")}
                     {showDamageIf(keyValueRow("🐍 Sneak:", creature.sneak, "default", "green"), creature.sneak)}
                     {showDamageIf(keyValueRow("☠️ Crit:", creature.crit, "default", "magenta"), creature.crit)}
                     {keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue")}
                     {showDamageIf(keyValueRow("💥 Normal Damage:", creature.normalDamage, "default", "blue"), creature.normalDamage)}
-                    {showDamageIf(keyValueRow("🤕 Head Shot (" + creature.headShot + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
+                    {showDamageIf(keyValueRow("🤕 Head Shot (" + creature.headShot.toFixed(2) + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
                     {showDamageIf(keyValueRow("💣 Explosive:", creature.explosiveDamage, "default", "blue"), creature.explosiveDamage)}
                     {showDamageIf(keyValueRow("💣 Explosive Head:", creature.headExpShotDamage, "default", "blue"), creature.headExpShotDamage, showHeadExp)}
                     {showDamageIf(keyValueRow("☠️ Crit:", creature.critNormalDamage, "default", "blue"), creature.critNormalDamage)}

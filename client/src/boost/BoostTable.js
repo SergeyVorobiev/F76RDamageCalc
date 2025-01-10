@@ -93,7 +93,7 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
             </Card>
             <Card.Footer>
                 <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={popover}>
-                    <Badge className='ms-3 mt-0 mb-0 p-auto' bg="danger" pill>?</Badge>
+                    <Badge className='ms-3 mt-0 mb-0 p-auto' bg="danger" style={{cursor: 'pointer'}} pill>?</Badge>
                 </OverlayTrigger>
             </Card.Footer>
         </Container>

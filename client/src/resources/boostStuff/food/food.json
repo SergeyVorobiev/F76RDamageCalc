@@ -309,7 +309,7 @@
   {
     "name": "Spiked Venison & Tato Stew",
     "imName": "tasty_mutant_hound_stew",
-    "id": "spiked_venison_tato_stew",
+    "id": "spiked_venison_tato_stew_food",
     "gameId": "006406de",
     "type": "Meet",
     "used": false,

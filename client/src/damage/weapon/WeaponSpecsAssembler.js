@@ -196,6 +196,14 @@ export default class WeaponSpecsAssembler {
         return this.wSpec.powerAttack / 100.0;
     }
 
+    getWeaponName() {
+        return this.wSpec.weaponName;
+    }
+
+    getDefaultWeaponName() {
+        return this.wSpec.defaultName;
+    }
+
     getSneak() {
         let sneak = (this.perks.covert_operative.displayed_value > 0) ? (this.perks.covert_operative.displayed_value - 1.0) : 1.0;
         let sandman = this.perks.mister_sandman.displayed_value / 100.0;

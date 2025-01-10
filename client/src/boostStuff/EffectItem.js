@@ -38,7 +38,7 @@ function getPopoverInfoHeader(title) {
 }
 
 const EffectItem = memo(function EffectItem({categoryName, foodPref, setFoodPref, player, item, height, picHeight, imPadding, items, setItems, colorName, colorValue, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched}) {
-    const [update, setUpdate] = useState([]);
+    const [, setUpdate] = useState([]);
     useEffect(() => {
         recalculateDynamicItems(foodPref, item, stuffBoost, setStuffBoost, player);
     }, [player, foodPref]);

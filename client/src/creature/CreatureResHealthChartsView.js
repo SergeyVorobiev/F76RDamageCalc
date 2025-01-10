@@ -6,7 +6,10 @@ import Col from 'react-bootstrap/Col';
 
 function buildResCols(creatureName) {
     const result = [];
-    const data = CreatureDataProvider.getCreatureData(creatureName);
+    let data = CreatureDataProvider.getCreatureData(creatureName);
+    if (data) {
+        data = data['curve'];
+    }
     for (const name in data) {
         const cRes = data[name];
         const typeData = CreatureDataProvider.getStyle(name);

@@ -8,7 +8,7 @@ export function numberToString(number, round=0) {
 const emojis = ['🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🍰', '🧁', '🥧', '🍫', '🍬', '🍭', '🥨', '🥯',
                 '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍮', '🍯'];
 
-function getRandomNumber(max) {
+export function getRandomNumber(max) {
     return Math.floor(Math.random() * max);
 }
 

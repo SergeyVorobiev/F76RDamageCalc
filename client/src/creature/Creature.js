@@ -1,6 +1,3 @@
-import { determineType, determineBody } from './CreatureTypes';
-
-
 export default class Creature {
 
     constructor(creatureInfo) {
@@ -11,36 +8,25 @@ export default class Creature {
         this.poison = creatureInfo.p;
         this.cryo = creatureInfo.c;
         this.name = creatureInfo.name;
+        this.tags = creatureInfo.tags;
+        this.tags = [];
+        for (let i = 0; i < creatureInfo.tags.length; i++) {
+            this.tags.push(creatureInfo.tags[i].toLowerCase());
+        }
+        this.body = creatureInfo.curBody;
         this.radiation = creatureInfo.r;
         this.health = creatureInfo.h;
         this.damageReduction = creatureInfo.damageReduction;
+        this.damageReductionOnlyNotBleeding = creatureInfo.damageReductionOnlyNotBleeding;
         this.headMult = creatureInfo.headShot;
-        this.body = creatureInfo.body;
-        this.type = creatureInfo.type;
-        this.kind = creatureInfo.kind;
+        this.bodyMult = creatureInfo.bodyShot;
         this.immuneToRadiation = creatureInfo.immuneToRadiation;
         this.immuneToPoison = creatureInfo.immuneToPoison;
-        if (this.type === "" || creatureInfo.rank === "creature") {
-            this.type = determineType(creatureInfo.name);
-            if (creatureInfo.rank === "creature") {
-                creatureInfo.type = this.type;
-            }
-
-        }
-        if (this.body === "" || creatureInfo.rank === "creature") {
-            this.body = determineBody(creatureInfo.name);
-            if (creatureInfo.rank === "creature") {
-
-                // use user set
-                if (creatureInfo.userBody !== "normal") {
-                    this.body = creatureInfo.userBody;
-                }
-                creatureInfo.body = this.body;
-            }
-        }
         this.expResistance = true;
         this.reported = false;
+        this.maxHit = 0;
         this.hits = 0;
+        this.sumDamages = 0;
         this.lifeTime = 0;
         this.lastShotTime = 0;
         this.timeDamages = new Map();
@@ -70,6 +56,7 @@ export default class Creature {
         this.tdCounter = 0;
         this.sneakPercent = 0;
         this.critPercent = 0;
+        this.bleed = false;
     }
 
     getName() {
@@ -80,7 +67,7 @@ export default class Creature {
         return [this.physical, this.energy, this.fire, this.poison, this.cryo, this.radiation];
     }
 
-    // To speed up the process we reduce armors in advance as they are basically static (except some cases like of TOFT
+    // To speed up the process we reduce armors in advance as they are basically static (except for some cases like TOFT
     // where we ignore it anyway)
     reduceArmor(antiArmor) {
         let b = (1 - antiArmor.b / 100.0);
@@ -89,7 +76,7 @@ export default class Creature {
         let p = (1 - antiArmor.p / 100.0);
         let c = (1 - antiArmor.c / 100.0);
         let r = (1 - antiArmor.r / 100.0);
-        if (this.type === "insect") {
+        if (this.tags.includes("Bug")) {
             let i = 1 - antiArmor.insect / 100.0;
             b *= i;
             e *= i;
@@ -139,7 +126,19 @@ export default class Creature {
         this.applyDamages(hit, damages);
     }
 
+    // WARNING: Considers every shot is hit (time is not important)
+    setupBleed(damages) {
+        for (let i = 0; i < damages.length; i++) {
+            const damageInfo = damages[i];
+            if (damageInfo.kind === 'bleed') {
+                this.bleed = true;
+                return;
+            }
+        }
+        this.bleed = false;
+    }
     applyDamages(hit, damages) {
+        this.setupBleed(damages);
         for (let i = 0; i < damages.length; i++) {
             const damageInfo = damages[i];
 
@@ -383,17 +382,14 @@ export default class Creature {
 
     getCreatureBonusMultiplier(creatureDamageBonuses) {
         let result = 0;
+        if (this.name === "Dummy") {
+            return 0;
+        }
         for (let [, damageBonus] of creatureDamageBonuses) {
-            if (damageBonus.name === "any") {  // All
-                result += (damageBonus.value / 100.0);
-            } else if (damageBonus.name === this.name) {
-                result += (damageBonus.value / 100.0);
-            } else if (damageBonus.name === this.body) { // Body type
-                result += (damageBonus.value / 100.0);
-            } else if (damageBonus.name === this.type) {
-                result += (damageBonus.value / 100.0);
-            } else if (damageBonus.name === this.kind) {
-                result += (damageBonus.value / 100.0);
+            const bonusName = damageBonus.name;
+            const bonusMult = damageBonus.value;
+            if (this.tags.includes(bonusName) || this.body === bonusName || this.name === bonusName) {
+                result += (bonusMult / 100.0);
             }
         }
         return result;
@@ -405,16 +401,37 @@ export default class Creature {
 
     causeFinalDamage(value, damageType, isHead, explosive) {
         let finalDamage;
+        let damageReduction = 1 - this.damageReduction;
+
+        // No reduction if bleeding (storm boss)
+        if (this.bleed && this.damageReductionOnlyNotBleeding) {
+            damageReduction = 1;
+        }
         if (explosive && !this.expResistance) {
-            finalDamage = value * (1 - this.damageReduction);
+            finalDamage = value * damageReduction;
         } else {
-            finalDamage = this.finalDamage(value, damageType) * (1 - this.damageReduction);
+            finalDamage = this.finalDamage(value, damageType) * damageReduction;
         }
         if (isHead) {
             finalDamage *= this.headMult;
+        } else {
+            finalDamage *= this.bodyMult;
         }
         this.health -= finalDamage;
+
+        // It is useful if you need to check average hit to determine the best weapon especially if a creature live time is 0
+        this.sumDamages += finalDamage;
+        if (finalDamage > this.maxHit) {
+            this.maxHit = finalDamage;
+        }
         return finalDamage;
+    }
+
+    getAverageHit() {
+        if (this.hits === 0) {
+            return 0;
+        }
+        return this.sumDamages / this.hits;
     }
 
     finalDamage(value, type) {
@@ -449,6 +466,8 @@ export default class Creature {
     formDeadReport(reloads, reloadsTime) {
         if (!this.reported) {
             this.reported = true;
+            this.creatureInfo.averageHit = this.getAverageHit();
+            this.creatureInfo.maxHit = this.maxHit;
             this.creatureInfo.sneak = (this.sneakPercent > 0) ? (this.sneakPercent * 100.0).toFixed(1) + "%" : "";
             this.creatureInfo.crit = (this.critPercent > 0) ? (this.critPercent * 100.0).toFixed(1) + "%" : "";
             this.creatureInfo.totalDamage = "↓" + this.minTotalDamage.toFixed(1) + " - ↑" + this.maxTotalDamage.toFixed(1);

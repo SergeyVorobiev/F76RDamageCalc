@@ -7,7 +7,7 @@ export function getDefaultMain() {
 }
 
 export function getDefaultStuff() {
-    return {"Magazines": false, "Bobble Heads": false, "Chemicals": true, "Food": true, "Drink": true, "Serums": true, "Endangerol Syringer": true};
+    return {"Magazines": false, "Bobble Heads": false, "Chemicals": true, "Food": true, "Drink": true, "Serums": true, "Endangerol Syringer": false};
 }
 
 export function getDefaultLegendary() {

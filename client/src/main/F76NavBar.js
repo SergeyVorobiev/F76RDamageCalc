@@ -1,6 +1,6 @@
 import Image from 'react-bootstrap/Image';
 import logo from '../resources/logos/main_logo.webp';
-import gith from '../resources/logos/github-mark.png';
+import gitLogo from '../resources/logos/github-mark.png';
 import Navbar from 'react-bootstrap/Navbar';
 import { memo } from 'react';
 
@@ -18,7 +18,7 @@ const F76NavBar = memo(function F76NavBar() {
             <Navbar.Collapse className="justify-content-end pe-1">
                 <Navbar.Brand>
                     <a href="https://github.com/SergeyVorobiev/F76DamageReact">
-                        <Image src={gith} style={{ maxHeight: '4rem' }} />
+                        <Image src={gitLogo} style={{ maxHeight: '4rem' }} />
                     </a>
                 </Navbar.Brand>
             </Navbar.Collapse>
