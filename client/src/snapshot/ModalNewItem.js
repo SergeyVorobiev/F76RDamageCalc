@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { buildItem } from '../helpers/Item';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 
@@ -22,16 +22,12 @@ function getLegendaryPrefix(wSpec) {
 const ModalNewItem = memo(function ModalNewItem(props) {
     console.log("ModalNewItem");
     const [legPrefixCheck, setLegPrefixCheck] = useState(false);
-    const [legPrefix, setLegPrefix] = useState("");
-    useEffect(() => {
-        let legendaryPrefix = "";
-        if (legPrefixCheck) {
-            legendaryPrefix = getLegendaryPrefix(props.wSpec);
-        }
-        setLegPrefix(legendaryPrefix);
-    }, [props.wSpec]);
     if (!props.show) {
         return (<></>);
+    }
+    let legendaryPrefix = "";
+    if (legPrefixCheck) {
+        legendaryPrefix = getLegendaryPrefix(props.wSpec);
     }
     const limit = props.items.map.size > 1000;
     function createItem(e, name) {
@@ -55,16 +51,15 @@ const ModalNewItem = memo(function ModalNewItem(props) {
         props.setModalNewItemShow(false);
     };
     function onPrefixChange(e) {
-        setLegPrefixCheck(e.target.checked);
+        const useLegPrefix = e.target.checked
+        setLegPrefixCheck(useLegPrefix);
         const element = document.getElementById("wName");
         let legendaryPrefix = getLegendaryPrefix(props.wSpec);
-        if (e.target.checked) {
-            setLegPrefix(legendaryPrefix);
+        if (useLegPrefix) {
             let name = legendaryPrefix + element.value;
             name = name.slice(0, element.maxLength);
             element.value = name;
         } else if (legendaryPrefix !== "" && element.value.startsWith(legendaryPrefix)) {
-            setLegPrefix("");
             let name = element.value.slice(legendaryPrefix.length);
             element.value = name;
         }
@@ -84,7 +79,7 @@ const ModalNewItem = memo(function ModalNewItem(props) {
             <Modal.Body>
                 <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
                     <InputGroup.Text style={{ minWidth: '9rem' }}>{message}</InputGroup.Text>
-                    {getInputText(limit, legPrefix + props.wSpec.defaultName)}
+                    {getInputText(limit, legendaryPrefix + props.wSpec.defaultName)}
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>

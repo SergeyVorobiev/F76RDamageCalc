@@ -2,6 +2,8 @@ export default class Weapon {
 
     constructor(weaponSpecsAssembler) {
         this.damages = weaponSpecsAssembler.getDamages();
+        this.name = weaponSpecsAssembler.getWeaponName();
+        this.defaultName = weaponSpecsAssembler.getDefaultWeaponName();
         this.critDamages = weaponSpecsAssembler.getCritDamages();
         this.shotSize = weaponSpecsAssembler.getShotSize();
         this.reloadTime = weaponSpecsAssembler.getReloadTime();
@@ -40,6 +42,14 @@ export default class Weapon {
         this.reloadsTotalTime = 0;
         this.hitCount = 0;
         this.hit();
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    getDefaultName() {
+        return this.defaultName;
     }
 
     setLastShotBonus(value) {

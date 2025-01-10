@@ -1,5 +1,5 @@
 import { defaultExtraDamage } from '../../entities/EResultDamage';
-import { defaultCreatures } from '../../entities/ECreatures';
+import { buildCreature, getAverageTimeMillis } from '../../entities/ECreatures';
 import { defaultAdds } from '../../entities/EAddDamages';
 import { convertTemplateToSpecs } from '../../entities/EWeaponSpecs';
 import { defaultPlayerStats } from '../../entities/EPlayerStats';
@@ -40,14 +40,15 @@ export default class ParameterCalculator {
                 ⁍ Weapons with default legendary mods will not be iterated through other legendary.
             </p>
             <p>
-                ⁍ Gun-Foo, Glow Sight, Exterminator, Bash and some other perks affecting accuracy are ignored.
+                ⁍ Gun-Foo, Bash, all legendary perks (except TOFT, Follow Through), and some others affecting accuracy are ignored.
             </p>
             <p>
                 ⁍ Power attack, Furious are ignored (as being not tested for now).
             </p>
         </>
     );
-    constructor(id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accuracyPreference) {
+    constructor(creatureNames, id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accuracyPreference) {
+        this.creatureNames = creatureNames;
         this.id = id;
         this.modGroups = modGroups;
         this.modCombinator = null;
@@ -72,10 +73,13 @@ export default class ParameterCalculator {
         this.hasGotLastCombination = false;
         this.currentConfig = {};
         this.bestConfig = null;
+        this.bestAverageHit = 0;
         this.accuracyHelper = new AccuracyHelper();
         this.accuracyPreference = accuracyPreference;
         this.defaultExplosive = false;
         this.perkImageNames = [];
+        this.creatureTags = [];
+        this.bodyTags = [];
 
         // Currently accuracy mods do not influence on damage but, best
         // values still can be calculated (without paying attention to distance)
@@ -110,10 +114,12 @@ export default class ParameterCalculator {
         return time;
     }
 
-    prepareAndCalcFirst(creatureName="Average") {
+    prepareAndCalcFirst(creatureName="average") {
 
         // The order of invoking functions is important!
         this.creatureName = creatureName;
+        this.creatureTags = this.getCreatureTags();
+        this.bodyTags = this.getBodyTags();
         this.template = getTemplateCopyById(this.id);
         this.bestAccuracyMods = this.accuracyHelper.getBestMods(this.template, this.modGroups, this.accuracyPreference);
         this.defaultLegendary = TemplateTools.getDefaultLegendary(this.template, new LegendarySetter());
@@ -160,6 +166,54 @@ export default class ParameterCalculator {
         return legendary;
     }
 
+    getBodyTags() {
+        let bodyTags = []
+        const uniqueTags = new Set();
+        if (this.creatureName === 'average') {
+            for (const fieldName in this.creatureNames) {
+                const creatureData = this.creatureNames[fieldName];
+                uniqueTags.add(creatureData[3].toLowerCase());
+            }
+            bodyTags = [...uniqueTags];
+        } else {
+            for (const fieldName in this.creatureNames) {
+                const creatureData = this.creatureNames[fieldName];
+                if (creatureData[0] === this.creatureName) {
+                    bodyTags = [creatureData[3].toLowerCase()];
+                    break;
+                }
+            }
+        }
+        return bodyTags;
+    }
+
+    getCreatureTags() {
+        let creatureTags = []
+        const uniqueTags = new Set();
+        if (this.creatureName === 'average') {
+            for (const fieldName in this.creatureNames) {
+                const creatureData = this.creatureNames[fieldName];
+                for (let i = 0; i < creatureData[2].length; i++) {
+                    const tag = creatureData[2][i];
+                    uniqueTags.add(tag.toLowerCase());
+                }
+            }
+            creatureTags = [...uniqueTags];
+        } else {
+            for (const fieldName in this.creatureNames) {
+                const creatureData = this.creatureNames[fieldName];
+                if (creatureData[0] === this.creatureName) {
+                    for (let i = 0; i < creatureData[2].length; i++) {
+                        const tag = creatureData[2][i];
+                        creatureTags.push(tag.toLowerCase());
+                    }
+                    break;
+                }
+            }
+        }
+        return creatureTags;
+    }
+
     getConsumables() {
         const result = {};
         const wType = this.template.type[1];
@@ -171,8 +225,9 @@ export default class ParameterCalculator {
         const team = this.cards.Team;
         const lowHP = this.cards["Low HP"];
         const scoped = this.main["Scoped"];
+
         if (this.stuff["Magazines"]) {
-            result["Magazines_c"] = ConsumablesBuilder.getMagazineItems(wType, wName, tags, crit, team, scoped);
+            result["Magazines_c"] = ConsumablesBuilder.getMagazineItems(wType, wName, tags, crit, team, scoped, this.creatureTags);
         }
         if (this.stuff["Endangerol Syringer"]) {
             const others = ConsumablesBuilder.getOtherItems(TemplateTools.hasPhysicalDamage(this.template));
@@ -209,12 +264,21 @@ export default class ParameterCalculator {
 
     calculateAndCount(consumableBoostsList, legendary) {
         this.lastParameters = this.calculateCombination(consumableBoostsList, legendary);
-        this.lastTime = this.lastParameters[this.creatureName];
+        this.lastTime = this.lastParameters[this.creatureName].lifeTime;
+        this.averageHit = this.lastParameters[this.creatureName].averageHit;
         if (!this.lastParameters["Rejected"]) {
-            if (this.lastTime <= this.bestTime) {
+            if (this.lastTime < this.bestTime) {
                 this.bestParameters = this.lastParameters;
-                this.bestTime = this.lastParameters[this.creatureName];
+                this.bestAverageHit = this.averageHit;
+                this.bestTime = this.lastTime;
                 this.updateBestConfig();
+            } else if (this.lastTime === this.bestTime) {
+                if (this.averageHit >= this.bestAverageHit) {
+                    this.bestAverageHit = this.averageHit;
+                    this.bestParameters = this.lastParameters;
+                    this.bestTime = this.lastTime;
+                    this.updateBestConfig();
+                }
             }
         }
         this.count += 1;
@@ -406,6 +470,15 @@ export default class ParameterCalculator {
         return this.currentConfig;
     }
 
+    buildNewCreatures() {
+        return {
+            creature1: buildCreature(this.creatureNames.creature1[0], this.creatureNames.creature1[1], "creature1"),
+            creature2: buildCreature(this.creatureNames.creature2[0], this.creatureNames.creature2[1], "creature2"),
+            creature3: buildCreature(this.creatureNames.creature3[0], this.creatureNames.creature3[1], "creature3"),
+            creature4: buildCreature(this.creatureNames.creature4[0], this.creatureNames.creature4[1], "creature4"),
+        };
+    }
+
     calculateCombination(consumableBoostsList, legendary) {
         const wSpec = convertTemplateToSpecs(this.template, false);
 
@@ -425,13 +498,12 @@ export default class ParameterCalculator {
         playerStats.strength.value = this.main["Strength"];
         const boostDamage = this.buildPerks(wSpec, player);
         this.memoConfig(wSpec, consumableBoostsList);
-        const creatures = defaultCreatures();
+        const creatures = this.buildNewCreatures();
         const [, consumableBoosts,] = ConsumablesBuilder.buildFromList(consumableBoostsList, player);
         const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, consumableBoosts, playerStats);
         const timeLimit = (this.bestTime === Infinity) ? null : [this.creatureName, this.bestTime];
         const result = new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creatures).emulate(35000, timeLimit);
-        
-        return {
+        const report = {
             "Rejected": this.nonAutomatic(),
             "Parameters": {
                 wSpec: wSpec,
@@ -444,11 +516,13 @@ export default class ParameterCalculator {
                 result: result,
                 consumableList: consumableBoostsList,
             },
-            "SBQ": creatures.sbq.lifeTime,
-            "Earle": creatures.earle.lifeTime,
-            "UTitan": creatures.titan.lifeTime,
-            "Average": Math.floor((creatures.sbq.lifeTime + creatures.earle.lifeTime + creatures.titan.lifeTime) / 3.0),
+            "average": {lifeTime: getAverageTimeMillis(creatures), averageHit: (creatures.creature1.averageHit + creatures.creature2.averageHit + creatures.creature3.averageHit + creatures.creature4.averageHit) / 4},
         };
+        report[creatures.creature1.name] = {lifeTime: creatures.creature1.lifeTime, averageHit: creatures.creature1.averageHit};
+        report[creatures.creature2.name] = {lifeTime: creatures.creature2.lifeTime, averageHit: creatures.creature2.averageHit};
+        report[creatures.creature3.name] = {lifeTime: creatures.creature3.lifeTime, averageHit: creatures.creature3.averageHit};
+        report[creatures.creature4.name] = {lifeTime: creatures.creature4.lifeTime, averageHit: creatures.creature4.averageHit};
+        return report;
     }
 
     buildPerks(wSpec, player) {
@@ -473,7 +547,7 @@ export default class ParameterCalculator {
         const night = this.main["Night"];
         const useSerums = this.stuff["Serums"];
         const drink = this.stuff["Drink"];
-        const boosts = PerkBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player);
+        const boosts = PerkBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, this.bodyTags, this.creatureTags);
         this.perkImageNames = PerkBuilder.getImageNamesForPickedCards(boosts);
         return boosts;
     }

@@ -56,9 +56,50 @@ export default class ConsumablesBuilder {
         return "";
     }
 
-    static getMagazineItems(wType, wName, tags, crit, team, scoped) {
+    static getMagazineItems(wType, wName, tags, crit, team, scoped, creatureTags) {
         const result = [];
         const combination = [];
+
+        // Creatures
+        if (creatureTags.includes("mirelurks")) {
+            combination.push("attack_of_the_fishmen_magazine");
+        }
+        if (creatureTags.includes("ghoul")) {
+            combination.push("curse_of_the_burned_magazine");
+        }
+        if (creatureTags.includes("supermutant")) {
+            combination.push("rise_of_the_mutants_magazine");
+        }
+        if (creatureTags.includes("animal")) {
+            combination.push("home_in_the_hills_magazine");
+        }
+        if (creatureTags.includes("scorched")) {
+            combination.push("demon_slaves_demon_sands_magazine");
+        }
+        if (creatureTags.includes("robot")) {
+            combination.push("the_future_of_hunting_magazine");
+        }
+        if (creatureTags.includes("yaoguai")) {
+            combination.push("bear_proofing_your_campsite_magazine");
+        }
+        if (creatureTags.includes("liberator")) {
+            combination.push("guide_to_hunting_commies_magazine");
+        }
+        if (creatureTags.includes("wendigo")) {
+            combination.push("wendigo_magazine");
+        }
+        if (creatureTags.includes("mothman")) {
+            combination.push("mothman_magazine");
+        }
+        if (creatureTags.includes("graftonmonster")) {
+            combination.push("grafton_magazine");
+        }
+        if (creatureTags.includes("snallygaster")) {
+            combination.push("snallygaster_magazine");
+        }
+        if (creatureTags.includes("flatwoodsmonster")) {
+            combination.push("flatwoods_alien_magazine");
+        }
 
         if (wName === "Alien Blaster") {
             combination.push("invasion_of_the_zetans_magazine");
@@ -109,10 +150,6 @@ export default class ConsumablesBuilder {
             }
             combination.push("rockobot_takes_the_nation_by_storm_magazine");
         }
-        combination.push("demon_slaves_demon_sands_magazine");
-
-        // Seems that wendigo colossus does not have 'wendigo' tag it has only unique 'wendigocolossus' tag
-        // combination.push("wendigo_magazine");
         result.push(combination);
         return result;
     }
@@ -191,9 +228,12 @@ export default class ConsumablesBuilder {
         const combination = [];
         if (wType === "Melee" || wType === "Unarmed") {
             combination.push("tasty_mutant_hound_stew_food");
-            combination.push("deathclaw_wellington_food")
+            combination.push("deathclaw_wellington_food");
+            combination.push("spiked_venison_tato_stew_food");
         } else if (crit) {
             combination.push("blight_soup_food");
+        } else {
+            combination.push("spiked_venison_tato_stew_food");
         }
         if (combination.length > 0) {
             result.push(combination);

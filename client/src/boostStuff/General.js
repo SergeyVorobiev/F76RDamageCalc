@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import ANRow from "./ANRow";
 import ADRow from "../additional/ADRow";
 
-
+/*
 const marks100 = {
     marks: {
         5: '5',
@@ -21,6 +21,7 @@ const marks100 = {
     step: 0.25,
     defaultValue: 5,
 };
+*/
 
 const marks50 = {
     marks: {

@@ -5,7 +5,6 @@ export default class DamageEmulator {
     constructor(weapon, creatureInfos) {
         this.weapon = weapon;
         this.creatureInfos = creatureInfos;
-        this.bossNames = ["SBQ", "Earle", "Ultracite Titan"];
     }
 
     needToStopByTime(timeLimit, creatures) {
@@ -14,15 +13,13 @@ export default class DamageEmulator {
         }
         const name = timeLimit[0];
         const time = timeLimit[1];
-        if (name === "Average") {
+        if (name === "average") {
             let totalTime = 0;
             for (let i = 0; i < creatures.length; i++) {
                 const creature = creatures[i];
-                if (this.bossNames.includes(creature.name)) {
-                    totalTime += creature.totalTime();
-                }
+                totalTime += creature.totalTime();
             }
-            totalTime = Math.floor(totalTime / 3);
+            totalTime = Math.floor(totalTime / 4);
             return totalTime > time;
         }
         for (let i = 0; i < creatures.length; i++) {
@@ -34,7 +31,7 @@ export default class DamageEmulator {
         return false;
     }
 
-    // timeLimit = ["Average", time], ["SBQ", time]
+    // timeLimit = ["Average", time], ["creaturename", time]
     emulate(steps=35000, timeLimit=null) {
         const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
@@ -64,6 +61,8 @@ export default class DamageEmulator {
         }
 
         return  {
+            weaponName: this.weapon.getName(),
+            defaultWeaponName: this.weapon.getDefaultName(),
             damageDetails: this.weapon.getDamages(),
             expDTypeBonus: this.weapon.getExplosiveDamageTypeBonus(),
             bonusMult: this.weapon.getBonusMult(),

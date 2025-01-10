@@ -63,7 +63,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "super_mutant",
+        "type": "supermutant",
         "value": 15,
         "property": "BDB",
         "valueType": "percent",
@@ -278,8 +278,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "animal",
-        "name": "yaoguai",
+        "type": "yaoguai",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -315,8 +314,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "robot",
-        "name": "liberator",
+        "type": "liberator",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -353,7 +351,7 @@
     "boosts": [
       {
         "category": "creature",
-        "name": "wendigo",
+        "type": "wendigo",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -371,8 +369,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "insect",
-        "name": "mothman",
+        "type": "mothman",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -390,7 +387,7 @@
     "boosts": [
       {
         "category": "creature",
-        "name": "grafton,e09b_grafton,sfs08_grafton,sfs09_grafton",
+        "type": "graftonmonster",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -408,8 +405,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "cryptid",
-        "name": "snallygaster",
+        "type": "snallygaster",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",
@@ -427,8 +423,7 @@
     "boosts": [
       {
         "category": "creature",
-        "type": "cryptid",
-        "name": "flatwoodsmonster",
+        "type": "flatwoodsmonster",
         "property": "BDB",
         "value": 15,
         "valueType": "percent",

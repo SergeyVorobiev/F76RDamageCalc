@@ -41,7 +41,7 @@ export function WarningPopoverBadge({className, variant, message, sign, header, 
     }
     return (
         <OverlayTrigger className={className} rootClose='true' trigger="click" placement={placement} overlay={buildWarning(message, header)}>
-            <Badge className={className} bg={variant} pill>{sign}</Badge>
+            <Badge className={className} bg={variant} style={{cursor: "pointer"}} pill>{sign}</Badge>
         </OverlayTrigger>
     );
 }

@@ -1,4 +1,5 @@
 import creatureItems from '../resources/creature_health_res.json';
+import RaceDataProvider from '../race/RaceDataProvider';
 
 
 const creatureNames = [];
@@ -8,9 +9,11 @@ for (const creatureName in creatureItems[0]) {
 }
 
 const creatureLevels = [];
+const creatureLevelsWithMax = ["Max"];
 
 for (let i = 1; i <= 150; i++) {
     creatureLevels.push(i);
+    creatureLevelsWithMax.push(i);
 }
 
 creatureNames.sort();
@@ -28,8 +31,9 @@ export default class CreatureDataProvider {
 
     static getCreatureParametersByData(creatureData, level) {
         const result = {};
-        for (const name in creatureData) {
-            const values = creatureData[name];
+        const creatureDataCurve = creatureData['curve'];
+        for (const name in creatureDataCurve) {
+            const values = creatureDataCurve[name];
             const lastItem = values.length - 1;
             for (let i = 0; i <= lastItem; i++) {
                 const sample = values[i];
@@ -55,7 +59,41 @@ export default class CreatureDataProvider {
                 }
             }
         }
+        result["immuneToRad"] = creatureData.immune_to_rad;
+        result["immuneToPoison"] = creatureData.immune_to_poison;
+        result["reduction"] = creatureData.reduction;
+        result["reductions"] = [...creatureData.reductions];
+        result["tags"] = [...creatureData.tags];
+        result["reductionOnlyNotBleeding"] = creatureData.reduction_only_not_bleeding;
+        const race = RaceDataProvider.getRaceById(creatureData.race_id);
+        result['body'] = {...race.bodyData.body};
+        result['headMult'] = CreatureDataProvider.getMaxBodyMultiplier(result['body']);
+        result['normalMult'] = 1;
+        result['averageMult'] = CreatureDataProvider.getAverageBodyMultiplier(result['body']);
         return result;
+    }
+
+    static getMaxBodyMultiplier(body) {
+        let maxMult = 0;
+        for (const name in body) {
+            const part = body[name];
+            const mult = part.damage_mult;
+            if (maxMult < mult) {
+                maxMult = mult;
+            }
+        }
+        return maxMult;
+    }
+
+    static getAverageBodyMultiplier(body) {
+        let multSum = 0;
+        let count = 0
+        for (const name in body) {
+            const part = body[name];
+            multSum += part.damage_mult;
+            count += 1;
+        }
+        return (count === 0) ? 0 : multSum / count;
     }
 
     static calculateExactValue(prevLevel, nextLevel, curLevel, prevValue, nextValue) {
@@ -70,15 +108,16 @@ export default class CreatureDataProvider {
         return creatureNames;
     }
 
-    static getCreatureLevels() {
-        return creatureLevels;
+    static getCreatureLevels(withMax=false) {
+        return (withMax) ? creatureLevelsWithMax : creatureLevels;
     }
 
     static getMaxLevel(name) {
-        const creatureData = CreatureDataProvider.getCreatureData(name);
+        let creatureData = CreatureDataProvider.getCreatureData(name);
         if (!creatureData) {
             return 1;
         }
+        creatureData = creatureData['curve'];
         const result = [];
         for (const name in creatureData) {
             const values = creatureData[name];

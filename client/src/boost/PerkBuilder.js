@@ -119,10 +119,13 @@ export default class PerkBuilder {
         return result;
     }
 
-    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player) {
+    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, bodyTags, creatureTags) {
         let boosts = defaultBoosts();
         if (main) {
             PerkBuilder.setupCard(boosts.bloody_mess, 3);
+            if (bodyTags.includes("glowing")) {
+                PerkBuilder.setupCard(boosts.glow_sight, 3);
+            }
         }
         if (silencerTag && sneak && night && main) {
             PerkBuilder.setupCard(boosts.mister_sandman, 2);
@@ -240,6 +243,14 @@ export default class PerkBuilder {
                 adr = 0;
             }
             PerkBuilder.setupCard(boosts.adrenaline, adr, 6);
+            calculateSpecial(boosts);
+        }
+        if (main && boosts.special.perception < 15 && creatureTags.includes("bug")) {
+            let extra = 15 - boosts.special.perception;
+            if (extra > 3) {
+                extra = 3;
+            }
+            PerkBuilder.setupCard(boosts.exterminator, extra);
             calculateSpecial(boosts);
         }
         player.strange = boosts.strange_in_numbers.displayed_value;

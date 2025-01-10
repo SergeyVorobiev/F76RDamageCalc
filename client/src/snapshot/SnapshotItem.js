@@ -56,6 +56,10 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                 <div key={mod.name} style={{width: 'auto'}} className="mod-item-shadow m-1 ps-1 pe-1"><div style={{width: 'auto', textWrap: false, fontWeight: 'bold', textAlign: 'center', color: '#555555', fontSize: '0.7rem', overflow: 'hidden', textOverflow: 'ellipsis'}}>{mod.name}</div></div>
             );
         }
+        const creature1 = item.creatures.creature1;
+        const creature2 = item.creatures.creature2;
+        const creature3 = item.creatures.creature3;
+        const creature4 = item.creatures.creature4;
         return (
             <>
                 <Card.Body className="p-1 mt-1">
@@ -91,13 +95,13 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                 <Toast.Body className="m-0 p-2">
                                 <Row>
                                     <Col>
-                                        {row("❤️ Health:", item.player.health.value.toFixed(0) + "%")}
+                                        {row("❤️ Health / 👨‍👩‍👧‍👦 Team:", item.player.health.value.toFixed(0) + "% / " + ((item.player.team) ? "Yes" : "No"))}
                                         {row("💪 Strength:", strength, "default", "default")}
-                                        {row("👨‍👩‍👧‍👦 Team:", (item.player.team) ? "Yes" : "No")}
-                                        {row("Scorchbeast Queen:", millisToTime(item.creatures.sbq.lifeTime), "red", "red")}
-                                        {row("Earle:", millisToTime(item.creatures.earle.lifeTime), "purple", "purple")}
-                                        {row("Ultracite Titan:", millisToTime(item.creatures.titan.lifeTime), "pink", "pink")}
-                                        {row("Average:", millisToTime(item.averageTime), "blue", "blue")}
+                                        {row(creature1.capName + " (" + creature1.level + "Lvl):", millisToTime(creature1.lifeTime), "red", "red")}
+                                        {row(creature2.capName + " (" + creature2.level + "Lvl):", millisToTime(creature2.lifeTime), "purple", "purple")}
+                                        {row(creature3.capName + " (" + creature3.level + "Lvl):", millisToTime(creature3.lifeTime), "pink", "pink")}
+                                        {row(creature4.capName + " (" + creature4.level + "Lvl):", millisToTime(creature4.lifeTime), "blue", "blue")}
+                                        {row("Average:", millisToTime(item.averageTime), "default", "default")}
                                     </Col>
                                 </Row>
                                 </Toast.Body>
@@ -192,6 +196,7 @@ const SnapshotItem = memo(function SnapshotItem({index, isOpen, size, item, setM
     useEffect(() => {
         setIsItemOpen(isOpen);
     }, [isOpen]);
+
     return (
         <Card className="mb-2">
             {header(item, setModalRenameItem, isItemOpen, setIsItemOpen)}
