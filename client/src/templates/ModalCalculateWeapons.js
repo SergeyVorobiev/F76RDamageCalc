@@ -84,9 +84,12 @@ export default function ModalCalculateWeapons(props) {
             finishedRef.current = false;
             const result = parameters.get(wNameToApply);
             if (result) {
-                const parameters = result.Parameters;
-                ParametersApplier.applyCalculatedParameters(parameters, props);
-                onHide(null);
+                setCalculating(3);
+                setTimeout(() => {
+                    const parameters = result.Parameters;
+                    ParametersApplier.applyCalculatedParameters(parameters, props);
+                    onHide(null);
+                }, 100);
             }
         }
     }, [wNameToApply]);
@@ -206,13 +209,14 @@ export default function ModalCalculateWeapons(props) {
             return (
                 <Button className="w-100 me-1" onClick={onHide}>Stop And Close</Button>
             );
-        } else {
+        } else if (calculating === 2) {
             return (
                 <>
                     <Button className="w-100 ms-1" onClick={onHide}>Cancel</Button>
                 </>
             );
-
+        } else {
+            return (<></>);
         }
     }
 
@@ -312,14 +316,17 @@ export default function ModalCalculateWeapons(props) {
     }
     const header = (calculating === 0) ? "Best Of The Best" : type;
     const wIcon = (calculating === 0) ? "" : getImage(type);
-    return (
-        <Modal
-            show = {props.modalCalculates.show}
-            onHide = {onHide}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-            <Modal.Header className="d-flex justify-content-center p-1">
+    function getModalView() {
+        if (calculating === 3) {
+            return (
+                <Modal.Body className="modal-scroll-80-60">
+                    <b>Loading...</b>
+                </Modal.Body>
+            );
+        }
+        return (
+            <>
+                <Modal.Header className="d-flex justify-content-center p-1">
                 <Row className="p-1" style={{width: '100%'}}>
                     <Col className="d-flex justify-content-start ps-2 p-0" xs={2}>
                         {wIcon}
@@ -331,16 +338,27 @@ export default function ModalCalculateWeapons(props) {
                         <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
                     </Col>
                 </Row>
-            </Modal.Header>
-            <Modal.Body className="modal-scroll-80-60 pt-2 p-3">
-                {getProgress(calculating)}
-                {getSettings(calculating)}
-            </Modal.Body>
-            <Modal.Footer className="p-2">
-                <InputGroup className="mb-0 mt-0 flex-nowrap">
-                    {getButtons(calculating)}
-                </InputGroup>
-            </Modal.Footer>
+                </Modal.Header>
+                <Modal.Body className="modal-scroll-80-60 pt-2 p-3">
+                    {getProgress(calculating)}
+                    {getSettings(calculating)}
+                </Modal.Body>
+                <Modal.Footer className="p-2">
+                    <InputGroup className="mb-0 mt-0 flex-nowrap">
+                        {getButtons(calculating)}
+                    </InputGroup>
+                </Modal.Footer>
+            </>
+        );
+    }
+    return (
+        <Modal
+            show = {props.modalCalculates.show}
+            onHide = {onHide}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+            {getModalView()}
         </Modal>
     );
 }

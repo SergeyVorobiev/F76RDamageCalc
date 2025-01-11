@@ -156,7 +156,7 @@ function headerBody(item, setModalRenameItem, isItemOpen, setIsItemOpen) {
     }
     const displayedWeaponName = truncateLongWords(item.name, 25);
     return (
-        <Container className='ps-1 pe-1' onClick={onHeaderClick}>
+        <Container className='ps-1 pe-1' style={{cursor: "pointer"}} onClick={onHeaderClick}>
             <div className="row-12 d-flex">
                 <div className='col-2 p-0 ps-2 d-flex m-auto justify-content-start'>
                         {getImageElement(wName, '3rem')}

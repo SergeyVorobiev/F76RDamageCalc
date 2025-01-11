@@ -81,7 +81,7 @@ export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
                     {showDamageIf(keyValueRow("☠️ Crit:", creature.crit, "default", "magenta"), creature.crit)}
                     {keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue")}
                     {showDamageIf(keyValueRow("💥 Normal Damage:", creature.normalDamage, "default", "blue"), creature.normalDamage)}
-                    {showDamageIf(keyValueRow("🤕 Head Shot (" + creature.headShot.toFixed(2) + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
+                    {showDamageIf(keyValueRow("🤕 HShot (" + creature.headShot.toFixed(2) + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
                     {showDamageIf(keyValueRow("💣 Explosive:", creature.explosiveDamage, "default", "blue"), creature.explosiveDamage)}
                     {showDamageIf(keyValueRow("💣 Explosive Head:", creature.headExpShotDamage, "default", "blue"), creature.headExpShotDamage, showHeadExp)}
                     {showDamageIf(keyValueRow("☠️ Crit:", creature.critNormalDamage, "default", "blue"), creature.critNormalDamage)}

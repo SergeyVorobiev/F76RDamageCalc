@@ -85,7 +85,7 @@ export default class WeaponSpecsAssembler {
 
         // Perks
         if (this.perks.glow_sight.displayed_value > 0) {
-            result.set("glowing", {name: "glowing", value: this.additionalDamages.damageToCreature.value});
+            result.set("glowing", {name: "glowing", value: this.perks.glow_sight.displayed_value});
         }
 
         // Weapon Effects

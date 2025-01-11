@@ -119,6 +119,15 @@ export function defaultCreatures() {
     };
 }
 
+export function defaultCreaturesAlt() {
+    return {
+        creature1: buildCreature("scorchbeastqueen(alt)", "Max", "creature1"),
+        creature2: buildCreature("wendigocolossus(alt)", "Max", "creature2"),
+        creature3: buildCreature("ultraciteabomination(alt)", "Max", "creature3"),
+        creature4: buildCreature("stormboss", "Max", "creature4"),
+    };
+}
+
 export function buildCreatureNames(creatures) {
     return {
         creature1: [creatures.creature1.name, creatures.creature1.level, creatures.creature1.tags, creatures.creature1.curBody],
