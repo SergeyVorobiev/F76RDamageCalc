@@ -32,7 +32,7 @@ export default class DamageEmulator {
     }
 
     // timeLimit = ["Average", time], ["creaturename", time]
-    emulate(steps=35000, timeLimit=null) {
+    emulate(steps=50000, timeLimit=null) {
         const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
         for (; step < steps; step++) {
