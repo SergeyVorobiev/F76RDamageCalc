@@ -24,7 +24,6 @@ export function keyValueRow(name, value, colorName="purple", colorValue="red", m
 
 export function leftRight(left, right, xsLeft=6, xsRight=6, rowClass=null) {
     return (
-
         <Row key={k++} className={rowClass}>
             <Col xs={xsLeft} className="d-flex justify-content-start pe-0">
                 {left}

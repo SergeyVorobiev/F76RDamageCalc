@@ -14,7 +14,6 @@ function buildWarning(message, header, className=null) {
                 {message}
             </Popover.Body>
         </Popover>
-
     );
 }
 

@@ -28,15 +28,25 @@ const tagEndings = [dupl, alT];
 
 export default class ConsumableTools {
 
+    static getTagName(tag) {
+        if (typeof tag === typeof '') {
+            return tag;
+        }
+        if (tag.full && tag.full.length > 0) {
+            return tag.full;
+        }
+        return tag.name;
+    }
+
     static getItemType(item) {
         for (let i = 0; i < item.tags.length; i++) {
-            const tag = item.tags[i];
+            const tag = ConsumableTools.getTagName(item.tags[i]);
             if (tag.startsWith(objT)) {
                 return tag.slice(objT.length, tag.length);
             }
         }
         for (let i = 0; i < item.tags.length; i++) {
-            const tag = item.tags[i];
+            const tag = ConsumableTools.getTagName(item.tags[i]);
             for (const name in cTypes) {
                 const data = cTypes[name];
                 const prefix = data[0];
@@ -55,28 +65,28 @@ export default class ConsumableTools {
         return "";
     }
 
-    static removeTagPrefix(tag) {
+    static removeTagPrefix(tagName) {
         for (let i = 0; i < tagPrefixes.length; i++) {
             const tagPrefix = tagPrefixes[i];
-            if (tag.startsWith(tagPrefix)) {
-                return tag.slice(tagPrefix.length, tag.length);
+            if (tagName.startsWith(tagPrefix)) {
+                return tagName.slice(tagPrefix.length, tagName.length);
             }
         }
-        return tag;
+        return tagName;
     }
 
-    static removeTagEndings(tag) {
+    static removeTagEndings(tagName) {
         for (let i = 0; i < tagEndings.length; i++) {
             const tagEnding = tagEndings[i];
-            if (tag.endsWith(tagEnding)) {
-                return tag.slice(0, tag.length - tagEnding.length);
+            if (tagName.endsWith(tagEnding)) {
+                return tagName.slice(0, tagName.length - tagEnding.length);
             }
         }
-        return tag;
+        return tagName;
     }
 
-    static removePrefixSuffix(tag) {
-        return ConsumableTools.removeTagEndings(ConsumableTools.removeTagPrefix(tag));
+    static removePrefixSuffix(tagName) {
+        return ConsumableTools.removeTagEndings(ConsumableTools.removeTagPrefix(tagName));
     }
 
     static getItemColor(type) {

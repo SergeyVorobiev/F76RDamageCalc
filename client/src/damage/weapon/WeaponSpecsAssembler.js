@@ -347,7 +347,7 @@ export default class WeaponSpecsAssembler {
     getFireRate() {
         let fireRate = this.wSpec.fireRate;
         let weaponSpeed = this.wSpec.speed;
-        if (this.wSpec.type === "Melee") {
+        if (this.wSpec.type === "Melee" && this.wSpec.is_auto === 0) {
             weaponSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         }
         fireRate = fireRate * weaponSpeed;
@@ -361,7 +361,7 @@ export default class WeaponSpecsAssembler {
         let reloadSpeed = this.wSpec.reloadSpeed;
         if (this.wSpec.type === "Heavy") {
             reloadSpeed += (this.perks.lock_and_load.displayed_value / 100.0);
-        } else if (this.wSpec.type === "Melee") {
+        } else if (this.wSpec.type === "Melee" && this.wSpec.is_auto === 0) {
             reloadSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         } else if (this.wSpec.type === "Shotgun") {
             reloadSpeed += (this.perks.scattershot.displayed_value / 100.0);

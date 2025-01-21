@@ -16,7 +16,6 @@ const effectDict = {
 	AdjustFallSpeed: 'AdjustFallSpeed',
 	Ammo: 'Ammo',
 	Banner: 'Banner',
-	BannerReward: 'BannerReward',
 	Barter: 'Barter',
 	Bleed: 'Bleed',
 	Chameleon: 'Chameleon',

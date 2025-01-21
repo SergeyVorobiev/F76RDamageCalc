@@ -5,10 +5,10 @@ import { Button } from 'react-bootstrap';
 import { memo } from 'react';
 
 
-const AdditionalDamage = memo(function AdditionalDamage({additionalDamages, setAdditionalDamages, showStat, setShowStat}) {
+const AdditionalDamage = memo(function AdditionalDamage({additionalDamages, setAdditionalDamages, showStatRef, setShowStat}) {
     console.log("AdditionalDamage");
     const openStat = (e) => {
-        setShowStat(!showStat);
+        setShowStat(!showStatRef.current);
         e.stopPropagation();
     }
     return (
