@@ -214,7 +214,9 @@ export default class PerkBuilder {
                     break;
                 case "Melee":
                     PerkBuilder.setupCard(boosts.incisor, 3);
-                    PerkBuilder.setupCard(boosts.martial_artist, 3);
+                    if (!automatic) {
+                        PerkBuilder.setupCard(boosts.martial_artist, 3);
+                    }
                     if (drink) {
                         PerkBuilder.setupCard(boosts.party_girl_boy, 2);
                     }

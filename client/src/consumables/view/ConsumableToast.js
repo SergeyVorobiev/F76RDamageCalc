@@ -177,12 +177,37 @@ function getActor(effect) {
     return getTag2(actor.name, orange);
 }
 
-function getParenPerkName(effect) {
+function getActorDesc(effect) {
+    const actor = effect.m_effect.actor_value1;
+    if (!actor || typeof actor === typeof '' ) {
+        return (<></>);
+    }
+    const desc = actor.desc;
+    if (!desc || desc === "") {
+        return (<></>);
+    }
+    return (
+        <div className="mt-1" style={{fontSize: '0.7rem', textAlign: 'center', textWrap: 'balance', backgroundColor: '#effff5', color: '#003112'}}>
+            <p className="m-1"><b>Description</b></p>
+            <p><b>{desc}</b></p>
+        </div>
+    )
+}
+
+function getParentPerkName(effect) {
     const perk_name = effect.m_effect.parent_perk_name;
-    if (!perk_name || perk_name === '' ) {
+    if (!perk_name || perk_name === '') {
         return (<></>);
     }
     return getTag2(perk_name, orange);
+}
+
+function getParentPerkDesc(effect) {
+    const perk_desc = effect.m_effect.parent_perk_desc;
+    if (!perk_desc || perk_desc === '' ) {
+        return (<></>);
+    }
+    return getTag2(perk_desc, orange);
 }
 
 function getSource(effect) {
@@ -255,12 +280,28 @@ function getEffectTagNameView(effect) {
     );
 }
 
+function buildConditionStrings(conditions, color, bgColor) {
+    const conditionStrings = [];
+    if (!conditions) {
+        return conditionStrings;
+    }
+    for (let i = 0; i < conditions.length; i++) {
+        const cond = conditions[i];
+        conditionStrings.push(<div className="mt-1" style={{fontSize: '0.7rem', textAlign: 'center', textWrap: 'balance', backgroundColor: bgColor, color: color}} key={i}><b>{cond}</b></div>);
+    }
+    return conditionStrings;
+}
+
 function getEffectView(effect, ind) {
     const mEffect = effect.m_effect;
     const borderColor = (ind % 2 === 0) ? '#a392a8' : '#929da9';
     const fontColor = (ind % 2 === 0) ? '#581e4e' : '#1e3a59';
     const backgroundColor = (ind % 2 === 0) ? '#fefbff' : '#fafcff';
-    const conditions = (effect.conditions || effect.m_effect.conditions) ? <b className="tag" style={{height: '1.15rem', fontSize: '0.6rem', color: '#c7005f', borderRadius: '10px'}}>Conditional</b> : <></>;
+    const conditionStrings = buildConditionStrings(effect.conditions, '#a30069', '#ffedf9');
+    const mConditionStrings = buildConditionStrings(mEffect.conditions, '#00301a', '#edfff6');
+    const perkConditionStrings = buildConditionStrings(effect.perk_spell_conditions, '#a36400', '#fff8df');
+
+    //const conditions = (effect.conditions || effect.m_effect.conditions) ? <b className="tag" style={{height: '1.15rem', fontSize: '0.6rem', color: '#c7005f', borderRadius: '10px'}}>Conditional</b> : <></>;
     const addicted = (effect.if_addicted) ? <b className="tag" style={{height: '1.15rem', fontSize: '0.6rem', color: '#c7005f', borderRadius: '10px'}}>Addicted</b> : <></>;
     return (
         <Card key={mEffect.id + ind} className="lite-shadow m-1" style={{borderColor: borderColor}}>
@@ -282,13 +323,17 @@ function getEffectView(effect, ind) {
                 {getProperty(effect)}
                 {getDescription(effect)}
                 {getActor(effect)}
-                {getParenPerkName(effect)}
+                {getActorDesc(effect)}
+                {getParentPerkName(effect)}
+                {getParentPerkDesc(effect)}
+                {conditionStrings}
+                {mConditionStrings}
+                {perkConditionStrings}
             </div>
             <Card.Footer className="p-0">
                 <Container className='p-1'>
                     <Row>
                         <div className="d-flex col justify-content-start" style={{alignItems: 'center'}}>
-                            {conditions}
                             {addicted}
                         </div>
                         <Col className="d-flex justify-content-end" style={{alignItems: 'center'}}>

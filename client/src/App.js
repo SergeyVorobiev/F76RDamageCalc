@@ -6,6 +6,7 @@ import './css/buttons.css';
 import './css/bsCheck.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { WarningPopoverBadge } from './helpers/WarningPopover';
 import AdditionalDamage from "./main/AdditionalDamage";
 import MainCardsDisplay from "./main/MainCardsDisplay";
 import ToastSpecs from "./main/ToastSpecs";
@@ -46,6 +47,7 @@ const defPlayer = defaultPlayer();
 
 const version1 = "Patch 1.7.14.15 - Update 54";
 const version2 = "Milepost Zero - September 3, 2024";
+const versionMessage = "Version of game from which weapon / legendary / mod data were parsed."
 
 function getDefaultGraphData() {
     let xValues = [];
@@ -63,6 +65,8 @@ function getDefaultGraphData() {
 export default function MyApp() {
 
     const [key, setKey] = useState('Main');
+
+    const [loadedScreen, setLoadedScreen] = useState(false);
 
     const [wSpec, setWSpec] = useState(defaultWeaponSpecs());
 
@@ -127,10 +131,13 @@ export default function MyApp() {
 
     const creaturesRef = useRef(null);
 
+    const showStatRef = useRef(null);
+
     useEffect(() => {
             const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
             setGraphValues(graphDamage(graphValues.xValues, 0, creatures.creature1.headShot, weaponFactory));
             setResultDamage(calcDamage(weaponFactory, creatures));
+            setLoadedScreen(true);
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats, graphValues.xValues]);
 
     const applySnapshot = (cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
@@ -146,7 +153,6 @@ export default function MyApp() {
         setStuffBoost(allStuffBoosts);
         setCreatures({...cCreatures});
     }
-
     applySnapshotRef.current = applySnapshot;
     wSpecRef.current = wSpec;
     resultDamageRef.current = resultDamage;
@@ -158,6 +164,16 @@ export default function MyApp() {
     additionalDamagesRef.current = additionalDamages;
     creaturesRef.current = creatures;
     creatureNamesRef.current = buildCreatureNames(creatures);
+    showStatRef.current = showStat;
+    if (!loadedScreen) {
+        return (
+            <div>
+                <div className="d-flex justify-content-center mt-5">
+                    <h1><b>Loading...</b></h1>
+                </div>
+            </div>
+        );
+    }
     const b = (
         <div className='m-auto ps-0 pe-0' style={{maxWidth: '80rem'}}>
             <F76NavBar></F76NavBar>
@@ -170,10 +186,10 @@ export default function MyApp() {
                 className="mt-1 mb-3">
                 <Tab eventKey="Main" title={<span className="tab-text">Main</span>}>
                     <Accordion className="accordion">
-                        <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStat={showStat} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
-                        <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStat={showStat} setShowStat={setShowStat}></DamageBoosts>
-                        <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStat={showStat} setShowStat={setShowStat}></AdditionalDamage>
-                        <CreaturesView creatureNamesRef={creatureNamesRef} creatures={creatures} setCreatures={setCreatures} resultDamageRef={resultDamageRef}></CreaturesView>
+                        <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStatRef={showStatRef} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
+                        <DamageBoosts player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStatRef={showStatRef} setShowStat={setShowStat}></DamageBoosts>
+                        <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStatRef={showStatRef} setShowStat={setShowStat}></AdditionalDamage>
+                        <CreaturesView creatureNamesRef={creatureNamesRef} creatures={creatures} setCreatures={setCreatures} resultDamage={resultDamage} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></CreaturesView>
                         <RaceView />
                         <ConsumablesView />
                     </Accordion>
@@ -191,9 +207,19 @@ export default function MyApp() {
             <div style={{height: '1.5rem'}}></div>
 
             <Container className="mb-4">
-                <div className="ps-1 ms-1 version-text">{version1}</div>
-                <div className="ps-1 ms-1 mb-4 version-text">{version2}</div>
-                <Row className="p-1 mb-3">
+                <table>
+                    <tr>
+
+                        <td className="version-text">
+                            <div><i>{version1}</i></div>
+                            <div><i>{version2}</i></div>
+                        </td>
+                        <td>
+                            <WarningPopoverBadge className="ms-3" sign="?" message={versionMessage} header={'Game Version'} placement={'top'} />
+                        </td>
+                    </tr>
+                </table>
+                <Row className="p-1 mt-3 mb-3">
                     <Col className="p-0 m-0">
                         <FILink />
                     </Col>

@@ -8,7 +8,22 @@ import raceItems from '../../resources/race.json';
 import RaceDropdown from './RaceDropdown';
 import GeneralRaceView from './GeneralRaceView';
 import Container from 'react-bootstrap/Container';
+import StaticPopoverRenderer from '../../viewComponents/popover/StaticPopoverRenderer';
+import Global from '../../helpers/Global';
+import Button from 'react-bootstrap/Button';
 
+
+const questionPopoverHeader = (<b>Races</b>);
+
+const questionPopoverBody = (
+    <>
+        <div className="mb-2"><b>Parsed from:</b></div>
+        <div><i>{Global.raceParseVersion}</i></div>
+        <div><i>{Global.raceParseVersionName}</i></div>
+    </>
+);
+
+const questionPopover = new StaticPopoverRenderer(questionPopoverHeader, questionPopoverBody, 'RaceViewQuestionPopoverPlace');
 
 const raceMap = new Map();
 const racePairs = [];
@@ -55,14 +70,20 @@ const RaceView = memo(function RaceView() {
     if (raceName) {
         race = raceMap.get(raceName);
     }
+    function onQClick(e) {
+        questionPopover.renderToggle(e.target);
+        e.stopPropagation();
+    }
     return (
         <div className="ps-1 pe-1 pb-2">
             <Accordion.Item eventKey="5">
                 <Accordion.Header>
+                    <div id="RaceViewQuestionPopoverPlace"></div>
                     <InputGroup>
-                        <InputGroup.Text style={{width: '14rem'}}>
+                        <InputGroup.Text style={{width: '12rem'}}>
                             <span className="ac-text">Races</span>
                         </InputGroup.Text>
+                        <Button className="stats-text" style={{width: '2rem'}} onClick={onQClick}>?</Button>
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="ps-1 pe-1">

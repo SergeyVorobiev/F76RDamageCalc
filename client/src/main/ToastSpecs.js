@@ -12,6 +12,8 @@ import Button from 'react-bootstrap/Button';
 import AAView from '../damage/AAView';
 import DamageDetailsCard from '../damage/DamageDetailsCard';
 import Row from 'react-bootstrap/Row';
+import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
+import { buildCreatureInfo2 } from '../creature/CreatureInfoPopover';
 
 
 function getLegendaryRow(legendaryId, star) {
@@ -29,22 +31,15 @@ function getLegendaryRow(legendaryId, star) {
 }
 
 const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, weaponName, resultDamage, showStat, setShowStat}) {
-    const [showView, setShowView] = useState(0);
+    const [showView, setShowView] = useState("Main");
     const [detailIndex, setDetailIndex] = useState(-1);
-    const buttonNames = ["Details", "Main"];
-    const buttonName= buttonNames[showView];
+    const [creatureNumber, setCreatureNumber] = useState(1);
+    const dropdownNames = ["Main", "Damage Stats", "Creatures"];
     if (resultDamage.damageDetails && (resultDamage.damageDetails.length - 1) < detailIndex) {
         setDetailIndex(-1);
     }
     if (!resultDamage || Object.keys(resultDamage).length === 0) {
         return (<></>);
-    }
-    function onClick(e) {
-        if (showView === 0) {
-            setShowView(1);
-        } else {
-            setShowView(0);
-        }
     }
     let strengthTail = (resultDamage.strengthBonus > 0) ? " (+" + resultDamage.strengthBonus + "%)" : "";
     const strength = resultDamage.strength + strengthTail;
@@ -59,10 +54,15 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
     const totalBonusTextMax = (((resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner) - 1) * 100).toFixed(0) + "%";
     const totalBonusText = totalBonusTextMin + " - " + totalBonusTextMax;
     let toastBody = null;
-    if (showView === 0) {
+    if (showView === "Main") {
         toastBody = getMainToast(creatures, resultDamage, legendary, bonusText, totalBonusText, strength)
-    } else {
+    } else if (showView === "Damage Stats") {
         toastBody = getDetails(resultDamage, detailIndex, setDetailIndex);
+    } else {
+        toastBody = getCreatures(resultDamage, creatures, creatureNumber);
+    }
+    function onDropdownSelect(e) {
+        setShowView(e);
     }
     return (
         <ToastContainer
@@ -89,13 +89,15 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
                 {toastBody}
                 <Row className="pb-2">
                     <div className="col d-flex justify-content-start">
-                        {getPrevButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
+                        {getPrevButtonDetails(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
+                        {getPrevButtonCreature(showView, creatureNumber, setCreatureNumber)}
                     </div>
                     <div className="col d-flex justify-content-center">
-                        <Button className="btn-blue-white-border pt-1 pb-1 ps-2 pe-2" onClick={onClick}>{buttonName}</Button>
+                        <SimpleNameDropdown variant='blue-label' size='sm' onSelect={onDropdownSelect} names={dropdownNames} title={<strong>{showView}</strong>} />
                     </div>
                     <div className="col d-flex justify-content-end">
-                        {getNextButton(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
+                        {getNextButtonDetails(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
+                        {getNextButtonCreature(showView, creatureNumber, setCreatureNumber)}
                     </div>
                 </Row>
             </Toast>
@@ -103,7 +105,7 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
     );
 });
 
-function getPrevButton(showView, detailsLength, detailIndex, setDetailIndex) {
+function getPrevButtonDetails(showView, detailsLength, detailIndex, setDetailIndex) {
     function onClick(e) {
         let index = detailIndex - 1;
         if (index < -1) {
@@ -112,14 +114,14 @@ function getPrevButton(showView, detailsLength, detailIndex, setDetailIndex) {
         setDetailIndex(index);
     }
     const symbol = "<<";
-    if (showView === 0 || detailsLength === 0) {
+    if (showView !== "Damage Stats" || detailsLength === 0) {
         return (<></>);
     } else {
         return (<Button size="sm" variant="blue-white-border" className="ms-2" onClick={onClick}>{symbol}</Button>);
     }
 }
 
-function getNextButton(showView, detailsLength, detailIndex, setDetailIndex) {
+function getNextButtonDetails(showView, detailsLength, detailIndex, setDetailIndex) {
     function onClick(e) {
         let index = detailIndex + 1;
         if (index > (detailsLength - 1)) {
@@ -127,11 +129,50 @@ function getNextButton(showView, detailsLength, detailIndex, setDetailIndex) {
         }
         setDetailIndex(index);
     }
-    if (showView === 0 || detailsLength === 0) {
+    if (showView !== "Damage Stats" || detailsLength === 0) {
         return (<></>);
     } else {
         return (<Button size="sm" variant="blue-white-border" className="me-2" onClick={onClick}>>></Button>);
     }
+}
+
+function getNextButtonCreature(showView, creatureNumber, setCreatureNumber) {
+    function onClick(e) {
+        let number = creatureNumber + 1;
+        if (number > 4) {
+            number = 1;
+        }
+        setCreatureNumber(number);
+    }
+    if (showView !== "Creatures") {
+        return (<></>);
+    } else {
+        return (<Button size="sm" variant="blue-white-border" className="me-2" onClick={onClick}>>></Button>);
+    }
+}
+
+function getPrevButtonCreature(showView, creatureNumber, setCreatureNumber) {
+    function onClick(e) {
+        let number = creatureNumber - 1;
+        if (number < 1) {
+            number = 4;
+        }
+        setCreatureNumber(number);
+    }
+    if (showView !== "Creatures") {
+        return (<></>);
+    } else {
+        return (<Button size="sm" variant="blue-white-border" className="ms-2" onClick={onClick}>{"<<"}</Button>);
+    }
+}
+
+function getCreatures(resultDamage, creatures, creatureNumber) {
+    const creature = creatures["creature" + creatureNumber];
+    return (
+        <Toast.Body>
+            {buildCreatureInfo2(creature, resultDamage)}
+        </Toast.Body>
+    );
 }
 
 function getDetails(resultDamage, detailIndex, setDetailIndex) {

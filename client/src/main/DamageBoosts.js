@@ -5,9 +5,9 @@ import { Button } from 'react-bootstrap';
 import { memo } from 'react';
 
 
-const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage, setBoostDamage, showStat, setShowStat}) {
+const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage, setBoostDamage, showStatRef, setShowStat}) {
     const openStat = (e) => {
-        setShowStat(!showStat);
+        setShowStat(!showStatRef.current);
         e.stopPropagation();
     }
     return (

@@ -5,10 +5,10 @@ import { Button } from 'react-bootstrap';
 import { memo } from 'react';
 
 
-const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStat, setShowStat, health}) {
+const WeaponSpecs = memo(function WeaponSpecs({wSpec, setWSpec, showStatRef, setShowStat, health}) {
     console.log("WeaponSpecs");
     const openStat = (e) => {
-        setShowStat(!showStat);
+        setShowStat(!showStatRef.current);
         e.stopPropagation();
     }
     return (
