@@ -1,11 +1,13 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.bb4ac56c.css",
-    "main.js": "/F76RDamageCalc/static/js/main.e8451c7e.js",
+    "main.css": "/F76RDamageCalc/static/css/main.2d3acc08.css",
+    "main.js": "/F76RDamageCalc/static/js/main.46a12048.js",
+    "static/js/844.2fa6ba76.chunk.js": "/F76RDamageCalc/static/js/844.2fa6ba76.chunk.js",
+    "static/js/758.49ba31a0.chunk.js": "/F76RDamageCalc/static/js/758.49ba31a0.chunk.js",
     "static/js/867.7484ea86.chunk.js": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js",
+    "static/js/347.763b2493.chunk.js": "/F76RDamageCalc/static/js/347.763b2493.chunk.js",
     "static/media/03_Perks_.webp": "/F76RDamageCalc/static/media/03_Perks_.41c790afd5426f072ac9.webp",
     "static/media/broadsider.webp": "/F76RDamageCalc/static/media/broadsider.01be961ac9dbbb55df15.webp",
-    "static/media/main_logo.webp": "/F76RDamageCalc/static/media/main_logo.e9dbcf7c0dddcf914147.webp",
     "static/media/05_Crit-Scorched_test.webp": "/F76RDamageCalc/static/media/05_Crit-Scorched_test.9ef2bf6fa320ee24bec9.webp",
     "static/media/01_Details_weapon.webp": "/F76RDamageCalc/static/media/01_Details_weapon.96f5ed689b3633ce06a7.webp",
     "static/media/06_Sneak-Scorched_test.webp": "/F76RDamageCalc/static/media/06_Sneak-Scorched_test.bc1414696f77d2dbd71c.webp",
@@ -21,6 +23,7 @@
     "static/media/stabilized.webp": "/F76RDamageCalc/static/media/stabilized.9fc629398f693ec3d9b9.webp",
     "static/media/tenderizer.webp": "/F76RDamageCalc/static/media/tenderizer.30e0f95716798a81459a.webp",
     "static/media/glow_sight.webp": "/F76RDamageCalc/static/media/glow_sight.8a9305f873cb8a52d254.webp",
+    "static/media/main_logo.webp": "/F76RDamageCalc/static/media/main_logo.d5469e02af9e40b05e22.webp",
     "static/media/exterminator.webp": "/F76RDamageCalc/static/media/exterminator.99d3dfd768df86e3dd82.webp",
     "static/media/gun_fu.webp": "/F76RDamageCalc/static/media/gun_fu.51b1ccfffcddeafb9f68.webp",
     "static/media/corsair_queen.webp": "/F76RDamageCalc/static/media/corsair_queen.25c460f7f14b63f58167.webp",
@@ -344,7 +347,6 @@
     "static/media/assaultron_blade.webp": "/F76RDamageCalc/static/media/assaultron_blade.e93b4ede379d5987fdec.webp",
     "static/media/high_voltage_hefe.webp": "/F76RDamageCalc/static/media/high_voltage_hefe.7c87e40a5717f54d8d11.webp",
     "static/media/noxious_fog_crawler.webp": "/F76RDamageCalc/static/media/noxious_fog_crawler.996b49784a0b66d37ead.webp",
-    "static/media/ss.webp": "/F76RDamageCalc/static/media/ss.cfb2b2c4f789b75445a2.webp",
     "static/media/pole_hook.webp": "/F76RDamageCalc/static/media/pole_hook.36e85b5fef384586452c.webp",
     "static/media/the_quick_fix.webp": "/F76RDamageCalc/static/media/the_quick_fix.8b096f4a74d362f6c1d8.webp",
     "static/media/sheepsquatch_shard.webp": "/F76RDamageCalc/static/media/sheepsquatch_shard.f8035067f50dd0bdfa10.webp",
@@ -390,12 +392,15 @@
     "static/media/baton.webp": "/F76RDamageCalc/static/media/baton.1c595e18d9b01c5dcd33.webp",
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.bb4ac56c.css.map": "/F76RDamageCalc/static/css/main.bb4ac56c.css.map",
-    "main.e8451c7e.js.map": "/F76RDamageCalc/static/js/main.e8451c7e.js.map",
-    "867.7484ea86.chunk.js.map": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js.map"
+    "main.2d3acc08.css.map": "/F76RDamageCalc/static/css/main.2d3acc08.css.map",
+    "main.46a12048.js.map": "/F76RDamageCalc/static/js/main.46a12048.js.map",
+    "844.2fa6ba76.chunk.js.map": "/F76RDamageCalc/static/js/844.2fa6ba76.chunk.js.map",
+    "758.49ba31a0.chunk.js.map": "/F76RDamageCalc/static/js/758.49ba31a0.chunk.js.map",
+    "867.7484ea86.chunk.js.map": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js.map",
+    "347.763b2493.chunk.js.map": "/F76RDamageCalc/static/js/347.763b2493.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bb4ac56c.css",
-    "static/js/main.e8451c7e.js"
+    "static/css/main.2d3acc08.css",
+    "static/js/main.46a12048.js"
   ]
 }
