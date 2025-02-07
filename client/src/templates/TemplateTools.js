@@ -1,4 +1,5 @@
 import { ModTools } from '../helpers/mods/ModTools';
+import Strings from '../helpers/Strings';
 
 
 export default class TemplateTools {
@@ -123,7 +124,11 @@ export default class TemplateTools {
     }
 
     static isWeaponRanged(template) {
-        return !(template.type[1] === "Melee" || template.type[1] === "Unarmed");
+        return TemplateTools.isWeaponRangedByType(template.type[1]);
+    }
+
+    static isWeaponRangedByType(type) {
+        return !(type === Strings.Melee || type === Strings.Unarmed);
     }
 
     static isWeaponExplosive(template) {

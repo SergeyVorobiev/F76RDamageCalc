@@ -8,8 +8,8 @@ import { memo } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { getRowWithImage } from '../helpers/WTypeDropdown';
-import PerkBuilder from './PerkBuilder';
-
+import PerkCardBuilder from './PerkCardBuilder';
+import { useState } from 'react';
 
 const popover = (
     <Popover className="popover-adjustable">
@@ -37,7 +37,7 @@ function getStatBadge(name, value) {
 
 function getDropdown(setBoostDamage, player, setPlayer) {
     function onSelect(e) {
-        PerkBuilder.build(e, setBoostDamage, player, setPlayer);
+        PerkCardBuilder.build(e, setBoostDamage, player, setPlayer);
     }
     return (
         <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small><b>Choose a build</b></small>} variant="warning">
@@ -58,8 +58,9 @@ function getDropdown(setBoostDamage, player, setPlayer) {
     );
 }
 
-const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage}) {
+const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage, extraDamage}) {
     console.log("BoostTable");
+    const [cardType, setCardType] = useState(0); // Basic Expert Master
     return (
         <Container className="ps-0 pe-0">
             {getDropdown(setBoostDamage, player, setPlayer)}
@@ -78,24 +79,25 @@ const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, 
 
                 <Card.Body className="bg-lite p-1 m-0">
                     <Container className="p-0 m-0">
-                        <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow1>
-                        <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow2>
-                        <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow3>
-                        <BRow4 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow4>
-                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow5>
-                        <BRow6 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow6>
-                        <BRow7 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow7>
-                        <BRow8 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow8>
-                        <BRow9 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow9>
-                        <BRow10 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer}></BRow10>
+                        <BRow1 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow1>
+                        <BRow2 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow2>
+                        <BRow3 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow3>
+                        <BRow4 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow4>
+                        <BRow5 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow5>
+                        <BRow6 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow6>
+                        <BRow7 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow7>
+                        <BRow8 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow8>
+                        <BRow9 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType}></BRow9>
+                        <BRow10 setBoostDamage={setBoostDamage} boostDamage={boostDamage} player={player} setPlayer={setPlayer} cardType={cardType} setCardType={setCardType} extraDamage={extraDamage}></BRow10>
                     </Container>
                 </Card.Body>
+                <Card.Footer>
+                    <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={popover}>
+                        <Badge className='ms-3 mt-0 mb-1 p-auto' bg="danger" style={{cursor: 'pointer'}} pill>?</Badge>
+                    </OverlayTrigger>
+                </Card.Footer>
             </Card>
-            <Card.Footer>
-                <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={popover}>
-                    <Badge className='ms-3 mt-0 mb-0 p-auto' bg="danger" style={{cursor: 'pointer'}} pill>?</Badge>
-                </OverlayTrigger>
-            </Card.Footer>
+
         </Container>
     );
 });

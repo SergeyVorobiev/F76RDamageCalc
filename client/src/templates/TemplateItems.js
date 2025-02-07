@@ -105,8 +105,8 @@ const TemplateItems = memo(function TemplateItems(props) {
             return (
                 <>
                     {wData.paginated}
-                    <div className="mb-2" />
-                    <Pagination align="center" current={props.page} defaultPageSize={props.pageSize} onChange={props.onPageChanged} total={wData.total} />
+                    <div className="mb-1" />
+                    <Pagination className="mb-2" align="center" current={props.page} defaultPageSize={props.pageSize} onChange={props.onPageChanged} total={wData.total} />
                 </>
             );
         }

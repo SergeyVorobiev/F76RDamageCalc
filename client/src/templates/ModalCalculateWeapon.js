@@ -26,13 +26,15 @@ import ParametersApplier from './calc/ParametersApplier';
 import EmblemCalcRowView from './calc/view/EmblemCalcRowView';
 import AccuracyHelper from '../helpers/AccuracyHelper';
 import { Divider } from 'antd';
-import getPerkImage from '../boost/PerkImageProvider';
+import getPerkImage from '../perkCardBoosts/PerkImageProvider';
 import { getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary } from './calc/CalcEntities';
 
 
 let parameterCalculator = null;
 
 let firstShown = false;
+
+const calcIterations = 4;
 
 export default function ModalCalculateWeapon(props) {
     // console.log("ModalCalculateWeapon");
@@ -93,7 +95,7 @@ export default function ModalCalculateWeapon(props) {
     if (calculating === 1) {
         setTimeout(() => {
                 if (parameterCalculator) {
-                    const calculated = parameterCalculator.calculateCombinations(4);
+                    const calculated = parameterCalculator.calculateCombinations(calcIterations);
                     if (!calculated) {
                         setCalculating(2);
                         setCount({config: parameterCalculator.getBestConfig(), current: parameterCalculator.getCount(), percent: parameterCalculator.getCompletionPercent(), bestTime: parameterCalculator.getBestTime()});

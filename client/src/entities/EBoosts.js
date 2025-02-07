@@ -1,6 +1,7 @@
 export function defaultBoosts() {
     return {
         bloody_mess: {
+            id: ["00073680"],
             name: "Bloody Mess",
             value: 5.0,
             is_used: false,
@@ -16,6 +17,7 @@ export function defaultBoosts() {
         },
 
         adrenaline: {
+            id: ["00397cc5"],
             name: "Adrenaline",
             value: 6.0,
             is_used: false,
@@ -31,6 +33,7 @@ export function defaultBoosts() {
         },
 
         toft: {
+            id: ["005a59c6"],
             name: "TOFT",
             value: 10.0,
             is_used: false,
@@ -47,6 +50,7 @@ export function defaultBoosts() {
 
         tenderizer: {
             name: "Tenderizer",
+            id: ["003e2202"],
             value: 5.0,
             is_used: false,
             displayed_value: 0.0,
@@ -62,6 +66,7 @@ export function defaultBoosts() {
 
         glow_sight: {
             name: "Glow Sight",
+            id: ["00393f65"],
             value: 20.0,
             is_used: false,
             displayed_value: 0.0,
@@ -77,6 +82,7 @@ export function defaultBoosts() {
 
         gun_fu: {
             name: "Gun Fu",
+            id: ["003701bf"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -92,6 +98,7 @@ export function defaultBoosts() {
 
         incisor: {
             name: "Incisor",
+            id: ["003de58e"],
             value: 25.0,
             is_used: false,
             displayed_value: 0.0,
@@ -107,6 +114,7 @@ export function defaultBoosts() {
 
         bow_before_me: {
             name: "Bow Before Me",
+            id: ["00563b9b"],
             value: 12.0,
             is_used: false,
             displayed_value: 0.0,
@@ -122,6 +130,7 @@ export function defaultBoosts() {
 
         exterminator: {
             name: "Exterminator",
+            id: ["0032da6e"],
             value: 25.0,
             is_used: false,
             displayed_value: 0.0,
@@ -137,6 +146,7 @@ export function defaultBoosts() {
 
         tank_killer: {
             name: "Tank Killer",
+            id: ["001d6251"],
             value: 12.0,
             is_used: false,
             displayed_value: 0.0,
@@ -152,6 +162,7 @@ export function defaultBoosts() {
 
         stabilized: {
             name: "Stabilized",
+            id: ["00320167"],
             value: 15.0,
             is_used: false,
             displayed_value: 0.0,
@@ -167,6 +178,7 @@ export function defaultBoosts() {
 
         covert_operative: {
             name: "Covert Operative",
+            id: ["002ebd26"],
             value: 2.15,
             is_used: false,
             displayed_value: 0.0,
@@ -182,11 +194,12 @@ export function defaultBoosts() {
 
         mister_sandman: {
             name: "Mister Sandman",
-            value: 25.0,
+            id: ["0032992f"],
+            value: 50.0,
             is_used: false,
             displayed_value: 0.0,
             rank: 1,
-            rank_values: [25.0, 50.0],
+            rank_values: [50.0, 100.0],
             x: 1,
             max_x: 1,
             category: "Agility",
@@ -197,6 +210,7 @@ export function defaultBoosts() {
 
         ninja: {
             name: "Ninja",
+            id: ["0025a7f9"],
             value: 30.0,
             is_used: false,
             displayed_value: 0.0,
@@ -212,6 +226,7 @@ export function defaultBoosts() {
 
         follow_through: {
             name: "Follow Through",
+            id: ["005a5d68"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -227,6 +242,7 @@ export function defaultBoosts() {
 
         demolition_expert: {
             name: "Demolition Expert",
+            id: ["003440b9"],
             value: 20.0,
             is_used: false,
             displayed_value: 0.0,
@@ -242,6 +258,7 @@ export function defaultBoosts() {
 
         science: {
             name: "Science",
+            id: ["003440c4", "003440c5", "003440c6"],
             value: 5.0,
             is_used: false,
             displayed_value: 0.0,
@@ -257,6 +274,7 @@ export function defaultBoosts() {
 
         better_criticals: {
             name: "Better Criticals",
+            id: ["00287cd5"],
             value: 50.0,
             is_used: false,
             displayed_value: 0.0,
@@ -272,6 +290,7 @@ export function defaultBoosts() {
 
         nerd_rage: {
             name: "Nerd Rage",
+            id: ["0025a22f"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -287,11 +306,12 @@ export function defaultBoosts() {
 
         lock_and_load: {
             name: "Lock And Load",
-            value: 10.0,
+            id: ["0032016b"],
+            value: 20.0,
             is_used: false,
             displayed_value: 0.0,
             rank: 1,
-            rank_values: [10, 20, 30],
+            rank_values: [20, 40, 60],
             x: 1,
             max_x: 1,
             category: "Strength",
@@ -302,6 +322,7 @@ export function defaultBoosts() {
 
         martial_artist: {
             name: "Martial Artist",
+            id: ["003e996d"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -317,6 +338,7 @@ export function defaultBoosts() {
 
         scattershot: {
             name: "Scattershot",
+            id: ["0032235e"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -332,6 +354,7 @@ export function defaultBoosts() {
 
         ground_pounder: {
             name: "Ground Pounder",
+            id: ["000907e5"],
             value: 10.0,
             is_used: false,
             displayed_value: 0.0,
@@ -347,6 +370,7 @@ export function defaultBoosts() {
 
         party_girl_boy: {
             name: "Party Girl / Boy",
+            id: ["000525df"],
             value: 2.0,
             is_used: false,
             displayed_value: 0.0,
@@ -362,6 +386,7 @@ export function defaultBoosts() {
 
         power_user: {
             name: "Power User",
+            id: ["0027a876"],
             value: 130,
             is_used: false,
             displayed_value: 0.0,
@@ -377,6 +402,7 @@ export function defaultBoosts() {
 
         strange_in_numbers: {
             name: "Strange In Nums",
+            id: ["003860b7"],
             value: 25,
             is_used: false,
             displayed_value: 0.0,
@@ -392,6 +418,7 @@ export function defaultBoosts() {
 
         class_freak: {
             name: "Class Freak",
+            id: ["00391f13"],
             value: 25,
             is_used: false,
             displayed_value: 0.0,
@@ -407,6 +434,7 @@ export function defaultBoosts() {
 
         gladiator: {
             name: "Gladiator",
+            id: ["003440ad"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -422,6 +450,7 @@ export function defaultBoosts() {
 
         heavy_gunner: {
             name: "Heavy Gunner",
+            id: ["0031af17", "0031af18", "001c9d2e"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -437,6 +466,7 @@ export function defaultBoosts() {
 
         shotgunner: {
             name: "Shotgunner",
+            id: ["00202049", "00223bab", "00202047"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -452,6 +482,7 @@ export function defaultBoosts() {
 
         slugger: {
             name: "Slugger",
+            id: ["0025a233", "00520bd8", "00520bd9"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -467,6 +498,7 @@ export function defaultBoosts() {
 
         iron_fist: {
             name: "Iron Fist",
+            id: ["0035206d"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -482,6 +514,7 @@ export function defaultBoosts() {
 
         archer: {
             name: "Archer",
+            id: ["00563b8f", "00563b93", "00563b97"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -497,6 +530,7 @@ export function defaultBoosts() {
 
         commando: {
             name: "Commando",
+            id: ["0031aef6", "0031aef7", "00005272"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -512,6 +546,7 @@ export function defaultBoosts() {
 
         rifleman: {
             name: "Rifleman",
+            id: ["000907c9", "002ebd2b", "002ebd31"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -527,6 +562,7 @@ export function defaultBoosts() {
 
         guerrilla: {
             name: "Guerrilla",
+            id: ["0031af0d", "0031af0e", "0031af0f"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,
@@ -542,6 +578,7 @@ export function defaultBoosts() {
 
         gunslinger: {
             name: "Gunslinger",
+            id: ["0031aef8", "0031aef9", "0025a792"],
             value: 10,
             is_used: false,
             displayed_value: 0.0,

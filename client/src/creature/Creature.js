@@ -76,7 +76,7 @@ export default class Creature {
         let p = (1 - antiArmor.p / 100.0);
         let c = (1 - antiArmor.c / 100.0);
         let r = (1 - antiArmor.r / 100.0);
-        if (this.tags.includes("Bug")) {
+        if (this.tags.includes("bug") || this.tags.includes("mirelurk")) {
             let i = 1 - antiArmor.insect / 100.0;
             b *= i;
             e *= i;
@@ -97,6 +97,7 @@ export default class Creature {
         this.cryo = (this.cryo < 0) ? 0 : this.cryo;
         this.radiation *= r;
         this.radiation = (this.radiation < 0) ? 0 : this.radiation;
+        return this;
     }
 
     takeDamage(hit) {

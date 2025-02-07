@@ -15,17 +15,17 @@ export default function AmmoInfoView({wSpec}) {
                 <Row className="mt-2 mb-3">
                      <Col>
                          <InputGroup className="mb-1 mt-1 d-flex justify-content-center">
-                             <InputGroup.Text className="justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}>{type}</InputGroup.Text>
+                             <InputGroup.Text className="p-1 justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}><small>{type}</small></InputGroup.Text>
                          </InputGroup>
                      </Col>
                      <Col>
                          <InputGroup className="mb-1 mt-1 d-flex justify-content-center">
-                             <InputGroup.Text className="justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}>{name}</InputGroup.Text>
+                             <InputGroup.Text className="p-1 justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}><small>{name}</small></InputGroup.Text>
                          </InputGroup>
                      </Col>
                      <Col>
                          <InputGroup className="mb-1 mt-1 d-flex justify-content-center">
-                             <InputGroup.Text className="justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}>{codeName}</InputGroup.Text>
+                             <InputGroup.Text className="p-1 justify-content-center shadow-outline-ammo" style={{ minWidth: '18rem' }}><small>{codeName}</small></InputGroup.Text>
                          </InputGroup>
                      </Col>
                 </Row>

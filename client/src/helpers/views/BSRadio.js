@@ -1,4 +1,4 @@
-function getButtons(pairs, selectedValue, onClick) {
+function getButtons(pairs, selectedValue, onClick, small) {
     const result = [];
     let style = null;
     for(const name in pairs) {
@@ -8,7 +8,11 @@ function getButtons(pairs, selectedValue, onClick) {
         } else {
             style = {marginRight: '1px'};
         }
-        result.push(<button key={name} type="button" value={value} style={style} onClick={onClick} className="btn btn-blue-white">{name}</button>);
+        let tail = "";
+        if (small) {
+            tail = "-small";
+        }
+        result.push(<button key={name} type="button" value={value} style={style} onClick={onClick} className={"btn btn-blue-white" + tail}>{name}</button>);
     }
     return result;
 }
@@ -37,7 +41,7 @@ export default function BSRadio(props) {
     return (
         <div className={props.className}>
             <div className="btn-group" role="group">
-                {getButtons(props.pairs, props.selectedValue, onClick)}
+                {getButtons(props.pairs, props.selectedValue, onClick, props.small)}
             </div>
         </div>
     );

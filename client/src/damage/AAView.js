@@ -9,7 +9,7 @@ import { Divider } from 'antd';
 function resultBadges(style, left1, right1, left2, right2) {
     return (
         <div className="col d-flex justify-content-center">
-            <Stack className='pb-1' direction="horizontal" gap={1}>
+            <Stack className='pb-2' direction="horizontal" gap={1}>
                 {keyValueBadge(style, '9rem', left1,  right1)}
                 {keyValueBadge(style, '9rem', left2,  right2)}
             </Stack>
@@ -47,8 +47,8 @@ const AAView = memo(function AAView({resultDamage}) {
             <Row>
                 <Col>
                     <Row>
-                        {resultBadges("badge bg-light-cream-outline ms-1 me-1", "💥", aab, "⚡", aae)}
-                        {resultBadges("badge bg-light-cream-outline ms-1 me-1", "🔥", aaf, "❄️", aac)}
+                        {resultBadges("badge bg-light-cream-outline ms-1 me-1 mb-1", "💥", aab, "⚡", aae)}
+                        {resultBadges("badge bg-light-cream-outline ms-1 me-1 mb-1", "🔥", aaf, "❄️", aac)}
                         {resultBadges("badge bg-light-cream-outline ms-1 me-1", "☢️", aar, "☣️", aap)}
                     </Row>
                 </Col>

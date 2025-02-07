@@ -61,7 +61,7 @@ export default class ConsumablesBuilder {
         const combination = [];
 
         // Creatures
-        if (creatureTags.includes("mirelurks")) {
+        if (creatureTags.includes("mirelurk")) {
             combination.push("attack_of_the_fishmen_magazine");
         }
         if (creatureTags.includes("ghoul")) {

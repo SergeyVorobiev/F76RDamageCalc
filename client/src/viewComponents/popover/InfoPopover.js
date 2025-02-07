@@ -17,7 +17,7 @@ function buildOverlay(show, setShow, target, props) {
             rootClose='true'
             onHide={onHide}
             placement={props.placement}>
-            <Popover id="info-popover" className="popover-adjustable">
+            <Popover id="info-popover" className="popover-adjustable2">
                 <Popover.Header>
                     {header}
                 </Popover.Header>

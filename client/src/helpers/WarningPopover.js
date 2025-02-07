@@ -8,7 +8,7 @@ function buildWarning(message, header, className=null) {
         className = "popover-adjustable";
     }
     return (
-        <Popover className="popover-adjustable">
+        <Popover className={className}>
             <Popover.Header as="h3"><strong>{header}</strong></Popover.Header>
             <Popover.Body className="popover-body3">
                 {message}
@@ -17,9 +17,9 @@ function buildWarning(message, header, className=null) {
     );
 }
 
-export function WarningPopover({element, message, header='Warning', placement='top'}) {
+export function WarningPopover({element, message, className, header='Warning', placement='top'}) {
     return (
-        <OverlayTrigger rootClose='true' trigger="click" placement={placement} overlay={buildWarning(message, header)}>
+        <OverlayTrigger rootClose='true' trigger="click" placement={placement} overlay={buildWarning(message, header, className)}>
             {element}
         </OverlayTrigger>
     );

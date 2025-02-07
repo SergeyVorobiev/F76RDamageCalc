@@ -4,10 +4,12 @@ import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import MainInfoButton from './MainInfoButton';
 import { keyValueRow } from '../helpers/RowBuilder';
 import { ammo, fireRate, addText } from '../helpers/Emoji';
+import Strings from '../helpers/Strings';
 import Button from 'react-bootstrap/Button';
+import TemplateTools from '../templates/TemplateTools';
 
 
-export function buildExtraDamageView(extraDamage, setExtraDamage, info=false) {
+export function buildExtraDamageView(extraDamage, setExtraDamage, boostDamageRef, setBoostDamage, info=false) {
     function useCrit(e) {
         extraDamage.useCrit = e.target.checked;
         setExtraDamage({...extraDamage});
@@ -15,7 +17,10 @@ export function buildExtraDamageView(extraDamage, setExtraDamage, info=false) {
 
     function useSneak(e) {
         extraDamage.useSneak = e.target.checked;
+        const card = boostDamageRef.current.follow_through;
+        card.displayed_value = (card.is_used && extraDamage.useSneak) ? card.value : 0.0;
         setExtraDamage({...extraDamage});
+        setBoostDamage({...boostDamageRef.current});
     }
 
     function useHead(e) {
@@ -31,6 +36,12 @@ export function buildExtraDamageView(extraDamage, setExtraDamage, info=false) {
             {infoButton}
         </Stack>
     );
+}
+
+export function getFireRateLabel(weaponType) {
+    const isRanged = TemplateTools.isWeaponRangedByType(weaponType);
+    const fireRateLabel = Strings.getFireRate(weaponType) + ":";
+    return (isRanged) ? (addText(fireRate, '0.7rem', '0.27rem', fireRateLabel)) : ('👊🏼 ' + fireRateLabel);
 }
 
 export function buildExtraDamageButtons(extraDamage, setExtraDamage) {
@@ -77,16 +88,17 @@ export default function SummaryView(props) {
         fireRateText = fRate.toFixed(0) + " - " + (fRate / 10.0).toFixed(2) + " shots / sec";
         ammoCapacity = props.resultDamage.ammoCapacity;
     }
+    const fireRateLabel = getFireRateLabel(props.resultDamage.weaponType);
     return (
         <Card className={props.className}>
             <Card.Header className="pe-0 ps-0">
-                {buildExtraDamageView(props.extraDamage, props.setExtraDamage, true)}
+                {buildExtraDamageView(props.extraDamage, props.setExtraDamage, props.boostDamageRef, props.setBoostDamage, true)}
             </Card.Header>
             <Card.Body className="pt-0 pb-0">
                 {keyValueRow((<span className="pt-0 pb-0"><strong>💥 Damage:</strong></span>), (<span className="pt-0 pb-0"><strong>{damageText}</strong></span>), "default", "red")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedCrit + "%"}</strong></span>), "default", "magenta")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>🐍 Sneak:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedSneak + "%"}</strong></span>), "default", "green")}
-                {keyValueRow((<span className="mt-0 mb-0"><strong>{addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:")}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
+                {keyValueRow((<span className="mt-0 mb-0"><strong>{fireRateLabel}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
                 {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{ammoCapacity}</strong></span>), "default", "default")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
             </Card.Body>

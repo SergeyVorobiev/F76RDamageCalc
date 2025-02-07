@@ -165,6 +165,11 @@ export default class WeaponSpecsAssembler {
         let tenderizer = this.perks.tenderizer.displayed_value > 0 ? (1 + this.perks.tenderizer.displayed_value / 100.0) : 1;
         let result = 1.0;
         result *= this.perks.toft.displayed_value > 0 ? (1 + this.perks.toft.displayed_value / 100.0) : 1.0;
+
+        // Seems that follow through works as TOFT only in sneak mode
+        if (this.wSpec.type === "Heavy" || this.wSpec.type === "Thrown") {
+            result *= this.perks.follow_through.displayed_value > 0 ? (1 + this.perks.follow_through.displayed_value / 100.0) : 1.0;
+        }
         result *= (this.additionalDamages.tdb.is_used) ? (1 + this.additionalDamages.tdb.value / 100.0) : 1.0;
         let exec = 1 + this.wSpec.totalD / 100.0;
         return {value: result, tenderizer: tenderizer, executioner: exec};
@@ -211,13 +216,9 @@ export default class WeaponSpecsAssembler {
 
         // TODO: MeleeGeneral? (means including Unarmed) or just Melee type
         const ninja = (this.wSpec.tags.includes("MeleeGeneral")) ? this.perks.ninja.displayed_value / 100.0 : 0.0;
-        let follow = this.perks.follow_through.displayed_value / 100.0;
-        if (!this.wSpec.tags.includes("Ranged")) {
-            follow = 0;
-        }
         const weaponSneak = this.wSpec.sneak / 100.0;
         const stuffSneak = (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Sneak") / 100.0);
-        return sneak + sandman + ninja + follow + weaponSneak + stuffSneak;
+        return sneak + sandman + ninja + weaponSneak + stuffSneak;
     }
 
     // This bonus increase physical explosive damage (bobble head explosive), not an explosive part from total damage (Legendary explosive)
@@ -347,7 +348,7 @@ export default class WeaponSpecsAssembler {
     getFireRate() {
         let fireRate = this.wSpec.fireRate;
         let weaponSpeed = this.wSpec.speed;
-        if (this.wSpec.type === "Melee" && this.wSpec.is_auto === 0) {
+        if ((this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") && this.wSpec.is_auto === 0) {
             weaponSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         }
         fireRate = fireRate * weaponSpeed;

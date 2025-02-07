@@ -52,6 +52,10 @@ export default class Weapon {
         return this.defaultName;
     }
 
+    getType() {
+        return this.weaponType;
+    }
+
     setLastShotBonus(value) {
         this.lastShotBonus = value;
     }

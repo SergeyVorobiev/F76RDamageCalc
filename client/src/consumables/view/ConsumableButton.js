@@ -5,8 +5,10 @@ import { leftRight } from '../../helpers/RowBuilder';
 
 function getDurationValue(effect) {
     let duration = 0;
-    if (effect.glob_duration === '') {
-        duration = effect.duration;
+    if (!effect.glob_duration || effect.glob_duration === '') {
+        if (effect.duration) {
+            duration = effect.duration;
+        }
     } else {
         duration = effect.glob_duration.value;
     }
@@ -24,8 +26,8 @@ function getEffectValues(effects, tag) {
             durations.push(getDurationValue(effect));
             if (effect.curve_max_value) {
                 resultValues.push(effect.curve_max_value);
-            } else if (effect.glob_magnitude === '') {
-                resultValues.push(effect.magnitude);
+            } else if (!effect.glob_magnitude || effect.glob_magnitude === '') {
+                resultValues.push(effect.magnitude ? effect.magnitude : 0);
             } else {
                 resultValues.push(effect.glob_magnitude.value)
             }
@@ -63,7 +65,7 @@ function getEffectFilterInfo(resultName, durationText, max, valueColor) {
     if (max === 0 || max === "0") {
         max = "";
     }
-    return leftRight(<div style={{wordBreak: "break-all"}}>{resultName} {durationText}</div>, <a style={{color: valueColor}}>{max}</a>, 9, 3, "m-0 p-1");
+    return leftRight(<div style={{wordBreak: "break-all"}}>{resultName} {durationText}</div>, <span style={{color: valueColor}}>{max}</span>, 9, 3, "m-0 p-1");
 }
 
 export default function ConsumableButton(props) {
@@ -81,7 +83,7 @@ export default function ConsumableButton(props) {
     return (
         <div>
             <Button id={props.item['id']} className="lite-shadow" variant="blue-white-border" style={{width: '100%', margin: '0.1rem', paddingTop: '0.2rem', paddingBottom: '0.1rem', padding: "0.3rem"}} onClick={props.onClick}>
-                <div className="d-flex justify-content-start p-1" style={{fontSize: '0.9rem', backgroundColor: '#fbfbfb', borderRadius: '0.1rem'}}>
+                <div className="d-flex justify-content-start p-1" style={{fontSize: '0.9rem', backgroundColor: '#f4f4f4', borderRadius: '0.1rem'}}>
                     <b>{props.item['full']}</b>
                 </div>
                 <div className="p-0" style={textStyle}>

@@ -9,13 +9,14 @@ import { millisToTime } from '../helpers/Time';
 import { TrashIcon, UpdateIcon, PlayIcon, RenameIcon, UploadIcon } from '../icons/Icons';
 import '../css/style.css';
 import Badge from 'react-bootstrap/Badge';
-import { getImage } from '../helpers/WTypeDropdown'
-import { ammo, fireRate, addText } from '../helpers/Emoji';
+import { getImage } from '../helpers/WTypeDropdown';
+import { ammo, addText } from '../helpers/Emoji';
 import { getImageElement } from '../helpers/WeaponImages';
 import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 import { memo, useState, useEffect } from 'react';
 import { truncateLongWords } from '../helpers/Input';
 import BoostRowView from './BoostRowView';
+import { getFireRateLabel } from '../main/SummaryView';
 
 
 function row(name1, value1, colorName="default", tagColor="default", tagName=true) {
@@ -60,6 +61,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
         const creature2 = item.creatures.creature2;
         const creature3 = item.creatures.creature3;
         const creature4 = item.creatures.creature4;
+        const fireRateLabel = getFireRateLabel(item.resultDamage.weaponType);
         return (
             <>
                 <Card.Body className="p-1 mt-1">
@@ -74,8 +76,8 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                         {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1) + "%")}
                                         {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
                                         {row("🤕 Head Shot:", headUsed)}
-                                        {row(addText(ammo, '0.7rem', '0.25rem', "Ammo:"), item.resultDamage.ammoCapacity)}
-                                        {row(addText(fireRate, '0.7rem', '0.25rem', "Fire Rate:"), item.resultDamage.fireRate.toFixed(1))}
+                                        {row(addText(ammo, '0.7rem', '0.27rem', "Ammo:"), item.resultDamage.ammoCapacity)}
+                                        {row(fireRateLabel, item.resultDamage.fireRate.toFixed(1))}
                                     </Col>
                                     <Col>
                                         {row("⌛ Reload:", item.resultDamage.reloadTime.toFixed(2) + " s")}

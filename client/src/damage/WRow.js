@@ -7,6 +7,8 @@ import { checkLength } from '../helpers/Input';
 import { bullet, ammo, fireRate } from '../helpers/Emoji';
 import { memo } from 'react';
 import { WarningPopover } from '../helpers/WarningPopover';
+import Strings from '../helpers/Strings';
+import TemplateTools from '../templates/TemplateTools';
 
 
 function column2(wSpec, onChange1, onChange2, icon, name, id1, id2, max1, max2, message) {
@@ -76,11 +78,14 @@ const WRow = memo(function WRow({wSpec, setWSpec}) {
         const creature = wSpec.creature[i];
         creatureViews.push(column(wSpec, onChange, "🐵", creature.name, "creature_" + i, 500));
     }
+    const isRanged = TemplateTools.isWeaponRangedByType(wSpec.type);
+    const fireRateIcon = (isRanged) ? (fireRate("1.1rem")) : ('👊🏼');
+    const defFireRateLabel = "Def " + Strings.getFireRate(wSpec.type);
     return (
         <Row>
             {column(wSpec, onChange, bullet("1.1rem"), "Shot Size", "shot_size", 16)}
             {column(wSpec, onChange, '⌛', "Def Reload Time", "defReloadTime", 60)}
-            {column(wSpec, onChange, fireRate("1.1rem"), "Def Fire Rate", "fireRate", 199)}
+            {column(wSpec, onChange, fireRateIcon, defFireRateLabel, "fireRate", 199)}
             {column(wSpec, onChange, ammo("1.1rem"), "Ammo Capacity", "ammoCapacity", 9999)}
             {column(wSpec, onChange, "🛡️", "Anti Armor", "aa", 40)}
             {column(wSpec, onChange, "💪", "Strength Boost", "strengthBoost", 25)}

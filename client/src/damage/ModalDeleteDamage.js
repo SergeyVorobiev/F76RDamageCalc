@@ -38,7 +38,7 @@ const ModalDeleteDamage = memo(function ModalDeleteDamage(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Do you want to delete '{props.modalDeleteDamage.name}'?
+                Do you want to delete '{props.modalDeleteDamage.name}' damage?
             </Modal.Body>
             <Modal.Footer>
                 <InputGroup className="mb-1 mt-1 flex-nowrap">

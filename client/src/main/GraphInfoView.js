@@ -1,48 +1,10 @@
-import { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import { Progress } from 'antd';
-const { Chart } = await import('chart.js/auto');
+import ResistanceChart from './ResistanceChart';
 
-
-function getConfig(graphValues) {
-    return {
-        type: "line",
-        data: {
-            labels: graphValues.xValues,
-            datasets: [{
-                data: graphValues.yValues,
-                borderColor: "red",
-                borderWidth: "2",
-                pointRadius: "1",
-                fill: true
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            animation: false,
-        }
-    };
-}
-
-const chartId = "mainResChart";
-
-function drawChart(graphValues) {
-    const curChart = Chart.getChart(chartId);
-    if (curChart) {
-        curChart.destroy();
-    }
-    new Chart(document.getElementById(chartId), getConfig(graphValues));
-}
 
 export default function GraphInfoView(props) {
-    useEffect(() => {
-        drawChart(props.graphValues);
-    });
     return (
         <Card className={props.className}>
             <Card.Header>
@@ -64,12 +26,14 @@ export default function GraphInfoView(props) {
                             strokeWidth={20} />
                     </div>
                     <div className="m-auto p-0 w-100 d-flex justify-content-end">
-                        <Badge bg="warning" className="bg-orange-outline" text="dark"><strong>DPS / Res</strong></Badge>
+                        <Badge bg="warning" className="bg-orange-outline" text="dark">
+                            <strong>DPS: {props.graphValues.yValues[props.graphValues.yValues.length - 1].toFixed(1)}</strong>
+                        </Badge>
                     </div>
                 </span>
             </Card.Header>
-            <Card.Body>
-                <canvas id={chartId}></canvas>
+            <Card.Body className="d-flex flex-column justify-content-center p-1 pt-0">
+                <ResistanceChart graphValues={props.graphValues} chartId={"mainResChart"} creatures={props.creatures} creatureNumber={props.creatureChartNumber} setCreatureNumber={props.setCreatureChartNumber} />
             </Card.Body>
         </Card>
     );

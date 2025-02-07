@@ -2,7 +2,7 @@ import Col from 'react-bootstrap/Col';
 import { keyValueTag } from '../helpers/RowBuilder';
 import { truncate } from '../helpers/Input';
 
-
+// TODO: DEPRECATED, HAS TO BE DELETED
 export function getField(data, name, id, color, width, hideEmpty=true, round=0, cell=-1, css="") {
     let value = data[id];
     return getResolvedField(name, value, color, width, hideEmpty, round, cell, css);

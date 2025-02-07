@@ -48,9 +48,15 @@ titan: {
 }
 */
 
-export function getDummy() {
-    const dummy = buildDefCreature("Dummy", "dummy");
+export function getDummy(creature) {
+    const dummy = buildCreature(creature.name, creature.level, creature.fieldName);
     dummy.h = 1000000000000;
+    dummy.curBody = creature.curBody;
+    dummy.headShot = creature.headShot;
+    dummy.bodyShot = creature.bodyShot;
+    dummy.averageShot = creature.averageShot;
+    dummy.damageReduction = creature.damageReduction;
+    dummy.damageReductionOnlyNotBleeding = creature.damageReductionOnlyNotBleeding;
     return dummy;
 }
 
@@ -58,6 +64,7 @@ function buildDefCreature(name, fieldName) {
     return {
         name: name,
         fieldName: fieldName,
+        capName: "",
         b: 1.0,
         e: 1.0,
         f: 1.0,
@@ -67,7 +74,7 @@ function buildDefCreature(name, fieldName) {
         h: 100,
         damageReduction: 0.0,
         damageReductionOnlyNotBleeding: false,
-        headShot: 2.0,
+        headShot: 1,
         bodyShot: 1,
         averageShot: 1,
         curBody: "",

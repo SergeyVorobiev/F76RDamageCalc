@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import EmblemCalcRowView from '../templates/calc/view/EmblemCalcRowView';
-import getPerkImage from '../boost/PerkImageProvider';
+import getPerkImage from '../perkCardBoosts/PerkImageProvider';
 import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
 
 

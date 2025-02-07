@@ -10,3 +10,24 @@
     box-shadow: 0px 0px 4px rgba(0.0,0,70,0.4);
     border-color: #fff;
 }
+
+.burger {
+    fill: #14455f;
+    border: none;
+    background-color: none;
+}
+
+.burger:hover {
+    fill: #b47400;
+    border: none;
+}
+
+.burger:focus {
+    fill: #b47400;
+    border: none;
+}
+
+.burger:active {
+    fill: #c89300;
+    border: none;
+}
