@@ -90,7 +90,7 @@ const General = function General({eventKey, categoryName, showStat, setShowStat,
                     <Container fluid className="ps-0 pe-0">
                         <Card className="text-center mb-2">
                             <Card.Body className="pb-2">
-                                <ANRow player={player} setPlayer={setPlayer} boostDamage={boostDamage}></ANRow>
+                                <ANRow player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage}></ANRow>
                                 <ADRow additionalDamage={player.health} updateAdditionalDamages={changeHealth} marks={marksH}></ADRow>
                                 <ADRow additionalDamage={playerStats.strength} updateAdditionalDamages={updateAdditionalDamages} marks={marks50}></ADRow>
                             </Card.Body>

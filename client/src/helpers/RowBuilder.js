@@ -86,3 +86,39 @@ export function keyValueBadge(clazz, width, leftContent, rightContent, key=-1) {
         );
     }
 }
+
+export function leftRightTag(left, right, color, border=true, key=-1, className="w-100 p-0") {
+    if (key === -1) {
+        key = k++;
+    }
+    return (
+        <Tag key={key} className={className} bordered={border} color={color} style={{overflow: 'clip'}}>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div className="w-100 d-flex justify-content-start me-1">
+                    {left}
+                </div>
+                <div className="w-100 d-flex justify-content-end" style={{overflow: 'clip'}}>
+                    {right}
+                </div>
+            </div>
+        </Tag>
+    );
+}
+
+export function leftRight2(left, right, key=-1, className="w-100 p-0") {
+    if (key === -1) {
+        key = k++;
+    }
+    return (
+        <div key={key} className={className} style={{overflow: 'clip'}}>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div className="w-100 d-flex justify-content-start me-1">
+                    {left}
+                </div>
+                <div className="w-100 d-flex justify-content-end" style={{overflow: 'clip'}}>
+                    {right}
+                </div>
+            </div>
+        </div>
+    );
+}

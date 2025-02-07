@@ -33,7 +33,16 @@ export default class StaticPopoverRenderer {
         this.root.render(this.buildLayout(this.header, this.body, this.show, target, this.placement));
     }
 
+    renderToggleNewContent(target, header, body) {
+        this.header = header;
+        this.body = body;
+        this.renderToggle(target);
+    }
+
     onHide(e) {
+        if (StaticPopoverRenderer.lastOpened === this) {
+            StaticPopoverRenderer.lastOpened = null;
+        }
         this.show = false;
         if (this.root) {
             this.root.render((<></>));
@@ -43,7 +52,6 @@ export default class StaticPopoverRenderer {
     buildLayout(header, body, show, target, placement) {
         return (
             <Overlay
-                obj = {this}
                 show={show}
                 target={target}
                 rootClose='true'

@@ -36,7 +36,7 @@ let currentWIndex = 0;
 
 let parameters = null;
 
-const calcIterations = 12;
+const calcIterations = 4;
 
 function getDefaultModGroups() {
     let result = {};

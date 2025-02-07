@@ -126,7 +126,7 @@ export function buildCreatureInfo(creature, resultDamage, showDefaultResistance,
     return (
         <div>
             {defaultResistance}
-            <Stack  className='pt-0 pb-2' direction="horizontal" gap={1}>
+            <Stack className='pt-0 pb-2 d-flex justify-content-center' direction="horizontal" gap={1}>
                 {getResBadge("badge bg-ballistic-shadow", armor[0], false)}
                 {getResBadge("badge bg-energy-shadow", armor[1], false)}
                 {getResBadge("badge bg-fire-shadow", armor[2], false)}

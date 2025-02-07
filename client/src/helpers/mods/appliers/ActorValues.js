@@ -13,8 +13,6 @@ export class ActorValues extends Apply {
     }
 
     applyValue(mod, obj, name, value, apply, isLegendary=false) {
-
-        // No reason to create a map labels to other labels but... I am an artist I see so
         switch(mod.val1) {
             case '00058d36 / STAT_DmgVsScorched':
                 this.damageToCreature(obj, name, value, apply, "Scorched");
@@ -29,10 +27,10 @@ export class ActorValues extends Apply {
                 this.damageToCreature(obj, name, value, apply, "Human");
                 break;
             case '004f5775 / STAT_DmgVsBugs':
-                this.damageToCreature(obj, name, value, apply, "Insect");
+                this.damageToCreature(obj, name, value, apply, "Bug");
                 break;
             case '0018eeed / STAT_DmgVsSuperMutants':
-                this.damageToCreature(obj, name, value, apply, "Super_Mutant");
+                this.damageToCreature(obj, name, value, apply, "SuperMutant");
                 break;
             case '0018eeef / STAT_DmgVsRobots':
                 this.damageToCreature(obj, name, value, apply, "Robot");

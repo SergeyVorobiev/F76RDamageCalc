@@ -4,8 +4,8 @@ import { keyValueRow } from '../helpers/RowBuilder';
 import { getHotPercentage } from '../helpers/Item';
 import { Progress } from 'antd';
 import { memo, useState } from 'react';
-import { ammo, fireRate, addText } from '../helpers/Emoji';
-import { getImageElement } from '../helpers/WeaponImages'
+import { ammo, addText } from '../helpers/Emoji';
+import { getImageElement } from '../helpers/WeaponImages';
 import { getAverageTime } from "../entities/ECreatures";
 import { getLegendary } from '../helpers/LegendaryProvider';
 import Button from 'react-bootstrap/Button';
@@ -14,6 +14,8 @@ import DamageDetailsCard from '../damage/DamageDetailsCard';
 import Row from 'react-bootstrap/Row';
 import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
 import { buildCreatureInfo2 } from '../creature/CreatureInfoPopover';
+import ResistanceChart from '../main/ResistanceChart';
+import { buildExtraDamageView, getFireRateLabel } from './SummaryView';
 
 
 function getLegendaryRow(legendaryId, star) {
@@ -30,11 +32,11 @@ function getLegendaryRow(legendaryId, star) {
     }
 }
 
-const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, weaponName, resultDamage, showStat, setShowStat}) {
+const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage}) {
     const [showView, setShowView] = useState("Main");
     const [detailIndex, setDetailIndex] = useState(-1);
     const [creatureNumber, setCreatureNumber] = useState(1);
-    const dropdownNames = ["Main", "Damage Stats", "Creatures"];
+    const dropdownNames = ["Main", "Damage Stats", "Creature", "Chart"];
     if (resultDamage.damageDetails && (resultDamage.damageDetails.length - 1) < detailIndex) {
         setDetailIndex(-1);
     }
@@ -58,15 +60,17 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
         toastBody = getMainToast(creatures, resultDamage, legendary, bonusText, totalBonusText, strength)
     } else if (showView === "Damage Stats") {
         toastBody = getDetails(resultDamage, detailIndex, setDetailIndex);
-    } else {
+    } else if (showView === "Creature") {
         toastBody = getCreatures(resultDamage, creatures, creatureNumber);
+    } else {
+        toastBody = getChart(graphValues, creatures, creatureChartNumber, setCreatureChartNumber);
     }
     function onDropdownSelect(e) {
         setShowView(e);
     }
     return (
         <ToastContainer
-            className="p-3 position-fixed p-3"
+            className="position-fixed p-1"
             position={"top-center"}
             role="alert" aria-live="assertive" aria-atomic="true"
             style={{ zIndex: 10 }}>
@@ -86,6 +90,8 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
                             strokeWidth={20} />
                     </small>
                 </Toast.Header>
+                <div className="m-1" />
+                {buildExtraDamageView(extraDamage, setExtraDamage, boostDamageRef, setBoostDamage)}
                 {toastBody}
                 <Row className="pb-2">
                     <div className="col d-flex justify-content-start">
@@ -104,6 +110,10 @@ const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, wea
         </ToastContainer>
     );
 });
+
+function getChart(graphValues, creatures, creatureNumber, setCreatureNumber) {
+    return (<ResistanceChart graphValues={graphValues} chartId={"toastResChart"} dps='true' creatures={creatures} creatureNumber={creatureNumber} setCreatureNumber={setCreatureNumber} />);
+}
 
 function getPrevButtonDetails(showView, detailsLength, detailIndex, setDetailIndex) {
     function onClick(e) {
@@ -144,7 +154,7 @@ function getNextButtonCreature(showView, creatureNumber, setCreatureNumber) {
         }
         setCreatureNumber(number);
     }
-    if (showView !== "Creatures") {
+    if (showView !== "Creature") {
         return (<></>);
     } else {
         return (<Button size="sm" variant="blue-white-border" className="me-2" onClick={onClick}>>></Button>);
@@ -159,7 +169,7 @@ function getPrevButtonCreature(showView, creatureNumber, setCreatureNumber) {
         }
         setCreatureNumber(number);
     }
-    if (showView !== "Creatures") {
+    if (showView !== "Creature") {
         return (<></>);
     } else {
         return (<Button size="sm" variant="blue-white-border" className="ms-2" onClick={onClick}>{"<<"}</Button>);
@@ -169,7 +179,7 @@ function getPrevButtonCreature(showView, creatureNumber, setCreatureNumber) {
 function getCreatures(resultDamage, creatures, creatureNumber) {
     const creature = creatures["creature" + creatureNumber];
     return (
-        <Toast.Body>
+        <Toast.Body className="p-2">
             {buildCreatureInfo2(creature, resultDamage)}
         </Toast.Body>
     );
@@ -183,7 +193,7 @@ function getDetails(resultDamage, detailIndex, setDetailIndex) {
         view = (<DamageDetailsCard resultDamage={resultDamage} damageData={resultDamage.damageDetails[detailIndex]}></DamageDetailsCard>);
     }
     return (
-        <Toast.Body>
+        <Toast.Body className="p-2">
             {view}
         </Toast.Body>
     );
@@ -198,10 +208,11 @@ function getDetails(resultDamage, detailIndex, setDetailIndex) {
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
 */
 function getMainToast(creatures, resultDamage, legendary, bonusText, totalBonusText, strength) {
+    const fireRateLabel = getFireRateLabel(resultDamage.weaponType);
     return (
-        <Toast.Body>
+        <Toast.Body className="p-2">
             {keyValueRow('💥 Damage:', resultDamage.tDamage.toFixed(1) + ' x ' + resultDamage.shotSize, "default", "indigo")}
-            {keyValueRow(addText(fireRate, '0.7rem', '0.27rem', "Fire Rate:"), resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
+            {keyValueRow(fireRateLabel, resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
             {keyValueRow(addText(ammo, '0.7rem', '0.27rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
             {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
             {keyValueRow('💪 Strength:', strength, "default", "brown")}

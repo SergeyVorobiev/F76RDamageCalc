@@ -164,7 +164,7 @@ const Snapshots = memo(function Snapshots(props) {
     // <div className="overflow-auto wrapper"></div>
     return (
         <Container className="p-1">
-            <Card className="text-center mb-3">
+            <Card className="text-center mb-0">
                 <div className='card-header'>
                     <SnapshotsHeader items={items} sortCreatureName={sortCreatureName} setSortCreatureName={setSortCreatureName} uniqueCreatureNames={uniqueCreatureNames} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
                 </div>

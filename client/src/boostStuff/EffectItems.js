@@ -6,14 +6,14 @@ import Row from 'react-bootstrap/Row';
 import { memo } from 'react';
 
 
-function couple(key, categoryName, foodPref, setFoodPref, player, one, second, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched) {
-    if (one === null && second === null) {
+function couple(key, categoryName, foodPref, setFoodPref, player, first, second, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched) {
+    if (first === null && second === null) {
         return(<></>);
     } else if (second === null) {
         return (
             <Col key={key} className='p-0 ms-1 me-1 m-0 d-flex justify-content-center'>
                 <Stack className='pb-2 m-auto' direction="horizontal" gap={2}>
-                    <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
+                    <EffectItem key={first.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={first} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
                 </Stack>
             </Col>
         );
@@ -21,7 +21,7 @@ function couple(key, categoryName, foodPref, setFoodPref, player, one, second, i
     return (
         <Col key={key} className='p-0 ms-1 me-1 m-0 d-flex justify-content-center'>
             <Stack className='pb-2 m-auto' direction="horizontal" gap={2}>
-                <EffectItem key={one.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={one} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
+                <EffectItem key={first.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={first} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
                 <EffectItem key={second.id} categoryName={categoryName} foodPref={foodPref} setFoodPref={setFoodPref} player={player} item={second} height={cardHeight} picHeight={picHeight} imPadding={imPadding} items={items} setItems={setItems} colorName={colorName} colorValue={colorValue} getPicture={getPicture} useHeader={useHeader} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={maxRows} setConsumableTouched={setConsumableTouched} />
             </Stack>
         </Col>

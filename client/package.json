@@ -19,9 +19,11 @@
     "react-dom": "19.0.0",
     "react-scripts": "^5.0.1",
     "sass": "^1.82.0",
+    "source-map-explorer": "^2.5.3",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",

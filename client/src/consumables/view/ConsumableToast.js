@@ -8,14 +8,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { numberToString } from '../../helpers/StringHelpers';
+import { buildConditionStrings, buildTextBlock, idNameRow } from '../../helpers/EffectViewHelper';
 
 
-const darkBlue = {
-    backgroundColor: '#e6f7ff',
-    borderColor: '#0085c6',
-    color: '#003e5d',
-}
-
+// TODO: Move styles to EffectViewHelper
 const blue = {
     backgroundColor: '#f7fbff',
     borderColor: '#0072a3',
@@ -44,21 +40,13 @@ const orange = {
 const magenta = {
     backgroundColor: '#fff1fa',
     borderColor: '#ca007c',
-    color: '#ab1672',
+    color: '#830f57',
 }
 
 export function mainView(item) {
     return (
         <>
-            <div className="d-flex flex-nowrap" style={{width: '100%'}}>
-                <span className="pe-0 d-flex justify-content-start" style={{width: 'auto'}}>
-                    <b className="tag">{item.id}</b>
-                </span>
-                <div className="d-flex justify-content-end ms-2" style={{width: '100%', textWrap: 'nowrap', overflow: 'hidden'}}>
-                    <b className="tag" style={darkBlue}>{item.name}</b>
-                </div>
-            </div>
-
+            {idNameRow(item.id, item.name)}
             {getItemDescription(item)}
             {getWeight(item)}
             <ConsumableTagsView className="pt-2" tags={item.tags} color='blue' title="Tags" />
@@ -76,7 +64,7 @@ function getArea(effect) {
     return (
         <div className="tag mt-1">
             <div>
-                Area: <a style={{color: 'red'}}>{effect.area}</a>
+                Area: <span style={{color: 'red'}}>{effect.area}</span>
             </div>
         </div>
     );
@@ -124,14 +112,13 @@ function getItemDescription(item) {
             </div>
         </div>
     );
-    return getTag3(item.desc, orange, 1, 0)
 }
 
 function getDuration(effect) {
     let duration = 0;
     let durationName = "";
-    if (effect.glob_duration === '') {
-        duration = effect.duration;
+    if (!effect.glob_duration || effect.glob_duration === '') {
+        duration = effect.duration ? effect.duration : 0;
     } else {
         duration = effect.glob_duration.value;
         durationName = "(" + effect.glob_duration.name + ")";
@@ -146,15 +133,16 @@ function getTag(title, value, name) {
     return (
          <div key={value + name} className="tag mt-1">
             <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
-                {title}: <a style={{fontSize: '0.80rem', color: 'red'}}>{numberToString(value, 3)}</a> {name}
+                {title}: <span style={{fontSize: '0.80rem', color: 'red'}}>{numberToString(value, 3)}</span> {name}
             </div>
         </div>
     );
 }
 
-function getTag2(value, style) {
+function getTag2(value, style, fullLength=false) {
+    const full = (fullLength) ? "w-100" : "";
     return (
-         <div className="tag mt-1" style={style}>
+         <div className={"tag mt-1 " + full} style={style}>
             <div style={{textWrap: 'nowrap', overflow: "hidden", textOverflow: 'ellipsis'}}>
                 {value}
             </div>
@@ -163,15 +151,29 @@ function getTag2(value, style) {
 }
 
 function getDescription(effect) {
-    if (!effect.m_effect.desc || effect.m_effect.desc === "") {
+    return buildTagBlock(effect.m_effect.desc);
+}
+
+export function buildTagBlock(desc, fullLength=false, center=false, style=null, containerClassName="") {
+    if (!desc) {
         return (<></>);
     }
-    return getTag2(effect.m_effect.desc, orange);
+    if (!style) {
+        style = orange;
+    }
+    desc = desc.trim();
+    if (desc === "") {
+        return (<></>);
+    }
+    if (center) {
+        return (<div className={"d-flex justify-content-center " + containerClassName}>{getTag2(desc, style, fullLength)}</div>);
+    }
+    return (<div className={containerClassName}>{getTag2(desc, style, fullLength)}</div>);
 }
 
 function getActor(effect) {
     const actor = effect.m_effect.actor_value1;
-    if (!actor || typeof actor === typeof '' ) {
+    if (!actor || typeof actor === typeof '') {
         return (<></>);
     }
     return getTag2(actor.name, orange);
@@ -182,16 +184,14 @@ function getActorDesc(effect) {
     if (!actor || typeof actor === typeof '' ) {
         return (<></>);
     }
-    const desc = actor.desc;
+    let desc = actor.desc;
+    if (desc) {
+        desc = desc.trim();
+    }
     if (!desc || desc === "") {
         return (<></>);
     }
-    return (
-        <div className="mt-1" style={{fontSize: '0.7rem', textAlign: 'center', textWrap: 'balance', backgroundColor: '#effff5', color: '#003112'}}>
-            <p className="m-1"><b>Description</b></p>
-            <p><b>{desc}</b></p>
-        </div>
-    )
+    return buildTextBlock(desc, "Description");
 }
 
 function getParentPerkName(effect) {
@@ -204,7 +204,7 @@ function getParentPerkName(effect) {
 
 function getParentPerkDesc(effect) {
     const perk_desc = effect.m_effect.parent_perk_desc;
-    if (!perk_desc || perk_desc === '' ) {
+    if (!perk_desc || perk_desc === '') {
         return (<></>);
     }
     return getTag2(perk_desc, orange);
@@ -218,7 +218,7 @@ function getSource(effect) {
 }
 
 function getMagnitude(effect) {
-    let magnitude = effect.magnitude;
+    let magnitude = (effect.magnitude ? effect.magnitude : 0);
     let magnitudeName = "";
     let curveMagnitude = 0;
     let curveMagnitudeName = "";
@@ -228,7 +228,7 @@ function getMagnitude(effect) {
         curveMagnitude = effect.curve_max_value;
         curveMagnitudeName = "(" + effect.d_curv.split("\n")[0] + ")";
     }
-    if (effect.glob_magnitude !== '') {
+    if (effect.glob_magnitude && effect.glob_magnitude !== '') {
         globMagnitude = effect.glob_magnitude.value;
         globMagnitudeName = "(" + effect.glob_magnitude.name + ")";
     }
@@ -245,7 +245,6 @@ function getMagnitude(effect) {
     if (globMagnitude !== 0) {
         result.push(getTag("Magnitude", globMagnitude, globMagnitudeName));
     }
-
     return result;
 }
 
@@ -280,26 +279,14 @@ function getEffectTagNameView(effect) {
     );
 }
 
-function buildConditionStrings(conditions, color, bgColor) {
-    const conditionStrings = [];
-    if (!conditions) {
-        return conditionStrings;
-    }
-    for (let i = 0; i < conditions.length; i++) {
-        const cond = conditions[i];
-        conditionStrings.push(<div className="mt-1" style={{fontSize: '0.7rem', textAlign: 'center', textWrap: 'balance', backgroundColor: bgColor, color: color}} key={i}><b>{cond}</b></div>);
-    }
-    return conditionStrings;
-}
-
 function getEffectView(effect, ind) {
     const mEffect = effect.m_effect;
     const borderColor = (ind % 2 === 0) ? '#a392a8' : '#929da9';
     const fontColor = (ind % 2 === 0) ? '#581e4e' : '#1e3a59';
     const backgroundColor = (ind % 2 === 0) ? '#fefbff' : '#fafcff';
-    const conditionStrings = buildConditionStrings(effect.conditions, '#a30069', '#ffedf9');
-    const mConditionStrings = buildConditionStrings(mEffect.conditions, '#00301a', '#edfff6');
-    const perkConditionStrings = buildConditionStrings(effect.perk_spell_conditions, '#a36400', '#fff8df');
+    const conditionStrings = buildConditionStrings(effect.conditions, "mt-1", '#7a0450', '#ffedf9');
+    const mConditionStrings = buildConditionStrings(mEffect.conditions, "mt-1", '#00301a', '#edfff6');
+    const perkConditionStrings = buildConditionStrings(effect.perk_spell_conditions, "mt-1", '#a36400', '#fff8df');
 
     //const conditions = (effect.conditions || effect.m_effect.conditions) ? <b className="tag" style={{height: '1.15rem', fontSize: '0.6rem', color: '#c7005f', borderRadius: '10px'}}>Conditional</b> : <></>;
     const addicted = (effect.if_addicted) ? <b className="tag" style={{height: '1.15rem', fontSize: '0.6rem', color: '#c7005f', borderRadius: '10px'}}>Addicted</b> : <></>;

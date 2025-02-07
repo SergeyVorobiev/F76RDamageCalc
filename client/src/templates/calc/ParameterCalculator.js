@@ -1,4 +1,4 @@
-import { defaultExtraDamage } from '../../entities/EResultDamage';
+import { defaultExtraDamage } from '../../entities/ExtraDamageOptions';
 import { buildCreature, getAverageTimeMillis } from '../../entities/ECreatures';
 import { defaultAdds } from '../../entities/EAddDamages';
 import { convertTemplateToSpecs } from '../../entities/EWeaponSpecs';
@@ -11,7 +11,7 @@ import { modsSetter } from '../TemplateItems';
 import { millisToTime } from '../../helpers/Time';
 import Combinator from '../../helpers/Combinator';
 import AccuracyHelper from '../../helpers/AccuracyHelper';
-import PerkBuilder from '../../boost/PerkBuilder';
+import PerkCardBuilder from '../../perkCardBoosts/PerkCardBuilder';
 import ConsumablesBuilder from '../../boostStuff/ConsumablesBuilder';
 import TemplateTools from '../TemplateTools';
 import { ModParser } from '../../helpers/mods/ModParser';
@@ -547,8 +547,8 @@ export default class ParameterCalculator {
         const night = this.main["Night"];
         const useSerums = this.stuff["Serums"];
         const drink = this.stuff["Drink"];
-        const boosts = PerkBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, this.bodyTags, this.creatureTags);
-        this.perkImageNames = PerkBuilder.getImageNamesForPickedCards(boosts);
+        const boosts = PerkCardBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, this.bodyTags, this.creatureTags);
+        this.perkImageNames = PerkCardBuilder.getImageNamesForPickedCards(boosts);
         return boosts;
     }
 }

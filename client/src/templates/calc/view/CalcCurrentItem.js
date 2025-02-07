@@ -7,7 +7,7 @@ import LegendaryCalcRowView from './LegendaryCalcRowView';
 import ModsCalcRowView from './ModsCalcRowView';
 import EmblemCalcRowView from './EmblemCalcRowView';
 import ConsumablesBuilder from '../../../boostStuff/ConsumablesBuilder';
-import getPerkImage from '../../../boost/PerkImageProvider';
+import getPerkImage from '../../../perkCardBoosts/PerkImageProvider';
 import { useRef } from 'react';
 
 

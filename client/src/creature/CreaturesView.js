@@ -24,7 +24,7 @@ const questionPopoverBody = (
 
 const questionPopover = new StaticPopoverRenderer(questionPopoverHeader, questionPopoverBody, 'CreatureViewQuestionPopoverPlace');
 
-const CreaturesView = memo(function CreaturesView({creatureNamesRef, creatures, setCreatures, resultDamage, extraDamage, setExtraDamage}) {
+const CreaturesView = memo(function CreaturesView({creatureNamesRef, creatures, setCreatures, resultDamage, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage}) {
     console.log("CreaturesView")
     const [alt, setAlt] = useState(false);
     function resetCreatures(e) {
@@ -63,7 +63,7 @@ const CreaturesView = memo(function CreaturesView({creatureNamesRef, creatures, 
                         </InputGroup>
                     </div>
                     <Divider className="mb-2">Extra Damage</Divider>
-                    {buildExtraDamageView(extraDamage, setExtraDamage, false)}
+                    {buildExtraDamageView(extraDamage, setExtraDamage, boostDamageRef, setBoostDamage, false)}
                     <div className="m-2" />
                     {buildExtraDamageButtons(extraDamage, setExtraDamage)}
                     <Divider className="mt-3 mb-3"></Divider>

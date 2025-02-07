@@ -1,11 +1,11 @@
 import InputGroup from 'react-bootstrap/InputGroup';
 import Accordion from 'react-bootstrap/Accordion';
-import BoostTable from "../boost/BoostTable";
+import BoostTable from "../perkCardBoosts/BoostTable";
 import { Button } from 'react-bootstrap';
 import { memo } from 'react';
 
 
-const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage, setBoostDamage, showStatRef, setShowStat}) {
+const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage, extraDamage, setBoostDamage, showStatRef, setShowStat}) {
     const openStat = (e) => {
         setShowStat(!showStatRef.current);
         e.stopPropagation();
@@ -16,13 +16,13 @@ const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage,
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '10rem'}}>
-                            <span className="ac-text">Cards</span>
+                            <span className="ac-text">Card Boosts</span>
                         </InputGroup.Text>
                         <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
                 </Accordion.Header>
                 <Accordion.Body className="ps-1 pe-1">
-                    <BoostTable player={player} setPlayer={setPlayer} setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BoostTable>
+                    <BoostTable player={player} setPlayer={setPlayer} extraDamage={extraDamage} setBoostDamage={setBoostDamage} boostDamage={boostDamage}></BoostTable>
                 </Accordion.Body>
             </Accordion.Item>
         </div>

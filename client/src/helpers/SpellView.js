@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { getPerkButton, getEffectContent } from '../templates/EffectPopover';
 import { WeaponPopoverOverlay, renderWeaponPopover } from '../helpers/WeaponPopoverOverlay';
 
-
+// TODO: This class is Deprecated
 function getOverlay(effect, buttonStyle, key) {
     const mEffect = effect['m_effect'];
     const overlayButton = (<Button className="d-flex justify-content-center m-1" size='sm' style={buttonStyle}>Effect: {mEffect['id']}</Button>);

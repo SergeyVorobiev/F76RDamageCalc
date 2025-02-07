@@ -39,27 +39,30 @@ function getResult(resultDamage, damageData, additionalBonus=0) {
         bonusMult += resultDamage.expDTypeBonus;
     }
     const bonusDamage = damageValue * bonusMult;
-    const bonusText = "+" + (bonusMult * 100).toFixed(1) + "% / +" + bonusDamage.toFixed(1);
+    const bonusText = "+" + (bonusMult * 100).toFixed(1) + "% (+" + bonusDamage.toFixed(1) + ")";
     const crit = resultDamage.displayedCrit / 100.0;
     const critValue = damageValue * crit;
-    const critText = "+" + resultDamage.displayedCrit.toFixed(1) + "%  / +" + critValue.toFixed(1);
-    const sneak = resultDamage.displayedSneak / 100.0;
+    const critText = "+" + resultDamage.displayedCrit.toFixed(1) + "%  (+" + critValue.toFixed(1) + ")";
+    const sneak = (resultDamage.isSneak) ? resultDamage.displayedSneak / 100.0 : 0;
+    const totalSneakValue = sneak * damageValue;
     const totalDamageBonusMin = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer;
-    const totalDamageBonusMinPercent = (resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer - 1) * 100;
+    const totalDamageBonusMinValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMin - 1);
+    const totalDamageBonusMinPercent = (totalDamageBonusMin - 1) * 100;
     const totalDamageBonusMax = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner;
+    const totalDamageBonusMaxValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMax - 1);
     const totalDamageBonusMaxPercent = (resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner - 1) * 100;
     let totalDamageBonusText = "";
     if (totalDamageBonusMin === totalDamageBonusMax) {
-        totalDamageBonusText = "+" + totalDamageBonusMinPercent.toFixed(1) + "%";
+        totalDamageBonusText = "+" + totalDamageBonusMinPercent.toFixed(1) + "% (+" + totalDamageBonusMinValue.toFixed(1) + ")";
     } else {
-        totalDamageBonusText = "+" + totalDamageBonusMinPercent.toFixed(1) + "% / +" + totalDamageBonusMaxPercent.toFixed(1) + "%";
+        totalDamageBonusText = "+" + totalDamageBonusMinPercent.toFixed(1) + "% / +" + totalDamageBonusMaxPercent.toFixed(1) + "%"
+        + " (+" + totalDamageBonusMinValue.toFixed(1) + " / +" + totalDamageBonusMaxValue.toFixed(1) + ")";
     }
-    const totalSneakValue = sneak * damageValue * resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer;
-    const sneakText = "+" + resultDamage.displayedSneak.toFixed(1) + "% / +" + totalSneakValue.toFixed(1);
+    const sneakText = "+" + resultDamage.displayedSneak.toFixed(1) + "% (+" + totalSneakValue.toFixed(1) + ")";
     const resultSneakValue = (resultDamage.isSneak) ? totalSneakValue : 0;
     const resultCritValue = (resultDamage.isCrit) ? critValue : 0;
-    const totalDamageMin = (damageValue + bonusDamage) * totalDamageBonusMin + resultSneakValue + resultCritValue;
-    const totalDamageMax = (damageValue + bonusDamage) * totalDamageBonusMax + resultSneakValue + resultCritValue;
+    const totalDamageMin = (damageValue + bonusDamage + resultSneakValue) * totalDamageBonusMin + resultCritValue;
+    const totalDamageMax = (damageValue + bonusDamage + resultSneakValue) * totalDamageBonusMax + resultCritValue;
     const explosiveValueMin = (damageValue + bonusDamage) * totalDamageBonusMin * resultDamage.explosive / 100.0;
     const explosiveValueMax = (damageValue + bonusDamage) * totalDamageBonusMax * resultDamage.explosive / 100.0;
     let explosiveText = explosiveValueMin.toFixed(1);
@@ -134,9 +137,9 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
                 <Card.Body className="pt-0 pb-0 ps-2 pe-2">
                     {getRow("Base Damage:", result.base, "default", "purple")}
                     {getRow("Bonus:", result.bonus, "default", "purple")}
+                    {getRow("Sneak:", result.sneak, "default", "purple", resultDamage.isSneak)}
                     {getRow("Total Bonus:", result.totalBonus, "default", "purple")}
                     {getRow("Explosive:", result.explosive + "%", "default", "purple", showExplosive(damageData, resultDamage))}
-                    {getRow("Sneak:", result.sneak, "default", "purple", resultDamage.isSneak)}
                     {getRow("Crit:", result.crit, "default", "purple", resultDamage.isCrit)}
                 </Card.Body>
                 <Card.Footer className="ps-2 pe-2 text-muted">

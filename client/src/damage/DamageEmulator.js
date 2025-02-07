@@ -32,7 +32,7 @@ export default class DamageEmulator {
     }
 
     // timeLimit = ["Average", time], ["creaturename", time]
-    emulate(steps=50000, timeLimit=null) {
+    emulate(steps=10000, timeLimit=null) {
         const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
         for (; step < steps; step++) {
@@ -62,6 +62,7 @@ export default class DamageEmulator {
 
         return  {
             weaponName: this.weapon.getName(),
+            weaponType: this.weapon.getType(),
             defaultWeaponName: this.weapon.getDefaultName(),
             damageDetails: this.weapon.getDamages(),
             expDTypeBonus: this.weapon.getExplosiveDamageTypeBonus(),

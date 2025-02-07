@@ -1,11 +1,12 @@
 import { getField, getResolvedField } from './ViewHelper';
-import getPerk from './Perk';
+import getPerks from './PerkProvider';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import { getSpellHeader, getEffectsForPopover } from './SpellView';
 import { getActorData } from '../templates/EffectPopover';
 import getSpell from './Spell';
 
+// TODO: Deprecated. Must be deleted in the future.
 
 const kind = {1: "Float", 3: "List", 4: "Activate", 5: "Spell", 8: "Actor", 9: "Item"};
 
@@ -15,14 +16,14 @@ export default function perkPopover(perk) {
     );
 }
 
-function getEffects(effects, width) {
+export function getEffects(effects, width) {
     const result = [];
     for (let i = 0; i < effects.length; i++) {
         const effect = effects[i];
         const vType = effect.v_type;
         if (vType === 8) {
             result.push(buildEightEffect(effect, width, kind[vType]));
-        } else if (vType === 5) {
+        } else if (vType === 5 || vType === 0) {
             result.push(buildFifthEffect(effect, width, kind[vType]));
         } else if (vType === 1) {
             result.push(buildFirstEffect(effect, width, kind[vType]));
@@ -86,7 +87,7 @@ function buildEightEffect(effect, width, kind) {
 }
 
 export function getPerkContent(perkId, width='20rem') {
-    const perk = getPerk().get(perkId);
+    const perk = getPerks().get(perkId);
     return (
         <Row>
             {getField(perk, 'Id:', 'id', 'default', width)}

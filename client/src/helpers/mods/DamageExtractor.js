@@ -1,7 +1,7 @@
 import getAmmo from '../Ammo';
 import getProj from '../Proj';
 import getSpell from '../Spell';
-import getPerk from '../Perk';
+import getPerks from '../PerkProvider';
 import { getTemplateCopyById } from '../TemplatesRegister';
 
 export default class DamageExtractor {
@@ -366,7 +366,7 @@ export default class DamageExtractor {
 
     extractPerk(perkId, result, parent, destructible, curWeapId) {
         if (perkId && perkId !== '00000000' && perkId !== '') {
-            const perk = getPerk().get(perkId);
+            const perk = getPerks().get(perkId);
             const effects = perk.effects;
             for (let i = 0; i < effects.length; i++) {
                 const effect = effects[i];

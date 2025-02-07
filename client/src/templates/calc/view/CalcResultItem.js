@@ -8,7 +8,7 @@ import ModsCalcRowView from './ModsCalcRowView';
 import EmblemCalcRowView from './EmblemCalcRowView';
 import { memo } from 'react';
 import ConsumablesBuilder from '../../../boostStuff/ConsumablesBuilder';
-import getPerkImage from '../../../boost/PerkImageProvider';
+import getPerkImage from '../../../perkCardBoosts/PerkImageProvider';
 
 
 const CalcResultItem = memo(function CalcResultItem(props) {

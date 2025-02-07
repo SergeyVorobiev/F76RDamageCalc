@@ -11,6 +11,10 @@ function createMap() {
 
 const iMap = createMap();
 
-export default function getPerk() {
+export default function getPerks() {
     return iMap;
+}
+
+export function getPerk(id) {
+    return getPerks().get(id);
 }

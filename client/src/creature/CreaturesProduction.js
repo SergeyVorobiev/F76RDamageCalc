@@ -15,16 +15,14 @@ export default class CreaturesProduction {
         return creatures;
     }
 
-    static produceByArmor(armor, reduction, headShot) {
-        const dummy = getDummy();
+    static produceByArmor(creatureInfo, armor) {
+        const dummy = getDummy(creatureInfo);
         dummy.b = armor[0];
         dummy.e = armor[1];
         dummy.f = armor[2];
         dummy.p = armor[3];
         dummy.c = armor[4];
         dummy.r = armor[5];
-        dummy.damageReduction = reduction;
-        dummy.headShot = headShot;
         return new Creature(dummy);
     }
 }

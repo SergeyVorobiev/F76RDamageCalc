@@ -13,11 +13,8 @@ function buildPopover() {
         <Popover className="popover-adjustable">
             <Popover.Header as="h3"><strong>Team</strong></Popover.Header>
             <Popover.Body>
-                <p>When 'Strange in numbers' is activated the calculator considers that your teammates have mutations you have.</p>
-
-                <p>Mutation bonuses are increased on hardcoded inside of perks / spells values, which can be seen in data sheet.</p>
-
-                <p>Not all effects are presented in consumables, usually only those whose values are important for damage.</p>
+                <p>When 'Strange in numbers' is activated the calculator considers that you have at least one teammate and your teammates have mutations you have.</p>
+                <p>Not all effects are presented in consumables section, usually only those whose values are important for damage. More comprehensive list of consumables with details can be seen under 'Main' section.</p>
             </Popover.Body>
         </Popover>
     );
@@ -31,10 +28,12 @@ function qa() {
     );
 }
 
-function ANRow({player, setPlayer, boostDamage}) {
+function ANRow({player, setPlayer, boostDamage, setBoostDamage}) {
     function changeTeam(e) {
         player.team = !player.team;
+        boostDamage.toft.displayed_value = (player.team) ? boostDamage.toft.value : 0.0;
         setPlayer({...player});
+        setBoostDamage({...boostDamage});
     }
     const value = (player.team && boostDamage.strange_in_numbers.is_used) ? 25.0: 0;
     return (
