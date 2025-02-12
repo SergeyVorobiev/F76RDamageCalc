@@ -53,6 +53,9 @@
     }
     .navbar {
         height: 5rem;
+        background: linear-gradient(#ffffff, #f8f2f2);
+        border-radius: 0px 0px 10px 10px;
+        outline: 1px solid #bdb499;
     }
     .navbar-logo {
         height: 3rem;
@@ -83,6 +86,9 @@
     }
     .navbar {
         height: 4rem;
+        background: linear-gradient(#ffffff, #f8f2f2);
+        border-radius: 0px 0px 10px 10px;
+        outline: 1px solid #bdb499;
     }
     .navbar-image {
         height: 3rem;
@@ -219,13 +225,11 @@
 }
 
 .shadow-outline-ammo {
-    color: #421d00;
-    box-shadow: 0 1px 0px 0 rgba(0,0,0,0.2), 0 1px 1px 0 #827062;
+    color: #082d41;
+    box-shadow: 0 0.8px 0.5px 0 #627082;
     text-shadow:
-        0px 0px 0.4px #692e00,
-        0px 0px 0.4px #692e00,
-        0px 0px 0.4px #692e00,
-        0px 0px 0.4px #692e00;
+        0px 0px 0.4px #004469,
+        0px 0px 0.4px #004469;
 }
 
 .shadow-outline2 {
@@ -253,6 +257,10 @@
 
 .shadow-gold {
     box-shadow: 0 1px 3px 0 #ffbf00, 0 1px 3px 0 #ffbf00;
+}
+
+.shadow-gold2 {
+    box-shadow: 0 0px 2px 0 #ffbf00;
 }
 
 .shadow-card-gold {
@@ -303,7 +311,7 @@
 .shadow-blue {
     text-shadow:
         0px 0px 0.1px #002a51;
-    box-shadow: 0 1px 3px 0 #002547, 0 0px 0px 0 #ffebdd;
+    box-shadow: 0 1px 2px 0 #3f3f52;
 }
 
 .mod-item-shadow {
@@ -510,6 +518,41 @@
     height: 1200px;
 }
 
+.strength-outline-card {
+    box-shadow:
+        0 3px 2px 0 #4d7652;
+}
+
+.perception-outline-card {
+    box-shadow:
+        0 3px 2px 0 #75694c;
+}
+
+.charisma-outline-card {
+    box-shadow:
+        0 3px 2px 0 #a88737;
+}
+
+.intelligence-outline-card {
+    box-shadow:
+        0 3px 2px 0 #6b665b;
+}
+
+.agility-outline-card {
+    box-shadow:
+        0 3px 2px 0 #93786c;
+}
+
+.luck-outline-card {
+    box-shadow:
+        0 3px 2px 0 #8b7d93;
+}
+
+.legendary-outline-card {
+    box-shadow:
+        0 3px 2px 0 #445453;
+}
+
 .bg-strength-card {
     background-color: var(--bg-strength-card-color) !important;
     color: #fff !important;
@@ -589,11 +632,11 @@
 .version-text {
     font-family: sans-serif;
     text-transform: capitalize;
-    color: #b8c1cd;
-    font-size: .7rem;
+    color: #7d94b1;
+    font-size: .68rem;
     text-shadow:
-        1px 1px 1px #08294f,
-        0px 1px 0px #0e5ac4;
+        0px 0.7px 0.7px #08294f,
+        0px 0.7px 0px #24559a;
     letter-spacing: 1px;
 }
 
@@ -685,12 +728,11 @@
 .tag {
     width: fit-content;
     max-width: 100%;
-    max-height: 1.7rem;
     font-size: 0.7rem;
     font-weight: bold;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
-    padding-top: 0.1rem;
+    padding-top: 0.12rem;
     padding-bottom: 0.1rem;
     background-color: #ffede1;
     border-radius: 2px;
@@ -711,6 +753,14 @@
         0px 0px 0.4px #08294f;
 
     letter-spacing: 1px;
+}
+
+.footer {
+    background: linear-gradient(#f8f2f2, #fffcfc);
+    border-radius: 10px 10px 0px 0px;
+    outline: 1px solid #bdb499;
+    margin-top: auto;
+    bottom: 0px;
 }
 
 

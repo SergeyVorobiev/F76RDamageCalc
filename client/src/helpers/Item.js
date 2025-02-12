@@ -4,6 +4,10 @@ import {getAverageTimeMillis } from "../entities/ECreatures";
 
 export function getHotPercentage(creatures) {
     const time = getAverageTimeMillis(creatures);
+    return timeToPercent(time);
+}
+
+export function timeToPercent(time) {
     let percent = 0;
     if (time <= 30000) {
         percent = 100;

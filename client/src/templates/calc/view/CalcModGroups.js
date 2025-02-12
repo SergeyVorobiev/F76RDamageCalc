@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Divider } from 'antd';
 import { UCheckbox } from '../../../viewComponents/checkbox/UCheckbox';
+import GroupView from '../../../helpers/views/GroupView';
 import PickedGroups from './PickedGroups';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 
@@ -33,14 +33,16 @@ function getModItem(name, groups, onGroupChange) {
     const checked = groups[name];
     const outline = (checked) ? "shadow-blue" : "";
     return (
-        <Col key={name}>
-            <InputGroup className="mb-1 mt-1 flex-nowrap justify-content-center">
-                <InputGroup.Text className={outline} style={{ width: '2.8rem'}}>
-                    <UCheckbox title={name} onChange={onGroupChange} checked={checked}></UCheckbox>
-                </InputGroup.Text>
-                <InputGroup.Text className={outline} style={{ width: '15rem' }}><small>{name}</small></InputGroup.Text>
-            </InputGroup>
-        </Col>
+        <div key={name} className="col">
+            <GroupView className={outline}>
+                <InputGroup className="mb-1 mt-1 p-0 m-0 flex-nowrap justify-content-center">
+                    <InputGroup.Text style={{ width: '2.8rem'}}>
+                        <UCheckbox title={name} onChange={onGroupChange} checked={checked}></UCheckbox>
+                    </InputGroup.Text>
+                    <InputGroup.Text style={{ width: '15rem' }}><small>{name}</small></InputGroup.Text>
+                </InputGroup>
+            </GroupView>
+        </div>
     );
 }
 

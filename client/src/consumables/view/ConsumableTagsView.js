@@ -5,7 +5,7 @@ import ConsumableTools from '../ConsumableTools';
 function getTagView(tag, color) {
     const tagName = ConsumableTools.getTagName(tag);
     return (
-        <Tag key={tagName} className="mt-1" bordered={true} color={color}>
+        <Tag key={tagName} className="mt-1 m-auto d-flex" bordered={true} color={color}>
             <b><small>{ConsumableTools.removePrefixSuffix(tagName)}</small></b>
         </Tag>
     );

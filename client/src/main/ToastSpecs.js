@@ -33,6 +33,7 @@ function getLegendaryRow(legendaryId, star) {
 }
 
 const ToastSpecs = memo(function ToastSpecs({creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage}) {
+    console.log("ToastSpecs");
     const [showView, setShowView] = useState("Main");
     const [detailIndex, setDetailIndex] = useState(-1);
     const [creatureNumber, setCreatureNumber] = useState(1);

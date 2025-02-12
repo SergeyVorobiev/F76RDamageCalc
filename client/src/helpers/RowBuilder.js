@@ -25,10 +25,10 @@ export function keyValueRow(name, value, colorName="purple", colorValue="red", m
 export function leftRight(left, right, xsLeft=6, xsRight=6, rowClass=null) {
     return (
         <Row key={k++} className={rowClass}>
-            <Col xs={xsLeft} className="d-flex justify-content-start pe-0">
+            <Col xs={xsLeft} className="d-flex justify-content-start ps-1 pe-0">
                 {left}
             </Col>
-            <Col xs={xsRight} className="d-flex justify-content-end ps-0">
+            <Col xs={xsRight} className="d-flex justify-content-end ps-0 pe-1">
                 {right}
             </Col>
         </Row>

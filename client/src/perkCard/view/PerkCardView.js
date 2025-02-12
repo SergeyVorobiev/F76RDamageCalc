@@ -28,6 +28,7 @@ const questionPopoverBody = (
 const questionPopover = new StaticPopoverRenderer(questionPopoverHeader, questionPopoverBody, 'PerkCardQuestionPopoverPlace');
 
 const PerkCardView = memo(function PerkCardView() {
+    console.log("PerkCardView");
     const [currentItem, setCurrentItem] = useState(null);
     const [showToast, setShowToast] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);

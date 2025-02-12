@@ -11,7 +11,7 @@ const Logo = React.lazy(() => import('./Logo'));
 const F76NavBar = memo(function F76NavBar() {
     console.log("NavBar");
     return (
-        <Navbar className="p-0 ps-1 mb-2 ms-1 me-1 navbar" style={{backgroundColor: "#f8f2f2", borderRadius: "0px 0px 10px 10px", outline: '1px solid #bdb499'}}>
+        <Navbar className="p-0 ps-1 mb-2 ms-1 me-1 navbar">
             <Container>
                 <Navbar.Brand>
                     <Suspense fallback={<></>}>

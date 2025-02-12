@@ -2,9 +2,12 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import { Progress } from 'antd';
 import ResistanceChart from './ResistanceChart';
+import { timeToPercent } from '../helpers/Item';
 
 
 export default function GraphInfoView(props) {
+    const creature = props.creatures["creature" + props.creatureChartNumber];
+    const cPercent = timeToPercent(creature.lifeTime);
     return (
         <Card className={props.className}>
             <Card.Header>
@@ -18,7 +21,7 @@ export default function GraphInfoView(props) {
                         <Progress
                             type="dashboard"
                             steps={50}
-                            percent={props.percent}
+                            percent={cPercent}
                             format={(percent) => percent}
                             size={28}
                             strokeColor={props.colors}

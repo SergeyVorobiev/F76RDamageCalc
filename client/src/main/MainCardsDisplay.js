@@ -74,7 +74,7 @@ const MainCardsDisplay = memo(function MainCardsDisplay(props) {
                         <Accordion.Header className="m-0 p-0">
                             <HotMeter creatures={props.creatures} steps={50} colors={colors} />
                         </Accordion.Header>
-                        <Accordion.Body style={{backgroundColor: "#fafcff"}} >
+                        <Accordion.Body>
                             <DamageDetails resultDamage={props.resultDamage}></DamageDetails>
                         </Accordion.Body>
                     </Accordion.Item>

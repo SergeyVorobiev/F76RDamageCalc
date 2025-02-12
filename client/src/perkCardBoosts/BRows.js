@@ -5,6 +5,7 @@ import '../css/style.css'
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import { WarningPopover } from '../helpers/WarningPopover';
+import GroupView from '../helpers/views/GroupView';
 import { calculateSpecial } from './BoostHelpers';
 import getPerkImage from './PerkImageProvider';
 import { getMark } from '../templates/calc/view/EmblemCalcRowView';
@@ -18,9 +19,13 @@ function getPerkColor(category) {
     return "bg-" + category.toLowerCase() + "-card";
 }
 
-function badgeIf(value, condition, onClick, style) {
+function getPerkOutline(category) {
+    return category.toLowerCase() + "-outline-card";
+}
+
+function badgeIf(value, condition, onClick) {
     if (condition) {
-        return (<Button className={"p-1" + style} onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
+        return (<Button className={"p-1"} onClick={onClick} style={{width: '2.5rem'}} variant="warning">{value}</Button>)
     }
     return (<></>)
 }
@@ -110,32 +115,34 @@ function getItem(card, setBoostDamage, boostDamage, cardType, setCardType, xBadg
             </>
         );
     }
-    const outline = card.is_used ?  " shadow-outline" : "";
+    const outline = card.is_used ?  getPerkOutline(card.category) : "";
     const w = (xBadge) ? '9rem' : '11.5rem';
     const perkColor = getPerkColor(card.category);
     const cName = "btn text-start " + perkColor;
-    const filter = card.is_used ? "grayscale(0%)" : "grayscale(40%)";
+    const filter = card.is_used ? "grayscale(0%) contrast(1.1)" : "grayscale(80%) contrast(1.1)";
     const imagePath = getPerkImage(card.im_name);
     const header = <div className="d-flex center-text">{getMark(card.im_name, imagePath, "mt-0 mb-0 ms-0 me-3 shadow-outline-gold2", '2rem', '1.8rem', '4px')}{card.name}</div>
     const bgCardColor = getComputedStyle(document.documentElement).getPropertyValue("--" + perkColor + "-color");
     return (
         <Col className="ps-1 pe-1">
-            <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
-                <InputGroup.Text className={"ps-2 pe-2" + outline} >
-                    <UCheckbox onChange={isUsed} checked={card.is_used} checkBorderColor={bgCardColor} checkBgColor={bgCardColor}></UCheckbox>
-                </InputGroup.Text>
-                <Button className={cName + outline} style={{width: w}} onClick={onClick}>
-                    <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
-                    {card.name}
-                </Button>
-                {badgeIf("x" + card.x, xBadge, onClickX, outline)}
-                <InputGroup.Text className={"justify-content-center p-0" + outline} style={{width: '3.5rem'}}>
-                    <div className={"badge " + perkColor} style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
-                </InputGroup.Text>
-                <InputGroup.Text className={"ps-1 pe-1 p-0" + outline}>
-                    <WarningPopover element={infoButton()} message={getInfo()} header={header} className="popover-adjustable2" />
-                </InputGroup.Text>
-            </InputGroup>
+            <GroupView className={outline}>
+                <InputGroup className="justify-content-center mb-1 mt-1 flex-nowrap" style={{filter: filter}}>
+                    <InputGroup.Text className={"ps-2 pe-2"} >
+                        <UCheckbox onChange={isUsed} checked={card.is_used} checkBorderColor={bgCardColor} checkBgColor={bgCardColor}></UCheckbox>
+                    </InputGroup.Text>
+                    <Button className={cName} style={{width: w}} onClick={onClick}>
+                        <Badge className="ms-0 me-2" bg="warning">{card.cost[card.rank - 1]}</Badge>
+                        {card.name}
+                    </Button>
+                    {badgeIf("x" + card.x, xBadge, onClickX)}
+                    <InputGroup.Text className={"justify-content-center p-0"} style={{width: '3.5rem'}}>
+                        <div className={"badge " + perkColor} style={{width: '2.7rem'}}>{card.displayed_value}{symbol}</div>
+                    </InputGroup.Text>
+                    <InputGroup.Text className={"ps-1 pe-1 p-0"}>
+                        <WarningPopover element={infoButton()} message={getInfo()} header={header} className="popover-adjustable2" />
+                    </InputGroup.Text>
+                </InputGroup>
+            </GroupView>
         </Col>
     );
 }

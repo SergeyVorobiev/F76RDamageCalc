@@ -165,7 +165,7 @@ export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
     return (
         <Popover title="CreatureInfoPopover" className="popover-adjustable">
             <Popover.Header className="d-flex justify-content-center"><strong style={{fontSize: '0.9rem'}}>{capitalized} (Level: {creature.level})</strong></Popover.Header>
-            <Popover.Body className="popover-body3 ms-1 me-1">
+            <Popover.Body className="popover-body3 ms-1">
                 {buildCreatureInfo(creature, resultDamage, true, weaponName)}
             </Popover.Body>
         </Popover>

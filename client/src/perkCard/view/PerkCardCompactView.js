@@ -73,7 +73,7 @@ export default function PerkCardCompactView(props) {
         <div>
             {idNameRow(perkCard.id, perkCard.name)}
             {buildTextBlock(desc, null, null, "mt-2 p-1")}
-            <div className="mt-3 mb-3" style={{display: 'flex', flexDirection: 'row'}}>
+            <div className="mt-3 mb-3 ms-1 me-1" style={{display: 'flex', flexDirection: 'row'}}>
                 <div className="w-100 d-flex justify-content-start">
                     {legBadge}
                 </div>

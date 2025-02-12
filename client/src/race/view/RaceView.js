@@ -65,6 +65,7 @@ function getRaceBodyView(race) {
 }
 
 const RaceView = memo(function RaceView() {
+    console.log("RaceView");
     const [raceName, setRaceName] = useState(null);
     let race = null;
     if (raceName) {

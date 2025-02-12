@@ -8,9 +8,32 @@ export function calcDamage(weaponFactory, creaturesInfo) {
     return new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creaturesInfo).emulate();
 }
 
-export function graphDamage(creaturesInfo, weaponFactory) {
+function buildGraphValues(xValues, yValues, creaturesInfo, weapon, shotsPerSecond, crit=true) {
+    weapon.setEnableCrit(crit);
+    for (let i = 0; i < xValues.length; i++) {
+        const xValue = xValues[i];
+        const armor = [xValue, xValue, xValue, xValue, xValue, xValue];
+        const creature = CreaturesProduction.produceByArmor(creaturesInfo, armor);
+        creature.reduceArmor(weapon.getAntiArmor());
+        creature.takeDamage(weapon.getMaxHit());
+        yValues.push(creature.getLastTotalDamage() * shotsPerSecond);
+    }
+}
+
+export function graphDamage(creaturesInfo, weaponFactory, accuracy=100) {
     const weapon = weaponFactory.build(WeaponFactory.DEFAULT, creaturesInfo);
     weapon.setAlwaysMaxHit(true);
+
+    // We multiply result by headShot frequency later, to calc correct dps
+    weapon.setEnableHeadShot(false);
+    const headShotPercent = weapon.getHeadShotFrequency() / 100.0;
+    const normalShotPercent = 1 - headShotPercent;
+    const headShotMult = creaturesInfo.headShot;
+    const critFreq = weapon.getCritShotFrequency()
+    const normalShotCount = (critFreq > 0) ? critFreq - 1 : 1;
+    const critShotCount = (critFreq > 0) ? 1 : 0;
+    const shotSum = normalShotCount + critShotCount;
+    accuracy = accuracy / 100.0;
 
     // In case we have only 1 ammo to not count reloading
     weapon.disableReloadTimeCounting();
@@ -33,6 +56,7 @@ export function graphDamage(creaturesInfo, weaponFactory) {
     weapon.setFirstBloodBonus(0);
     weapon.setLastShotBonus(0);
     let yValues = [];
+    let yValuesNoCrit = [];
     let xValues = [];
     const r = (creaturesInfo.immuneToRadiation) ? 0 : creaturesInfo.r;
     const p = (creaturesInfo.immuneToPoison) ? 0 : creaturesInfo.p;
@@ -56,13 +80,15 @@ export function graphDamage(creaturesInfo, weaponFactory) {
     for (let i = 0; i <= points; i++) {
         xValues.push(Math.ceil(coef * i));
     }
-    for (let i = 0; i < xValues.length; i++) {
-        const xValue = xValues[i];
-        const armor = [xValue, xValue, xValue, xValue, xValue, xValue];
-        const creature = CreaturesProduction.produceByArmor(creaturesInfo, armor);
-        creature.reduceArmor(weapon.getAntiArmor());
-        creature.takeDamage(weapon.getMaxHit());
-        yValues.push(creature.getLastTotalDamage() * shotsPerSecond);
+    buildGraphValues(xValues, yValues, creaturesInfo, weapon, shotsPerSecond);
+    buildGraphValues(xValues, yValuesNoCrit, creaturesInfo, weapon, shotsPerSecond, false);
+    for (let i = 0; i < yValues.length; i++) {
+        const yVal = yValues[i];
+        const yValNoCrit = yValuesNoCrit[i];
+        let result = (yVal * critShotCount + yValNoCrit * normalShotCount) / shotSum;
+        result = result * headShotMult * headShotPercent + result * normalShotPercent;
+        result = result * accuracy;
+        yValues[i] = result;
     }
 
     return {
