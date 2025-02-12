@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/F76RDamageCalc/static/css/main.2d3acc08.css",
-    "main.js": "/F76RDamageCalc/static/js/main.46a12048.js",
-    "static/js/844.2fa6ba76.chunk.js": "/F76RDamageCalc/static/js/844.2fa6ba76.chunk.js",
+    "main.css": "/F76RDamageCalc/static/css/main.6e507e43.css",
+    "main.js": "/F76RDamageCalc/static/js/main.413c9a69.js",
+    "static/js/844.25493194.chunk.js": "/F76RDamageCalc/static/js/844.25493194.chunk.js",
     "static/js/758.49ba31a0.chunk.js": "/F76RDamageCalc/static/js/758.49ba31a0.chunk.js",
     "static/js/867.7484ea86.chunk.js": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js",
-    "static/js/347.763b2493.chunk.js": "/F76RDamageCalc/static/js/347.763b2493.chunk.js",
+    "static/js/230.ee6becfe.chunk.js": "/F76RDamageCalc/static/js/230.ee6becfe.chunk.js",
     "static/media/03_Perks_.webp": "/F76RDamageCalc/static/media/03_Perks_.41c790afd5426f072ac9.webp",
     "static/media/broadsider.webp": "/F76RDamageCalc/static/media/broadsider.01be961ac9dbbb55df15.webp",
     "static/media/05_Crit-Scorched_test.webp": "/F76RDamageCalc/static/media/05_Crit-Scorched_test.9ef2bf6fa320ee24bec9.webp",
@@ -392,15 +392,15 @@
     "static/media/baton.webp": "/F76RDamageCalc/static/media/baton.1c595e18d9b01c5dcd33.webp",
     "static/media/spear.webp": "/F76RDamageCalc/static/media/spear.60fae458380550b4b532.webp",
     "index.html": "/F76RDamageCalc/index.html",
-    "main.2d3acc08.css.map": "/F76RDamageCalc/static/css/main.2d3acc08.css.map",
-    "main.46a12048.js.map": "/F76RDamageCalc/static/js/main.46a12048.js.map",
-    "844.2fa6ba76.chunk.js.map": "/F76RDamageCalc/static/js/844.2fa6ba76.chunk.js.map",
+    "main.6e507e43.css.map": "/F76RDamageCalc/static/css/main.6e507e43.css.map",
+    "main.413c9a69.js.map": "/F76RDamageCalc/static/js/main.413c9a69.js.map",
+    "844.25493194.chunk.js.map": "/F76RDamageCalc/static/js/844.25493194.chunk.js.map",
     "758.49ba31a0.chunk.js.map": "/F76RDamageCalc/static/js/758.49ba31a0.chunk.js.map",
     "867.7484ea86.chunk.js.map": "/F76RDamageCalc/static/js/867.7484ea86.chunk.js.map",
-    "347.763b2493.chunk.js.map": "/F76RDamageCalc/static/js/347.763b2493.chunk.js.map"
+    "230.ee6becfe.chunk.js.map": "/F76RDamageCalc/static/js/230.ee6becfe.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2d3acc08.css",
-    "static/js/main.46a12048.js"
+    "static/css/main.6e507e43.css",
+    "static/js/main.413c9a69.js"
   ]
 }
