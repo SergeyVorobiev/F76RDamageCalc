@@ -30,6 +30,7 @@ function getDamageViews(resultDamage) {
 
 
 const DamageDetails = memo(function DamageDetails({resultDamage}) {
+    console.log("DamageDetails");
     if (!resultDamage) {
         return (<></>);
     }

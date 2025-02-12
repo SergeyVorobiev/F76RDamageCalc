@@ -1,5 +1,3 @@
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
 import ADRow from "./ADRow";
 import { memo } from 'react';
 
@@ -46,20 +44,16 @@ const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdd
     };
 
     return (
-        <Container fluid className="ps-0 pe-0">
-            <Card className="text-center mb-2">
-                <Card.Body>
-                    <ADRow additionalDamage={additionalDamages.tdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks100P} text={qTDB}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.ballisticBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.energyBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.fireBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.poisonBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.coldBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.radBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                    <ADRow additionalDamage={additionalDamages.damageToCreature} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
-                </Card.Body>
-            </Card>
-        </Container>
+        <div>
+            <ADRow additionalDamage={additionalDamages.tdb} updateAdditionalDamages={updateAdditionalDamages} marks={marks100P} text={qTDB}></ADRow>
+            <ADRow additionalDamage={additionalDamages.ballisticBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.energyBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.fireBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.poisonBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.coldBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.radBDB} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+            <ADRow additionalDamage={additionalDamages.damageToCreature} updateAdditionalDamages={updateAdditionalDamages} marks={marks200}></ADRow>
+        </div>
     );
 });
 

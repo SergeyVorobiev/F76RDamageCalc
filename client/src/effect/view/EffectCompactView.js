@@ -6,6 +6,7 @@ import { getExpView } from '../../helpers/ProjView';
 function checkEmpty(obj) {
     return (!obj || obj === "" || obj === "00000000");
 }
+
 function getPerk(perkId, onEffectClick) {
     if (checkEmpty(perkId)) {
         return (<></>);
@@ -27,7 +28,7 @@ function getDamageType(damageType) {
     if (typeof damageType === typeof "") {
         return buildRow("Value:", damageType, 'purple', false);
     }
-    return (<>View for damage is not implemented</>);
+    return buildActor(damageType, "Damage type");
 }
 
 function getExplosion(explosion) {

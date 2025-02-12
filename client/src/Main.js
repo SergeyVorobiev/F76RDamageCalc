@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { WarningPopoverBadge } from './helpers/WarningPopover';
 import AdditionalDamage from "./main/AdditionalDamage";
 import MainCardsDisplay from "./main/MainCardsDisplay";
 import ToastSpecs from "./main/ToastSpecs";
@@ -49,6 +48,7 @@ function getDefaultGraphData() {
 }
 
 export default function Main() {
+    console.log("Main");
 
     const [key, setKey] = useState('Main');
 
@@ -162,7 +162,7 @@ export default function Main() {
         return (<LoadingLine text="Please Wait..."/>);
     }
     const b = (
-        <>
+        <div>
             <MainCardsDisplay creatureNamesRef={creatureNamesRef} wSpecRef={wSpecRef} graphValues={graphValues} resultDamage={resultDamage} creatures={creatures} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} setCreatures={setCreatures} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></MainCardsDisplay>
             <ToastSpecs creatures={creatures} legendary={wSpec.legendary} iconName={wSpec.iconName} weaponName={wSpec.defaultName} graphValues={graphValues} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage}></ToastSpecs>
             <Tabs
@@ -191,24 +191,7 @@ export default function Main() {
                      <Snapshots playerRef={playerRef} playerStatsRef={playerStatsRef} stuffBoostRef={stuffBoostRef} boostDamageRef={boostDamageRef} wSpecRef={wSpecRef} extraDamageRef={extraDamageRef} additionalDamagesRef={additionalDamagesRef} creaturesRef={creaturesRef} resultDamageRef={resultDamageRef} applySnapshotRef={applySnapshotRef}></Snapshots>
                 </Tab>
             </Tabs>
-
-            <div className="pb-1 ps-2 pe-2 pt-3 mt-1 ms-1 me-1" style={{backgroundColor: "#f8f2f2", borderRadius: "10px 10px 0px 0px", outline: '1px solid #bdb499'}}>
-                <table>
-                    <tr>
-                        <td className="version-text">
-                            <div><i>{Global.version1}</i></div>
-                            <div><i>{Global.version2}</i></div>
-                        </td>
-                        <td>
-                            <WarningPopoverBadge className="ms-3" sign="?" message={Global.versionMessage} header={'Game Version'} placement={'top'} />
-                        </td>
-                    </tr>
-                </table>
-                <div className="w-100 mt-1 d-flex justify-content-end">
-                    <div className="version-text-2">{Global.webVersion}</div>
-                </div>
-            </div>
-        </>
+        </div>
     );
     return b;
 }

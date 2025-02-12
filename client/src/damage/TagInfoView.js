@@ -6,8 +6,8 @@ import { Tag, Divider } from 'antd';
 function getTagView(tag) {
     return (
         <Col key={tag} className="m-1 ps-0 pe-0 d-flex justify-content-center">
-            <Tag className="m-1" bordered={true} color="volcano">
-                {tag}
+            <Tag className="m-1 shadow-gold2" bordered={true} color="volcano">
+                <b>{tag}</b>
             </Tag>
         </Col>
     );

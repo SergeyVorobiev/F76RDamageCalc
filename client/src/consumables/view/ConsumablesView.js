@@ -31,6 +31,7 @@ const questionPopoverBody = (
 const questionPopover = new StaticPopoverRenderer(questionPopoverHeader, questionPopoverBody, 'ConsumablesViewQuestionPopoverPlace');
 
 const ConsumablesView = memo(function ConsumablesView() {
+    console.log("ConsumablesView");
     const [currentItem, setCurrentItem] = useState(null);
     const [showToast, setShowToast] = useState(false);
     const [filterType, setFilterType] = useState('All');
@@ -43,7 +44,6 @@ const ConsumablesView = memo(function ConsumablesView() {
     }
     return (
         <div className="ps-1 pe-1 pb-2">
-
             <Accordion.Item eventKey="6">
                 <Accordion.Header>
                     <div id="ConsumablesViewQuestionPopoverPlace"></div>

@@ -31,6 +31,8 @@ export default class Weapon {
         this.sneak = weaponSpecsAssembler.getSneak();
         this.totalDamageBonus = weaponSpecsAssembler.getTotalDamageBonus();
         this.magazine = this.ammoCapacity;
+        this.enableCrit = true;
+        this.enableHeadShot = true;
         this.resultDamage = {bulletCount: this.shotSize, expDTypeBonus: this.explosiveDamageTypeBonus, lastShotBonus: 0, firstBloodBonus: this.firstBloodBonus, creatureDamageBonuses: this.creatureDamageBonuses, headShot: false, critShot: false, sneakShot: false, weaponType: this.weaponType,
             deltaTime: 0, powerAttack: this.powerAttack, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
             expBonus: this.explosiveBonus, sneak: this.sneak, totalDamageBonus: this.totalDamageBonus.value, critBoost: this.critBoost,
@@ -42,6 +44,14 @@ export default class Weapon {
         this.reloadsTotalTime = 0;
         this.hitCount = 0;
         this.hit();
+    }
+
+    setEnableCrit(flag) {
+        this.enableCrit = flag;
+    }
+
+    setEnableHeadShot(flag) {
+        this.enableHeadShot = flag;
     }
 
     getName() {
@@ -58,6 +68,10 @@ export default class Weapon {
 
     setLastShotBonus(value) {
         this.lastShotBonus = value;
+    }
+
+    getHeadShotFrequency() {
+        return this.headShotFrequency;
     }
 
     setFirstBloodBonus(value) {
@@ -182,8 +196,12 @@ export default class Weapon {
         return this.sneakShotFrequency !== 0;
     }
 
+    getCritShotFrequency() {
+        return this.critShotFrequency;
+    }
+
     isCrit() {
-        return this.critShotFrequency !== 0;
+        return this.critShotFrequency !== 0 && this.enableCrit;
     }
 
     // Result array is reused every hit, editing is prohibited as it contains ref data
@@ -215,14 +233,14 @@ export default class Weapon {
         this.resultDamage.deltaTime = dTime;
 
         // Head shot
-        if (this.headShotFrequency === 0) {
+        if (this.headShotFrequency === 0 || !this.enableHeadShot) {
             this.resultDamage.headShot = false;
         } else {
             this.resultDamage.headShot = this.chanceTriggered(this.headShotFrequency);
         }
 
         // Crit shot
-        if (this.critShotFrequency === 0) {
+        if (this.critShotFrequency === 0 || !this.enableCrit) {
             this.resultDamage.critShot = false;
         } else {
             this.resultDamage.critShot = this.hitIfFrequency(this.critShotFrequency);

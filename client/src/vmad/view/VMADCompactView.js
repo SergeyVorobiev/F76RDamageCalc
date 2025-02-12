@@ -11,7 +11,9 @@ function buildBody(vmad, id, onEffectClick) {
         if (type === "float" || type === "bool" || type === "int" || type === "string") {
             result.push(<div key={i}>{textBlock(obj.name, obj.value, obj.script_name)}</div>);
         } else if (type === "obj") {
-            result.push(<div key={i}>{objView(obj, onEffectClick)}</div>);
+            result.push(<div key={i}>{objView(obj.value, obj.name, obj.script_name, onEffectClick)}</div>);
+        } else if (type === "array_obj") {
+            result.push(<div key={i}>{objArrayView(obj, onEffectClick)}</div>);
         } else if (type === "struct") {
             result.push(<div key={i}><b>{obj.name} {obj.type}</b></div>);
         } else if (type === "struct_array") {
@@ -37,6 +39,20 @@ function vmadStruct(obj, vmad, id, onEffectClick) {
     )
 }*/
 
+function objArrayView(objArray, onEffectClick) {
+    const result = [];
+    const objs = objArray.value;
+    for (let i = 0; i < objs.length; i++) {
+        const obj = objs[i];
+        result.push(<div key={i}>{objView(obj, objArray.name, objArray.script_name, onEffectClick)}</div>);
+    }
+    return (
+        <div className="mt-1 mb-1 p-1 pb-0" style={{borderWidth: '1px', borderStyle: 'solid', borderColor: '#61faff', backgroundColor: '#eafdff'}}>
+            {result}
+        </div>
+    );
+}
+
 function structArrayView(obj, id, onEffectClick) {
     const result = [];
     const vmads = obj.value;
@@ -54,29 +70,32 @@ function structArrayView(obj, id, onEffectClick) {
     );
 }
 
-function effectButtonView(obj, value, onEffectClick) {
+function effectButtonView(obj, name, scriptName, onEffectClick) {
     return (
         <div className="mt-1 mb-1 p-1 pb-0" style={{borderWidth: '1px', borderStyle: 'solid', borderColor: '#ffd560', backgroundColor: '#fff4d7'}}>
-            <div className="d-flex justify-content-center"><small><b style={{color: '#5e4500'}}>{obj.name}</b></small></div>
-            {getEffectButton(value.id, onEffectClick)}
-            {getScriptName(obj)}
+            <div className="d-flex justify-content-center"><small><b style={{color: '#5e4500'}}>{name}</b></small></div>
+            {getEffectButton(obj.id, onEffectClick)}
+            {getScriptNameView(scriptName)}
         </div>
     );
 }
 
-function getScriptName(obj) {
-    return (<div style={{fontSize: '0.7rem'}} className="d-flex justify-content-end pt-1">{obj.script_name}</div>);
-}
-function objView(obj, onEffectClick) {
-    const value = obj.value;
-    if (value.label === 'SPEL' || value.label === 'MGEF' || value.label === 'PERK' || value.label === 'ALCH') {
-        return effectButtonView(obj, value, onEffectClick);
-    } else if (value.label === 'AVIF') {
-        return buildActor(value, obj.name, getScriptName(obj));
-    } else if (value.label === 'GLOB') {
-        return getGlobValue(obj.value, obj.name,<div className="d-flex justify-content-end pe-1"><small>{obj.script_name}</small></div>);
+function getScriptNameView(scriptName) {
+    if (!scriptName) {
+        return (<></>);
     }
-    return textBlock(obj.name, getNameByLabel(value.label) + " - (" + value.name + " / " + value.id + ")", obj.script_name);
+    return (<div style={{fontSize: '0.7rem'}} className="d-flex justify-content-end pt-1">{scriptName}</div>);
+}
+
+function objView(obj, name, scriptName, onEffectClick) {
+    if (obj.label === 'SPEL' || obj.label === 'MGEF' || obj.label === 'PERK' || obj.label === 'ALCH') {
+        return effectButtonView(obj, name, scriptName, onEffectClick);
+    } else if (obj.label === 'AVIF') {
+        return buildActor(obj, name, getScriptNameView(scriptName));
+    } else if (obj.label === 'GLOB') {
+        return getGlobValue(obj, name, getScriptNameView(scriptName));
+    }
+    return textBlock(name, getNameByLabel(obj.label) + " - (" + name + " / " + obj.id + ")", scriptName);
 }
 
 function buildView(vmad, id, onEffectClick) {

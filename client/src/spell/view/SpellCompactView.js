@@ -2,21 +2,22 @@ import { idNameRow, buildRow, buildActor, buildConditionStrings, buildCurve, bui
 import { Divider } from 'antd';
 
 
-function getEffects(effects, onEffectClick) {
+export function getEffects(effects, onEffectClick) {
     const result = [];
     for (let i = 0; i < effects.length; i++) {
         const effect = effects[i];
         const body = (
             <>
+                {getEffectButton(effect.m_effect, onEffectClick)}
+                <div className="m-1" />
                 {buildConditionStrings(effect.conditions, "mt-1 p-1")}
                 {buildCurve(effect.d_curv, effect.curve_max_value)}
-                {getGlobMagnitude(effect)}
                 {buildRow("Magnitude:", effect.magnitude, 'magenta', true, true)}
+                {getGlobMagnitude(effect)}
+                {buildRow("Duration:", effect.duration, 'purple', true, true)}
+                {getGlobDuration(effect)}
                 {buildRow("Area:", effect.area, 'blue', true, true)}
                 {buildActor(effect.actor)}
-                {getGlobDuration(effect)}
-                {buildRow("Duration:", effect.duration, 'purple', true, true)}
-                {getEffectButton(effect.m_effect, onEffectClick)}
             </>
         );
         result.push(buildEffect(i, body));

@@ -5,10 +5,41 @@ import { getEffect, setVMADObject } from './EffectProvider';
 import { getItem } from '../consumables/view/ConsumableItems';
 
 
-const darkBlue = {
+export const blue = {
+    backgroundColor: '#f7fbff',
+    borderColor: '#0072a3',
+    color: '#005691',
+}
+
+export const orange = {
+    backgroundColor: '#fffaf0',
+    borderColor: '#ffa800',
+    color: '#b77100',
+}
+
+export const magenta = {
+    backgroundColor: '#fff1fa',
+    borderColor: '#ca007c',
+    color: '#830f57',
+}
+
+export const darkBlue = {
     backgroundColor: '#e6f7ff',
     borderColor: '#0085c6',
     color: '#003e5d',
+}
+
+export const indigo = {
+    backgroundColor: '#fdfaff',
+    borderColor: '#5a008a',
+    color: '#430067',
+}
+
+export const redRounded = {
+    backgroundColor: '#fff4f4',
+    borderColor: '#890000',
+    color: '#c90000',
+    borderRadius: '0.5rem',
 }
 
 export function getNameByLabel(label) {
@@ -38,29 +69,45 @@ export function getNameByLabel(label) {
     }
 }
 
+export function resolveEffectOrNull(effectId) {
+    if (typeof(effectId) === typeof({})) {
+        return effectId;
+    }
+    if (isEffectIdEmpty(effectId)) {
+        return null;
+    }
+    return getEffect(effectId);
+}
+
+export function isEffectIdEmpty(effectId) {
+    return (!effectId || effectId === "" || effectId === "00000000");
+}
+
 export function getVMADButton(effectId, vmad, onEffectClick, buttonName='VMAD') {
     const id = "vmad" + effectId;
     const vmadObject = {label: "VMAD", vmad: vmad, id: id};
     setVMADObject(id, vmadObject);
     return (
-        <Button className="w-100 p-1 mt-1" name={id} variant="blue-white-border" onClick={onEffectClick}>
+        <Button className="w-100 p-1 mt-1" name={id} variant="blue-border" onClick={onEffectClick}>
             {buttonName}
         </Button>
     );
 }
 
 export function getEffectButton(effectId, onEffectClick) {
+    if (isEffectIdEmpty(effectId)) {
+        return (<></>);
+    }
     let effect = getEffect(effectId);
     if (!effect) {
         effect = getItem(effectId);
         if (!effect) {
             return (<>Can not resolve effect: {effectId}</>);
         }
-
     }
     const name = (effect.full === "") ? effect.name : effect.full;
     return (
-        <Button className="w-100 p-0 mt-1" name={effectId} variant="blue-white-border" onClick={onEffectClick}>
+        <Button className="w-100 p-0 mt-1" name={effectId} variant="blue-border" onClick={onEffectClick}>
             <div><b><small>{name}</small></b></div>
             {leftRight2(<div className="mt-0" style={{fontSize: '.6rem'}}><b>{getNameByLabel(effect.label)}</b></div>,
             <div className="mt-0" style={{fontSize: '.6rem'}}>{effectId}</div>, -1, "w-100 ps-1 pe-1 p-0")}
@@ -109,11 +156,12 @@ export function buildTextBlock(text, header=null, footer=null, className="mt-2",
         return (<></>);
     }
     const headerView = (header) ? (<div className="mb-1"><b>{header}</b></div>) : (<></>);
+    const footerView = (footer) ? (<div className="mt-1">{footer}</div>) : (<></>);
     return (
         <div className={className} style={{fontSize: '0.7rem', borderWidth: '1px', borderStyle: 'solid', borderColor: borderColor, textAlign: 'center', textWrap: 'balance', backgroundColor: backgroundColor, color: color}}>
             {headerView}
             <div><b>{text}</b></div>
-            <div className="mt-1">{footer}</div>
+            {footerView}
         </div>
     );
 }
@@ -137,6 +185,20 @@ export function buildActor(actor, header="Actor", footer=null) {
                     {buildRow("Default value:", actor.def, 'purple')}
                     {buildRow("Min value:", actor.min, 'purple')}
                     {buildRow("Max value:", actor.max, 'purple')}
+                    {footer}
+                </Card.Body>
+            </Card>
+        );
+    } else if (label === "DMGT") {
+        return (
+            <Card className="mt-1 mb-1 m-0">
+                <Card.Header className='pt-0 pb-0'>
+                    <b><small>{header}</small></b>
+                </Card.Header>
+                <Card.Body className="p-1">
+                    {buildRow("Id:", actor.id, 'purple')}
+                    {buildRow("Name:", actor.name, 'purple')}
+                    {buildRow("Full:", actor.full, 'purple')}
                     {footer}
                 </Card.Body>
             </Card>

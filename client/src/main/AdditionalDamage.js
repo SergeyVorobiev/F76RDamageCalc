@@ -22,7 +22,7 @@ const AdditionalDamage = memo(function AdditionalDamage({additionalDamages, setA
                         <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>
                 </Accordion.Header>
-                <Accordion.Body className="ps-1 pe-1">
+                <Accordion.Body className="p-auto">
                     <AdditionalTable additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages}></AdditionalTable>
                 </Accordion.Body>
             </Accordion.Item>

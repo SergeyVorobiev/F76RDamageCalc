@@ -1,11 +1,10 @@
 import Card from 'react-bootstrap/Card';
 import { keyValueRow } from '../helpers/RowBuilder';
+import StackEffectView from '../helpers/views/StackEffectView';
 import { useEffect, memo, useState } from 'react';
 import { applyBoost, applyStuff } from '../entities/EStuffBoost';
 import InfoPopover from '../viewComponents/popover/InfoPopover';
 import { getItem } from '../consumables/view/ConsumableItems';
-import { mainView, detailsView } from '../consumables/view/ConsumableToast';
-import { Divider, Tag } from 'antd';
 import { buildRandomEmojiString, getRandomEmoji } from '../helpers/StringHelpers';
 
 
@@ -20,14 +19,7 @@ function getPopoverInfoBody(popoverId) {
     const item = getItem(popoverId);
     if (item) {
         return (
-            <>
-                <div className="d-flex justify-content-center mb-3">
-                    <Tag bordered={false} color="volcano"><b>{item.full}</b></Tag>
-                </div>
-                {mainView(item)}
-                <Divider><small>Details</small></Divider>
-                {detailsView(item)}
-            </>
+            <StackEffectView item={item} />
         );
     }
     return (<></>);

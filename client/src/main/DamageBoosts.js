@@ -6,6 +6,7 @@ import { memo } from 'react';
 
 
 const DamageBoosts = memo(function DamageBoosts({player, setPlayer, boostDamage, extraDamage, setBoostDamage, showStatRef, setShowStat}) {
+    console.log("DamageBoosts")
     const openStat = (e) => {
         setShowStat(!showStatRef.current);
         e.stopPropagation();

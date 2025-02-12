@@ -17,7 +17,6 @@ import SnapshotsHeader from '../snapshot/SnapshotsHeader';
 import SnapshotItems from '../snapshot/SnapshotItems';
 import '../css/style.css'
 import { memo, useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import WTypeDropdown from '../helpers/WTypeDropdown';
 import { TrashIcon, CollapseIcon, ExpandIcon } from '../icons/Icons';
 import { FloatButton } from 'antd';
@@ -163,7 +162,7 @@ const Snapshots = memo(function Snapshots(props) {
 
     // <div className="overflow-auto wrapper"></div>
     return (
-        <Container className="p-1">
+        <div className="p-0 m-1 mb-2">
             <Card className="text-center mb-0">
                 <div className='card-header'>
                     <SnapshotsHeader items={items} sortCreatureName={sortCreatureName} setSortCreatureName={setSortCreatureName} uniqueCreatureNames={uniqueCreatureNames} setModalDownloadSnapshots={setModalDownloadSnapshots} setModalUploadSnapshots={setModalUploadSnapshots} />
@@ -192,11 +191,9 @@ const Snapshots = memo(function Snapshots(props) {
                     </div>
                     <SnapshotItems onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} items={items} isOpen={isOpen} sortCreatureName={sortCreatureName} filterName={filterName} weaponType={weaponType} setModalDownloadSnapshot={setModalDownloadSnapshot} setModalUpdateItem={setModalUpdateItem} setModalRenameItem={setModalRenameItem} setModalDeleteItem={setModalDeleteItem} setModalApplyItem={setModalApplyItem} />
                 </Card.Body>
-                <Card.Footer className="text-muted">
-                </Card.Footer>
             </Card>
             <FloatButton.BackTop style={{ right: 120 }} duration={100} visibilityHeight={2000} />
-        </Container>
+        </div>
     );
 });
 
