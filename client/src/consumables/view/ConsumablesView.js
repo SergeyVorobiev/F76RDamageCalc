@@ -44,7 +44,7 @@ const ConsumablesView = memo(function ConsumablesView() {
     }
     return (
         <div className="ps-1 pe-1 pb-2">
-            <Accordion.Item eventKey="6">
+            <Accordion.Item eventKey="7">
                 <Accordion.Header>
                     <div id="ConsumablesViewQuestionPopoverPlace"></div>
                     <InputGroup>

@@ -34,7 +34,7 @@ const ModalNewItem = memo(function ModalNewItem(props) {
         if (name === '' || name === null) {
             name = "Weapon";
         }
-        const item = buildItem(props.id, name, props.player, props.playerStats, props.creatures, props.boostDamage, props.wSpec, props.extraDamage, props.additionalDamages, props.resultDamage, props.stuffBoost)
+        const item = buildItem(props.id, name, props.player, props.playerStats, props.creatures, props.boostDamage, props.wSpec, props.extraDamage, props.additionalDamages, props.resultDamage, props.stuffBoost);
         props.items.map.set(props.id, item);
         const nextId = props.id + 1;
         const newItems = {

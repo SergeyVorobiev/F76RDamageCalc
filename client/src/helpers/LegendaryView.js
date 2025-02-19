@@ -11,6 +11,15 @@ function formatName(legendaryName) {
     return legendaryName;
 }
 
+export function getLegendaryBoxView(legendaryName, starsCount) {
+    if (!legendaryName || legendaryName === "") {
+        return null;
+    }
+    let stars = "⭐";
+    stars = stars.repeat(starsCount);
+    return keyValueBadge("bg-yellow m-1 ps-1 pe-1 shadow-gold", '20rem', stars, formatName(legendaryName));
+}
+
 export default function LegendaryView({template}) {
     const isLeg1 = (Object.keys(template.legendary1).length > 0);
     const isLeg2 = (Object.keys(template.legendary2).length > 0);

@@ -21,7 +21,7 @@ const modParser = new ModParser();
 
 function getQuestionMark() {
     return (
-        <Badge className="ps-2 pe-2 mb-auto mt-auto" bg={"danger"} pill>?</Badge>
+        <Badge className="ps-2 pe-2 mb-auto mt-auto" bg={"danger"} style={{cursor: 'point'}} pill>?</Badge>
     );
 }
 

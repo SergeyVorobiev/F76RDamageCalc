@@ -13,6 +13,12 @@ export function LeftArrowIcon() {
     );
 }
 
+export function Arrow() {
+    return (
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24"><path d="M16,15a1,1,0,0,1-.707-.293L12,11.414,8.707,14.707a1,1,0,1,1-1.414-1.414l4-4a1,1,0,0,1,1.414,0l4,4A1,1,0,0,1,16,15Z" /></svg>
+    );
+}
+
 export function UploadIcon() {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">

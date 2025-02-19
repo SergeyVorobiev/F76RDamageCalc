@@ -210,12 +210,12 @@ export default class WeaponSpecsAssembler {
     }
 
     getSneak() {
-        let sneak = (this.perks.covert_operative.displayed_value > 0) ? (this.perks.covert_operative.displayed_value - 1.0) : 1.0;
+        const oper = (this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") ? 0 : this.perks.covert_operative.displayed_value
+        let sneak = (oper > 0) ? (oper - 1.0) : 1.0;
         let sandman = this.perks.mister_sandman.displayed_value / 100.0;
         sandman = (this.wSpec.tags.includes("HasSilencer")) ? sandman : 0;
 
-        // TODO: MeleeGeneral? (means including Unarmed) or just Melee type
-        const ninja = (this.wSpec.tags.includes("MeleeGeneral")) ? this.perks.ninja.displayed_value / 100.0 : 0.0;
+        const ninja = (this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") ? this.perks.ninja.displayed_value / 100.0 : 0.0;
         const weaponSneak = this.wSpec.sneak / 100.0;
         const stuffSneak = (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Sneak") / 100.0);
         return sneak + sandman + ninja + weaponSneak + stuffSneak;

@@ -1,7 +1,7 @@
 import InputGroup from 'react-bootstrap/InputGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import AdditionalTable from "../additional/AdditionalTable";
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { memo } from 'react';
 
 

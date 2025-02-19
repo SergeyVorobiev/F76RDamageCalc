@@ -3,6 +3,9 @@ import CreatureDataProvider from '../creature/CreatureDataProvider';
 
 
 export function getAverageTimeMillis(creatures) {
+    if (!creatures) {
+        return 0;
+    }
     const sum = parseInt(creatures.creature1.lifeTime) + parseInt(creatures.creature2.lifeTime)
      + parseInt(creatures.creature3.lifeTime) + parseInt(creatures.creature4.lifeTime);
     if (sum === 0) {

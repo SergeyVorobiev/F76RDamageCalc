@@ -16,11 +16,11 @@ function buildGraphValues(xValues, yValues, creaturesInfo, weapon, shotsPerSecon
         const creature = CreaturesProduction.produceByArmor(creaturesInfo, armor);
         creature.reduceArmor(weapon.getAntiArmor());
         creature.takeDamage(weapon.getMaxHit());
-        yValues.push(creature.getLastTotalDamage() * shotsPerSecond);
+        yValues.push(creature.getLastTotalDamageWithAccuracy() * shotsPerSecond);
     }
 }
 
-export function graphDamage(creaturesInfo, weaponFactory, accuracy=100) {
+export function graphDamage(creaturesInfo, weaponFactory, resistanceByAntiArmor=false, addResPoints=false, accuracy=100, pointsSize=0, staticResistance=0) {
     const weapon = weaponFactory.build(WeaponFactory.DEFAULT, creaturesInfo);
     weapon.setAlwaysMaxHit(true);
 
@@ -62,14 +62,21 @@ export function graphDamage(creaturesInfo, weaponFactory, accuracy=100) {
     const p = (creaturesInfo.immuneToPoison) ? 0 : creaturesInfo.p;
 
     // Max resistance with armor penetration
-    let maxRes = Math.max(...[creaturesInfo.b, creaturesInfo.e, creaturesInfo.f, p, creaturesInfo.c, r]);
-    if (maxRes > 0) {
-        const creature = CreaturesProduction.produceByArmor(creaturesInfo, [maxRes, maxRes, maxRes, maxRes, maxRes, maxRes]);
-        const cArmor = creature.reduceArmor(weapon.getAntiArmor()).getArmor();
-        maxRes = Math.max(...cArmor);
+    let maxRes = staticResistance;
+    const creatureRes = [creaturesInfo.b, creaturesInfo.e, creaturesInfo.f, p, creaturesInfo.c, r];
+    if (maxRes < 1) {
+        maxRes = Math.max(...creatureRes);
+        if (maxRes > 0 && resistanceByAntiArmor) {
+            const creature = CreaturesProduction.produceByArmor(creaturesInfo, [maxRes, maxRes, maxRes, maxRes, maxRes, maxRes]);
+            const cArmor = creature.reduceArmor(weapon.getAntiArmor()).getArmor();
+            maxRes = Math.max(...cArmor);
+        }
+    }
+    let points = pointsSize;
+    if (points < 1) {
+        points = Global.graphPoints;
     }
 
-    let points = Global.graphPoints;
     if (maxRes < 0) {
         maxRes = 0;
     }
@@ -79,6 +86,14 @@ export function graphDamage(creaturesInfo, weaponFactory, accuracy=100) {
     const coef = (points === 0) ? 0 : maxRes / points;
     for (let i = 0; i <= points; i++) {
         xValues.push(Math.ceil(coef * i));
+    }
+    if (addResPoints) {
+        for (let i = 0; i < creatureRes.length; i++) {
+            const res = creatureRes[i];
+            xValues.push(res);
+        }
+        xValues = [...new Set(xValues)]; // Get rid of duplicates
+        xValues.sort((a, b) => a - b);
     }
     buildGraphValues(xValues, yValues, creaturesInfo, weapon, shotsPerSecond);
     buildGraphValues(xValues, yValuesNoCrit, creaturesInfo, weapon, shotsPerSecond, false);

@@ -41,7 +41,7 @@ const PerkCardView = memo(function PerkCardView() {
     }
     return (
         <div className="ps-1 pe-1 pb-2">
-            <Accordion.Item eventKey="7">
+            <Accordion.Item eventKey="8">
                 <Accordion.Header>
                     <div id="PerkCardQuestionPopoverPlace"></div>
                     <InputGroup>

@@ -8,6 +8,7 @@ import App from './App';
 function windowSizeChanged() {
     const width =  window.innerWidth;
     const height = window.innerHeight;
+    document.documentElement.style.setProperty('--screen-width', width.toFixed(0) + "px");
     document.documentElement.style.setProperty('--screen-modal-body-height-80', (height * 0.8).toFixed(0) + "px");
     document.documentElement.style.setProperty('--screen-modal-body-width-80', (width * 0.8).toFixed(0) + "px");
     document.documentElement.style.setProperty('--screen-modal-body-height-70', (height * 0.7).toFixed(0) + "px");

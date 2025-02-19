@@ -6,6 +6,11 @@ import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
 import { getMagazine, getBobbleHead, getFood, getDrink, getPsycho, getSerum, getOther } from '../helpers/BoostStuffProvider';
+import Button from 'react-bootstrap/Button';
+import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
+import { leftRight2 } from '../helpers/RowBuilder';
+import LoadingModal from '../helpers/views/LoadingModal';
+import { useState } from 'react';
 
 
 function buildLicense() {
@@ -20,12 +25,43 @@ function buildLicense() {
     );
 }
 
-const BoostStuff = memo(function BoostStuff({foodPref, setFoodPref, magazines, setMagazines, bobbleHeads, setBobbleHeads, food, setFood, drink, setDrink, psycho, setPsycho, serum, setSerum, others, setOthers, player, setPlayer, stuffBoost, setStuffBoost, showStat, setShowStat, boostDamage, setBoostDamage, playerStats, setPlayerStats, setConsumableTouched}) {
+function getInfo() {
     return (
-        <Accordion className="accordion">
+        <div className="center-text">
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
-                <Badge className="mb-3 ms-4" variant="black" pill>!</Badge>
+                <Badge variant="black" pill>!</Badge>
             </OverlayTrigger>
+        </div>
+
+    );
+}
+
+const BoostStuff = memo(function BoostStuff({foodPref, setFoodPref, magazines, setMagazines, bobbleHeads, setBobbleHeads, food, setFood, drink, setDrink, psycho, setPsycho, serum, setSerum, others, setOthers, player, setPlayer, stuffBoost, setStuffBoost, showStat, setShowStat, boostDamage, setBoostDamage, playerStats, setPlayerStats, setConsumableTouched}) {
+    const [loading, setLoading] = useState(false);
+    function onClick(e) {
+        setLoading(true);
+        setTimeout(() => {
+            player.health.value = 100;
+            player.team = false;
+            setPlayer({...player});
+
+            playerStats.luck.value = 1;
+            playerStats.strength.value = 5;
+            setPlayerStats({...playerStats});
+
+            const [foodPref, allStuffBoosts, consumables] = ConsumablesBuilder.buildFromList([], player);
+            ConsumablesBuilder.setConsumableItems(consumables, setMagazines, setBobbleHeads, setFood, setDrink, setPsycho, setSerum, setOthers);
+            setFoodPref({...foodPref});
+            setStuffBoost({...allStuffBoosts});
+            setLoading(false);
+        }, 100);
+    }
+    return (
+        <Accordion>
+            <LoadingModal show={loading} />
+            <div className="ps-3 pe-3 mb-2">
+                {leftRight2(getInfo(), <Button size="sm" variant="warning" onClick={onClick}><b className="best-button-shadow">Reset</b></Button>)}
+            </div>
             <General eventKey="0" categoryName={"General"} showStat={showStat} setShowStat={setShowStat} player={player} setPlayer={setPlayer} boostDamage={boostDamage} setBoostDamage={setBoostDamage} playerStats={playerStats} setPlayerStats={setPlayerStats}></General>
             <EffectView eventKey="1" player={player} showStat={showStat} setShowStat={setShowStat} categoryName={"Magazines"} items={magazines} setItems={setMagazines} colorName={"orange"} colorValue={"orange"} cardHeight={'17.2rem'} picHeight={'12rem'} getPicture={getMagazine} useHeader={false} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={2} setConsumableTouched={setConsumableTouched} />
             <EffectView eventKey="2" showStat={showStat} setShowStat={setShowStat} categoryName={"Bobble Heads"} items={bobbleHeads} setItems={setBobbleHeads} colorName={"blue"} colorValue={"blue"} cardHeight={'13.4rem'} picHeight={'8rem'} getPicture={getBobbleHead} useHeader={true} stuffBoost={stuffBoost} setStuffBoost={setStuffBoost} maxRows={1} setConsumableTouched={setConsumableTouched} />

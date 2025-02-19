@@ -24,8 +24,10 @@ import ConsumablesBuilder from './boostStuff/ConsumablesBuilder';
 import RaceView from './race/view/RaceView';
 import PerkCardView from './perkCard/view/PerkCardView';
 import ConsumablesView from './consumables/view/ConsumablesView';
+import ComparatorView from './comparator/view/ComparatorView';
 import LoadingLine from './main/LoadingLine';
 import Global from './helpers/Global';
+import { Divider } from 'antd';
 
 
 const defPlayerStats = defaultPlayerStats();
@@ -121,17 +123,42 @@ export default function Main() {
 
     const showStatRef = useRef(null);
 
+    const weaponDataRef = useRef(null);
+
     useEffect(() => {
             const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
             setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
             setResultDamage(calcDamage(weaponFactory, creatures));
+
+            wSpecRef.current = wSpec;
+            resultDamageRef.current = resultDamage;
+            playerRef.current = player;
+            playerStatsRef.current = playerStats;
+            stuffBoostRef.current = stuffBoost;
+            boostDamageRef.current = boostDamage;
+            extraDamageRef.current = extraDamage;
+            additionalDamagesRef.current = additionalDamages;
+            creaturesRef.current = creatures;
+            creatureNamesRef.current = buildCreatureNames(creatures);
+
+            weaponDataRef.current = {
+                playerRef: playerRef,
+                playerStatsRef: playerStatsRef,
+                boostDamageRef: boostDamageRef,
+                wSpecRef: wSpecRef,
+                extraDamageRef: extraDamageRef,
+                additionalDamagesRef: additionalDamagesRef,
+                stuffBoostRef: stuffBoostRef,
+            };
+
             setLoadedScreen(true);
+
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats]);
 
     useEffect(() => {
         const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
         setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
-    }, [creatures, creatureChartNumber]);
+    }, [creatureChartNumber]);
 
     const applySnapshot = (cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
         setPlayer(cPlayer);
@@ -146,18 +173,10 @@ export default function Main() {
         setStuffBoost(allStuffBoosts);
         setCreatures({...cCreatures});
     }
+
     applySnapshotRef.current = applySnapshot;
-    wSpecRef.current = wSpec;
-    resultDamageRef.current = resultDamage;
-    playerRef.current = player;
-    playerStatsRef.current = playerStats;
-    stuffBoostRef.current = stuffBoost;
-    boostDamageRef.current = boostDamage;
-    extraDamageRef.current = extraDamage;
-    additionalDamagesRef.current = additionalDamages;
-    creaturesRef.current = creatures;
-    creatureNamesRef.current = buildCreatureNames(creatures);
     showStatRef.current = showStat;
+
     if (!loadedScreen) {
         return (<LoadingLine text="Please Wait..."/>);
     }
@@ -169,12 +188,19 @@ export default function Main() {
                 id="tab"
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
-                className="mt-1 mb-3 ms-1 me-1">
+                className="mt-1 pb-0 mb-2 ms-1 me-1">
                 <Tab eventKey="Main" title={<span className="tab-text">Main</span>}>
                     <Accordion className="accordion">
+                        <div className="ps-2 pe-2">
+                            <Divider className="mb-3">Settings</Divider>
+                        </div>
                         <WeaponSpecs wSpec={wSpec} setWSpec={setWSpec} showStatRef={showStatRef} setShowStat={setShowStat} health={player.health.value}></WeaponSpecs>
                         <DamageBoosts player={player} setPlayer={setPlayer} extraDamage={extraDamage} boostDamage={boostDamage} setBoostDamage={setBoostDamage} showStatRef={showStatRef} setShowStat={setShowStat}></DamageBoosts>
                         <AdditionalDamage additionalDamages={additionalDamages} setAdditionalDamages={setAdditionalDamages} showStatRef={showStatRef} setShowStat={setShowStat}></AdditionalDamage>
+                        <ComparatorView showStatRef={showStatRef} setShowStat={setShowStat} weaponDataRef={weaponDataRef} setWSpec={setWSpec} setBoostDamage={setBoostDamage} setPlayer={setPlayer} setPlayerStats={setPlayerStats} setAdditionalDamages={setAdditionalDamages} setExtraDamage={setExtraDamage} setFoodPref={setFoodPref} setStuffBoost={setStuffBoost} setMagazines={setMagazines} setBobbleHeads={setBobbleHeads} setFood={setFood} setDrink={setDrink} setPsycho={setPsycho} setSerum={setSerum} setOthers={setOthers} />
+                        <div className="ps-2 pe-2">
+                            <Divider className="mt-2 mb-3">Data</Divider>
+                        </div>
                         <CreaturesView creatureNamesRef={creatureNamesRef} creatures={creatures} setCreatures={setCreatures} resultDamage={resultDamage} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage}></CreaturesView>
                         <RaceView />
                         <ConsumablesView />

@@ -79,6 +79,7 @@ export function buildCreatureInfo2(creature, resultDamage) {
                 {showDamageIf(keyValueRow("☠️ Crit Head Explosive:", creature.critExplosiveHeadDamage, "default", "blue"), creature.critExplosiveHeadDamage, showCritHeadExp)}
                 {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
                 {keyValueRow("Reloads:", creature.reloads, "default", "green")}
+                {keyValueRow("Reloads Time:", millisToTime(creature.reloadsTime * 1000), "default", "green")}
                 {keyValueRow("Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
             </Stack>
         </div>
@@ -152,8 +153,8 @@ export function buildCreatureInfo(creature, resultDamage, showDefaultResistance,
                 {showDamageIf(keyValueRow("☠️ Crit Head Explosive:", creature.critExplosiveHeadDamage, "default", "blue"), creature.critExplosiveHeadDamage, showCritHeadExp)}
                 {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
                 {keyValueRow("Reloads:", creature.reloads, "default", "green")}
-                {keyValueRow("Reloads Time:", creature.reloadsTime.toFixed(2) + " s", "default", "green")}
-                {keyValueRow("Life Time:", creature.lifeTime + " ms", "default", "brown")}
+                {keyValueRow("Reloads Time:", millisToTime(creature.reloadsTime * 1000), "default", "green")}
+                {keyValueRow("Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
                 {weaponSection}
             </Stack>
         </div>
@@ -167,6 +168,38 @@ export const creatureInfoPopover = (creature, resultDamage, weaponName) => {
             <Popover.Header className="d-flex justify-content-center"><strong style={{fontSize: '0.9rem'}}>{capitalized} (Level: {creature.level})</strong></Popover.Header>
             <Popover.Body className="popover-body3 ms-1">
                 {buildCreatureInfo(creature, resultDamage, true, weaponName)}
+            </Popover.Body>
+        </Popover>
+    );
+};
+
+export function buildCreatureSnortInfo(creature) {
+    return (
+        <div>
+            <Stack className='pt-0 pb-2 justify-content-center' direction="horizontal" gap={1}>
+                {getResBadge("badge bg-ballistic-shadow", creature.b, false)}
+                {getResBadge("badge bg-energy-shadow", creature.e, false)}
+                {getResBadge("badge bg-fire-shadow", creature.f, false)}
+                {getResBadge("badge bg-poison-shadow", creature.p, creature.immuneToPoison)}
+                {getResBadge("badge bg-cold-shadow", creature.c, false)}
+                {getResBadge("badge bg-rad-shadow", creature.r, creature.immuneToRadiation)}
+            </Stack>
+            {prepareTags(creature)}
+            <Stack className='pb-0' direction="vertical" gap={0}>
+                {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
+                {keyValueRow("🧽 Damage Reduction:", (creature.damageReduction * 100).toFixed(0) + "%", "default", "orange")}
+            </Stack>
+        </div>
+    );
+}
+
+export const creatureShortInfoPopover = (creature, resultDamage, weaponName) => {
+    let capitalized = CreatureDataProvider.capitalizeCreatureName(creature.name);
+    return (
+        <Popover title="CreatureInfoPopover" className="popover-adjustable">
+            <Popover.Header className="d-flex justify-content-center"><strong style={{fontSize: '0.9rem'}}>{capitalized} (Level: {creature.level})</strong></Popover.Header>
+            <Popover.Body className="popover-body3 ms-1">
+                {buildCreatureSnortInfo(creature)}
             </Popover.Body>
         </Popover>
     );

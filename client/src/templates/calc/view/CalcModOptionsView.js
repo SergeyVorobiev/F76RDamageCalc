@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { WarningPopover } from '../../../helpers/WarningPopover';
 import Form from 'react-bootstrap/Form';
 

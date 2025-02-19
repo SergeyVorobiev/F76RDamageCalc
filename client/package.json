@@ -52,7 +52,8 @@
   "overrides": {
     "react-scripts": {
       "@svgr/webpack": "^8.1.0",
-      "postcss": "^8.4.49"
+      "postcss": "^8.4.49",
+      "serialize-javascript": "^6.0.2"
     }
   },
   "devDependencies": {

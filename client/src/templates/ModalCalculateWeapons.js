@@ -23,9 +23,10 @@ import { getImage } from '../helpers/WTypeDropdown';
 import { Divider } from 'antd';
 import { Progress } from 'antd';
 import AccuracyHelper from '../helpers/AccuracyHelper';
-import { getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary } from './calc/CalcEntities';
+import { getMainPerks, getTempPerks, getLegPerks, getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary, getUsableChemo, getUsableDrink, getUsableFood, getUsableMagazines, getUsableSerums, getUsableBobbleHeads} from './calc/CalcEntities';
 import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
 import CreatureDataProvider from '../creature/CreatureDataProvider';
+import LegsId from '../helpers/LegsId';
 
 
 let parameterCalculator = null;
@@ -55,7 +56,23 @@ export default function ModalCalculateWeapons(props) {
     const [cards, setCards] = useState(getDefaultCards());
     const [main, setMain] = useState(getDefaultMain());
     const [stuff, setStuff] = useState(getDefaultStuff());
+
     const [leg, setLeg] = useState(getDefaultLegendary());
+    const [leg1, setLeg1] = useState(LegsId.getLeg1());
+    const [leg2, setLeg2] = useState(LegsId.getLeg2());
+    const [leg3, setLeg3] = useState(LegsId.getLeg3());
+
+    const [chemo, setChemo] = useState(getUsableChemo());
+    const [food, setFood] = useState(getUsableFood());
+    const [drink, setDrink] = useState(getUsableDrink());
+    const [magazines, setMagazines] = useState(getUsableMagazines());
+    const [bobbleHeads, setBobbleHeads] = useState(getUsableBobbleHeads());
+    const [serums, setSerums] = useState(getUsableSerums());
+
+    const [mainPerks, setMainPerks] = useState(getMainPerks());
+    const [tempPerks, setTempPerks] = useState(getTempPerks());
+    const [legPerks, setLegPerks] = useState(getLegPerks());
+
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
     const [completion, setCompletion] = useState({current: 0, size: 0});
@@ -140,7 +157,11 @@ export default function ModalCalculateWeapons(props) {
                         gNames.push(name);
                     }
                 }
-                parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, wId, gNames, cards, frCrit, frHead, main, stuff, leg, accuracyPref);
+                parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, wId, gNames, cards, frCrit,
+                                        frHead, main, stuff, leg, {leg1: leg1, leg2: leg2, leg3: leg3},
+                                        {chemo: chemo, food: food, drink: drink, magazines: magazines, serums: serums, bobbleHeads: bobbleHeads},
+                                        {main: mainPerks, temp: tempPerks, leg: legPerks},
+                                        accuracyPref);
                 parameterCalculator.prepareAndCalcFirst(selectedCreature);
             }
         }
@@ -306,9 +327,9 @@ export default function ModalCalculateWeapons(props) {
                     <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
                     <CalcModGroupsAll groups={groups} setGroups={setGroups}></CalcModGroupsAll>
-                    <CalcCards cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>
-                    <CalcLegendary leg={leg} setLeg={setLeg} show={true}></CalcLegendary>
-                    <CalcConsumables stuff={stuff} setStuff={setStuff}></CalcConsumables>
+                    <CalcCards mainPerks={mainPerks} setMainPerks={setMainPerks} tempPerks={tempPerks} setTempPerks={setTempPerks} legPerks={legPerks} setLegPerks={setLegPerks} cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>
+                    <CalcLegendary leg={leg} setLeg={setLeg} show={true} leg1={leg1} setLeg1={setLeg1} leg2={leg2} setLeg2={setLeg2} leg3={leg3} setLeg3={setLeg3}></CalcLegendary>
+                    <CalcConsumables stuff={stuff} setStuff={setStuff} food={food} drink={drink} chemo={chemo} setFood={setFood} setDrink={setDrink} setChemo={setChemo} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} serums={serums} setSerums={setSerums}></CalcConsumables>
                 </>
             );
         }

@@ -31,6 +31,9 @@ export default class Creature {
         this.lastShotTime = 0;
         this.timeDamages = new Map();
         this.lastTotalDamage = 0;
+        this.lastTotalDamageWithAccuracy = 0; // For trial max shot
+        this.lastTotalDamageNoTime = 0;
+        this.lastTotalDamageTime = 0;
         this.lastDamageNoTime = 0;
         this.lastExpDamageNoTime = 0;
         this.minNormalShot = 0;
@@ -108,6 +111,9 @@ export default class Creature {
         }
         this.bulletCount = hit.bulletCount;
         this.lastTotalDamage = 0;
+        this.lastTotalDamageWithAccuracy = 0;
+        this.lastTotalDamageNoTime = 0;
+        this.lastTotalDamageTime = 0;
         this.lastDamageNoTime = 0;
         this.lastExpDamageNoTime = 0;
         this.hits += 1;
@@ -231,14 +237,18 @@ export default class Creature {
             const existedDamages = this.timeDamages.get(damageInfo.index);
             if (existedDamages) {
                 if (existedDamages.length < 10) {
-                    existedDamages.push({damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index});
+                    existedDamages.push(this.buildTimeDamageItem(damageInfo, value));
                 }
             } else {
-                this.timeDamages.set(damageInfo.index, [{damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index}]);
+                this.timeDamages.set(damageInfo.index, [this.buildTimeDamageItem(damageInfo, value)]);
             }
         } else {
-            this.timeDamages.set(damageInfo.index, [{damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index}]);
+            this.timeDamages.set(damageInfo.index, [this.buildTimeDamageItem(damageInfo, value)]);
         }
+    }
+
+    buildTimeDamageItem(damageInfo, value) {
+        return {chance: damageInfo.chance, accuracy: damageInfo.finalAccuracy, damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index}
     }
 
     timeDamagesHandler(items, key, map) {
@@ -258,7 +268,8 @@ export default class Creature {
             }
             const damage = item.value * dTime;
             this.tdCounter += 1;
-            this.causeFinalDamage(damage, item.damageType, false, false);
+            let finalDamage = this.causeFinalDamage(damage, item.damageType, false, false);
+            this.memoDamage(finalDamage, true, false, item.chance, item.accuracy);
         }
     }
 
@@ -316,9 +327,8 @@ export default class Creature {
         value += crit;
         expValue *= hit.tenderizer;
         expValue += critExp;
-        const timeDamage = damageInfo.time > 0;
         let finalDamage = this.causeFinalDamage(value, damageInfo.type, hit.headShot, false);
-        this.memoDamage(finalDamage, timeDamage, false);
+        this.memoDamage(finalDamage, false, false, damageInfo.chance, damageInfo.finalAccuracy);
 
         // Explosives add for each bullet (no headshot)
         const nonCritExp = expValue - critExp;
@@ -329,14 +339,21 @@ export default class Creature {
                 } else {
                     finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false, true);
                 }
-                this.memoDamage(finalDamage, timeDamage, true);
+                this.memoDamage(finalDamage, false, true, damageInfo.chance, damageInfo.finalAccuracy);
             }
         }
-
     }
 
-    memoDamage(finalDamage, timeDamage, expDamage) {
+    memoDamage(finalDamage, timeDamage, expDamage, chance, accuracy) {
+        chance = chance / 100.0;
+        accuracy = accuracy / 100.0;
         this.lastTotalDamage += finalDamage;
+        this.lastTotalDamageWithAccuracy += finalDamage * chance * accuracy;
+        if (!timeDamage) {
+            this.lastTotalDamageNoTime += finalDamage;
+        } else {
+            this.lastTotalDamageTime += finalDamage;
+        }
         if (!timeDamage && !expDamage) {
             this.lastDamageNoTime += finalDamage;
         } else if (!timeDamage && expDamage) {
@@ -398,6 +415,18 @@ export default class Creature {
 
     getLastTotalDamage() {
         return this.lastTotalDamage;
+    }
+
+    getLastTotalDamageWithAccuracy() {
+        return this.lastTotalDamageWithAccuracy;
+    }
+
+    getGetLastTotalDamageNoTime() {
+        return this.lastTotalDamageNoTime;
+    }
+
+    getLastTotalDamageTime() {
+        return this.lastTotalDamageTime;
     }
 
     causeFinalDamage(value, damageType, isHead, explosive) {

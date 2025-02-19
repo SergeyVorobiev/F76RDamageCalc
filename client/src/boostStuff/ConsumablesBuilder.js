@@ -56,99 +56,99 @@ export default class ConsumablesBuilder {
         return "";
     }
 
-    static getMagazineItems(wType, wName, tags, crit, team, scoped, creatureTags) {
+    static getMagazineItems(wType, wName, tags, crit, team, scoped, creatureTags, accessibleMagazines) {
         const result = [];
         const combination = [];
 
         // Creatures
         if (creatureTags.includes("mirelurk")) {
-            combination.push("attack_of_the_fishmen_magazine");
+            ConsumablesBuilder.addIfAccessible("attack_of_the_fishmen_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("ghoul")) {
-            combination.push("curse_of_the_burned_magazine");
+            ConsumablesBuilder.addIfAccessible("curse_of_the_burned_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("supermutant")) {
-            combination.push("rise_of_the_mutants_magazine");
+            ConsumablesBuilder.addIfAccessible("rise_of_the_mutants_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("animal")) {
-            combination.push("home_in_the_hills_magazine");
+            ConsumablesBuilder.addIfAccessible("home_in_the_hills_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("scorched")) {
-            combination.push("demon_slaves_demon_sands_magazine");
+            ConsumablesBuilder.addIfAccessible("demon_slaves_demon_sands_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("robot")) {
-            combination.push("the_future_of_hunting_magazine");
+            ConsumablesBuilder.addIfAccessible("the_future_of_hunting_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("yaoguai")) {
-            combination.push("bear_proofing_your_campsite_magazine");
+            ConsumablesBuilder.addIfAccessible("bear_proofing_your_campsite_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("liberator")) {
-            combination.push("guide_to_hunting_commies_magazine");
+            ConsumablesBuilder.addIfAccessible("guide_to_hunting_commies_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("wendigo")) {
-            combination.push("wendigo_magazine");
+            ConsumablesBuilder.addIfAccessible("wendigo_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("mothman")) {
-            combination.push("mothman_magazine");
+            ConsumablesBuilder.addIfAccessible("mothman_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("graftonmonster")) {
-            combination.push("grafton_magazine");
+            ConsumablesBuilder.addIfAccessible("grafton_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("snallygaster")) {
-            combination.push("snallygaster_magazine");
+            ConsumablesBuilder.addIfAccessible("snallygaster_magazine", accessibleMagazines, combination);
         }
         if (creatureTags.includes("flatwoodsmonster")) {
-            combination.push("flatwoods_alien_magazine");
+            ConsumablesBuilder.addIfAccessible("flatwoods_alien_magazine", accessibleMagazines, combination);
         }
 
         if (wName === "Alien Blaster") {
-            combination.push("invasion_of_the_zetans_magazine");
+            ConsumablesBuilder.addIfAccessible("invasion_of_the_zetans_magazine", accessibleMagazines, combination);
         } else if (wName === "Cryolator") {
-            combination.push("when_apes_go_bananas_magazine");
+            ConsumablesBuilder.addIfAccessible("when_apes_go_bananas_magazine", accessibleMagazines, combination);
         }
 
         // TODO: Does unarmed really work here?
         if (wType === "Melee" || wType === "Unarmed") {
-            combination.push("blood_on_the_harp_magazine");
+            ConsumablesBuilder.addIfAccessible("blood_on_the_harp_magazine", accessibleMagazines, combination);
             if (crit) {
-                combination.push("corsair_queen_magazine");
+                ConsumablesBuilder.addIfAccessible("corsair_queen_magazine", accessibleMagazines, combination);
             }
         } else {
             if (scoped) {
-                combination.push("the_starlet_sniper_magazine");
+                ConsumablesBuilder.addIfAccessible("the_starlet_sniper_magazine", accessibleMagazines, combination);
             } else {
-                combination.push("take_aim_army_style_magazine");
+                ConsumablesBuilder.addIfAccessible("take_aim_army_style_magazine", accessibleMagazines, combination);
             }
         }
         if (tags.includes("Knives") || wType === "Unarmed") {
-            combination.push("camouflage_special_magazine");
+            ConsumablesBuilder.addIfAccessible("camouflage_special_magazine", accessibleMagazines, combination);
         }
         if (team) {
-            combination.push("nuke_the_man_magazine");
+            ConsumablesBuilder.addIfAccessible("nuke_the_man_magazine", accessibleMagazines, combination);
         }
         if (tags.includes("Plasma")) {
-            combination.push("tomorrow_technology_magazine");
+            ConsumablesBuilder.addIfAccessible("tomorrow_technology_magazine", accessibleMagazines, combination);
         }
         if (wType === "Heavy") {
-            combination.push("giant_super_weapons_magazine");
+            ConsumablesBuilder.addIfAccessible("giant_super_weapons_magazine", accessibleMagazines, combination);
         }
         if (crit) {
             if (tags.includes("Laser")) {
-                combination.push("acceptable_overkill_magazine");
+                ConsumablesBuilder.addIfAccessible("acceptable_overkill_magazine", accessibleMagazines, combination);
             }
             if (tags.includes("Ballistic") && wType !== "Heavy" && wType !== "Bow") {
-                combination.push("little_guns_for_little_ladies_magazine");
+                ConsumablesBuilder.addIfAccessible("little_guns_for_little_ladies_magazine", accessibleMagazines, combination);
             }
             if (tags.includes("Plasma")) {
-                combination.push("plasma_the_weapon_of_tomorrow_magazine");
+                ConsumablesBuilder.addIfAccessible("plasma_the_weapon_of_tomorrow_magazine", accessibleMagazines, combination);
             }
             if (tags.includes("Energy")) {
-                combination.push("us_army_goes_to_space_magazine");
+                ConsumablesBuilder.addIfAccessible("us_army_goes_to_space_magazine", accessibleMagazines, combination);
             }
             if (wType === "Heavy") {
-                combination.push("future_of_warfare_magazine");
+                ConsumablesBuilder.addIfAccessible("future_of_warfare_magazine", accessibleMagazines, combination);
             }
-            combination.push("rockobot_takes_the_nation_by_storm_magazine");
+            ConsumablesBuilder.addIfAccessible("rockobot_takes_the_nation_by_storm_magazine", accessibleMagazines, combination);
         }
         result.push(combination);
         return result;
@@ -166,30 +166,29 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static getBobbleHeadItems(wType, tags) {
+    static getBobbleHeadItems(wType, tags, accessibleBobbleHeads) {
         const result = [];
         const combination = [];
-
         if (wType === "Heavy") {
-            combination.push("big_guns_bobble");
+            ConsumablesBuilder.addIfAccessible("big_guns_bobble", accessibleBobbleHeads, combination);
         } else if (wType === "Unarmed") {
-            combination.push("unarmed_bobble");
-            combination.push("strength_bobble");
+            ConsumablesBuilder.addIfAccessible("unarmed_bobble", accessibleBobbleHeads, combination);
+            ConsumablesBuilder.addIfAccessible("strength_bobble", accessibleBobbleHeads, combination);
         } else if (wType === "Melee") { // Does Unarmed work here?
-            combination.push("melee_bobble");
-            combination.push("strength_bobble");
+            ConsumablesBuilder.addIfAccessible("melee_bobble", accessibleBobbleHeads, combination);
+            ConsumablesBuilder.addIfAccessible("strength_bobble", accessibleBobbleHeads, combination);
         }
         if (tags.includes("Energy")) {
-            combination.push("energy_bobble");
+            ConsumablesBuilder.addIfAccessible("energy_bobble", accessibleBobbleHeads, combination);
         }
         if (tags.includes("Explosive")) {
-            combination.push("explosive_bobble");
+            ConsumablesBuilder.addIfAccessible("explosive_bobble", accessibleBobbleHeads, combination);
         }
         if (tags.includes("FusionCore")) {
-            combination.push("repair_bobble");
+            ConsumablesBuilder.addIfAccessible("repair_bobble", accessibleBobbleHeads, combination);
         }
         if (tags.includes("Ballistic") && wType !== "Heavy" && wType !== "Bow") {
-            combination.push("small_guns_bobble");
+            ConsumablesBuilder.addIfAccessible("small_guns_bobble", accessibleBobbleHeads, combination);
         }
         if (combination.length > 0) {
             result.push(combination);
@@ -197,25 +196,28 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static getDrinkItems(wType, tags, crit) {
+    static getDrinkItems(wType, tags, crit, creatureTags, accessibleDrink) {
         const result = [];
         const combination = [];
+        if (creatureTags.includes("animal")) {
+            ConsumablesBuilder.addIfAccessible("hoppy_hunter_ipa_drink", accessibleDrink, combination);
+        }
         if (wType === "Melee" || wType === "Unarmed") {
-            combination.push("whiskey_drink");
+            ConsumablesBuilder.addIfAccessible("whiskey_drink", accessibleDrink, combination);
             if (wType === "Melee") {
-                combination.push("gulpershine_vintage_drink");
+                ConsumablesBuilder.addIfAccessible("gulpershine_vintage_drink", accessibleDrink, combination);
             } else {
-                combination.push("sugar_free_nukashine_drink"); // Possibly gulpershine will also work as unarmed is a melee
+                ConsumablesBuilder.addIfAccessible("sugar_free_nukashine_drink", accessibleDrink, combination);
             }
         }
         if (crit) {
-            combination.push("sweetmutfruit_drink");
+            ConsumablesBuilder.addIfAccessible("sweetmutfruit_drink", accessibleDrink, combination);
         }
         if (tags.includes("Ballistic")) {
-            combination.push("ballistic_bock_drink");
+            ConsumablesBuilder.addIfAccessible("ballistic_bock_drink", accessibleDrink, combination);
         }
         if (tags.includes("Energy")) {
-            combination.push("high_voltage_hefe_drink");
+            ConsumablesBuilder.addIfAccessible("high_voltage_hefe_drink", accessibleDrink, combination);
         }
         if (combination.length > 0) {
             result.push(combination);
@@ -223,17 +225,15 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static getFoodItems(wType, crit) {
+    static getFoodItems(wType, crit, accessibleFood) {
         const result = [];
         const combination = [];
+        ConsumablesBuilder.addIfAccessible("spiked_venison_tato_stew_food", accessibleFood, combination);
         if (wType === "Melee" || wType === "Unarmed") {
-            combination.push("tasty_mutant_hound_stew_food");
-            combination.push("deathclaw_wellington_food");
-            combination.push("spiked_venison_tato_stew_food");
+            ConsumablesBuilder.addIfAccessible("tasty_mutant_hound_stew_food", accessibleFood, combination);
+            ConsumablesBuilder.addIfAccessible("deathclaw_wellington_food", accessibleFood, combination);
         } else if (crit) {
-            combination.push("blight_soup_food");
-        } else {
-            combination.push("spiked_venison_tato_stew_food");
+            ConsumablesBuilder.addIfAccessible("blight_soup_food", accessibleFood, combination);
         }
         if (combination.length > 0) {
             result.push(combination);
@@ -241,88 +241,104 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static getSerumItems(wType, crit, lowHP, team, food) {
+    static getSerumItems(wType, crit, lowHP, team, food, accessibleSerums) {
         const result = [];
         const combination1 = [];
         const combination2 = [];
         result.push(combination1);
-        ConsumablesBuilder.getSerumItemsBase(wType, false, lowHP, team, combination1);
+        ConsumablesBuilder.getSerumItemsBase(wType, false, lowHP, team, combination1, accessibleSerums);
         if ((wType === "Melee" || wType === "Unarmed") && food) {
             result.push(combination2);
-            ConsumablesBuilder.getSerumItemsBase(wType, false, lowHP, team, combination2);
-            ConsumablesBuilder.getSerumItemsAdditional(true, combination1);
-            ConsumablesBuilder.getSerumItemsAdditional(false, combination2);
+            ConsumablesBuilder.getSerumItemsBase(wType, false, lowHP, team, combination2, accessibleSerums);
+            ConsumablesBuilder.getSerumItemsAdditional(true, combination1, accessibleSerums);
+            ConsumablesBuilder.getSerumItemsAdditional(false, combination2, accessibleSerums);
         }
         if (crit && food) {
             const combination3 = [];
             const combination4 = [];
             const combination5 = [];
             result.push(combination3);
-            ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination3);
-            ConsumablesBuilder.getSerumItemsAdditional(false, combination3);
+            ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination3, accessibleSerums);
+            ConsumablesBuilder.getSerumItemsAdditional(false, combination3, accessibleSerums);
             if (wType === "Melee" || wType === "Unarmed") {
                 result.push(combination4);
-                ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination4);
-                ConsumablesBuilder.getSerumItemsAdditional(true, combination4);
+                ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination4, accessibleSerums);
+                ConsumablesBuilder.getSerumItemsAdditional(true, combination4, accessibleSerums);
 
                 // no eagle
                 result.push(combination5);
-                ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination5, true);
-                ConsumablesBuilder.getSerumItemsAdditional(true, combination5);
+                ConsumablesBuilder.getSerumItemsBase(wType, true, lowHP, team, combination5, accessibleSerums, true);
+                ConsumablesBuilder.getSerumItemsAdditional(true, combination5, accessibleSerums);
             }
         }
         return result;
     }
 
-    static getSerumItemsBase(wType, crit, lowHP, team, combination, noEagle=false) {
+    static getSerumItemsBase(wType, crit, lowHP, team, combination, accessibleSerums, noEagle=false) {
         if (lowHP) {
-            combination.push("adrenal_reaction_serum");
+            ConsumablesBuilder.addIfAccessible("adrenal_reaction_serum", accessibleSerums, combination);
         }
         if (wType === "Melee") {
-            combination.push("twisted_muscles_serum");
-            combination.push("empath_serum");
+            ConsumablesBuilder.addIfAccessible("twisted_muscles_serum", accessibleSerums, combination);
+            ConsumablesBuilder.addIfAccessible("empath_serum", accessibleSerums, combination);
         }
         if (wType === "Unarmed") {
-            combination.push("twisted_muscles_serum");
-            combination.push("talons_serum");
-            combination.push("empath_serum");
+            ConsumablesBuilder.addIfAccessible("twisted_muscles_serum", accessibleSerums, combination);
+            ConsumablesBuilder.addIfAccessible("talons_serum", accessibleSerums, combination);
+            ConsumablesBuilder.addIfAccessible("empath_serum", accessibleSerums, combination);
         }
         if (wType !== "Melee" && wType !== "Unarmed") {
-            combination.push("speed_demon_serum");
+            ConsumablesBuilder.addIfAccessible("speed_demon_serum", accessibleSerums, combination);
         }
 
         // For the calculator it does not matter to have this mutation for crit, but technically it's important for (Luck)
         if (team && (wType === "Melee" || wType === "Unarmed" || crit)) {
-            combination.push("herd_mentality_serum");
+            ConsumablesBuilder.addIfAccessible("herd_mentality_serum", accessibleSerums, combination);
         }
         if (crit && !noEagle) {
-            combination.push("eagle_eyes_serum");
+            ConsumablesBuilder.addIfAccessible("eagle_eyes_serum", accessibleSerums, combination);
         }
     }
 
-    static getSerumItemsAdditional(isCarnivore, combination) {
+    static getSerumItemsAdditional(isCarnivore, combination, accessibleSerums) {
         if (isCarnivore) {
-            combination.push("carnivore_serum");
+            ConsumablesBuilder.addIfAccessible("carnivore_serum", accessibleSerums, combination);
         } else {
-            combination.push("herbivore_serum");
+            ConsumablesBuilder.addIfAccessible("herbivore_serum", accessibleSerums, combination);
         }
+    }
+
+    static addIfAccessible(itemName, accessibleItems, collection) {
+        const array = accessibleItems[itemName];
+        if (array && array[0]) {
+            collection.push(itemName);
+        }
+    }
+
+    static isAccessible(itemName, accessibleItems) {
+        const array = accessibleItems[itemName];
+        return (array && array[0]);
     }
 
     // Nuclear Don's blend is not included (As it is very rare and surpasses any others anyway).
     // Super Chem MK1 in not included (Fury is used instead as it gives the same effect with Psychobuff)
-    static getChemicalItems(wType, crit, sneak) {
+    static getChemicalItems(wType, crit, sneak, accessibleChemo) {
         const result = [];
         const combination = [];
         result.push(combination);
-        combination.push("psychobuff_psycho");
-        if (wType === "Melee" || wType === "Unarmed") {
-            combination.push("fury_psycho");
+        if (ConsumablesBuilder.isAccessible("nuclear_don_blend_psycho", accessibleChemo)) {
+            ConsumablesBuilder.addIfAccessible("nuclear_don_blend_psycho", accessibleChemo, combination);
+        } else {
+            ConsumablesBuilder.addIfAccessible("psychobuff_psycho", accessibleChemo, combination);
         }
-        if (crit) {
-            combination.push("overdrive_psycho");
+        if (wType === "Melee" || wType === "Unarmed") {
+            ConsumablesBuilder.addIfAccessible("fury_psycho", accessibleChemo, combination);
+        }
+        if (crit || !ConsumablesBuilder.isAccessible("psychobuff_psycho", accessibleChemo)) {
+            ConsumablesBuilder.addIfAccessible("overdrive_psycho", accessibleChemo, combination);
         }
         if (sneak) {
-            combination.push("calmex_psycho");
+            ConsumablesBuilder.addIfAccessible("calmex_psycho", accessibleChemo, combination);
         }
         return result;
     }
