@@ -77,7 +77,7 @@ const RaceView = memo(function RaceView() {
     }
     return (
         <div className="ps-1 pe-1 pb-2">
-            <Accordion.Item eventKey="5">
+            <Accordion.Item eventKey="6">
                 <Accordion.Header>
                     <div id="RaceViewQuestionPopoverPlace"></div>
                     <InputGroup>

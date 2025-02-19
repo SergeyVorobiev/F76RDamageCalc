@@ -5,19 +5,19 @@ import ConsumablesBuilder from '../boostStuff/ConsumablesBuilder';
 
 
 const BoostRowView = memo(function BoostRowView(props) {
-    const imNames = getUsedPerks(props.item);
+    const imNames = getUsedPerks(props.boostDamage);
     return (
         <>
             <EmblemCalcRowView imNames={imNames} imageProvider={getPerkImage} iconSize='2.0rem' imageSize='1.864rem' borderRadius='5px' />
-            <EmblemCalcRowView imNames={props.item.stuff} imageProvider={ConsumablesBuilder.getImagePathById} iconSize='2.0rem' imageSize='1.864rem' />
+            <EmblemCalcRowView imNames={props.stuff} imageProvider={ConsumablesBuilder.getImagePathById} iconSize='2.0rem' imageSize='1.864rem' />
         </>
     );
 });
 
-function getUsedPerks(item) {
+export function getUsedPerks(boostDamage) {
     const result = [];
-    for (const name in item.boostDamage) {
-        const perk = item.boostDamage[name];
+    for (const name in boostDamage) {
+        const perk = boostDamage[name];
         if (perk.is_used) {
             result.push(perk.im_name);
         }

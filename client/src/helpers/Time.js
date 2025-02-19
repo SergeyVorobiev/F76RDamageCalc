@@ -1,4 +1,5 @@
 export function millisToTime(value) {
+    value = parseInt(value);
     if ((!value && value !== 0) || value === Infinity) {
         return "Infinity";
     } else if (value > 3599999999) {

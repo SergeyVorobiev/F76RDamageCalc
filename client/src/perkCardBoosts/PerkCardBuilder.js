@@ -120,119 +120,126 @@ export default class PerkCardBuilder {
         return result;
     }
 
-    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, bodyTags, creatureTags) {
+    static setupIfAccessible(boosts, fieldName, rank, accessibleItems, x=1) {
+        if (accessibleItems[fieldName]) {
+            PerkCardBuilder.setupCard(boosts[fieldName], rank, x);
+        }
+    }
+
+    static buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag,
+                            shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums,
+                            player, bodyTags, creatureTags, accessiblePerks) {
         let boosts = defaultBoosts();
         if (main) {
-            PerkCardBuilder.setupCard(boosts.bloody_mess, 3);
+            PerkCardBuilder.setupIfAccessible(boosts, "bloody_mess", 3, accessiblePerks.main);
             if (bodyTags.includes("glowing")) {
-                PerkCardBuilder.setupCard(boosts.glow_sight, 3);
+                PerkCardBuilder.setupIfAccessible(boosts, "glow_sight", 3, accessiblePerks.main);
             }
         }
         if (silencerTag && sneak && night && main) {
-            PerkCardBuilder.setupCard(boosts.mister_sandman, 2);
+            PerkCardBuilder.setupIfAccessible(boosts, "mister_sandman", 2, accessiblePerks.main);
         }
         if (useSerums && main) {
-            PerkCardBuilder.setupCard(boosts.class_freak, 3);
+            PerkCardBuilder.setupIfAccessible(boosts, "class_freak", 3, accessiblePerks.main);
         }
         if (team && main) {
-            PerkCardBuilder.setupCard(boosts.strange_in_numbers, 1);
+            PerkCardBuilder.setupIfAccessible(boosts, "strange_in_numbers", 1, accessiblePerks.main);
         }
         if (crit && main) {
-            PerkCardBuilder.setupCard(boosts.better_criticals, 3);
+            PerkCardBuilder.setupIfAccessible(boosts, "better_criticals", 3, accessiblePerks.main);
         }
         if (lowHp && main) {
-            PerkCardBuilder.setupCard(boosts.nerd_rage, 3);
             player.health.value = 20;
+            PerkCardBuilder.setupIfAccessible(boosts, "nerd_rage", 3, accessiblePerks.main);
         }
         if (energyTag && wType !== "Heavy" && main) {
-            PerkCardBuilder.setupCard(boosts.science, 6);
+            PerkCardBuilder.setupIfAccessible(boosts, "science", 6, accessiblePerks.main);
         }
         if (fusionTag && main) {
-            PerkCardBuilder.setupCard(boosts.power_user, 3);
+            PerkCardBuilder.setupIfAccessible(boosts, "power_user", 3, accessiblePerks.main);
         }
         if (temp) {
-            PerkCardBuilder.setupCard(boosts.adrenaline, 5, 6);
-            PerkCardBuilder.setupCard(boosts.tenderizer, 3);
+            PerkCardBuilder.setupIfAccessible(boosts, "adrenaline", 5, accessiblePerks.temp, 6);
+            PerkCardBuilder.setupIfAccessible(boosts, "tenderizer", 3, accessiblePerks.temp);
         }
         if (leg) {
             if (sneak) {
-                PerkCardBuilder.setupCard(boosts.follow_through, 4);
+                PerkCardBuilder.setupIfAccessible(boosts, "follow_through", 4, accessiblePerks.leg);
             } else {
-                PerkCardBuilder.setupCard(boosts.toft, 4);
+                PerkCardBuilder.setupIfAccessible(boosts, "toft", 4, accessiblePerks.leg);
             }
         }
         if (sneak && main) {
             if (wType === "Melee" || wType === "Unarmed") {
-                PerkCardBuilder.setupCard(boosts.ninja, 3);
+                PerkCardBuilder.setupIfAccessible(boosts, "ninja", 3, accessiblePerks.main);
             } else {
-                PerkCardBuilder.setupCard(boosts.covert_operative, 3);
+                PerkCardBuilder.setupIfAccessible(boosts, "covert_operative", 3, accessiblePerks.main);
             }
         }
         if (explosive && main) { // Works with rockets / grenades?
-            PerkCardBuilder.setupCard(boosts.demolition_expert, 5);
+            PerkCardBuilder.setupIfAccessible(boosts, "demolition_expert", 5, accessiblePerks.main);
         }
         if (main) {
             switch(wType) {
                 case "Heavy":
                     if (pa) {
-                        PerkCardBuilder.setupCard(boosts.stabilized, 3); // Works with rockets / grenades?
+                        PerkCardBuilder.setupIfAccessible(boosts, "stabilized", 3, accessiblePerks.main); // Works with rockets / grenades?
                     }
-                    PerkCardBuilder.setupCard(boosts.lock_and_load, 3); // Works with rockets / grenades?
+                    PerkCardBuilder.setupIfAccessible(boosts, "lock_and_load", 3, accessiblePerks.main); // Works with rockets / grenades?
                     if (!explosiveTag) { // Are rockets / grenades weapons boosted by heavy cards?
-                        PerkCardBuilder.setupCard(boosts.heavy_gunner, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "heavy_gunner", 11, accessiblePerks.main);
                     }
                     if (shotgunTag) {
-                        PerkCardBuilder.setupCard(boosts.lock_and_load, 2);
-                        PerkCardBuilder.setupCard(boosts.heavy_gunner, 9);
-                        PerkCardBuilder.setupCard(boosts.shotgunner, 8);
+                        PerkCardBuilder.setupIfAccessible(boosts, "lock_and_load", 2, accessiblePerks.main);
+                        PerkCardBuilder.setupIfAccessible(boosts, "heavy_gunner", 9, accessiblePerks.main);
+                        PerkCardBuilder.setupIfAccessible(boosts, "shotgunner", 8, accessiblePerks.main);
                     }
                     break;
                 case "Shotgun":
-                    PerkCardBuilder.setupCard(boosts.shotgunner, 11);
-                    PerkCardBuilder.setupCard(boosts.scattershot, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "shotgunner", 11, accessiblePerks.main);
+                    PerkCardBuilder.setupIfAccessible(boosts, "scattershot", 3, accessiblePerks.main);
                     break;
                 case "Rifle":
-                    PerkCardBuilder.setupCard(boosts.tank_killer, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "tank_killer", 3, accessiblePerks.main);
                     if (automatic) {
-                        PerkCardBuilder.setupCard(boosts.commando, 11);
-                        PerkCardBuilder.setupCard(boosts.ground_pounder, 3);
-
+                        PerkCardBuilder.setupIfAccessible(boosts, "commando", 11, accessiblePerks.main);
+                        PerkCardBuilder.setupIfAccessible(boosts, "ground_pounder", 3, accessiblePerks.main);
                     } else {
-                        PerkCardBuilder.setupCard(boosts.rifleman, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "rifleman", 11, accessiblePerks.main);
                     }
                     break;
                 case "Pistol":
-                    PerkCardBuilder.setupCard(boosts.tank_killer, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "tank_killer", 3, accessiblePerks.main);
                     if (automatic) {
-                        PerkCardBuilder.setupCard(boosts.guerrilla, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "guerrilla", 11, accessiblePerks.main);
                     } else {
-                        PerkCardBuilder.setupCard(boosts.gunslinger, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "gunslinger", 11, accessiblePerks.main);
                     }
                     break;
                 case "Bow":
-                    PerkCardBuilder.setupCard(boosts.archer, 11);
-                    PerkCardBuilder.setupCard(boosts.bow_before_me, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "archer", 11, accessiblePerks.main);
+                    PerkCardBuilder.setupIfAccessible(boosts, "bow_before_me", 3, accessiblePerks.main);
                     break;
                 case "Melee":
-                    PerkCardBuilder.setupCard(boosts.incisor, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "incisor", 3, accessiblePerks.main);
                     if (!automatic) {
-                        PerkCardBuilder.setupCard(boosts.martial_artist, 3);
+                        PerkCardBuilder.setupIfAccessible(boosts, "martial_artist", 3, accessiblePerks.main);
                     }
                     if (drink) {
-                        PerkCardBuilder.setupCard(boosts.party_girl_boy, 2);
+                        PerkCardBuilder.setupIfAccessible(boosts, "party_girl_boy", 2, accessiblePerks.main);
                     }
                     if (oneHandedTag) {
-                        PerkCardBuilder.setupCard(boosts.gladiator, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "gladiator", 11, accessiblePerks.main);
                     } else if (twoHandedTag) {
-                        PerkCardBuilder.setupCard(boosts.slugger, 11);
+                        PerkCardBuilder.setupIfAccessible(boosts, "slugger", 11, accessiblePerks.main);
                     }
                     break;
                 case "Unarmed":
-                    PerkCardBuilder.setupCard(boosts.incisor, 3);
-                    PerkCardBuilder.setupCard(boosts.martial_artist, 3);
-                    PerkCardBuilder.setupCard(boosts.iron_fist, 3);
+                    PerkCardBuilder.setupIfAccessible(boosts, "incisor", 3, accessiblePerks.main);
+                    PerkCardBuilder.setupIfAccessible(boosts, "martial_artist", 3, accessiblePerks.main);
+                    PerkCardBuilder.setupIfAccessible(boosts, "iron_fist", 3, accessiblePerks.main);
                     if (drink) {
-                        PerkCardBuilder.setupCard(boosts.party_girl_boy, 2);
+                        PerkCardBuilder.setupIfAccessible(boosts, "party_girl_boy", 2, accessiblePerks.main);
                     }
                     break;
                 default:
@@ -246,7 +253,9 @@ export default class PerkCardBuilder {
             if (adr < 0) {
                 adr = 0;
             }
-            PerkCardBuilder.setupCard(boosts.adrenaline, adr, 6);
+            if (adr > 0) {
+                PerkCardBuilder.setupIfAccessible(boosts, "adrenaline", adr, accessiblePerks.temp, 6);
+            }
             calculateSpecial(boosts);
         }
         if (main && boosts.special.perception < 15 && creatureTags.includes("bug")) {
@@ -254,7 +263,9 @@ export default class PerkCardBuilder {
             if (extra > 3) {
                 extra = 3;
             }
-            PerkCardBuilder.setupCard(boosts.exterminator, extra);
+            if (extra > 0) {
+                PerkCardBuilder.setupIfAccessible(boosts, "exterminator", extra, accessiblePerks.main);
+            }
             calculateSpecial(boosts);
         }
         player.strange = boosts.strange_in_numbers.displayed_value;

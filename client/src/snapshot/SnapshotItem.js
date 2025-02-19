@@ -16,6 +16,7 @@ import { getLegendaryNameFromSpec } from '../helpers/LegendaryProvider';
 import { memo, useState, useEffect } from 'react';
 import { truncateLongWords } from '../helpers/Input';
 import BoostRowView from './BoostRowView';
+import ModView from './ModView';
 import { getFireRateLabel } from '../main/SummaryView';
 
 
@@ -49,14 +50,6 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
         const leg4Name = getLegendaryNameFromSpec(item.wSpec, 4);
         const leg5Name = getLegendaryNameFromSpec(item.wSpec, 5);
         let strength = (item.wSpec.strengthBoost > 0) ? item.playerStats.strength.value : "-";
-        const mods = item.wSpec.mods;
-        const modView = [];
-        for (let i = 0; i < mods.length; i++) {
-            const mod = mods[i];
-            modView.push(
-                <div key={mod.name} style={{width: 'auto'}} className="mod-item-shadow m-1 ps-1 pe-1"><div style={{width: 'auto', textWrap: false, fontWeight: 'bold', textAlign: 'center', color: '#555555', fontSize: '0.7rem', overflow: 'hidden', textOverflow: 'ellipsis'}}>{mod.name}</div></div>
-            );
-        }
         const creature1 = item.creatures.creature1;
         const creature2 = item.creatures.creature2;
         const creature3 = item.creatures.creature3;
@@ -110,10 +103,8 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                             </Toast>
                         </Col>
                      </Row>
-                     <Row className="d-flex justify-content-center m-1">
-                        {modView}
-                     </Row>
-                     <BoostRowView item={item} />
+                     <ModView wSpec={item.wSpec} />
+                     <BoostRowView boostDamage={item.boostDamage} stuff={item.stuff} />
                 </Card.Body>
                 <div className='card-footer'>
                     <Row>

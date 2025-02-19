@@ -1,3 +1,6 @@
+import Strings from '../../helpers/Strings';
+
+
 export default class Weapon {
 
     constructor(weaponSpecsAssembler) {
@@ -182,6 +185,10 @@ export default class Weapon {
             result += curDamage;
         }
         return result;
+    }
+
+    isRanged() {
+        return !(this.weaponType === Strings.Melee || this.weaponType === Strings.Unarmed);
     }
 
     getReloadsCount() {

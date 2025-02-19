@@ -1,7 +1,7 @@
 import Accordion from 'react-bootstrap/Accordion';
 import EffectItems from "./EffectItems";
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 
 export default function EffectView({foodPref, setFoodPref, player, showStat, setShowStat, eventKey, categoryName, items, setItems, colorName, colorValue, cardHeight, picHeight, imPadding, getPicture, useHeader, stuffBoost, setStuffBoost, maxRows, setConsumableTouched}) {

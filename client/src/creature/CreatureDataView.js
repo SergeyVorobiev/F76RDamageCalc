@@ -5,8 +5,10 @@ import { useState } from 'react';
 import CreatureResHealthChartsView from './CreatureResHealthChartsView';
 
 
+const creatureNames = CreatureDataProvider.getCreatureNames();
+
 function getView(creatureName, setCreatureName) {
-    const creatureNames = CreatureDataProvider.getCreatureNames();
+
     let title = null;
     if (creatureName) {
         title = CreatureDataProvider.capitalizeCreatureName(creatureName);

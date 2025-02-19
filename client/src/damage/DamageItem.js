@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import { checkLength } from '../helpers/Input';
 
 
-function getSymbolStyle(dType) {
+export function getSymbolStyle(dType) {
     switch(dType) {
         case "physical":
             return ["💥", "small p-1 bg-ballistic"];

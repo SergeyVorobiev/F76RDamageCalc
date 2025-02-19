@@ -3,6 +3,7 @@ import { currentLegendaryIds } from '../helpers/Global';
 import { getCritDamages } from '../helpers/CritView';
 import { collectAllDamages, convertDamageDataToDamageItem } from '../helpers/mods/DamageSetter';
 import { ModParser } from '../helpers/mods/ModParser';
+import Strings from '../helpers/Strings';
 
 
 const modParser = new ModParser();
@@ -159,7 +160,7 @@ export function defaultWeaponSpecs() {
         ammoType: {name: "", type: "", codeName: ""},
         defaultName: "Weapon",
         weaponName: "Weapon",
-        imageName: "Weapon",
+        iconName: "",
         weaponId: "",
         type: "All",
         tags: [],
@@ -211,4 +212,8 @@ function replaceAdjustableLegs(legs, bonusMult) {
         }
     }
     return bonusMult;
+}
+
+export function isWeaponRanged(wSpec) {
+    return !(wSpec.type === Strings.Melee || wSpec.type === Strings.Unarmed);
 }

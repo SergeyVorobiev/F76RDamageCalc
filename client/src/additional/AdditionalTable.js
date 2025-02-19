@@ -32,7 +32,7 @@ const marks200 = {
     defaultValue: 0,
 };
 
-const qTDB = "Effect that increases your total damage like (Executioner, Tenderizer, TOFT). For example: a weapon with 43 base damage " +
+const qTDB = "Effect that increases your total damage like (Executioner, Tenderizer, TOFT, Follow Through, Legendary Explosion). For example: a weapon with 43 base damage " +
 " and 200 its total damage will be boosted by +50% BDB up to 221.5 whereas +50% TDB gives 300."
 
 const AdditionalTable = memo(function AdditionalTable({additionalDamages, setAdditionalDamages}) {

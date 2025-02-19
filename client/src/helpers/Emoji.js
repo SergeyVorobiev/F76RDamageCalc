@@ -59,16 +59,19 @@ export function getSymbolText(symbol, text) {
     }
 }
 
-function image(maxHeight, src, text) {
-    return (<Image className="mt-auto mb-auto m-0" style={{ maxHeight: maxHeight }} src={src} fluid />);
+function image(maxHeight, src, className=null) {
+    if (!className) {
+        className = "mt-auto mb-auto m-0";
+    }
+    return (<Image className={className} style={{ maxHeight: maxHeight }} src={src} fluid />);
 }
 
 export function bullet(maxHeight) {
     return image(maxHeight, iBullet);
 }
 
-export function ammo(maxHeight) {
-    return image(maxHeight, iAmmo);
+export function ammo(maxHeight, className=null) {
+    return image(maxHeight, iAmmo, className);
 }
 
 export function fireRate(maxHeight) {

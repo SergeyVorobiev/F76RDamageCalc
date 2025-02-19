@@ -244,6 +244,10 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 5px 0 rgba(0,0,0,0.2);
 }
 
+.shadow-outline5 {
+    box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.4);
+}
+
 .shadow-outline-gold {
     box-shadow: 0 5px 10px 0 rgba(0,0,0,0.4), 0 5px 10px 0 rgba(0,0,0,0.2);
     outline: 1px solid #ffbf00;
@@ -761,6 +765,16 @@
     outline: 1px solid #bdb499;
     margin-top: auto;
     bottom: 0px;
+}
+
+.comparator-title {
+    display: flex;
+    word-break: break-all;
+    flex-direction: row;
+    align-items: center;
+    width: calc(var(--screen-width) - 9rem);
+    text-wrap: nowrap;
+    overflow: clip;
 }
 
 

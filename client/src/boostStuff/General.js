@@ -1,6 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import ANRow from "./ANRow";

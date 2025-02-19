@@ -12,7 +12,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Badge from 'react-bootstrap/Badge';
 import TemplateItems from './TemplateItems';
 import { FloatButton } from 'antd';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -62,13 +62,13 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
     }
     return (
         <>
-            <Row className="p-auto m-auto mb-2">
-                <Col className="m-auto p-2 d-flex justify-content-start">
+            <Row className="mt-1 ms-1 mb-2 me-2">
+                <Col className="m-auto d-flex justify-content-start">
                     <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
                         <Badge variant="black" pill>!</Badge>
                     </OverlayTrigger>
                 </Col>
-                <Col className="m-auto p-1 pe-2 d-flex justify-content-end">
+                <Col className="m-auto pe-2 d-flex justify-content-end">
                     <Button size="sm" variant="danger" onClick={findBestClick}><strong className="best-button-shadow">Find The Best</strong></Button>
                 </Col>
             </Row>

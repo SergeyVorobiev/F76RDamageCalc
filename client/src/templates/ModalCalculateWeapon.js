@@ -10,6 +10,7 @@ import PickedGroups from './calc/view/PickedGroups';
 import CalcMain from './calc/view/CalcMain';
 import CalcConsumables from './calc/view/CalcConsumables';
 import CalcLegendary from './calc/view/CalcLegendary';
+import LegsId from '../helpers/LegsId';
 import BSRadio from '../helpers/views/BSRadio';
 import WeaponEmblem from './WeaponEmblem';
 import Row from 'react-bootstrap/Row';
@@ -27,7 +28,7 @@ import EmblemCalcRowView from './calc/view/EmblemCalcRowView';
 import AccuracyHelper from '../helpers/AccuracyHelper';
 import { Divider } from 'antd';
 import getPerkImage from '../perkCardBoosts/PerkImageProvider';
-import { getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary } from './calc/CalcEntities';
+import { getMainPerks, getTempPerks, getLegPerks, getDefaultCards, getDefaultMain, getDefaultStuff, getDefaultLegendary, getUsableChemo, getUsableDrink, getUsableFood, getUsableMagazines, getUsableSerums, getUsableBobbleHeads } from './calc/CalcEntities';
 
 
 let parameterCalculator = null;
@@ -44,7 +45,23 @@ export default function ModalCalculateWeapon(props) {
     const [cards, setCards] = useState(getDefaultCards());
     const [main, setMain] = useState(getDefaultMain());
     const [stuff, setStuff] = useState(getDefaultStuff());
+
     const [leg, setLeg] = useState(getDefaultLegendary());
+    const [leg1, setLeg1] = useState(LegsId.getLeg1());
+    const [leg2, setLeg2] = useState(LegsId.getLeg2());
+    const [leg3, setLeg3] = useState(LegsId.getLeg3());
+
+    const [chemo, setChemo] = useState(getUsableChemo());
+    const [food, setFood] = useState(getUsableFood());
+    const [drink, setDrink] = useState(getUsableDrink());
+    const [magazines, setMagazines] = useState(getUsableMagazines());
+    const [bobbleHeads, setBobbleHeads] = useState(getUsableBobbleHeads());
+    const [serums, setSerums] = useState(getUsableSerums());
+
+    const [mainPerks, setMainPerks] = useState(getMainPerks());
+    const [tempPerks, setTempPerks] = useState(getTempPerks());
+    const [legPerks, setLegPerks] = useState(getLegPerks());
+
     const [frCrit, setFrCrit] = useState(4);
     const [frHead, setFrHead] = useState(100);
     const [selectedCreature, setSelectedCreature] = useState('average');
@@ -86,14 +103,20 @@ export default function ModalCalculateWeapon(props) {
     }
 
     function startCalculation(e) {
-        parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, props.modalCalculate.template.id, PickedGroups.get(), cards, frCrit, frHead, main, stuff, leg, accuracyPref);
+        parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, props.modalCalculate.template.id,
+                                                        PickedGroups.get(), cards, frCrit, frHead, main, stuff, leg,
+                                                        {leg1: leg1, leg2: leg2, leg3: leg3},
+                                                        {chemo: chemo, food: food, drink: drink, magazines: magazines, serums: serums, bobbleHeads: bobbleHeads},
+                                                        {main: mainPerks, temp: tempPerks, leg: legPerks},
+                                                        accuracyPref);
         parameterCalculator.prepareAndCalcFirst(selectedCreature);
         setCount({config: parameterCalculator.getCurrentConfig(), current: parameterCalculator.getCount(), percent: parameterCalculator.getCompletionPercent(), bestTime: parameterCalculator.getBestTime()});
         setCalculating(1);
     }
 
     if (calculating === 1) {
-        setTimeout(() => {
+        setTimeout(
+            () => {
                 if (parameterCalculator) {
                     const calculated = parameterCalculator.calculateCombinations(calcIterations);
                     if (!calculated) {
@@ -195,9 +218,9 @@ export default function ModalCalculateWeapon(props) {
                     <BSRadio className="d-flex justify-content-center m-1" pairs={AccuracyHelper.ACC_PREFERENCE} selectedValue={accuracyPref} setSelectedValue={setAccuracyPref} parseValueInt={true} />
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
                     <CalcModGroups template={props.modalCalculate.template}></CalcModGroups>
-                    <CalcCards cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>
-                    <CalcLegendary leg={leg} setLeg={setLeg} show={show}></CalcLegendary>
-                    <CalcConsumables stuff={stuff} setStuff={setStuff}></CalcConsumables>
+                    <CalcCards mainPerks={mainPerks} setMainPerks={setMainPerks} tempPerks={tempPerks} setTempPerks={setTempPerks} legPerks={legPerks} setLegPerks={setLegPerks} cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>
+                    <CalcLegendary leg={leg} setLeg={setLeg} leg1={leg1} setLeg1={setLeg1} leg2={leg2} setLeg2={setLeg2} leg3={leg3} setLeg3={setLeg3} show={show}></CalcLegendary>
+                    <CalcConsumables stuff={stuff} setStuff={setStuff} food={food} drink={drink} chemo={chemo} setFood={setFood} setDrink={setDrink} setChemo={setChemo} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} serums={serums} setSerums={setSerums}></CalcConsumables>
                 </>
             );
         }

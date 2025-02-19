@@ -43,7 +43,7 @@ const CreaturesView = memo(function CreaturesView({creatureNamesRef, creatures, 
     }
     return (
         <div className="ps-1 pe-1 pb-2">
-            <Accordion.Item eventKey="4">
+            <Accordion.Item eventKey="5">
                 <Accordion.Header>
                     <div id="CreatureViewQuestionPopoverPlace"></div>
                     <InputGroup>

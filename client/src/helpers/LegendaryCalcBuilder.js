@@ -3,18 +3,23 @@ import LegsId from './LegsId';
 
 export default class LegendaryCalcBuilder {
 
-    static getLegendary1(isRange, lowHP, legs=null) {
+    static pushIfAccessible(legs, id, accessibleList) {
+        if (accessibleList[id]) {
+            legs.push(id);
+        }
+    }
+    static getLegendary1(isRange, lowHP, accessibleList, legs=null) {
         legs = LegendaryCalcBuilder.initLegs(legs);
-        legs.push(LegsId.ANTI_ARMOR);
-        legs.push(LegsId.EXECUTIONER);
+        LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.ANTI_ARMOR, accessibleList);
+        LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.EXECUTIONER, accessibleList);
         if (isRange) {
-            legs.push(LegsId.QUAD);
-            legs.push(LegsId.TWO_SHOT);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.QUAD, accessibleList);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.TWO_SHOT, accessibleList);
         }
         if (lowHP) {
-            legs.push(LegsId.BLOODIED);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.BLOODIED, accessibleList);
         } else {
-            legs.push(LegsId.ARISTOCRAT);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.ARISTOCRAT, accessibleList);
         }
         return legs;
     }
@@ -28,31 +33,31 @@ export default class LegendaryCalcBuilder {
         return legs;
     }
 
-    static getLegendary2(isRange, explosive, scoped, legs=null) {
+    static getLegendary2(isRange, explosive, scoped, accessibleList, legs=null) {
         legs = LegendaryCalcBuilder.initLegs(legs);
-        legs.push(LegsId.VITAL);
-        legs.push(LegsId.CRIPPLING);
+        LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.VITAL, accessibleList);
+        LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.CRIPPLING, accessibleList);
         if (isRange) {
             if (scoped) {
-                legs.push(LegsId.HITMAN);
+                LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.HITMAN, accessibleList);
             }
             if (!explosive) {
-                legs.push(LegsId.EXPLOSIVE);
+                LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.EXPLOSIVE, accessibleList);
             }
-            legs.push(LegsId.RANGED_RAPID);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.RANGED_RAPID, accessibleList);
         } else {
-            legs.push(LegsId.STEADY);
-            legs.push(LegsId.MELEE_RAPID);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.STEADY, accessibleList);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.MELEE_RAPID, accessibleList);
         }
         return legs;
     }
 
-    static getLegendary3(isRange, legs=null) {
+    static getLegendary3(isRange, accessibleList, legs=null) {
         legs = LegendaryCalcBuilder.initLegs(legs);
         if (isRange) {
-            legs.push(LegsId.SWIFT);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.SWIFT, accessibleList);
         } else {
-            legs.push(LegsId.STRENGTH);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.STRENGTH, accessibleList);
         }
         return legs;
     }

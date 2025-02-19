@@ -47,7 +47,7 @@ export default class ParameterCalculator {
             </p>
         </>
     );
-    constructor(creatureNames, id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accuracyPreference) {
+    constructor(creatureNames, id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accessibleLeg, accessibleStuff, accessiblePerks, accuracyPreference) {
         this.creatureNames = creatureNames;
         this.id = id;
         this.modGroups = modGroups;
@@ -69,6 +69,9 @@ export default class ParameterCalculator {
         this.modParser = new ModParser();
         this.legendary = null;
         this.legendaryOpts = legendaryOpts;
+        this.accessibleLeg = accessibleLeg;
+        this.accessibleStuff = accessibleStuff;
+        this.accessiblePerks = accessiblePerks;
         this.defaultLegendary = null;
         this.hasGotLastCombination = false;
         this.currentConfig = {};
@@ -116,7 +119,7 @@ export default class ParameterCalculator {
 
     prepareAndCalcFirst(creatureName="average") {
 
-        // The order of invoking functions is important!
+        // The order of invoking of functions is important!
         this.creatureName = creatureName;
         this.creatureTags = this.getCreatureTags();
         this.bodyTags = this.getBodyTags();
@@ -151,13 +154,13 @@ export default class ParameterCalculator {
         let leg3 = [];
         if (this.defaultLegendary.length === 0) {
             if (this.legendaryOpts.Legendary1) {
-                leg1 = LegendaryCalcBuilder.getLegendary1(range, lowHP);
+                leg1 = LegendaryCalcBuilder.getLegendary1(range, lowHP, this.accessibleLeg.leg1);
             }
             if (this.legendaryOpts.Legendary2) {
-                leg2 = LegendaryCalcBuilder.getLegendary2(range, this.defaultExplosive, scoped);
+                leg2 = LegendaryCalcBuilder.getLegendary2(range, this.defaultExplosive, scoped, this.accessibleLeg.leg2);
             }
             if (this.legendaryOpts.Legendary3) {
-                leg3 = LegendaryCalcBuilder.getLegendary3(range);
+                leg3 = LegendaryCalcBuilder.getLegendary3(range, this.accessibleLeg.leg3);
             }
         }
         legendary['Legendary1_l'] = leg1;
@@ -227,7 +230,7 @@ export default class ParameterCalculator {
         const scoped = this.main["Scoped"];
 
         if (this.stuff["Magazines"]) {
-            result["Magazines_c"] = ConsumablesBuilder.getMagazineItems(wType, wName, tags, crit, team, scoped, this.creatureTags);
+            result["Magazines_c"] = ConsumablesBuilder.getMagazineItems(wType, wName, tags, crit, team, scoped, this.creatureTags, this.accessibleStuff.magazines);
         }
         if (this.stuff["Endangerol Syringer"]) {
             const others = ConsumablesBuilder.getOtherItems(TemplateTools.hasPhysicalDamage(this.template));
@@ -236,28 +239,28 @@ export default class ParameterCalculator {
             }
         }
         if (this.stuff["Bobble Heads"]) {
-            const bobble = ConsumablesBuilder.getBobbleHeadItems(wType, tags, ammo);
+            const bobble = ConsumablesBuilder.getBobbleHeadItems(wType, tags, ammo, this.accessibleStuff.bobbleHeads);
             if (bobble.length > 0) {
                 result["Bobble_c"] = bobble;
             }
         }
         if (this.stuff["Drink"]) {
-            const drink = ConsumablesBuilder.getDrinkItems(wType, tags, crit);
+            const drink = ConsumablesBuilder.getDrinkItems(wType, tags, crit, this.creatureTags, this.accessibleStuff.drink);
             if (drink.length > 0) {
                 result["Drink_c"] = drink;
             }
         }
         if (this.stuff["Chemicals"]) {
-            result["Chemicals_c"] = ConsumablesBuilder.getChemicalItems(wType, crit, sneak);
+            result["Chemicals_c"] = ConsumablesBuilder.getChemicalItems(wType, crit, sneak, this.accessibleStuff.chemo);
         }
         if (this.stuff["Food"]) {
-            const food = ConsumablesBuilder.getFoodItems(wType, crit);
+            const food = ConsumablesBuilder.getFoodItems(wType, crit, this.accessibleStuff.food);
             if (food.length > 0) {
                 result["Food_c"] = food;
             }
         }
         if (this.stuff["Serums"]) {
-            result["Serums_c"] = ConsumablesBuilder.getSerumItems(wType, crit, lowHP, team, this.stuff["Food"]);
+            result["Serums_c"] = ConsumablesBuilder.getSerumItems(wType, crit, lowHP, team, this.stuff["Food"], this.accessibleStuff.serums);
         }
         return (Object.keys(result).length === 0) ? null : result;
     }
@@ -547,7 +550,9 @@ export default class ParameterCalculator {
         const night = this.main["Night"];
         const useSerums = this.stuff["Serums"];
         const drink = this.stuff["Drink"];
-        const boosts = PerkCardBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag, twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit, sneak, night, useSerums, player, this.bodyTags, this.creatureTags);
+        const boosts = PerkCardBuilder.buildWithOptions(wType, automatic, energyTag, explosiveTag, fusionTag, oneHandedTag,
+                        twoHandedTag, silencerTag, shotgunTag, main, temp, leg, drink, team, lowHp, pa, explosive, crit,
+                        sneak, night, useSerums, player, this.bodyTags, this.creatureTags, this.accessiblePerks);
         this.perkImageNames = PerkCardBuilder.getImageNamesForPickedCards(boosts);
         return boosts;
     }
