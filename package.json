@@ -1,7 +1,27 @@
 {
+  "name": "fallout76-dc",
+  "version": "69.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "deploy": "gh-pages -d build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "create-react-app": "^5.0.1",
-    "react-bootstrap": "^2.10.6"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next": "15.1.7",
+    "react-bootstrap": "^2.10.6",
+    "antd": "^5.22.7",
+    "chart.js": "^4.4.7",
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.7",
+    "@eslint/eslintrc": "^3"
   }
 }
