@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 12, "column": 0}, "map": {"version":3,"sources":["file://D%3A/PythonProjects/F76DCNextJS/fallout76-dc/src/resources/logos/main_logo.webp.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 500, height: 172, blurDataURL: \"data:image/webp;base64,UklGRv4AAABXRUJQVlA4TPIAAAAvB4AAEM1VICICHggACQAAAAAMjDM1BgZgAAAAAIABAAAAAAAAAAAAAAAAAACBAQAAIT6DMgAAgAcCbAIAAABw/kQdONoPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxS1TeSDAJgAAAADn32gHCAgQEAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAHcICAANqVBwJAAgAAAHD+ABgAAAAMBgAAAMIAGAAEPcAAAABiAKMMwBgAAAABAAAhAIzM45W48NR+8of4v/zeT15Y/Z1uxbPWFLV5J0GEEM6IAbZhuLdbVCNFytZhPSbevQar2uM9Nw==\", blurWidth: 8, blurHeight: 3 }\n"],"names":[],"mappings":";;;AAAA;;uCACe;IAAE,KAAA,uIAAA,CAAA,UAAG;IAAE,OAAO;IAAK,QAAQ;IAAK,aAAa;IAA2X,WAAW;IAAG,YAAY;AAAE"}},
+    {"offset": {"line": 28, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 34, "column": 0}, "map": {"version":3,"sources":["file://D%3A/PythonProjects/F76DCNextJS/fallout76-dc/src/navbar/Logo.js"],"sourcesContent":["import logo from '../resources/logos/main_logo.webp';\r\nimport Image from 'next/image';\r\n\r\n\r\nexport default function Logo() {\r\n    return (\r\n        <Image priority alt=\"Main logo\" style={{width: 'auto'}} className=\"navbar-image\" src={logo} />\r\n    );\r\n}"],"names":[],"mappings":";;;;AAAA;AACA;;;;AAGe,SAAS;IACpB,qBACI,6LAAC,gIAAA,CAAA,UAAK;QAAC,QAAQ;QAAC,KAAI;QAAY,OAAO;YAAC,OAAO;QAAM;QAAG,WAAU;QAAe,KAAK,wTAAA,CAAA,UAAI;;;;;;AAElG;KAJwB"}},
+    {"offset": {"line": 64, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

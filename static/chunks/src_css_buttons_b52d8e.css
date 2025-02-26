@@ -1,0 +1,36 @@
+/* [project]/src/css/buttons.css [app-client] (css) */
+.button-3:hover {
+  box-shadow: 0 0 3px #00000080;
+}
+
+.button-3:focus {
+  box-shadow: 0 0 3px #0000c866;
+}
+
+.button-3:active {
+  box-shadow: 0 0 4px #00004666;
+  border-color: #fff;
+}
+
+.burger {
+  fill: #14455f;
+  border: none;
+  background-color: none;
+}
+
+.burger:hover {
+  fill: #b47400;
+  border: none;
+}
+
+.burger:focus {
+  fill: #b47400;
+  border: none;
+}
+
+.burger:active {
+  fill: #c89300;
+  border: none;
+}
+
+/*# sourceMappingURL=src_css_buttons_b52d8e.css.map*/

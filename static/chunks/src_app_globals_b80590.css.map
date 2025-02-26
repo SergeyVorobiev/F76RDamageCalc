@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file://D%3A/PythonProjects/F76DCNextJS/fallout76-dc/src/app/globals.css"],"sourcesContent":[""],"names":[],"mappings":""}},
+    {"offset": {"line": 2, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

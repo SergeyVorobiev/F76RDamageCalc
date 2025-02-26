@@ -1,0 +1,747 @@
+/* [project]/src/css/style.css [app-client] (css) */
+:root {
+  --bg-strength-card-color: #7ba283;
+  --bg-perception-card-color: #696148;
+  --bg-endurance-card-color: #55b6c5;
+  --bg-charisma-card-color: #d18a44;
+  --bg-intelligence-card-color: #aca68f;
+  --bg-agility-card-color: #cc9e7b;
+  --bg-luck-card-color: #a8a2b9;
+  --bg-legendary-card-color: #5c6f72;
+}
+
+@media only screen and (width >= 386px) {
+  .popover-adjustable {
+    width: 20rem;
+  }
+
+  .popover-adjustable2 {
+    width: 23rem;
+  }
+}
+
+@media only screen and (361px <= width <= 385px) {
+  .popover-adjustable {
+    width: 19rem;
+  }
+
+  .popover-adjustable2 {
+    width: 22rem;
+  }
+}
+
+@media only screen and (width <= 360px) {
+  .popover-adjustable {
+    width: 18rem;
+  }
+
+  .popover-adjustable2 {
+    width: 21rem;
+  }
+}
+
+.popover-body2 {
+  max-height: 350px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (orientation: landscape) {
+  .popover-body3 {
+    padding: .4rem;
+    max-height: var(--screen-modal-body-height-60);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .navbar-image {
+    height: 4rem;
+  }
+
+  .navbar {
+    height: 5rem;
+    background: linear-gradient(#fff, #f8f2f2);
+    border-radius: 0 0 10px 10px;
+    outline: 1px solid #bdb499;
+  }
+
+  .navbar-logo {
+    height: 3rem;
+  }
+
+  .main-weapon-image {
+    height: 4rem;
+  }
+
+  .weapon-label-text {
+    color: #141f30;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 1px #b5b0b0, 0 0 1px #b5b0b0;
+    letter-spacing: 1px;
+  }
+}
+
+@media (orientation: portrait) {
+  .popover-body3 {
+    padding: .4rem;
+    max-height: var(--screen-modal-body-height-60);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .main-weapon-image {
+    height: 3rem;
+  }
+
+  .navbar {
+    height: 4rem;
+    background: linear-gradient(#fff, #f8f2f2);
+    border-radius: 0 0 10px 10px;
+    outline: 1px solid #bdb499;
+  }
+
+  .navbar-image {
+    height: 3rem;
+  }
+
+  .navbar-logo {
+    height: 2rem;
+  }
+
+  .weapon-label-text {
+    color: #141f30;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 0 0 1px #b5b0b0, 0 0 1px #b5b0b0;
+    letter-spacing: 1px;
+  }
+}
+
+@media only screen and (width >= 386px) {
+  .main-display-adjustable {
+    width: 24rem;
+  }
+}
+
+@media only screen and (width <= 385px) {
+  .main-display-adjustable {
+    width: 22rem;
+  }
+}
+
+@media only screen and (width <= 360px) {
+  .main-display-adjustable {
+    width: 21rem;
+  }
+}
+
+.bg-ballistic {
+  background-color: #768e91;
+  color: #fff;
+}
+
+.bg-ballistic-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #768e91;
+  color: #fff;
+}
+
+.bg-energy {
+  background-color: #90679c;
+  color: #fff;
+}
+
+.bg-energy-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #90679c;
+  color: #fff;
+}
+
+.bg-bleed {
+  background-color: #f27e93;
+  color: #fff;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.bg-fire {
+  background-color: #c95855;
+  color: #fff;
+}
+
+.bg-poison {
+  background-color: #5fad5c;
+  color: #fff;
+}
+
+.bg-cold {
+  background-color: #40aac2;
+  color: #fff;
+}
+
+.bg-rad {
+  background-color: #ccc976;
+  color: #fff;
+}
+
+.bg-fire-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #c95855;
+  color: #fff;
+}
+
+.bg-poison-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #5fad5c;
+  color: #fff;
+}
+
+.bg-cold-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #40aac2;
+  color: #fff;
+}
+
+.bg-rad-shadow {
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #ccc976;
+  color: #fff;
+}
+
+.bg-info2 {
+  background-color: #fffff2;
+}
+
+.bg-crit {
+  background-color: #000;
+  color: #fff;
+}
+
+.bg-light-cream-outline {
+  outline: 1px solid #bdb499;
+  background-color: #f7f2e1;
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  color: #000;
+}
+
+.light-cream-outline {
+  outline: 1px solid #bdb499;
+}
+
+.shadow-outline {
+  box-shadow: 0 4px 8px #0003, 0 3px 10px #0003;
+}
+
+.shadow-outline-ammo {
+  color: #082d41;
+  box-shadow: 0 .8px .5px #627082;
+  text-shadow: 0 0 .4px #004469, 0 0 .4px #004469;
+}
+
+.shadow-outline2 {
+  box-shadow: 0 0 1px 1px #c8c8c84d, 0 1px 1px 1px #c8c8c81a;
+}
+
+.shadow-outline3 {
+  box-shadow: 0 0 1px 1px #c800000d, 0 0 1px 1px #c800001a;
+}
+
+.shadow-outline4 {
+  box-shadow: 0 2px 4px #0003, 0 3px 5px #0003;
+}
+
+.shadow-outline5 {
+  box-shadow: 0 0 3px #0006;
+}
+
+.shadow-outline-gold {
+  box-shadow: 0 5px 10px #0006, 0 5px 10px #0003;
+  outline: 1px solid #ffbf00;
+}
+
+.shadow-outline-gold2 {
+  box-shadow: 0 2px 4px #0006, 0 2px 4px #0003;
+  border-color: #ffd556 !important;
+}
+
+.shadow-gold {
+  box-shadow: 0 1px 3px #ffbf00, 0 1px 3px #ffbf00;
+}
+
+.shadow-gold2 {
+  box-shadow: 0 0 2px #ffbf00;
+}
+
+.shadow-card-gold {
+  box-shadow: 0 1px 3px #ffbf42, 0 1px 2px #ffbf42;
+  border-color: #fff !important;
+}
+
+.shadow-card-grey {
+  box-shadow: 0 1px 2px #b8b8b8, 0 1px 2px #b8b8b8;
+  border-color: #fff !important;
+}
+
+.shadow-border-card-grey {
+  box-shadow: 0 1px 1px #c2c2c2, 0 1px 3px #cfcfcf;
+  border-color: #a0a0a0 !important;
+}
+
+.text-shadow-indigo {
+  color: #620048;
+  text-shadow: 0 0 1px #dd7400;
+}
+
+.text-shadow-blue {
+  color: #0085ff;
+  text-shadow: 0 0 1px #00e0ff;
+}
+
+.text-shadow-grey-blue {
+  color: #1c5a7c;
+  text-shadow: 0 1px 1px #dfdfdf;
+}
+
+.text-shadow-grey-blue:hover {
+  color: #1c5a7c;
+  text-shadow: 0 0 .5px #0058a1;
+}
+
+.text-shadow-blue2 {
+  color: #006483;
+  text-shadow: 0 0 1px #00e8ff;
+}
+
+.shadow-blue {
+  text-shadow: 0 0 .1px #002a51;
+  box-shadow: 0 1px 2px #3f3f52;
+}
+
+.mod-item-shadow {
+  box-shadow: 0 1px 3px #404040, 0 0 #ffebdd;
+  background-color: #f4f4f4;
+  color: #444;
+}
+
+.bg-exp {
+  background-color: #948672;
+  color: #fff;
+}
+
+.bg-ecrit {
+  background-color: #4d2f31;
+  color: #fff;
+}
+
+.bg-head-shot {
+  background-color: #835559;
+  color: #fff;
+}
+
+.bg-body-shot {
+  background-color: #817778;
+  color: #fff;
+}
+
+.bg-mod-cat {
+  background-color: #f5f4f5;
+}
+
+.bg-mod-name {
+  background-color: #fbfaf3;
+}
+
+.bg-health {
+  background-color: #ffa6a6;
+  color: #fff;
+}
+
+.bg-health-outline {
+  background-color: #ffa6a6;
+  outline: 1px solid #ff8181;
+  color: #fff;
+  text-shadow: 1px 0 1px #ff8181, 0 1px #ff8181;
+}
+
+.bg-ammo-outline {
+  background-color: #909eab;
+  outline: 1px solid #808a99;
+  color: #fff;
+  text-shadow: 1px 0 1px #808a99, 0 1px #808a99;
+}
+
+.bg-lifetime-outline {
+  background-color: #5141a7;
+  outline: 1px solid #514188;
+  color: #fff;
+  text-shadow: 1px 0 1px #514188, 0 1px #514188;
+}
+
+.bg-orange-outline {
+  outline: 1px solid #ffb533;
+  text-shadow: 0 0 2px #fff6e8;
+}
+
+.bg-hazard {
+  background-color: #4c9945;
+  color: #fff;
+}
+
+.bg-reduction {
+  background-color: #ff924b;
+  color: #fff;
+}
+
+.bg-sneak {
+  background-color: #25a199;
+  color: #fff;
+}
+
+.bg-aa {
+  background-color: #5c4872;
+  color: #fff;
+}
+
+.bg-ammo {
+  background-color: #909eab;
+  color: #fff;
+}
+
+.bg-snapshot {
+  background-color: #f4f7ff;
+  color: #2a3262;
+}
+
+.bg-lite {
+  background-color: #f4f4f4;
+  color: #000;
+}
+
+.bg-lite-shadow {
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  color: #000;
+}
+
+.width-fit {
+  width: fit-content;
+}
+
+.lite-shadow {
+  box-shadow: 0 1px 1px #e3e3e3;
+}
+
+.bg-lite-shadow2 {
+  background-color: #f4f4f4;
+  box-shadow: 0 1px 2px #605810, 0 1px 2px #605810;
+  color: #000;
+}
+
+.bg-text-shadow {
+  text-shadow: 1px 0 1px #000, 0 1px 1px #000;
+  color: #fff;
+}
+
+.bg-lite-outline {
+  outline: 1px solid #dedede;
+  box-shadow: 0 2px 4px #0003, 0 3px 6px #0003;
+  background-color: #f4f4f4;
+  color: #000;
+}
+
+.bg-yellow {
+  background-color: #fff0cc;
+  color: #cf9100;
+}
+
+.bg-lifetime {
+  background-color: #5141a7;
+  color: #fff;
+}
+
+.pa-21 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+}
+
+.ant-dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.dropdown-menu {
+  min-height: 50px;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media only screen and (orientation: landscape) {
+  .modal-scroll-80-60 {
+    max-height: var(--screen-modal-body-height-60);
+    overflow: auto;
+  }
+
+  .modal-scroll-60 {
+    max-height: var(--screen-modal-body-height-60);
+    overflow: auto;
+  }
+}
+
+@media only screen and (orientation: portrait) {
+  .modal-scroll-80-60 {
+    max-height: var(--screen-modal-body-height-80);
+    overflow: auto;
+  }
+
+  .modal-scroll-60 {
+    max-height: var(--screen-modal-body-height-60);
+    overflow: auto;
+  }
+}
+
+.popover {
+  --bs-popover-max-width: 350px;
+}
+
+.wrapper {
+  position: relative;
+  overflow: scroll;
+  height: 1200px;
+}
+
+.strength-outline-card {
+  box-shadow: 0 3px 2px #4d7652;
+}
+
+.perception-outline-card {
+  box-shadow: 0 3px 2px #75694c;
+}
+
+.charisma-outline-card {
+  box-shadow: 0 3px 2px #a88737;
+}
+
+.intelligence-outline-card {
+  box-shadow: 0 3px 2px #6b665b;
+}
+
+.agility-outline-card {
+  box-shadow: 0 3px 2px #93786c;
+}
+
+.luck-outline-card {
+  box-shadow: 0 3px 2px #8b7d93;
+}
+
+.legendary-outline-card {
+  box-shadow: 0 3px 2px #445453;
+}
+
+.bg-strength-card {
+  background-color: var(--bg-strength-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-strength-card-color) !important;
+}
+
+.bg-perception-card {
+  background-color: var(--bg-perception-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-perception-card-color) !important;
+}
+
+.bg-charisma-card {
+  background-color: var(--bg-charisma-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-charisma-card-color) !important;
+}
+
+.bg-intelligence-card {
+  background-color: var(--bg-intelligence-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-intelligence-card-color) !important;
+}
+
+.bg-endurance-card {
+  background-color: var(--bg-endurance-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-endurance-card-color) !important;
+}
+
+.bg-agility-card {
+  background-color: var(--bg-agility-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-agility-card-color) !important;
+}
+
+.bg-luck-card {
+  background-color: var(--bg-luck-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-luck-card-color) !important;
+}
+
+.bg-legendary-card {
+  background-color: var(--bg-legendary-card-color) !important;
+  color: #fff !important;
+  border-color: var(--bg-legendary-card-color) !important;
+}
+
+.bg-proj-header {
+  background-color: #6a4a4c !important;
+  color: #fff !important;
+}
+
+.bg-spell-header {
+  background-color: #624d7c !important;
+  color: #fff !important;
+}
+
+.bg-damage-header {
+  background-color: #823d38 !important;
+  color: #fff !important;
+}
+
+.bg-tabs {
+  background-color: #fdfcff;
+}
+
+.out-accordion {
+  outline: 0 !important;
+}
+
+.out-accordion :focus {
+  outline: 0 !important;
+  box-shadow: 0 0 #0000 !important;
+}
+
+.version-text {
+  font-family: sans-serif;
+  text-transform: capitalize;
+  color: #7d94b1;
+  font-size: .68rem;
+  text-shadow: 0 .7px .7px #08294f, 0 .7px #24559a;
+  letter-spacing: 1px;
+}
+
+.perk-description {
+  font-style: italic;
+  text-shadow: 0 0 #966e00;
+  color: #5c4200;
+  border-color: #ffc737;
+  border-style: solid;
+  border-width: 0;
+  background-color: #f4e3b6;
+}
+
+.tab-text {
+  text-shadow: -.3px 0 #25456a;
+}
+
+.link-text {
+  color: #16716b;
+  text-shadow: 0 0 #fff;
+}
+
+.ac-text {
+  color: #054070;
+  text-shadow: .5px 0 #07518d;
+}
+
+.stats-text {
+  text-shadow: -.8px 0 #003778, 0 0 .5px #fff;
+}
+
+.best-button-shadow {
+  text-shadow: 0 0 1px #f8ff76, 0 0 1px #faffa4;
+  letter-spacing: 1px;
+}
+
+.creature-label-text {
+  color: #003c99;
+  text-shadow: 0 0 #f7f7f7, 0 0 #0e5ac4;
+  letter-spacing: 1px;
+}
+
+.center-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.bg-light-pink {
+  background-color: #fff2f4;
+  color: #000;
+}
+
+.bg-spell-body {
+  background-color: #f9f5ff;
+  color: #000;
+}
+
+.margin-5px {
+  margin: "5px";
+}
+
+.shadow-outline-unselected {
+  box-shadow: 0 1px 2px #c6c9cf, 0 1px 2px #8a8e96;
+  outline: 0 solid #c6c9cf;
+}
+
+.shadow-outline-result-item {
+  box-shadow: 0 2px 2px #767394, 0 1px 2px #739094;
+  border-color: #eee !important;
+}
+
+.stat-button {
+  width: "4rem";
+  color: "white";
+  backgroundColor: "#007cf5" !important;
+}
+
+.tag {
+  width: fit-content;
+  max-width: 100%;
+  font-size: .7rem;
+  font-weight: bold;
+  padding-left: .4rem;
+  padding-right: .4rem;
+  padding-top: .12rem;
+  padding-bottom: .1rem;
+  background-color: #ffede1;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #5e2600;
+  color: #8b3800;
+}
+
+.version-text-2 {
+  color: #fff;
+  font-size: .5rem;
+  text-shadow: 0 0 .4px #08294f, 0 0 .4px #08294f, 0 0 .4px #08294f, 0 0 .4px #08294f, 0 0 .4px #08294f;
+  letter-spacing: 1px;
+}
+
+.footer {
+  background: linear-gradient(#f8f2f2, #fffcfc);
+  border-radius: 10px 10px 0 0;
+  outline: 1px solid #bdb499;
+  margin-top: auto;
+  bottom: 0;
+}
+
+.comparator-title {
+  display: flex;
+  word-break: break-all;
+  flex-direction: row;
+  align-items: center;
+  width: calc(var(--screen-width)  - 9rem);
+  text-wrap: nowrap;
+  overflow: clip;
+}
+
+/*# sourceMappingURL=src_css_style_b52d8e.css.map*/

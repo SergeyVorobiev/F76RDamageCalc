@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/src/css/buttons.css"],"sourcesContent":[".button-3:hover {\r\n    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);\r\n}\r\n\r\n.button-3:focus {\r\n    box-shadow: 0px 0px 3px rgba(0,0,200,0.4);\r\n}\r\n\r\n.button-3:active {\r\n    box-shadow: 0px 0px 4px rgba(0.0,0,70,0.4);\r\n    border-color: #fff;\r\n}\r\n\r\n.burger {\r\n    fill: #14455f;\r\n    border: none;\r\n    background-color: none;\r\n}\r\n\r\n.burger:hover {\r\n    fill: #b47400;\r\n    border: none;\r\n}\r\n\r\n.burger:focus {\r\n    fill: #b47400;\r\n    border: none;\r\n}\r\n\r\n.burger:active {\r\n    fill: #c89300;\r\n    border: none;\r\n}"],"names":[],"mappings":"AAAA;;;;AAIA;;;;AAIA;;;;;AAKA;;;;;;AAMA;;;;;AAKA;;;;;AAKA"}},
+    {"offset": {"line": 34, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}
