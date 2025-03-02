@@ -13,7 +13,8 @@
 ## Table of Contents
 1. [Build](#build-variants)
 2. [Limitations](#limitations)
-3. [Tests](#tests)
+3. [Capabilities](#capabilities)
+4. [Tests](#tests)
    1. [.50Cal Machine Gun](#50-Cal-Machine-Gun)
 
 ## Build variants
@@ -31,15 +32,9 @@
        ```console
        npm run dev
        ``` 
-   5. Go to [localhost](http://localhost:3000) in your browser. 
+   5. Go to [localhost](http://localhost:3000) in your browser.
 
-Other commands:
-```console
-npm run build
-``` 
-```console
-npm run deploy
-```
+![View](src/resources/forReadme/main.webp)
 
 ## Limitations
 See [Spreadsheet calculator](https://github.com/SergeyVorobiev/F76Damage) for details about calculation methods and formulas.
@@ -56,8 +51,30 @@ Not fully tested effects:
 4. Time damage (Is presented with stack support (up to 10 for each type of damage)).
 5. Additional time damage effects for crit.
 
-![View](src/resources/forReadme/main.webp)
+## Capabilities
 
+#### 1. Comprehensive information about consumables and perk cards with details about effects and conditions:
+![ConsData](src/resources/forReadme/consumablesPerkCardData.webp)
+#### 2. Creature curves, keywords, body data:
+![Creature](src/resources/forReadme/creatureData.webp)
+#### 3. Races:
+![Creature](src/resources/forReadme/raceData.webp)
+#### 4. Manual weapon settings:
+![WeaponSettings](src/resources/forReadme/manualWSettings.webp)
+#### 5. Cards:
+![Cards](src/resources/forReadme/cardSettings.webp)
+#### 6. DPS comparator:
+![DPS](src/resources/forReadme/dpsComparator.webp)
+#### 7. Manual mod settings:
+![Mods](src/resources/forReadme/manualModSettings.webp)
+#### 8. Consumables selection:
+![Cons](src/resources/forReadme/itemSettings.webp)
+#### 9. Automatic best modifications calculation:
+![ModCalc](src/resources/forReadme/automaticModSettings.webp)
+#### 10. Automatic best weapon calculation:
+![ModCalc](src/resources/forReadme/bestWeaponCalculator.webp)
+#### 11. Snapshots:
+![ModCalc](src/resources/forReadme/snapshots.webp)
 
 ## Tests
 

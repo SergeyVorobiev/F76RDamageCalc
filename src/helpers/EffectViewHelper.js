@@ -267,26 +267,36 @@ export function buildCurve(curve, maxValue, className="mt-1") {
     if (!curve || curve === "") {
         return (<></>);
     }
-
-    const pathCurve = curve.split("\n");
+    function buildView(curve, maxValue, path) {
+        if (!curve || curve === "") {
+            return (<></>);
+        }
+        const data = JSON.stringify(curve.curve);
+        return (
+            <>
+                {buildTextBlock(
+                    <>
+                        <div className="pb-1">
+                            Curve magnitude
+                        </div>
+                        <div className="pb-1">
+                            {path}
+                        </div>
+                        <div>
+                            {data}
+                        </div>
+                        <div className="pt-1">
+                            Curve magnitude max: {maxValue}
+                        </div>
+                    </>, null, null, className, "#7b3b00", "#fff9f3", "#fff9f3"
+                )}
+            </>
+        );
+    }
     return (
         <>
-            {buildTextBlock(
-                <>
-                    <div className="pb-1">
-                        Curve magnitude
-                    </div>
-                    <div className="pb-1">
-                        {pathCurve[0]}
-                    </div>
-                    <div>
-                        {pathCurve[1]}
-                    </div>
-                    <div className="pt-1">
-                        Curve magnitude max: {maxValue}
-                    </div>
-                </>, null, null, className, "#7b3b00", "#fff9f3", "#fff9f3"
-            )}
+            {buildView(curve.base, curve.maxValue, curve.path)}
+            {buildView(curve.alt, curve.maxValueAlt, curve.path)}
         </>
     );
 }
