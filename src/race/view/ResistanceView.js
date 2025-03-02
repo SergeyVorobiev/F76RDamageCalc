@@ -5,16 +5,25 @@ import { Divider } from 'antd';
 import CreatureDataProvider from '../../creature/CreatureDataProvider';
 
 
+function pushChart(typeData, key, result, cRes, name) {
+    const chartData = cRes[name];
+    if (!chartData || chartData === "") {
+        return;
+    }
+    result.push(
+        <Col className="d-flex justify-content-center" key={key + name}>
+            <ChartView className="d-flex justify-content-center m-1" color={typeData[2]} headerClassName={typeData[1]} title={typeData[0] + " (" + name + ")"} chartId={key + name} values={chartData.curve} />
+        </Col>
+    );
+}
+
 function buildResCols(res) {
     const result = [];
     for (const name in res) {
         const cRes = res[name];
         const typeData = CreatureDataProvider.getStyle(name);
-        result.push(
-            <Col className="d-flex justify-content-center" key={name}>
-                <ChartView className="d-flex justify-content-center m-1" color={typeData[2]} headerClassName={typeData[1]} title={typeData[0]} chartId={name} values={cRes.curve} />
-            </Col>
-        );
+        pushChart(typeData, name, result, cRes, "base");
+        pushChart(typeData, name, result, cRes, "alt");
     }
     return result;
 }

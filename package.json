@@ -1,6 +1,6 @@
 {
   "name": "fallout76-dc",
-  "version": "69.0.0",
+  "version": "72.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -19,7 +19,6 @@
     "bootstrap": "^5.3.3"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "@eslint/eslintrc": "^3"

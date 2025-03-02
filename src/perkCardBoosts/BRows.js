@@ -118,7 +118,7 @@ function getItem(card, setBoostDamage, boostDamage, cardType, setCardType, xBadg
     const w = (xBadge) ? '9rem' : '11.5rem';
     const perkColor = getPerkColor(card.category);
     const cName = "btn text-start " + perkColor;
-    const filter = card.is_used ? "grayscale(0%) contrast(1.1)" : "grayscale(80%) contrast(1.1)";
+    const filter = card.is_used ? "grayscale(0%) contrast(1.1)" : "grayscale(90%) contrast(1.1)";
     const imagePath = getPerkImage(card.im_name);
     const header = <div className="d-flex center-text">{getMark(card.im_name, imagePath, "mt-0 mb-0 ms-0 me-3 shadow-outline-gold2", '2rem', '1.8rem', '4px')}{card.name}</div>
     const bgCardColor = getComputedStyle(document.documentElement).getPropertyValue("--" + perkColor + "-color");
