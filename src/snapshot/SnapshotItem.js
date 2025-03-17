@@ -68,7 +68,7 @@ function bodyContent(isOpen, index, size, item, setModalDownloadSnapshot, setMod
                                         {row("🐍 Sneak:", sneakUsed + " +" + item.resultDamage.displayedSneak.toFixed(1) + "%")}
                                         {row("💣 Explosive:", item.resultDamage.explosive.toFixed(1) + "%")}
                                         {row("🤕 Head Shot:", headUsed)}
-                                        {row(addText(ammo, '0.7rem', '0.27rem', "Ammo:"), item.resultDamage.ammoCapacity)}
+                                        {row(addText(ammo, '0.9rem', '0rem', "Ammo:"), item.resultDamage.ammoCapacity)}
                                         {row(fireRateLabel, item.resultDamage.fireRate.toFixed(1))}
                                     </Col>
                                     <Col>

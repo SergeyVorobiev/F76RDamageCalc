@@ -9,10 +9,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import getMods from '../helpers/Mods';
 import { setCurrentLegendaryIds } from '../helpers/Global';
-import { popoverContent } from '../templates/ModPropsPopover';
-import { WeaponPopoverOverlay } from '../helpers/WeaponPopoverOverlay';
 import { ModParser } from '../helpers/mods/ModParser';
 import { Tag } from 'antd';
+import { WarningPopover } from '../helpers/WarningPopover';
+import StackEffectView from '../helpers/views/StackEffectView';
 
 
 const legendaryItems = getLegendaryByStar();
@@ -50,11 +50,14 @@ function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     }
     const title = (legendaryInfo) ? legendaryInfo.name : "Legendary";
     const mod = (legendaryInfo) ? getMods().get(legendaryInfo.id) : null;
+    if (mod && !mod.label) {
+        mod.label = "CMOD";
+    }
     function getQM(mod) {
         if (mod) {
             return (
                 <Col className="d-flex justify-content-end">
-                    <WeaponPopoverOverlay popoverHeader={mod.name} popoverContent={popoverContent(mod)} itemToOverly={getQuestionMark()}></WeaponPopoverOverlay>
+                    <WarningPopover element={getQuestionMark()} message={<StackEffectView item={mod} />} header={mod.name} className="popover-adjustable2" />
                 </Col>
             );
         }

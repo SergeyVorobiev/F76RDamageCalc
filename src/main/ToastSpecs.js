@@ -217,7 +217,7 @@ function getMainToast(mods, creatures, resultDamage, legendary, bonusText, total
         <Toast.Body className="p-2">
             {keyValueRow('💥 Damage:', resultDamage.tDamage.toFixed(1) + ' x ' + resultDamage.shotSize, "default", "indigo")}
             {keyValueRow(fireRateLabel, resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
-            {keyValueRow(addText(ammo, '0.7rem', '0.27rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
+            {keyValueRow(addText(ammo, '0.9rem', '0rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
             {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
             {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "red")}

@@ -10,9 +10,26 @@ import styles from "./page.module.css";
 import F76NavBar from '../navbar/F76NavBar';
 import LoadingLine from '../loading/LoadingLine';
 import Footer from '../navbar/Footer';
+import TestEnv from '../testEnvironment/TestEnv';
 
 
 const Main = React.lazy(() => import('../main/Main'));
+
+function webSite() {
+    return (
+        <div className='m-auto p-0 mb-0' style={{display: 'flex', flexDirection: 'column', maxWidth: '80rem', minHeight: '100vh'}}>
+            <F76NavBar></F76NavBar>
+            <Suspense fallback={<LoadingLine />}>
+                <Main />
+                <Footer />
+            </Suspense>
+        </div>
+    );
+}
+
+function testEnv() {
+    return <TestEnv />
+}
 
 export default function Home() {
     useEffect(() => {
@@ -30,14 +47,5 @@ export default function Home() {
         windowSizeChanged();
         window.onresize = windowSizeChanged;
     }, []);
-    return (
-        <div className='m-auto p-0 mb-0' style={{display: 'flex', flexDirection: 'column', maxWidth: '80rem', minHeight: '100vh'}}>
-            <F76NavBar></F76NavBar>
-            <Suspense fallback={<LoadingLine />}>
-                <Main />
-                <Footer />
-            </Suspense>
-        </div>
-    );
-
+    return <>{webSite()}</>;
 }

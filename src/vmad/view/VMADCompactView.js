@@ -88,7 +88,7 @@ function getScriptNameView(scriptName) {
 }
 
 function objView(obj, name, scriptName, onEffectClick) {
-    if (obj.label === 'SPEL' || obj.label === 'MGEF' || obj.label === 'PERK' || obj.label === 'ALCH') {
+    if (obj.label === 'PROJ' || obj.label === 'EXPL' || obj.label === 'HAZD' || obj.label === 'PCRD' || obj.label === 'ENCH' || obj.label === 'SPEL' || obj.label === 'MGEF' || obj.label === 'PERK' || obj.label === 'ALCH') {
         return effectButtonView(obj, name, scriptName, onEffectClick);
     } else if (obj.label === 'AVIF') {
         return buildActor(obj, name, getScriptNameView(scriptName));

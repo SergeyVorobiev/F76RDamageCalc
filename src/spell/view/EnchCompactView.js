@@ -25,23 +25,18 @@ export function getEffects(effects, onEffectClick) {
     return result;
 }
 
-export default function SpellCompactView(props) {
-    const spell = props.spell;
+export default function EnchCompactView(props) {
+    const ench = props.ench;
     return (
         <>
-            {idNameRow(spell.id, spell.name)}
+            {idNameRow(ench.id, ench.name)}
             <Divider className="pt-0 mt-2 mb-2">Properties</Divider>
-            {buildRow("Name:", spell.full, 'purple', false)}
-            {buildRow("Type:", spell.type, 'blue', false)}
-            {buildRow("Target:", spell.target, 'purple', false)}
-            {buildRow("Charge Time:", spell.time, 'blue', false)}
-            {buildRow("Range:", spell.range, 'purple', false)}
-            {buildRow("Duration:", spell.duration, 'blue', false)}
-            {buildRow("Duration type:", spell.e_type, 'purple', false)}
-            {vmadView(spell.id, spell.vmad, props.onEffectClick)}
-            {getEffectButton(spell.perk, props.onEffectClick)}
+            {buildRow("Name:", ench.full, 'purple', false)}
+            {buildRow("Type:", ench.type, 'blue', false)}
+            {buildRow("Target:", ench.target, 'purple', false)}
+            {buildRow("Duration type:", ench.e_type, 'purple', false)}
             <Divider className="pt-0 mt-2 mb-2">Effects</Divider>
-            {getEffects(spell.mag_effects, props.onEffectClick)}
+            {getEffects(ench.mag_effects, props.onEffectClick)}
         </>
     );
 }

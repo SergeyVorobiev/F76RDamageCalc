@@ -29,7 +29,7 @@ function getInfo() {
     return (
         <div className="center-text">
             <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
-                <Badge variant="black" pill>!</Badge>
+                <Badge variant="black" pill style={{cursor: "pointer"}}>!</Badge>
             </OverlayTrigger>
         </div>
 

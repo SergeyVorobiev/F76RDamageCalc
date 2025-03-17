@@ -5,7 +5,6 @@ import { Pagination, FloatButton } from 'antd';
 import { getPerkCard, getSortedPerkCards } from '../PerkCardProvider';
 
 
-
 const PerkCardItems = memo(function PerkCardItems(props) {
     console.log("Perk Card Items");
     const [pageSize, setPageSize] = useState(20);

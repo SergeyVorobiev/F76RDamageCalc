@@ -65,7 +65,7 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
             <Row className="mt-1 ms-1 mb-2 me-2">
                 <Col className="m-auto d-flex justify-content-start">
                     <OverlayTrigger rootClose='true' trigger="click" placement="top" overlay={buildLicense()}>
-                        <Badge variant="black" pill>!</Badge>
+                        <Badge variant="black" pill style={{cursor: "pointer"}}>!</Badge>
                     </OverlayTrigger>
                 </Col>
                 <Col className="m-auto pe-2 d-flex justify-content-end">

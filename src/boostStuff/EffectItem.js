@@ -89,7 +89,7 @@ const EffectItem = memo(function EffectItem({categoryName, foodPref, setFoodPref
             <Image style={{width: 'auto', cursor: "pointer", height: picHeight, padding: imPadding}}
                 src={getPicture(item.imName)}
                 alt={item.imName}
-                priority
+                priority='true'
                 onClick={cardClick} />
             {head}
             <Card.Body onClick={cardClick} style={{cursor: "pointer"}} className="ps-1 pe-1 p-0 mb-1">

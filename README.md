@@ -75,6 +75,8 @@ Not fully tested effects:
 ![ModCalc](src/resources/forReadme/bestWeaponCalculator.webp)
 #### 11. Snapshots:
 ![ModCalc](src/resources/forReadme/snapshots.webp)
+#### 11. Weapons' tests:
+![ModCalc](src/resources/forReadme/tests.webp)
 
 ## Tests
 

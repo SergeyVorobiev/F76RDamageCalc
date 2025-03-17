@@ -3,6 +3,8 @@ import { Divider } from 'antd';
 import Card from 'react-bootstrap/Card';
 
 
+const kind = {1: "Float", 3: "List", 4: "Activate", 5: "Spell", 8: "Actor", 9: "Item"};
+
 function buildPerkEffect(effect, key, onEffectClick) {
     const rows = getRows(effect, onEffectClick);
     const conditions = buildConditionStrings(effect.conditions, "mt-1 p-1");

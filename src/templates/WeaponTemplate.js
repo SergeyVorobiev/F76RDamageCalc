@@ -162,8 +162,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const [resetButtonActive, setResetButtonActive] = useState(false);
     function modRow(index, modsSameType, checkMod) {
         return (
-           <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods}>
-           </ModRow>
+           <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods} />
         );
     };
 
@@ -259,7 +258,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     <Divider className='mt-2 mb-2'></Divider>
                     <GeneralView template={template}></GeneralView>
                     <AmmoView className="pt-2" ammoId={template.ammoId[1]}></AmmoView>
-                    <ProjView className="pt-2" projId={template.projId[1]}></ProjView>
+                    <ProjView className="pt-2" projIds={template.projId[1]}></ProjView>
                     <div className="pt-2" />
                     <DamageOverview damageData={template.damageData}></DamageOverview>
                     {divider}

@@ -3,7 +3,6 @@ import { idNameRow, getEffectButton, indigo, redRounded } from '../../helpers/Ef
 import { numberToString } from '../../helpers/StringHelpers';
 import { Divider, Tag } from 'antd';
 import { getEffects } from '../../spell/view/SpellCompactView';
-// import { useState } from 'react';
 
 
 function getItemDescription(desc) {
