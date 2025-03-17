@@ -6,7 +6,12 @@ import { memo } from 'react';
 // <Image {...props} />
 const ImageMemory = memo(function ImageMemory(props) {
     const style = {width: props.width, height: props.height, borderRadius: props.borderRadius, maxHeight: props.maxHeight};
-    const src = (props.url) ? props.url : props.src.default.src;
+    let src;
+    try {
+        src = (props.url) ? props.url : props.src.default.src;
+    } catch {
+        return (null);
+    }
     return (
         <Image priority={props.priority} alt={props.alt} style={style} src={src} />
     )

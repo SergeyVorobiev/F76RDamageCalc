@@ -8,7 +8,12 @@ export default class ImageUrlPool {
 
     // If url is not loaded the method will start to load it automatically.
     static getUrl(image) {
-        const src = image.default.src;
+        let src = null;
+        try {
+            src = image.default.src;
+        } catch {
+            return null;
+        }
         let object = ImageUrlPool.pool.get(src);
         if (object && object.url) {
             return object.url;

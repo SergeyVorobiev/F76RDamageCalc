@@ -82,6 +82,7 @@ export default class DamageEmulator {
             fireRate: this.weapon.getFireRate(),
             ammoCapacity: this.weapon.getAmmoCapacity(),
             strength: this.weapon.getStrength(),
+            health: this.weapon.getOwnerHealth(),
             resultArmor: resultArmor,
         };
     }
