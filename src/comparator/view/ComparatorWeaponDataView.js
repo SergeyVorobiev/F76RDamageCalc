@@ -97,7 +97,7 @@ function weaponItemView(data, setData) {
         return (<></>);
     }
     const [, allStuffBoosts,] = ConsumablesBuilder.buildFromList(data.consumableList, data.player);
-    const weapon = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, allStuffBoosts, data.playerStats).build();
+    const weapon = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, allStuffBoosts, data.playerStats, data.player.health.value).build();
     const wSpec = data.wSpec;
     const boostDamage = data.boostDamage;
     const stuff = data.consumableList;

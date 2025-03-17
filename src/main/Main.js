@@ -126,7 +126,7 @@ export default function Main() {
     const weaponDataRef = useRef(null);
 
     useEffect(() => {
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats, player.health.value);
         setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
         setResultDamage(calcDamage(weaponFactory, creatures));
 
@@ -155,7 +155,7 @@ export default function Main() {
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats]);
 
     useEffect(() => {
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats);
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats, player.health.value);
         setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
         setLoadedScreen(true);
     }, [creatureChartNumber]);
@@ -183,7 +183,7 @@ export default function Main() {
     const b = (
         <div>
             <MainCardsDisplay creatureNamesRef={creatureNamesRef} wSpecRef={wSpecRef} graphValues={graphValues} resultDamage={resultDamage} creatures={creatures} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} setCreatures={setCreatures} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></MainCardsDisplay>
-            <ToastSpecs creatures={creatures} legendary={wSpec.legendary} mods={wSpec.mods} iconName={wSpec.iconName} weaponName={wSpec.defaultName} graphValues={graphValues} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage}></ToastSpecs>
+            <ToastSpecs creatures={creatures} legendary={wSpec.legendary} mods={wSpec.mods} iconName={wSpec.iconName} weaponName={wSpec.defaultName} graphValues={graphValues} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} stuffBoostRef={stuffBoostRef}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}

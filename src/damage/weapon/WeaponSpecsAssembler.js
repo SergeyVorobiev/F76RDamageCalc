@@ -5,13 +5,14 @@ import AccuracyAdjuster from '../../helpers/AccuracyAdjuster';
 
 export default class WeaponSpecsAssembler {
     
-    constructor(wSpec, perks, extraDamageSettings, additionalDamages, stuffBoost, playerStats) {
+    constructor(wSpec, perks, extraDamageSettings, additionalDamages, stuffBoost, playerStats, ownerHealth) {
         this.wSpec = wSpec;
         this.perks = perks;
         this.extraDamageSettings = extraDamageSettings;
         this.additionalDamages = additionalDamages;
         this.stuffBoost = stuffBoost;
         this.playerStats = playerStats;
+        this.ownerHealth = ownerHealth;
     }
     
     getDamages() {
@@ -58,6 +59,10 @@ export default class WeaponSpecsAssembler {
             strength = 0;
         }
         return strength;
+    }
+
+    getOwnerHealth() {
+        return this.ownerHealth;
     }
 
     collectFromLegendary(property) {

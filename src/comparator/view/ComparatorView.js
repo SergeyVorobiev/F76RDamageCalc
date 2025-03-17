@@ -48,7 +48,7 @@ function buildDamages(creature, data) {
         return {xValues: [], yValues: []};
     }
     const [, consumables,] = ConsumablesBuilder.buildFromList(data.consumableList, data.player);
-    const weaponFactory = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, consumables, data.playerStats);
+    const weaponFactory = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, consumables, data.playerStats, data.player.health.value);
     return graphDamage(creature, weaponFactory, false, true, data.accuracy, 100);
 }
 

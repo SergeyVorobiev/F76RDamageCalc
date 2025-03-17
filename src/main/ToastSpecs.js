@@ -17,6 +17,8 @@ import { buildCreatureInfo2 } from '../creature/CreatureInfoPopover';
 import ResistanceChart from '../main/ResistanceChart';
 import { buildExtraDamageView, getFireRateLabel } from './SummaryView';
 import ModView from '../snapshot/ModView';
+import BoostRowView from '../snapshot/BoostRowView';
+import { convertStuffBoost } from "../entities/EStuffBoost";
 
 
 function getLegendaryRow(legendaryId, star) {
@@ -33,12 +35,12 @@ function getLegendaryRow(legendaryId, star) {
     }
 }
 
-const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage}) {
+const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage, stuffBoostRef}) {
     console.log("ToastSpecs");
     const [showView, setShowView] = useState("Main");
     const [detailIndex, setDetailIndex] = useState(-1);
     const [creatureNumber, setCreatureNumber] = useState(1);
-    const dropdownNames = ["Main", "Damage Stats", "Creature", "Chart"];
+    const dropdownNames = ["Main", "Boosts", "Damage Stats", "Creature", "Chart"];
     if (resultDamage.damageDetails && (resultDamage.damageDetails.length - 1) < detailIndex) {
         setDetailIndex(-1);
     }
@@ -59,11 +61,13 @@ const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconNam
     const totalBonusText = totalBonusTextMin + " - " + totalBonusTextMax;
     let toastBody = null;
     if (showView === "Main") {
-        toastBody = getMainToast(mods, creatures, resultDamage, legendary, bonusText, totalBonusText, strength)
+        toastBody = getMainToast(creatures, resultDamage, bonusText, totalBonusText, strength);
     } else if (showView === "Damage Stats") {
         toastBody = getDetails(resultDamage, detailIndex, setDetailIndex);
     } else if (showView === "Creature") {
         toastBody = getCreatures(resultDamage, creatures, creatureNumber);
+    } else if (showView === "Boosts") {
+        toastBody = getBoostToast(legendary, mods, boostDamageRef.current, stuffBoostRef.current);
     } else {
         toastBody = getChart(graphValues, creatures, creatureChartNumber, setCreatureChartNumber);
     }
@@ -211,7 +215,7 @@ function getDetails(resultDamage, detailIndex, setDetailIndex) {
             {keyValueRow('☠️ Crit:', "+" + resultDamage.displayedCrit + "%", "default", "black")}
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
 */
-function getMainToast(mods, creatures, resultDamage, legendary, bonusText, totalBonusText, strength) {
+function getMainToast(creatures, resultDamage, bonusText, totalBonusText, strength) {
     const fireRateLabel = getFireRateLabel(resultDamage.weaponType);
     return (
         <Toast.Body className="p-2">
@@ -220,13 +224,23 @@ function getMainToast(mods, creatures, resultDamage, legendary, bonusText, total
             {keyValueRow(addText(ammo, '0.9rem', '0rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
             {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
-            {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "red")}
+            {keyValueRow('❤️ Health:', resultDamage.health, "default", "red")}
+            {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "volcano")}
+
+        </Toast.Body>
+    );
+}
+
+function getBoostToast(legendary, mods, boostDamage, stuff) {
+    return (
+        <Toast.Body className="p-2">
             {getLegendaryRow(legendary[0][0], 1)}
             {getLegendaryRow(legendary[1][0], 2)}
             {getLegendaryRow(legendary[2][0], 3)}
             {getLegendaryRow(legendary[3][0], 4)}
             {getLegendaryRow(legendary[4][0], 5)}
             <ModView mods={mods} fontSize='0.6rem' />
+            <BoostRowView iconSize={1.5} boostDamage={boostDamage} stuff={convertStuffBoost(stuff)} />
         </Toast.Body>
     );
 }

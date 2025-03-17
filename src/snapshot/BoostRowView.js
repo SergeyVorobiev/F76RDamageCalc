@@ -6,10 +6,15 @@ import ConsumablesBuilder from '../consumables/ConsumablesBuilder';
 
 const BoostRowView = memo(function BoostRowView(props) {
     const imNames = getUsedPerks(props.boostDamage);
+    const ratio = 1.864 / 2;
+    const iconSize = (props.iconSize) ? props.iconSize : 2;
+    const imageSize = iconSize * ratio;
+    const iconSizeRem = iconSize + "rem";
+    const imageSizeRem = imageSize + "rem";
     return (
         <>
-            <EmblemCalcRowView imNames={imNames} imageProvider={getPerkImage} iconSize='2.0rem' imageSize='1.864rem' borderRadius='5px' />
-            <EmblemCalcRowView imNames={props.stuff} imageProvider={ConsumablesBuilder.getImagePathById} iconSize='2.0rem' imageSize='1.864rem' />
+            <EmblemCalcRowView imNames={imNames} imageProvider={getPerkImage} iconSize={iconSizeRem} imageSize={imageSizeRem} borderRadius='5px' />
+            <EmblemCalcRowView imNames={props.stuff} imageProvider={ConsumablesBuilder.getImagePathById} iconSize={iconSizeRem} imageSize={imageSizeRem} />
         </>
     );
 });

@@ -15,6 +15,7 @@ export default class Weapon {
         this.antiArmor = weaponSpecsAssembler.getAntiArmor();
         this.strengthBoost = weaponSpecsAssembler.getStrengthBoost();
         this.strength = weaponSpecsAssembler.getStrength();
+        this.ownerHealth = weaponSpecsAssembler.getOwnerHealth();
         this.bonusMult = weaponSpecsAssembler.getBaseDamageMult();
         this.critBoost = weaponSpecsAssembler.getCritBoost();
         this.explosiveBonus = weaponSpecsAssembler.getExplosiveBonus();
@@ -132,6 +133,10 @@ export default class Weapon {
 
     getStrength() {
         return this.strength;
+    }
+
+    getOwnerHealth() {
+        return this.ownerHealth;
     }
 
     getStrengthBonus() {

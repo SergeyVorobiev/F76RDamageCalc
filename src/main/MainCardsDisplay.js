@@ -18,7 +18,7 @@ import StaticPopoverRenderer from '../viewComponents/popover/StaticPopoverRender
 
 const colors = getColorsForHotMeter();
 
-const imagePopover = new StaticPopoverRenderer(<></>, <></>, "mainWeaponImage", "right");
+const imagePopover = new StaticPopoverRenderer(<></>, <></>, "mainWeaponImage", "bottom");
 
 const MainCardsDisplay = memo(function MainCardsDisplay(props) {
     console.log("MainCardsDisplay");
