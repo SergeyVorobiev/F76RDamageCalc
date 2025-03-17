@@ -3,7 +3,7 @@ import effects from '../resources/effects.json';
 
 const vmadObjects = new Map();
 
-// PERK, SPEL, MGEF
+// PERK, SPEL, MGEF, ENCH, HAZD, PROJ
 export function getEffect(id) {
     return effects[0][id];
 }

@@ -1,5 +1,7 @@
 import items from '../resources/spel.json';
 
+
+// THIS CLASS DEPRECATED AND MUST BE DELETED IN THE FUTURE
 function createMap() {
     let map = new Map();
     for (let i = 0; i < items.length; i++) {

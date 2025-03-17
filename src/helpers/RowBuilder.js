@@ -4,10 +4,11 @@ import { Tag } from 'antd';
 
 
 let k = 0;
-export function keyValueRow(name, value, colorName="purple", colorValue="red", m=1) {
+export function keyValueRow(name, value, colorName="purple", colorValue="red", m=1, key=null) {
     const rowProps = "flex-nowrap ps-0 pe-0 m-" + m;
+    if (!key) {key = k++;}
     return (
-        <Row key={k++} className={rowProps}>
+        <Row key={key} className={rowProps}>
             <Col className="text-start text-nowrap ps-0 ms-0 pe-0 me-0">
                 <strong>
                     <Tag style={{overflow: 'clip'}} bordered={false} color={colorName}>{name}</Tag>

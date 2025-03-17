@@ -1,13 +1,13 @@
 import Card from 'react-bootstrap/Card';
-import Image from "next/image";
 import Row from 'react-bootstrap/Row';
+import CachedImage from '../../../helpers/views/CachedImage';
 
 
 export function getMark(key, imagePath, className, iconSize, imageSize, borderRadius) {
     return (
         <Card key={key} className={"m-1 d-flex justify-content-center " + className} style={{height: iconSize, width: iconSize}}>
             <div className="d-flex justify-content-center">
-                <Image priority="true" alt="Weapon emblem" style={{borderRadius: borderRadius, height: imageSize, width: imageSize}} src={imagePath} />
+                <CachedImage alt="Weapon emblem" height={imageSize} width={imageSize} borderRadius={borderRadius} src={imagePath} />
             </div>
         </Card>
     );

@@ -348,17 +348,17 @@ export default function ModalCalculateWeapons(props) {
         return (
             <>
                 <Modal.Header className="d-flex justify-content-center p-1">
-                <Row className="p-1" style={{width: '100%'}}>
-                    <Col className="d-flex justify-content-start ps-2 p-0" xs={2}>
-                        {wIcon}
-                    </Col>
-                    <Col xs={8} className="d-flex justify-content-center">
-                        <div className="p-auto m-auto text-shadow-indigo" style={{fontSize: '1.1rem', letterSpacing: '1px', fontWeight: 'bold'}}>{header}</div>
-                    </Col>
-                    <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
-                        <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
-                    </Col>
-                </Row>
+                    <Row className="p-1" style={{width: '100%'}}>
+                        <Col className="d-flex justify-content-start ps-2 p-0" xs={2}>
+                            {wIcon}
+                        </Col>
+                        <Col xs={8} className="d-flex justify-content-center">
+                            <div className="p-auto m-auto text-shadow-indigo" style={{fontSize: '1.1rem', letterSpacing: '1px', fontWeight: 'bold'}}>{header}</div>
+                        </Col>
+                        <Col xs={2} className="d-flex justify-content-end m-auto pe-1">
+                            <WarningPopoverBadge message={ParameterCalculator.info} sign="?" header={"Description"} placement={'left'} />
+                        </Col>
+                    </Row>
                 </Modal.Header>
                 <Modal.Body className="modal-scroll-80-60 pt-2 p-3">
                     {getProgress(calculating)}

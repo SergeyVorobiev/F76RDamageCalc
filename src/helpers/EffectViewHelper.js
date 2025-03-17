@@ -49,21 +49,27 @@ export function getNameByLabel(label) {
         case 'PERK':
             return "Perk";
         case 'PCRD':
-            return "Card";
+            return "Perk card";
         case 'ENCH':
             return "Enchantment";
         case 'MGEF':
             return "Effect";
         case 'ALCH':
             return "Alchemy";
-        case 'HZRD':
-            return "Hazard";
         case 'QUST':
             return "Quest";
         case 'KYWD':
             return "Tag";
         case 'RACE':
             return "Race";
+        case 'EXPL':
+            return "Explosion";
+        case 'PROJ':
+            return "Projectile";
+        case 'HAZD':
+            return "Hazard";
+        case 'PROJ':
+            return "Projectile";
         default:
             return label;
     }
@@ -91,6 +97,37 @@ export function getVMADButton(effectId, vmad, onEffectClick, buttonName='VMAD') 
         <Button className="w-100 p-1 mt-1" name={id} variant="blue-border" onClick={onEffectClick}>
             {buttonName}
         </Button>
+    );
+}
+
+export function innerObject(object, onEffectClick) {
+    if (isEffectIdEmpty(object)) {
+        return (null);
+    }
+    let objectValue = null;
+    if (object.type === 'MSTT') {
+        objectValue = (
+            <>
+                {getEffectButton(object.value.expl, onEffectClick)}
+                {getEffectButton(object.value.hazd, onEffectClick)}
+            </>
+        );
+    } else if (object.type === 'WEAP') {
+        objectValue = object.value.id + " / " + object.value.name;
+    } else {
+        objectValue = getEffectButton(object.value, onEffectClick);
+    }
+    return (
+        <>
+            <Card className="mt-1 mb-1">
+                <Card.Header className='m-0 p-0 ps-2 bg-proj-header'>
+                    <small>Placed Inside</small>
+                </Card.Header>
+                <Card.Body className="p-1">
+                    {objectValue}
+                </Card.Body>
+            </Card>
+        </>
     );
 }
 
@@ -127,7 +164,7 @@ export function vmadView(id, vmad, onEffectClick) {
 }
 
 export function buildRow(left, right, color, border=true, skipZero=false, skipEmpty=true) {
-    if (skipEmpty && (right === null || right === "")) {
+    if (skipEmpty && (typeof right === 'undefined' || right === null || right === "")) {
         return (<></>);
     }
     if (skipZero && right === 0) {
@@ -263,21 +300,23 @@ export function buildEffect(index, body) {
     );
 }
 
-export function buildCurve(curve, maxValue, className="mt-1") {
+export function buildCurve(curve, className="mt-1") {
     if (!curve || curve === "") {
         return (<></>);
     }
-    function buildView(curve, maxValue, path) {
+    function buildView(curve, maxValue, path, alt) {
         if (!curve || curve === "") {
             return (<></>);
         }
         const data = JSON.stringify(curve.curve);
+        const head = (alt) ? "Curve magnitude alt" : "Curve magnitude";
+        const val = (alt) ? "Curve magnitude alt max: " + maxValue : "Curve magnitude max: " + maxValue;
         return (
             <>
                 {buildTextBlock(
                     <>
                         <div className="pb-1">
-                            Curve magnitude
+                            {head}
                         </div>
                         <div className="pb-1">
                             {path}
@@ -286,7 +325,7 @@ export function buildCurve(curve, maxValue, className="mt-1") {
                             {data}
                         </div>
                         <div className="pt-1">
-                            Curve magnitude max: {maxValue}
+                            {val}
                         </div>
                     </>, null, null, className, "#7b3b00", "#fff9f3", "#fff9f3"
                 )}
@@ -295,8 +334,8 @@ export function buildCurve(curve, maxValue, className="mt-1") {
     }
     return (
         <>
-            {buildView(curve.base, curve.maxValue, curve.path)}
-            {buildView(curve.alt, curve.maxValueAlt, curve.path)}
+            {buildView(curve.base, curve.maxValue, curve.path, false)}
+            {buildView(curve.alt, curve.maxValueAlt, curve.path, true)}
         </>
     );
 }

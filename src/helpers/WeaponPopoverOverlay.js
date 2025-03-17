@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import ReactDOM from 'react-dom/client';
 import Row from 'react-bootstrap/Row';
 
+// DEPRECATED THIS IS NOT USED ANYWHERE
 
 let number = 0;
 let popoverContent = [];

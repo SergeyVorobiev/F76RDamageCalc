@@ -3,8 +3,13 @@ import { useState, useRef } from 'react';
 import PerkCardCompactView from '../../perkCard/view/PerkCardCompactView';
 import PerkCompactView from '../../perk/view/PerkCompactView';
 import SpellCompactView from '../../spell/view/SpellCompactView';
+import EnchCompactView from '../../spell/view/EnchCompactView';
 import EffectCompactView from '../../effect/view/EffectCompactView';
 import AlchemyCompactView from '../../consumables/view/AlchemyCompactView';
+import ModCompactView from '../../templates/ModCompactView';
+import ExplCompactView from '../../templates/ExplCompactView';
+import HazardCompactView from '../../templates/HazardCompactView';
+import ProjCompactView from '../../templates/ProjCompactView';
 import VMADCompactView from '../../vmad/view/VMADCompactView';
 import { getItem } from '../../consumables/view/ConsumableItems';
 import Button from 'react-bootstrap/Button';
@@ -50,7 +55,7 @@ function effectView(effect, onEffectClick, backButton) {
     } else if (label === "ENCH") {
         return (
             <>
-                ENCHANTMENT
+                <EnchCompactView ench={effect} onEffectClick={onEffectClick} />
                 {backButton}
             </>
         );
@@ -60,9 +65,37 @@ function effectView(effect, onEffectClick, backButton) {
                 <AlchemyCompactView alchemy={effect} onEffectClick={onEffectClick} />
                 {backButton}
             </>
+        );
+    } else if (label === "CMOD") {
+        return (
+            <>
+                <ModCompactView mod={effect} onEffectClick={onEffectClick} />
+                {backButton}
+            </>
+        );
+    } else if (label === "HAZD") {
+        return (
+            <>
+                <HazardCompactView hazard={effect} onEffectClick={onEffectClick} />
+                {backButton}
+            </>
+        );
+    } else if (label === "EXPL") {
+        return (
+            <>
+                <ExplCompactView expl={effect} onEffectClick={onEffectClick} />
+                {backButton}
+            </>
+        )
+    } else if (label === "PROJ") {
+        return (
+            <>
+                <ProjCompactView proj={effect} onEffectClick={onEffectClick} />
+                {backButton}
+            </>
         )
     }
-    return (<></>);
+    return (<>{label}</>);
 }
 
 function getEffectItem(viewIdStackRef, startItem) {

@@ -1,52 +1,15 @@
-import { idNameRow, buildRow, buildActor, buildConditionStrings, buildTextBlock, getEffectButton, vmadView } from '../../helpers/EffectViewHelper';
+import { idNameRow, buildRow, buildActor, buildConditionStrings, buildTextBlock, getEffectButton, vmadView, isEffectIdEmpty } from '../../helpers/EffectViewHelper';
 import { Divider } from 'antd';
-import { getExpView } from '../../helpers/ProjView';
 
-
-function checkEmpty(obj) {
-    return (!obj || obj === "" || obj === "00000000");
-}
-
-function getPerk(perkId, onEffectClick) {
-    if (checkEmpty(perkId)) {
-        return (<></>);
-    }
-    return getEffectButton(perkId, onEffectClick);
-}
-
-function getAbility(spellId, onEffectClick) {
-    if (checkEmpty(spellId)) {
-        return (<></>);
-    }
-    return getEffectButton(spellId, onEffectClick);
-}
 
 function getDamageType(damageType) {
-    if (checkEmpty(damageType)) {
+    if (isEffectIdEmpty(damageType)) {
         return (<></>);
     }
     if (typeof damageType === typeof "") {
         return buildRow("Value:", damageType, 'purple', false);
     }
     return buildActor(damageType, "Damage type");
-}
-
-function getExplosion(explosion) {
-    if (checkEmpty(explosion)) {
-        return (<></>);
-    }
-    return getExpView(explosion);
-}
-
-function getProjectile(projectile) {
-    if (checkEmpty(projectile)) {
-        return (<></>);
-    }
-    return (<>View for projectile is not implemented</>);
-}
-
-function getResistance(resistance) {
-    return buildActor(resistance, "Resistance");
 }
 
 export default function EffectCompactView(props) {
@@ -64,12 +27,12 @@ export default function EffectCompactView(props) {
             {buildRow("Target:", effect.target, "blue", false)}
             {buildActor(effect.actor_value1)}
             {buildActor(effect.actor_value2)}
-            {getAbility(effect.ability, props.onEffectClick)}
-            {getPerk(effect.perk, props.onEffectClick)}
+            {getEffectButton(effect.ability, props.onEffectClick)}
             {getDamageType(effect.d_type)}
-            {getExplosion(effect.explosion)}
-            {getProjectile(effect.projectile)}
-            {getResistance(effect.resist)}
+            {buildActor(effect.resist, "Resistance")}
+            {getEffectButton(effect.perk, props.onEffectClick)}
+            {getEffectButton(effect.explosion, props.onEffectClick)}
+            {getEffectButton(effect.projectile, props.onEffectClick)}
         </>
     );
 }

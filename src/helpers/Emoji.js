@@ -1,17 +1,15 @@
-import iBullet from '../resources/icons/bullet3.webp';
-import iAmmo from '../resources/icons/ammo5.webp';
-import iFireRate from '../resources/icons/fireRate.webp';
-import iTAmmo from '../resources/icons/tAmmo.webp';
-import iGun from '../resources/icons/gun.webp';
-import iRifle from '../resources/icons/rifle.webp';
-import iShotgun from '../resources/icons/shotgun.webp';
-import iBow from '../resources/icons/bow.webp';
-import iMelee from '../resources/icons/melee.webp';
-import iHeavy from '../resources/icons/heavy.webp';
-import iUnarmed from '../resources/icons/unarmed.webp';
-import iThrown from '../resources/icons/thrown.webp';
-import Image from "next/image";
+const icons = require.context('../resources/icons', true, /\.webp/);
 
+import CachedImage from './views/CachedImage';
+import { Ammo } from '../svg/SVGIcons';
+
+function getIcon(name) {
+    try {
+        return icons('./' + name + '.webp');
+    } catch {
+        return '';
+    }
+}
 
 export function getNumberEmoji(number) {
     switch(number) {
@@ -59,61 +57,63 @@ export function getSymbolText(symbol, text) {
     }
 }
 
-function image(maxHeight, src, altName, className=null) {
+function image(maxHeight, imName, altName, className=null) {
     if (!className) {
         className = "mt-auto mb-auto m-0";
     }
-    return (<Image priority alt={altName} className={className} style={{ width: 'auto', maxHeight: maxHeight }} src={src} />);
+    const src = getIcon(imName);
+    return (<CachedImage alt={altName} className={className} width='auto' maxHeight={maxHeight} src={src} />);
 }
 
 export function bullet(maxHeight) {
-    return image(maxHeight, iBullet, "Bullet");
+    return image(maxHeight, "bullet", "Bullet");
 }
 
 export function ammo(maxHeight, className=null) {
-    return image(maxHeight, iAmmo, "Ammo", className);
+    // return image(maxHeight, "ammo", "Ammo");
+    return <Ammo width={maxHeight} height={maxHeight} />
 }
 
 export function fireRate(maxHeight) {
-    return image(maxHeight, iFireRate, "Fire rate");
+    return image(maxHeight, "fireRate", "Fire rate");
 }
 
 export function tAmmo(maxHeight) {
-    return image(maxHeight, iTAmmo, "Ammo");
+    return image(maxHeight, "tAmmo", "Ammo");
 }
 
 export function gun(maxHeight) {
-    return image(maxHeight, iGun, "Gun");
+    return image(maxHeight, "gun", "Gun");
 }
 
 export function rifle(maxHeight) {
-    return image(maxHeight, iRifle, "Rifle");
+    return image(maxHeight, "rifle", "Rifle");
 }
 
 export function shotgun(maxHeight) {
-    return image(maxHeight, iShotgun, "Shotgun");
+    return image(maxHeight, "shotgun", "Shotgun");
 }
 
 export function bow(maxHeight) {
-    return image(maxHeight, iBow, "Bow");
+    return image(maxHeight, "bow", "Bow");
 }
 
 export function melee(maxHeight) {
-    return image(maxHeight, iMelee, "Melee");
+    return image(maxHeight, "melee", "Melee");
 }
 
 export function heavy(maxHeight) {
-    return image(maxHeight, iHeavy, "Heavy");
+    return image(maxHeight, "heavy", "Heavy");
 }
 
 export function unarmed(maxHeight) {
-    return image(maxHeight, iUnarmed, "Unarmed");
+    return image(maxHeight, "unarmed", "Unarmed");
 }
 
 export function thrown(maxHeight) {
-    return image(maxHeight, iThrown, "Thrown");
+    return image(maxHeight, "thrown", "Thrown");
 }
 
 export function addText(imageF, maxHeight, marginLeft, text) {
-    return (<>{imageF(maxHeight)} <span style={{marginLeft: marginLeft}}>{text}</span></>)
+    return (<div>{imageF(maxHeight)} <span style={{marginLeft: marginLeft}} />{text}</div>)
 }

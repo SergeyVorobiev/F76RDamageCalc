@@ -99,7 +99,7 @@ export default function SummaryView(props) {
                 {keyValueRow((<span className="mt-0 mb-0"><strong>☠️ Crit:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedCrit + "%"}</strong></span>), "default", "magenta")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>🐍 Sneak:</strong></span>), (<span className="mt-1 mb-1"><strong>{"+" + displayedSneak + "%"}</strong></span>), "default", "green")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>{fireRateLabel}</strong></span>), (<span className="mt-1 mb-1"><strong>{fireRateText}</strong></span>), "default", "purple")}
-                {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.7rem', '0.27rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{ammoCapacity}</strong></span>), "default", "default")}
+                {keyValueRow((<div className="mt-0 mb-0"><strong>{addText(ammo, '0.9rem', '0rem', "Ammo:")}</strong></div>), (<span className="mt-1 mb-1"><strong>{ammoCapacity}</strong></span>), "default", "default")}
                 {keyValueRow((<span className="mt-0 mb-0"><strong>⌛ Reload:</strong></span>), (<span className="mt-1 mb-1"><strong>{reloadTime.toFixed(1) + " s"}</strong></span>), "default", "blue")}
             </Card.Body>
             <Card.Footer className="ps-0 pe-0">
