@@ -33,7 +33,7 @@ function getItems(adDamage, bonusMult, creatures) {
     let k = 0;
     for (let i = 0; i < adDamage.length; i++) {
         const damage = adDamage[i];
-        if (damage.ignore) {
+        if (damage.ignored) {
             continue;
         }
         const [symbol, style] = getSymbolStyle(damage.type, damage.kind);

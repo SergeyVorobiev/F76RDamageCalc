@@ -54,7 +54,7 @@ export default function ModalApplyTemplate(props) {
         setLoading(true);
         setTimeout(() => {
             const template = props.modalTemplate.template;
-            const specItem = convertTemplateToSpecs(template, false);
+            const specItem = convertTemplateToSpecs(template, false, props.alt);
             props.setWSpec(specItem);
             onHide(e);
         }, 100);

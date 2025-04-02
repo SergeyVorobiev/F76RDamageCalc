@@ -14,7 +14,7 @@ import Col from 'react-bootstrap/Col';
 import BSRadio from '../helpers/views/BSRadio';
 import { WarningPopoverBadge } from '../helpers/WarningPopover';
 import TemplateTools from './TemplateTools';
-import { modGroups, weaponIds } from './TemplateItems';
+import { modGroups, weaponIds } from './WeaponTemplates';
 import CalcWGroupsDropdown from "./calc/view/CalcWGroupsDropdown";
 import CalcCurrentItem from "./calc/view/CalcCurrentItem";
 import CalcResultItems from "./calc/view/CalcResultItems";

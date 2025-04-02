@@ -226,7 +226,6 @@ function getMainToast(creatures, resultDamage, bonusText, totalBonusText, streng
             {keyValueRow('💪 Strength:', strength, "default", "brown")}
             {keyValueRow('❤️ Health:', resultDamage.health, "default", "red")}
             {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "volcano")}
-
         </Toast.Body>
     );
 }

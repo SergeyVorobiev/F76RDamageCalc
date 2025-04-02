@@ -60,6 +60,8 @@ export default class Creature {
         this.sneakPercent = 0;
         this.critPercent = 0;
         this.bleed = false;
+        this.isAuto = false;
+        this.attackDelay = 0;
     }
 
     getName() {
@@ -109,6 +111,7 @@ export default class Creature {
         if (this.health <= 0) {
             return true;
         }
+
         this.bulletCount = hit.bulletCount;
         this.lastTotalDamage = 0;
         this.lastTotalDamageWithAccuracy = 0;
@@ -119,6 +122,9 @@ export default class Creature {
         this.hits += 1;
         this.lifeTime += hit.deltaTime;
         this.lastShotTime = hit.deltaTime;
+        this.fireTime = hit.fireTime;
+        this.attackDelay = hit.attackDelay;
+        this.isAuto = hit.isAuto;
 
         // Run through damages to cause damage
         this.applyDamages(hit, hit.damages);
@@ -490,7 +496,13 @@ export default class Creature {
     }
 
     totalTime() {
-        return parseInt((this.lifeTime - this.lastShotTime) * 1000);
+        // It's tricky we count everything into delta time (reloadTime + delayHitTime + fireTime after hit is performed
+        // But delayHitTime must be count before hit hence we don't negate it but we must negate lastFireTime
+        // If a weapon is non-automatic attackDelay will be included, if not it should be included only after reloading
+        // which is not included for the last time if an enemy is dead therefore we miss first attackDelay,
+        // to avoid that let's add it:
+        let attackDelay = (this.isAuto) ? this.attackDelay : 0;
+        return parseInt((this.lifeTime - this.fireTime + attackDelay) * 1000);
     }
 
     formDeadReport(reloads, reloadsTime) {

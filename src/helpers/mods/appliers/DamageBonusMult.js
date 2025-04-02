@@ -9,7 +9,7 @@ export class DamageBonusMult extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-        super.checkOp(mod, "legendary", "Add");
+        super.checkOp(mod, "Legendary", "Add");
         const value = super.getValue(mod);
         if (update) {
             return false;

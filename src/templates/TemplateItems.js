@@ -1,49 +1,9 @@
-import getTemplates from '../helpers/TemplatesRegister';
 import WeaponTemplate from './WeaponTemplate';
 import { memo, useState, useEffect } from 'react';
-import { ModParser } from '../helpers/mods/ModParser';
-import DamageExtractor from '../helpers/mods/DamageExtractor';
-import DamageSetter from '../helpers/mods/DamageSetter';
-import LegendarySetter from '../helpers/mods/LegendarySetter';
-import ModsSetter from '../helpers/mods/ModsSetter';
 import { Pagination } from 'antd';
 import { Skeleton } from 'antd';
 import Accordion from 'react-bootstrap/Accordion';
-import TemplateTools from './TemplateTools';
 
-
-export const modGroups = new Set();
-
-export const weaponIds = {All: []};
-
-export const modsSetter = new ModsSetter(new LegendarySetter(), new ModParser(), new DamageExtractor(),
-    new DamageSetter());
-
-function buildTemplates() {
-    console.log("BuildTemplates");
-    const templates = JSON.parse(JSON.stringify(getTemplates()));
-    if (modGroups.size === 0) {
-        TemplateTools.getGroups(templates, modGroups);
-    }
-    const weaponIdsExists = (weaponIds.All.length > 0);
-    for (let i = 0; i < templates.length; i++) {
-        const template = templates[i];
-        template.index = i;
-        if (!weaponIdsExists) {
-            const type = template.type[0];
-            let weaponIdsByType = weaponIds[type];
-            if (!weaponIdsByType) {
-                weaponIdsByType = [];
-                weaponIds[type] = weaponIdsByType;
-            }
-            const obj = {id: template.id, apply: template.apply};
-            weaponIdsByType.push(obj);
-            weaponIds.All.push(obj);
-        }
-    }
-    modsSetter.setTemplatesMods(templates);
-    return templates;
-}
 
 function getSkeletons(size) {
     let result = [];
@@ -60,8 +20,6 @@ function getSkeletons(size) {
     }
     return result;
 }
-
-const templates = buildTemplates();
 
 const TemplateItems = memo(function TemplateItems(props) {
     console.log("TemplateItems");
@@ -91,7 +49,7 @@ const TemplateItems = memo(function TemplateItems(props) {
                 setWData({paginated: paginated, current: paginated.length, total: total, loaded: true});
             }
         );
-    }, [props.page, props.weaponType, props.filterName, props.pageSize, templates]);
+    }, [props.page, props.weaponType, props.filterName, props.pageSize, props.templates]);
     function showData() {
         if (!wData.loaded) {
             return (
@@ -119,7 +77,7 @@ const TemplateItems = memo(function TemplateItems(props) {
 export default TemplateItems;
 
 function prepareTemplates(props, filterByName, filterByType) {
-    const items = templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} onTestClick={props.onTestClick} modsSetter={modsSetter} template={template} setModalTemplate={props.setModalTemplate} setModalCalculate={props.setModalCalculate}></WeaponTemplate>);
+    const items = props.templates.filter(filterByType).filter(filterByName).map((template) => <WeaponTemplate key={template.index} onTestClick={props.onTestClick} modsSetter={props.modsSetter} template={template} setModalTemplate={props.setModalTemplate} setModalCalculate={props.setModalCalculate}></WeaponTemplate>);
     const lastIndex = items.length - 1;
     let paginated = [];
     for (let i = props.startIndex; i < props.startIndex + props.pageSize; i++) {

@@ -8,6 +8,7 @@ import { UCheckbox } from '../viewComponents/checkbox/UCheckbox';
 import { TrashIcon } from '../svg/SVGIcons';
 import Button from 'react-bootstrap/Button';
 import { checkLength } from '../helpers/Input';
+import { buildConditionStrings } from '../helpers/EffectViewHelper';
 
 
 export function getSymbolStyle(dType) {
@@ -63,30 +64,37 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
         setWSpec({...wSpec});
     }
     return (
-        <>
-            <Col>
-                <InputGroup className="mb-1 mt-1 flex-nowrap">
-                    <InputGroup.Text style={{ width: '2.8rem'}}>
-                        <UCheckbox onChange={onCheck} checked={dItem.isUsed}></UCheckbox>
-                    </InputGroup.Text>
-                    <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
-                    <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
-                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
-                    <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
-                </InputGroup>
-            </Col>
-            <Col>
-                <InputGroup className="mb-1 mt-1 flex-nowrap">
-                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
-                    <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
-                    <InputGroup.Text>
-                        <UCheckbox className="me-1" onChange={onStackCheck} checked={dItem.stack}><small>Stack</small></UCheckbox>
-                    </InputGroup.Text>
-                    <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
-                    <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
-                </InputGroup>
-            </Col>
-        </>
+        <div>
+            <Row>
+                <Col>
+                    <InputGroup className="mb-1 mt-1 flex-nowrap">
+                        <InputGroup.Text style={{ width: '2.8rem'}}>
+                            <UCheckbox onChange={onCheck} checked={dItem.isUsed}></UCheckbox>
+                        </InputGroup.Text>
+                        <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
+                        <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
+                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
+                        <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <InputGroup className="mb-1 mt-1 flex-nowrap">
+                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
+                        <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
+                        <InputGroup.Text>
+                            <UCheckbox className="me-1" onChange={onStackCheck} checked={dItem.stack}><small>Stack</small></UCheckbox>
+                        </InputGroup.Text>
+                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
+                        <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
+                    </InputGroup>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <div>{buildConditionStrings(dItem.conditions, "m-1 p-1")}</div>
+                </Col>
+            </Row>
+        </div>
     );
 }
 const DamageItem = memo(function DamageItem({item, wSpec, setWSpec, modalDeleteDamage, setModalDeleteDamage}) {

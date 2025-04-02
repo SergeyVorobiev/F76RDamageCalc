@@ -184,14 +184,25 @@ export default class WeaponSpecsAssembler {
         return this.wSpec.chargeTime;
     }
 
+    getIsAuto() {
+        return this.wSpec.is_auto === 1;
+    }
+
+    // Assume charging is linear
     getChargePenalty() {
         if (this.wSpec.maxChargeTime === 0) {
             return 1;
         }
-        let part = this.wSpec.chargeTime / this.wSpec.maxChargeTime;
-        part = (part > 1) ? 1 : part;
-        part = part * 0.5;
-        return 0.5 + part;
+        let percentage = this.wSpec.chargeTime / this.wSpec.maxChargeTime;
+        percentage = (percentage > 1) ? 1 : percentage;
+        let minPower = this.wSpec.minPowerMult;
+        let maxPower = this.wSpec.maxPowerMult;
+        let powerLength = maxPower - minPower; // Assume non negative
+        return minPower + percentage * powerLength;
+    }
+
+    getStartAttackDelay() {
+        return this.wSpec.startAttackDelay;
     }
 
     getCripple() {
@@ -353,7 +364,7 @@ export default class WeaponSpecsAssembler {
     getFireRate() {
         let fireRate = this.wSpec.fireRate;
         let weaponSpeed = this.wSpec.speed;
-        if ((this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") && this.wSpec.is_auto === 0) {
+        if (this.wSpec.typeNumber <= 6) {
             weaponSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         }
         fireRate = fireRate * weaponSpeed;
@@ -367,8 +378,6 @@ export default class WeaponSpecsAssembler {
         let reloadSpeed = this.wSpec.reloadSpeed;
         if (this.wSpec.type === "Heavy") {
             reloadSpeed += (this.perks.lock_and_load.displayed_value / 100.0);
-        } else if (this.wSpec.type === "Melee" && this.wSpec.is_auto === 0) {
-            reloadSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         } else if (this.wSpec.type === "Shotgun") {
             reloadSpeed += (this.perks.scattershot.displayed_value / 100.0);
         } else if (this.wSpec.type === "Rifle" && this.wSpec.is_auto) {

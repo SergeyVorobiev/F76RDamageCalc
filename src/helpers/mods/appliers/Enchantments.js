@@ -1,13 +1,20 @@
 import { Apply } from './Apply';
 import DamageExtractor from '../DamageExtractor';
+import { getCurveValueFromDamageItem } from '../DamageSetter';
 
 
 export class Enchantments extends Apply {
 
     constructor() {
         super();
-        this.damageExtractor = new DamageExtractor();
+        this.damageExtractor = new DamageExtractor(false);
     }
+
+    setAlt(alt) {
+        this.alt = alt;
+        this.damageExtractor.setAlt(alt);
+    }
+
     apply(template, mod, apply) {
         const field = template.adEffects;
         const value = mod.val1.split(" / ")[0];
@@ -47,7 +54,7 @@ export class Enchantments extends Apply {
             for (let i = 0; i < effects.length; i++) {
                 const effect = effects[i];
                 if (effect.type_name === 'STAT_DmgAll' || effect.type_name === "STAT_DmgMelee") {
-                    let value = effect.curv;
+                    let value = getCurveValueFromDamageItem(effect, this.alt);
                     if (value === 0) {
                         value = effect.magnitude;
                         if (value === 0) {

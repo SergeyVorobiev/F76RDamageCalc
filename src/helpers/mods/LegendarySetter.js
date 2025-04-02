@@ -3,6 +3,10 @@ import getMods from '../Mods';
 
 export default class LegendarySetter {
 
+    constructor() {
+
+    }
+
     set(template, mod) {
         this.privateSet(template, mod);
     }

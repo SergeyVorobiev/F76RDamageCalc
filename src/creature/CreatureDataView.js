@@ -23,12 +23,9 @@ function getView(creatureName, setCreatureName) {
 
 export default function CreatureDataView(props) {
     const [creatureName, setCreatureName] = useState(null);
-    // let title = creatureName;
-    // if (!title) {
+
     let title = 'Creature Curves';
-    // } else {
-        title = CreatureDataProvider.capitalizeCreatureName(title);
-    // }
+        // title = CreatureDataProvider.capitalizeCreatureName(title);
     const item = {
         key: 1,
         label: <b className="creature-label-text">{title}</b>,

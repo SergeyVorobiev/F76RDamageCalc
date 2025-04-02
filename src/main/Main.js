@@ -9,7 +9,7 @@ import WeaponFactory from '../damage/weapon/WeaponFactory';
 import { calcDamage, graphDamage } from "../helpers/Calc";
 import Accordion from 'react-bootstrap/Accordion';
 import { defaultExtraDamage } from '../entities/ExtraDamageOptions';
-import { defaultCreatures, buildCreatureNames } from '../entities/ECreatures';
+import { defaultCreaturesAlt, buildCreatureNames } from '../entities/ECreatures';
 import { defaultBoosts } from '../entities/EBoosts';
 import { defaultPlayerStats } from '../entities/EPlayerStats';
 import { defaultPlayer } from '../entities/EPlayer';
@@ -64,7 +64,7 @@ export default function Main() {
 
     const [graphValues, setGraphValues] = useState(getDefaultGraphData());
 
-    const [creatures, setCreatures] = useState(defaultCreatures());
+    const [creatures, setCreatures] = useState(defaultCreaturesAlt());
 
     const [boostDamage, setBoostDamage] = useState(defaultBoosts());
 

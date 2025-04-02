@@ -18,7 +18,8 @@ function getDamageData(key, damageData, width='20rem') {
                 {getField(damageData, 'Id:', 'type_id', 'default', width)}
                 {getField(damageData, 'Code Name:', 'type_name', 'purple', width)}
                 {getField(damageData, 'Name:', 'type_full_name', 'purple', width)}
-                {getField(damageData, 'DCurve:', 'curv', 'blue', width)}
+                {getField(damageData, 'DCurveBase:', 'curve_base_max', 'blue', width)}
+                {getField(damageData, 'DCurveAlt:', 'curve_alt_max', 'blue', width)}
                 {getField(damageData, 'Value:', 'value', 'blue', width)}
                 {getField(damageData, 'Magnitude:', 'magnitude', 'blue', width)}
                 {getField(damageData, 'Time:', 'time', 'blue', width)}

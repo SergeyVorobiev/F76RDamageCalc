@@ -31,7 +31,7 @@ function getImages(images) {
     for(let i = 0; i < images.length; i++) {
         const imageData = images[i];
         result.push(
-            <Carousel.Item style={{padding: '0% 15% 10% 15%'}}>
+            <Carousel.Item key={i} style={{padding: '0% 15% 10% 15%'}}>
                 <Image className="d-block w-100" style={{height: 'auto'}} src={imageData.image} alt={imageData.name} />
             </Carousel.Item>
         );

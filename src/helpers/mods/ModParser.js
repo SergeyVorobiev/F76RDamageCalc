@@ -4,9 +4,14 @@ import getMods from '../Mods';
 
 export class ModParser {
 
-    constructor() {
-        this.appliers = new Appliers().appliers;
+    constructor(alt) {
+        this.appliers = new Appliers(alt).appliers;
         this.skip_legendary = ["0040bd7c", "004f577d", "004f5776", "004f5778", "004ed02f", "004e89af", "00529a02"];
+        this.alt = alt;
+    }
+
+    setAlt(alt) {
+        this.alt = alt;
     }
 
     // mutatingDamage is used when default damages like (ammo, projectile) must be overridden

@@ -1,4 +1,4 @@
-import perkCards from '../resources/perkCards.json';
+import perkCards from '../resources/perk_cards.json';
 import { getEffect } from '../helpers/EffectProvider';
 
 

@@ -2,6 +2,7 @@ import { getField, getResolvedField } from './ViewHelper';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import { Collapse } from 'antd';
+import { buildConditionStrings } from './EffectViewHelper';
 
 
 function getDamagesData(damageData, width='20rem') {
@@ -20,12 +21,14 @@ function getDamageData(key, damageData, width='20rem') {
                     {getField(damageData, 'Damage Type Id:', 'type_id', 'default', width, false)}
                     {getField(damageData, 'Code Name:', 'type_name', 'purple', width, false)}
                     {getField(damageData, 'Name:', 'type_full_name', 'purple', width, false)}
-                    {getField(damageData, 'DCurve:', 'curv', 'blue', width, false)}
+                    {getField(damageData, 'DCurveBase:', 'curve_base_max', 'blue', width, false)}
+                    {getField(damageData, 'DCurveAlt:', 'curve_alt_max', 'blue', width, false)}
                     {getField(damageData, 'DValue:', 'value', 'blue', width, false)}
                     {getField(damageData, 'Magnitude:', 'magnitude', 'blue', width, false)}
                     {getField(damageData, 'Time:', 'time', 'blue', width, false)}
                     {getField(damageData, 'Interval:', 'interval', 'blue', width, false, 3)}
                     {getResolvedField('Destructible:', damageData.destructible.toString(), 'blue', width, false)}
+                    <div>{buildConditionStrings(damageData.conditions, "m-1 p-1")}</div>
                     {getResolvedField('Parent:', damageData.parent, 'indigo', width, false)}
                 </Row>
             </Card>

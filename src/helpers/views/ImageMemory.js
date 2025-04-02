@@ -1,4 +1,4 @@
-// import Image from "next/image"; Required width in advance so just use img or bootstrap version to not mess with it
+// import Image from "next/image"; Requires width in advance so just use img or bootstrap version to not mess with it
 import Image from 'react-bootstrap/Image';
 import { memo } from 'react';
 

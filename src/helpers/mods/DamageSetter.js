@@ -1,8 +1,8 @@
 import DamageBlackList from "../../damage/DamageBlackList";
 
 
-export function buildDamageItem(weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, index=0, isUsed=true) {
-    const ignore = DamageBlackList.check(weaponId, damageId);
+export function buildDamageItem(weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, index=0, isUsed=true, conditions=[]) {
+    const ignored = DamageBlackList.check(weaponId, damageId);
     return {
         "isUsed": isUsed,
         "type": type,
@@ -11,7 +11,7 @@ export function buildDamageItem(weaponId, damageId, type, kind, name, damage, ti
         "damage": damage,
         "time": time,
         "interval": interval,
-        "area": area,
+        "area": area, // Is not used?
         "chance": chance,
         "accuracy": accuracy, // Accuracy from weapon and mods or from user
         "finalAccuracy": accuracy, // Final accuracy with perks, consumables, legendary
@@ -19,28 +19,41 @@ export function buildDamageItem(weaponId, damageId, type, kind, name, damage, ti
         "index": index,
         "weaponId": weaponId,
         "damageId": damageId,
-        "ignore": ignore,
+        "ignored": ignored,
+        "conditions": conditions,
     };
 }
 
 export function buildBleedDamage(damage, time, chance=100, accuracy=100, stack=false) {
-    return buildDamageItem("", "", "dtPhysical", "bleed", "Bleed", damage, time, 0, 0, chance, accuracy, stack, -1, true);
+    return buildDamageItem("", "", "dtPhysical", "bleed", "Bleed", damage, time, 0, 0, chance, accuracy, stack);
 }
 
-export function convertDamageDataToDamageItem(damageData) {
+export function convertDamageDataToDamageItem(damageData, alt) {
     const type = getDamageTypeFromCellName(damageData.type_name);
-    const damage = getDamageValue(damageData);
-    return buildDamageItem(damageData.weaponId, damageData.directParent, type[0], type[1], type[2], damage, damageData.time, damageData.interval, damageData.area, 100, 100, false);
+    const damage = getDamageValue(damageData, alt);
+    return buildDamageItem(damageData.weaponId, damageData.directParent, type[0], type[1], type[2], damage, damageData.time, damageData.interval, damageData.area, 100, 100, false, 0, true, damageData.conditions);
 }
 
 export function makeDamageItemCopy(damageItem) {
     return buildDamageItem(damageItem.weaponId, damageItem.damageId, damageItem.type, damageItem.kind, damageItem.name, damageItem.damage, damageItem.time,
-        damageItem.interval, damageItem.area, damageItem.chance, damageItem.accuracy, damageItem.stack, damageItem.index, damageItem.isUsed);
+        damageItem.interval, damageItem.area, damageItem.chance, damageItem.accuracy, damageItem.stack, damageItem.index, damageItem.isUsed, damageItem.conditions);
 }
 
-function getDamageValue(damage) {
-    if (damage.curv > 0) {
-        return damage.curv;
+export function getCurveValueFromDamageItem(damage, is_alt) {
+    return getCurveDamage(damage.curve_base_max, damage.curve_alt_max, is_alt);
+}
+
+export function getCurveDamage(base_value, alt_value, is_alt) {
+    if (is_alt && alt_value !== 0) {
+        return alt_value;
+    }
+    return base_value;
+}
+
+function getDamageValue(damage, alt) {
+    let curve = getCurveValueFromDamageItem(damage, alt);
+    if (curve > 0) {
+        return curve;
     } else if (damage.value > 0) {
         return damage.value;
     }
@@ -49,7 +62,7 @@ function getDamageValue(damage) {
 
 const cellNames = ['bbDamage', 'ebDamage', 'fbDamage', 'pbDamage', 'cbDamage', 'rbDamage', 'projExp', 'bleed'];
 
-export function collectAllDamages(template) {
+export function collectAllDamages(template, alt) {
     let result = [];
     for (let i = 0; i < template.adDamage.length; i++) {
         result.push(makeDamageItemCopy(template.adDamage[i]));
@@ -108,10 +121,18 @@ export function getDamageTypeFromCellName(cellName) {
 
 export default class DamageSetter {
 
+    constructor(alt) {
+        this.alt = alt;
+    }
+
     setDamages(templates) {
         for (let i = 0; i < templates.length; i++) {
             this.setDamage(templates[i]);
         }
+    }
+
+    setAlt(alt) {
+        this.alt = alt;
     }
 
     setDamage(template) {
@@ -139,7 +160,7 @@ export default class DamageSetter {
 
     setCurrent(template, damage) {
         if (damage.destructible === false && damage.only_player === "No") {
-            const damageValue = getDamageValue(damage);
+            const damageValue = getDamageValue(damage, this.alt);
             if (damageValue === 0) {
                 return;
             }
@@ -167,7 +188,7 @@ export default class DamageSetter {
                     this.putDamage(template, "projExp", damage, damageData);
                 } else if (blood) {
                     const type = getDamageTypeFromCellName("bleed");
-                    template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damageValue, damageData.time, 0, 0, 100, 100, false));
+                    template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damageValue, damageData.time, 0, 0, 100, 100, false, 0, true, damageData.conditions));
                 } else {
                     this.putDamage(template, "bbDamage", damage, damageData);
                 }
@@ -198,7 +219,7 @@ export default class DamageSetter {
         if (template[field][0] > 0 || damageData.time > 0 || damageData.interval > 0) { // We already have this type of damage, add it as additional
 
             // Will be modified only by boost multiplier independently
-            template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damage[1], damageData.time, damageData.interval, damageData.area, 100, 100, false));
+            template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damage[1], damageData.time, damageData.interval, damageData.area, 100, 100, false, 0, true, damageData.conditions));
         } else {
 
             // Later can be modified by boosts (current architecture does not allow to push it to adDamage

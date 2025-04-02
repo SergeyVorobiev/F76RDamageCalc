@@ -1,8 +1,14 @@
 export default function LoadingLine(props) {
     const message = (props.text) ? props.text : "Loading...";
     return (
-        <div className="d-flex justify-content-center mt-2 ms-1 me-1" style={{backgroundColor: '#4e00bf'}}>
-            <div style={{color: 'white'}}><b>{message}</b></div>
-        </div>
+        <>
+            <div className="d-flex justify-content-center mt-2 ms-1 me-1" style={{backgroundColor: '#4e00bf'}}>
+                <div style={{color: 'white'}}><b>{message}</b></div>
+            </div>
+            <div style={{height: '10rem'}} />
+            <div className="d-flex justify-content-center">
+                <img src="/logo512.webp" alt="desc" style={{width: '10rem', height: '10rem'}} />
+            </div>
+        </>
     );
 }
