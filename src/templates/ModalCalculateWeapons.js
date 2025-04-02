@@ -14,7 +14,7 @@ import Col from 'react-bootstrap/Col';
 import BSRadio from '../helpers/views/BSRadio';
 import { WarningPopoverBadge } from '../helpers/WarningPopover';
 import TemplateTools from './TemplateTools';
-import { modGroups, weaponIds } from './WeaponTemplates';
+import { getModGroups, getWeaponIds } from './WeaponTemplates';
 import CalcWGroupsDropdown from "./calc/view/CalcWGroupsDropdown";
 import CalcCurrentItem from "./calc/view/CalcCurrentItem";
 import CalcResultItems from "./calc/view/CalcResultItems";
@@ -41,7 +41,7 @@ const calcIterations = 4;
 
 function getDefaultModGroups() {
     let result = {};
-    for (const name of modGroups) {
+    for (const name of getModGroups()) {
         if (!PickedGroups.excluded(name)) {
              result[name] = true;
         }
@@ -140,7 +140,7 @@ export default function ModalCalculateWeapons(props) {
     function setupParameterCalculator() {
         let wId = null;
         if (props.modalCalculates.show) {
-            const wIds = weaponIds[type];
+            const wIds = getWeaponIds()[type];
             let idObj = wIds[currentWIndex];
             while(idObj) {
                 currentWIndex++;
@@ -173,7 +173,7 @@ export default function ModalCalculateWeapons(props) {
     }
 
     function startCalculation(e) {
-        const wIds = weaponIds[type];
+        const wIds = getWeaponIds()[type];
         let size = 0;
         for (let i = 0; i < wIds.length; i++) {
             if (wIds[i].apply) {

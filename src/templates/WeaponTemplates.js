@@ -34,9 +34,18 @@ function buildLicense() {
     );
 }
 
-export const modGroups = new Set();
+const modGroups = new Set();
 
-export const weaponIds = {All: []};
+const weaponIds = {All: []};
+
+export function getModGroups() {
+    return modGroups;
+}
+
+export function getWeaponIds() {
+    return weaponIds;
+}
+
 
 function buildTemplates(alt, modsSetter) {
     console.log("BuildTemplates");
@@ -76,13 +85,9 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
     const [pageSize, setPageSize] = useState(20);
     const [startIndex, setStartIndex] = useState(0);
     const [alt, setAlt] = useState(Global.isWeaponAlt);
-    const [templates, setTemplates] = useState([]);
-    const [modsSetter, setModsSetter] = useState(null);
-    useEffect(() => {
-        const modsSetter = ModsSetter.buildModsSetter(Global.isWeaponAlt)
-        setTemplates(buildTemplates(Global.isWeaponAlt, modsSetter));
-        setModsSetter(modsSetter);
-    }, []);
+    const [modsSetter, setModsSetter] = useState(ModsSetter.buildModsSetter(Global.isWeaponAlt));
+    const [templates, setTemplates] = useState(buildTemplates(Global.isWeaponAlt, modsSetter));
+
     function resetPage() {
         setPage(1);
         setStartIndex(0);
