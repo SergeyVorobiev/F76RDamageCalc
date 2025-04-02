@@ -324,7 +324,7 @@ export default class DamageExtractor {
         if (typeof(obj) !== typeof("")) {
             if (obj.type === 'MSTT') {
                 obj = obj.value.id;
-                console.log("MSTT is found: " + obj);
+                console.log("MSTT is found: " + obj + " in " + curWeapId);
                 return;
             } else {
                 obj = obj.value;
