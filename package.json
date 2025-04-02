@@ -1,6 +1,6 @@
 {
   "name": "fallout76-dc",
-  "version": "75.0.0",
+  "version": "77.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,12 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "next": "15.1.7",
-    "react-bootstrap": "^2.10.6",
-    "antd": "^5.22.7",
-    "chart.js": "^4.4.7",
+    "react-bootstrap": "^2.10.9",
+    "antd": "^5.24.6",
+    "chart.js": "^4.4.8",
     "bootstrap": "^5.3.3"
   },
   "devDependencies": {

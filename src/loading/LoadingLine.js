@@ -1,3 +1,7 @@
+import logo512 from '../resources/logos/logo512.webp';
+import Image from 'next/image';
+
+
 export default function LoadingLine(props) {
     const message = (props.text) ? props.text : "Loading...";
     return (
@@ -7,7 +11,7 @@ export default function LoadingLine(props) {
             </div>
             <div style={{height: '10rem'}} />
             <div className="d-flex justify-content-center">
-                <img src="/logo512.webp" alt="desc" style={{width: '10rem', height: '10rem'}} />
+                <Image priority src={logo512} alt="Calc Logo" style={{width: '10rem', height: '10rem'}} />
             </div>
         </>
     );
