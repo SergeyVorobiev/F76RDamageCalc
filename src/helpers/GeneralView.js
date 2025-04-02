@@ -28,7 +28,7 @@ function buildGeneralView(template) {
     const crit = template.crMult + template.crit[1] / 100.0;
     const critSpells = template.crSpellId[1];
     let critViews = [];
-    for (let i = 0; i < crit_spells.length; i++) {
+    for (let i = 0; i < critSpells.length; i++) {
         critViews.push(<SpellView key={i} spellId={critSpells[i]} header={"Crit Spell"}></SpellView>);
     }
     return (
