@@ -17,7 +17,7 @@ import StackEffectView from '../helpers/views/StackEffectView';
 
 const legendaryItems = getLegendaryByStar();
 
-const modParser = new ModParser();
+const modParser = new ModParser(false);
 
 function getQuestionMark() {
     return (
@@ -28,6 +28,7 @@ function getQuestionMark() {
 function updateLegendary(wSpec, setWSpec, health) {
     for (let i = 0; i < wSpec.legendary.length; i++) {
         const legendary = wSpec.legendary[i];
+        modParser.setAlt(wSpec.alt);
         modParser.applyLegendaryModToWSpec(legendary[0], wSpec, i, health, true, true);
     }
     setWSpec({...wSpec});
@@ -36,6 +37,7 @@ function updateLegendary(wSpec, setWSpec, health) {
 // health, important if a value of a legendary effect depends on health
 function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     function onSelectCustom(e) {
+        modParser.setAlt(wSpec.alt);
         modParser.applyLegendaryModToWSpec(wSpec.legendary[index][0], wSpec, index, health, false, false);
         modParser.applyLegendaryModToWSpec(e, wSpec, index, health, false, true);
         wSpec.legendary[index][0] = e;

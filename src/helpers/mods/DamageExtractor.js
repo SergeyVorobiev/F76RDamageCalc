@@ -1,7 +1,5 @@
 import getAmmo from '../Ammo';
-import getProj from '../Proj';
-import getSpell from '../Spell';
-import getPerks from '../PerkProvider';
+import { getEffect } from '../EffectProvider';
 import { getTemplateCopyById } from '../TemplatesRegister';
 
 export default class DamageExtractor {
@@ -60,7 +58,7 @@ export default class DamageExtractor {
         '000002e3': 'DamageResistance',
     };
 
-    constructor(extractPlacedObjects=true) {
+    constructor(alt, extractPlacedObjects=true) {
 
         // Some of the weapon's projectiles contain weapons inside
         if (extractPlacedObjects) {
@@ -69,6 +67,11 @@ export default class DamageExtractor {
             this.extractFromTemplate(this.tomahawk);
             this.extractFromTemplate(this.throwingKnife);
         }
+        this.alt = alt;
+    }
+
+    setAlt(alt) {
+        this.alt = alt;
     }
 
     extract(templates) {
@@ -90,6 +93,9 @@ export default class DamageExtractor {
             this.extractAmmo(ammoData, template.damageData, "Ammo: " + ammoId, curWeapId);
         }
 
+        // Effect
+        this.extractEnch(template.spellId, template.damageData, "Base Spell: " + template.spellId, false, curWeapId, 0, 0)
+
         // Additional Proj
         const projIds = template.projId[1];
         for (let i = 0; i < projIds.length; i++) {
@@ -98,7 +104,7 @@ export default class DamageExtractor {
                 if (typeof projId !== typeof '') {
                     throw new Error("ProjId is not an Id");
                 }
-                const projData = getProj().get(projId);
+                const projData = getEffect(projId);
                 this.extractProj(projData, template.damageData, "Projectile: " + projId, false, curWeapId);
             }
         }
@@ -128,11 +134,11 @@ export default class DamageExtractor {
             }
             const dTypes = this.damageTypes.physical;
             this.addDamageNode(result, "Ammo", false, "Ammo Damage", dTypes.name, dTypes.id, dTypes.full, 0,
-                                 ammoDamage, 0, 0, 0, 0, parent, ammoId, curWeapId, "No", false, false, false);
+                                 ammoDamage, 0, 0, 0, 0, parent, ammoId, curWeapId, "No", false, false, false, "");
         }
         const projId = ammo.projectile;
         if (projId && projId !== '' && projId !== '00000000') {
-            const projData = getProj().get(projId);
+            const projData = getEffect(projId);
             this.extractProj(projData, result, parent, false, curWeapId);
         }
     }
@@ -147,7 +153,7 @@ export default class DamageExtractor {
             if (typeof projId !== typeof '') {
                 throw new Error("Proj id is not an id");
             }
-            const projData = getProj().get(projId);
+            const projData = getEffect(projId);
             this.extractProj(projData, result, parent, destructible, curWeapId);
         }
     }
@@ -156,9 +162,19 @@ export default class DamageExtractor {
         if (ench && typeof ench !== typeof '') {
             throw new Error("Enchantment is not an id");
         }
-        ench = getSpell().get(ench);
-        let perk = ench.perk;
+        if (ench === "" || ench === "00000000") {
+            return;
+        }
+        let enchId = ench;
+
+        ench = getEffect(ench);
+        if (!ench) {
+            throw new Error("Can't resolve enchantment: " + enchId + ", weapon: " + curWeapId);
+        }
+        let perk = null;
+        perk = ench.perk;
         this.extractPerk(perk, result, parent, destructible, curWeapId);
+
         let duration = ench.duration;
         if (duration && duration > 0) {
             throw new Error("Enchantment has duration");
@@ -177,9 +193,10 @@ export default class DamageExtractor {
         if (!effects) {
             return;
         }
-        let existedEffects = new Set();
+        //let existedEffects = new Set();
         for (let e = 0; e < effects.length; e++) {
             const effect = effects[e];
+            const conditions = effect.conditions;
 
             // Effect part
             let magnitude = effect.magnitude;
@@ -194,10 +211,11 @@ export default class DamageExtractor {
             }
 
             // MEffect
-            const mEffect = effect.m_effect;
-            if (existedEffects.has(mEffect.id)) {
-                continue;
-            }
+            let mEffect = effect.m_effect;
+            mEffect = getEffect(mEffect);
+            //if (existedEffects.has(mEffect.id)) {
+            //    continue;
+            //}
             // Crit check
             const name = mEffect.name;
             const full = mEffect.full;
@@ -211,7 +229,7 @@ export default class DamageExtractor {
             if (name.toLowerCase().includes("bleed") || full.toLowerCase().includes("bleed")) {
                 blood = true;
             }
-            existedEffects.add(mEffect.id);
+            //existedEffects.add(mEffect.id);
             this.extractPerk(mEffect.perk, result, parent, destructible, curWeapId);
             this.extractExp(mEffect.explosion, result, parent, destructible, curWeapId);
             const proj = mEffect.projectile;
@@ -238,7 +256,8 @@ export default class DamageExtractor {
                 if (globMagnitude > 0) { // Override magnitude by glob
                     magnitude = globMagnitude;
                 }
-                curv = this.resolveCurv(curv);
+                const r_curve = this.resolveCurve(curv);
+                curv = r_curve.curve;
                 if (curv === 0 && magnitude === 0) {
                     continue;
                 }
@@ -264,7 +283,7 @@ export default class DamageExtractor {
                         source = "Spell";
                     }
                     this.addDamageNode(result, source, destructible, name, dType['name'], dType['id'],
-                                         dType['full'], curv, 0, magnitude, time, interval, area, parent, mEffect.id, curWeapId, onlyPlayer, false, crit, blood);
+                                         dType['full'], r_curve, 0, magnitude, time, interval, area, parent, mEffect.id, curWeapId, onlyPlayer, false, crit, blood, conditions);
                 }
             }
         }
@@ -302,22 +321,33 @@ export default class DamageExtractor {
     }
 
     extractObject(obj, result, parent, destructible, curWeapId) {
+        if (typeof(obj) !== typeof("")) {
+            if (obj.type === 'MSTT') {
+                obj = obj.value.id;
+                console.log("MSTT is found: " + obj);
+                return;
+            } else {
+                obj = obj.value;
+            }
+        }
         if (!obj || obj === '' || obj === '00000000' || obj === '0017a580') {
             return;
         }
-
-        if (obj['type'] === 'WEAP') {
-            const wId = obj['value']['id'];
-            let damageData = null;
-            if (curWeapId === wId) {
-                return;
-            } else if (wId === '000042f2') {
-                damageData = this.tomahawk.damageData;
-            } else if (wId === '003879a3') {
-                damageData = this.throwingKnife.damageData;
-            } else {
-                throw new Error("Unknown weapon id: " + wId);
-            }
+        let placedObj = false;
+        let damageData = null;
+        let wId = "";
+        if (curWeapId === obj) {
+            return;
+        } else if (obj === '000042f2') {
+            placedObj = true;
+            wId = obj;
+            damageData = this.tomahawk.damageData;
+        } else if (obj === '003879a3') {
+            placedObj = true;
+            wId = obj;
+            damageData = this.throwingKnife.damageData;
+        }
+        if (placedObj) {
             for (const property in damageData) {
                 const damages = damageData[property];
                 for (let i = 0; i < damages.length; i++) {
@@ -325,23 +355,27 @@ export default class DamageExtractor {
                     this.addDamageNode(result, damage['source'], damage['destructible'], damage['view_name'],
                                              damage['type_name'],
                                              damage['type_id'], damage['type_full_name'], damage['curv'], damage['value'],
-                                             damage['magnitude'], damage['time'], damage['interval'], 0, parent, wId, curWeapId, "No", false, false, false);
+                                             damage['magnitude'], damage['time'], damage['interval'], 0, parent, wId, curWeapId, "No", false, false, false, "");
                 }
             }
-        } else if (obj['type'] === 'HAZD') {
-            const hazd = obj['value'];
-            this.extractEnch(hazd['effect'], result, parent, destructible, curWeapId, hazd['lifeTime'], hazd['interval']);
-        } else if (obj['type'] === 'MSTT') {
-            const value = obj['value'];
-            const spell = value['spell'];
+            return;
+        }
+        const resolved = getEffect(obj);
+        if (!resolved) {
+            throw new Error("Unknown id: " + obj);
+        }
+        const label = resolved.label;
+        if (label === 'HAZD') {
+            this.extractEnch(resolved['effect'].value, result, parent, destructible, curWeapId, resolved['lifeTime'], resolved['interval']);
+        } else if (label === 'MSTT') {
+            const spell = resolved['spell'];
             if (spell && spell !== '' && spell !== '00000000') {
                 throw new Error("Spell in explosive object");
             }
-            this.extractExp(value['expl'], result, parent, destructible, curWeapId);
-            const hazd = value['hazd'];
-            this.extractEnch(hazd['effect'], result, parent, destructible, curWeapId, hazd['lifeTime'], hazd['interval']);
-        } else if (obj['type'] === 'EXPL') {
-            this.extractExp(obj['value'], result, parent, destructible, curWeapId);
+            this.extractExp(resolved['expl'], result, parent, destructible, curWeapId);
+            this.extractEnch(resolved['effect'].value, result, parent, destructible, curWeapId, resolved['lifeTime'], resolved['interval']);
+        } else if (label === 'EXPL') {
+            this.extractExp(resolved, result, parent, destructible, curWeapId);
         } else {
             throw new Error("Unknown object type");
         }
@@ -351,11 +385,11 @@ export default class DamageExtractor {
 
     v_type_name = {1: "Float", 3: "List", 4: "Activate", 5: "Spell", 8: "Actor", 9: "Item"}
 
-    operation = {
-        1: "SetValue", 2: "AddValue", 3: "MulValue", 5: "MulAddValue", 6: "Abs", 8: "AddItem",
-        9: "AddActivate", 10: "SetSpell", 12: "AddValueToActor", 13: "MultiplyActorValueMultiply",
-        14: "MulAddValueToActor", 16: "SetItem"
-    }
+    //operation = {
+    //    1: "SetValue", 2: "AddValue", 3: "MulValue", 5: "MulAddValue", 6: "Abs", 8: "AddItem",
+    //    9: "AddActivate", 10: "SetSpell", 12: "AddValueToActor", 13: "MultiplyActorValueMultiply",
+    //    14: "MulAddValueToActor", 16: "SetItem"
+    //}
 
     // TODO: LimbBash and WeaponAttackDamage for v_type 1 - 'Float'
     // 3 - 'List' is not presented, 4 - 'Activate' is not presented, 9 - 'Item' is not presented
@@ -366,7 +400,7 @@ export default class DamageExtractor {
 
     extractPerk(perkId, result, parent, destructible, curWeapId) {
         if (perkId && perkId !== '00000000' && perkId !== '') {
-            const perk = getPerks().get(perkId);
+            const perk = getEffect(perkId);
             const effects = perk.effects;
             for (let i = 0; i < effects.length; i++) {
                 const effect = effects[i];
@@ -395,7 +429,8 @@ export default class DamageExtractor {
             return;
         }
         if (typeof exp !== typeof {}) {
-            throw new Error("Explosive is not an object but id: " + exp);
+            exp = getEffect(exp);
+            // throw new Error("Explosive is not an object but id: " + exp);
         }
         const ench = exp.enchantment;
         if (ench && ench !== '' && ench !== '00000000') {
@@ -408,8 +443,10 @@ export default class DamageExtractor {
         const damage = exp.damage;
         const expCurv = exp.exp_curv;
         let curv = 0;
+        let r_curve = 0;
         if (expCurv !== '' && expCurv !== '00000000') {
-            curv = this.resolveCurv(expCurv);
+            r_curve = this.resolveCurve(expCurv);
+            curv = r_curve.curve;
         }
         let name = '';
         if (destructible) {
@@ -417,21 +454,28 @@ export default class DamageExtractor {
         } else {
             name = "Explosive Damage";
         }
-        this.addDamageNode(result, "Projectile", destructible, name, damageType.name, damageType.id, damageType.full, curv,
-            damage, 0, 0, 0, 0, parent, exp.id, curWeapId, "No", true, false, false);
+        this.addDamageNode(result, "Projectile", destructible, name, damageType.name, damageType.id, damageType.full, r_curve,
+            damage, 0, 0, 0, 0, parent, exp.id, curWeapId, "No", true, false, false, "");
 
         if (exp.damage_mult > 0) {
             this.addDamageNode(result, "Projectile", destructible, "Explosive Damage Multiplier", "ExpDamageMult", "", "", 0,
-                exp.damage_mult, 0, 0, 0, 0, parent, exp.id, curWeapId, "No", true, false, false);
+                exp.damage_mult, 0, 0, 0, 0, parent, exp.id, curWeapId, "No", true, false, false, "");
         }
     }
 
     addDamageNode(result, source, destructible, view_name, type_name, type_id, type_full_name, curv, value,
-                    magnitude, time, interval, area, parent, directParent, weapId, only_player, exp, crit, blood) {
-        if (curv === 0 && magnitude === 0 && value === 0) {
+                    magnitude, time, interval, area, parent, directParent, weapId, only_player, exp, crit, blood,
+                    conditions) {
+        if (!curv || curv === 0) {
+            curv = {curve: 0, curve_alt_max: 0, curve_base_max: 0};
+        }
+
+        if (curv.curve === 0 && magnitude === 0 && value === 0) {
             return;
         }
+
         if (crit && parent !== "Base Crit") {
+            console.log("Spell Crit is found");
             console.log("Spell Crit is found");
         }
         const obj = {
@@ -442,7 +486,8 @@ export default class DamageExtractor {
             "type_id": type_id,
             "weaponId": weapId,
             "type_full_name": type_full_name,
-            "curv": curv,
+            "curve_alt_max": curv.curve_alt_max,
+            "curve_base_max": curv.curve_base_max,
             "value": value,
             "magnitude": magnitude,
             "time": time,
@@ -454,6 +499,7 @@ export default class DamageExtractor {
             "exp": exp,
             "crit": crit,
             "blood": blood,
+            "conditions": conditions,
         };
         const entries = result[source];
         if (!entries) {
@@ -463,25 +509,18 @@ export default class DamageExtractor {
         }
     }
 
-    resolveCurv(expCurv) {
-        if (expCurv !== '' && expCurv !== '00000000') {
-            if (typeof expCurv === typeof '') {
-                console.log("ExpCurv: " + expCurv);
-                throw new Error("expCurv must be already evaluated: " + expCurv);
-                /*
-                let curv = expCurv.split("\n");
-                try {
-                    curv = eval(curv[1])["curve"];
-                    return curv[curv.length - 1]['y'];
-                } catch(error) {
-                    return 0;
-                }
-                */
+    resolveCurve(curve) {
+        if (curve !== '' && curve !== '00000000') {
+            if (typeof curve === typeof '') {
+                throw new Error("expCurv must be already evaluated: " + curve);
             } else {
-                return expCurv; // Consider it is a number.
+                if (this.alt && curve.maxValueAlt !== 0) {
+                    curve = curve.maxValueAlt;
+                }
+                return {curve: curve, curve_base_max: curve.maxValue, curve_alt_max: curve.maxValueAlt}; // Consider it is a number.
             }
         } else {
-            return 0;
+            return {curve: 0, curve_base_max: 0, curve_alt_max: 0};
         }
     }
 
@@ -492,7 +531,8 @@ export default class DamageExtractor {
         }
         let curv = explosive['d_curv'];
         if (value > 0 || (curv !== '' && curv !== '00000000')) {
-            curv = this.resolveCurv(curv);
+            const r_curve = this.resolveCurve(curv);
+            curv = r_curve.curve;
             let dType = explosive.d_type;
             if (dType === '' || dType === '00000000') {
                 dType = this.damageTypes.physical;
@@ -503,8 +543,8 @@ export default class DamageExtractor {
             } else {
                 name = "Damage";
             }
-            this.addDamageNode(result, "Projectile", destructible, name, dType.name, dType.id, dType.full, curv, value,
-                                 0, 0, 0, 0, parent, explosive.id, weaponId, "No", true, false, false);
+            this.addDamageNode(result, "Projectile", destructible, name, dType.name, dType.id, dType.full, r_curve, value,
+                                 0, 0, 0, 0, parent, explosive.id, weaponId, "No", true, false, false, "");
         }
     }
 }

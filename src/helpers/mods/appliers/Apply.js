@@ -1,5 +1,9 @@
 export class Apply {
 
+    constructor() {
+        this.alt = false;
+    }
+
     checkOp(mod, weaponId, expected) {
         if (mod.op !== expected) {
             throw new Error("Mult must have '" + expected + "' op, but not '" + mod.op + "', " +
@@ -7,11 +11,19 @@ export class Apply {
         }
     }
 
+    setAlt(alt) {
+        this.alt = alt;
+    }
+
     getCurvValue(mod) {
         if (!mod.curv || mod.curv === '') {
             return 0;
         } else {
             const val1 = parseFloat(mod.curv);
+            const val1Alt = parseFloat(mod.curvAlt);
+            if (this.alt && val1Alt && val1Alt !== 0) {
+                return val1Alt;
+            }
             if (!val1) {
                 return 0;
             }

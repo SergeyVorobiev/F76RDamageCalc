@@ -1,19 +1,16 @@
 import { keyValueBadge } from './RowBuilder';
 import {  Divider } from 'antd';
 import Row from 'react-bootstrap/Row';
-import DamageExtractor from './mods/DamageExtractor';
 import { getSymbolStyle } from './AdditionalDView';
-
-
-const damageExtractor = new DamageExtractor();
+import { getCurveValueFromDamageItem } from './mods/DamageSetter';
 
 
 // It does not handle possible crit damages from enchantments (seems we do not have them)
-export default function CritView({crits, weapId}) {
+export default function CritView({damageExtractor, crits, weapId}) {
     if (!crits || crits.length === 0) {
         return (<></>);
     }
-    let allItems = getCritDamages(crits, weapId, true);
+    let allItems = getCritDamages(damageExtractor, crits, weapId, true);
     if (allItems.length === 0) {
         return (<></>);
     }
@@ -27,7 +24,7 @@ export default function CritView({crits, weapId}) {
     );
 }
 
-export function getCritDamages(crits, weapId, visual=false) {
+export function getCritDamages(damageExtractor, crits, weapId, visual=false) {
     let allItems = [];
     if (!crits) {
         return allItems;
@@ -39,7 +36,7 @@ export function getCritDamages(crits, weapId, visual=false) {
         for (const property in result) {
             const spells = result[property];
             if (visual) {
-                allItems.push(getItems(spells));
+                allItems.push(getItems(spells, damageExtractor.alt));
 
             } else {
                 allItems.push(spells);
@@ -49,12 +46,12 @@ export function getCritDamages(crits, weapId, visual=false) {
     return allItems;
 }
 
-function getItems(crits) {
+function getItems(crits, alt) {
     let result = [];
     for (let i = 0; i < crits.length; i++) {
         const damage = crits[i];
         const [symbol, style] = getSymbolStyle(damage.type_name);
-        let value = damage.curv;
+        let value = getCurveValueFromDamageItem(damage, alt);
         if (value === 0) {
             value = damage.value;
             if (value === 0) {

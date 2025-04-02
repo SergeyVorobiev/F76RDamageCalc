@@ -96,9 +96,11 @@ const WRow = memo(function WRow({wSpec, setWSpec}) {
             {column(wSpec, onChange, "🚀", "Damage Bonus", "bonus", 500)}
             {column(wSpec, onChange, "☄️", "Weapon Speed", "speed", 5)}
             {column(wSpec, onChange, "💨", "Reload Speed", "reloadSpeed", 5)}
+            {column(wSpec, onChange, "⏱️", "Attack Delay", "startAttackDelay", 5)}
             {column(wSpec, onChange, "🪓", "Power Attack", "powerAttack", 200)}
             {column2(wSpec, onChange, onChange, "🦵", "Cripple", "cripple", "crippleChance", 100, 100, "% Damage Boost / Chance (100% if headshot)")}
-            {column2(wSpec, onChange, onChange, "🔋", "Charge", "chargeTime", "maxChargeTime", 5, 5, "Charge Time / Max Charge Time")}
+            {column2(wSpec, onChange, onChange, "🔋", "Charge", "chargeTime", "maxChargeTime", 5, 5, "Charge Time / Max Charge Time.")}
+            {column2(wSpec, onChange, onChange, "🔋", "Power", "minPowerMult", "maxPowerMult", 0.9, 5, "Min Charge Power / Max Charge Power")}
         </Row>
     );
 });

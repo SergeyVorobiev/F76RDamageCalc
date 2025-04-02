@@ -3,11 +3,23 @@ import ConsumableTools from '../ConsumableTools';
 import { leftRight } from '../../helpers/RowBuilder';
 
 
+function pushNonZeroMagnitudes(magnitudes, data) {
+    if (data.curveAltMagnitude !== 0) {
+        magnitudes.push(data.curveAltMagnitude);
+    }
+    if (data.curveMagnitude !== 0) {
+        magnitudes.push(data.curveMagnitude);
+    }
+    if (data.magnitude !== 0) {
+        magnitudes.push(data.magnitude);
+    }
+}
+
 function getEffectValues(tagData) {
     const magnitudes = []
     const durations = []
     for (let i = 0; i < tagData.length; i++) {
-        magnitudes.push(tagData[i].magnitude);
+        pushNonZeroMagnitudes(magnitudes, tagData[i]);
         durations.push(tagData[i].duration);
     }
     if (magnitudes.length === 0) {

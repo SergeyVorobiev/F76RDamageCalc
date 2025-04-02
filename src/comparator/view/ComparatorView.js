@@ -21,11 +21,13 @@ const explanation = (
     <>
         <p>‣ Adjust parameters for a weapon in <i><b>Weapon Specs</b></i> or choose a weapon under <i><b>Weapons</b></i> tab and click <i><b>Set</b></i> button under <i><b style={{color: 'red'}}>Red</b></i> section.</p>
         <p>‣ Choose another weapon or adjust previously chosen and click <i><b>Set</b></i> button under <i><b style={{color: 'blue'}}>Blue</b></i> section.</p>
-        <p>‣ See in which case one better than other in <i>damage per second</i> term. (For example: Anti-Armor vs. Bloodied).</p>
+        <p>‣ See in which case the one is better than the other at <i>damage per second</i> term. (For example: Anti-Armor vs. Bloodied).</p>
         <p>‣ Choose weapon's accuracy from subjective feeling / experience. Accuracy and chance of every particular damage item are also counting.</p>
         <p>‣ Time damage is counting without stacking.</p>
+        <p>‣ Charge time and power is counting.</p>
+        <p>‣ Attack delay are counting.</p>
         <p>‣ Creature is used to apply appropriate bonuses, default reduction and resistance.</p>
-        <p>‣ <i>First Blood</i>, <i>Last Shot</i>, <i>Executioner</i> are not counting, to see these effects in action, adjust BDB and TDB bonuses under <i>Additional Damage</i> section.</p>
+        <p>‣ <i>First Blood</i>, <i>Last Shot</i>, <i>Executioner</i>, <i>Consecutive hits</i> are not counting, to see these effects in action, adjust BDB and TDB bonuses under <i>Additional Damage</i> section.</p>
     </>
 );
 const creatureNames = CreatureDataProvider.getCreatureNames();

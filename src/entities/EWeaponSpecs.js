@@ -3,10 +3,12 @@ import { currentLegendaryIds } from '../helpers/Global';
 import { getCritDamages } from '../helpers/CritView';
 import { collectAllDamages, convertDamageDataToDamageItem } from '../helpers/mods/DamageSetter';
 import { ModParser } from '../helpers/mods/ModParser';
+import DamageExtractor from '../helpers/mods/DamageExtractor';
 import Strings from '../helpers/Strings';
 
 
-const modParser = new ModParser();
+const modParser = new ModParser(false);
+const damageExtractor = new DamageExtractor(false);
 
 // Id, value, type (BDB, TDB...)
 export function getDefaultLegs(legIds=null) {
@@ -17,7 +19,26 @@ export function getDefaultLegs(legIds=null) {
 
 }
 
-export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegendary=true) {
+function getMaxMinDamage(damage1, damage2) {
+    let dVal1 = damage1.damage;
+    let dVal2 = damage2.damage;
+    const time1 = damage1.time;
+    const time2 = damage2.time;
+    if (time1 > 0) {
+        dVal1 *= time1;
+    }
+    if (time2 > 0) {
+        dVal2 *= time2;
+    }
+    if (dVal1 > dVal2) {
+        return [damage1, damage2];
+    }
+    return [damage2, damage1];
+}
+
+export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegendary, alt) {
+    modParser.setAlt(alt);
+    damageExtractor.setAlt(alt);
     let fireRate = (template.isAuto[1]) ? template.defRate : ((10 / template.manualRate[1]) / template.speed[1]);
     fireRate = parseFloat(fireRate.toFixed(3));
     const defReloadTime = template.reloadTime[1] * template.reloadSpeed[1];
@@ -56,24 +77,41 @@ export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegend
     }
     const damages = collectAllDamages(template);
 
+    // Disable same damages if they have different conditions (leave only one enabled)
+    const mapDamages = new Map();
+    for (let i = 0; i < damages.length; i++) {
+        const damage = damages[i];
+        const damageId = damage.damageId;
+        if (damageId && damageId !== "" && damage.conditions && damage.conditions.length > 0) {
+            const existedDamage = mapDamages.get(damageId);
+            if (existedDamage) {
+                const [maxDamage, minDamage] = getMaxMinDamage(damage, existedDamage);
+                minDamage.isUsed = false;
+                mapDamages.set(damageId, maxDamage);
+            } else {
+                mapDamages.set(damageId, damage);
+            }
+        }
+    }
+
     // Remove ignored (it can be useful later though (for now they are useless)
     const sortedDamages = [];
     let k = 0;
     for (let i = 0; i < damages.length; i++) {
         const d = damages[i];
-        if (!d.ignore) {
+        if (!d.ignored) {
             d.index = k++;
             sortedDamages.push(d);
         }
     }
 
-    const critDamagesData = getCritDamages(template.crSpellId[1], template.id);
+    const critDamagesData = getCritDamages(damageExtractor, template.crSpellId[1], template.id);
     let critDamages = [];
     for (let i = 0; i < critDamagesData.length; i++) {
         const critDamageData = critDamagesData[i];
         for (let j = 0; j < critDamageData.length; j++) {
             const critItem = critDamageData[j];
-            critDamages.push(convertDamageDataToDamageItem(critItem));
+            critDamages.push(convertDamageDataToDamageItem(critItem, alt));
         }
     }
     let wSpec = {
@@ -98,20 +136,25 @@ export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegend
         creature: creatures,
         strPoints: template.strPoints[1],
         powerAttack: template.powerAttack[1],
+        minPowerMult: template.minPowerMult[1],
+        maxPowerMult: template.maxPowerMult[1],
         bash: template.bash[1],
         type: template.type[1],
         ammoType: {name: template.ammoType.name, type: template.ammoType.type, codeName: template.ammoType.codeName},
         level: template.level,
         defaultName: template.name,
+        typeNumber: template.typeNumber,
         weaponName: template.name,
-        chargeTime: template.chargeTime[1],
-        maxChargeTime: template.chargeTime[1],
+        chargeTime: template.chargePowerTime[1],
+        maxChargeTime: template.chargePowerTime[1],
         iconName: template.iconName[template.type[1]],
         tags: template.tags,
         mods: mods,
         legendary: legs,
         damages: sortedDamages,
         critDamages: critDamages,
+        startAttackDelay: template.startAttackDelay[1],
+        alt: alt,
         legendaryHealthUpdated: false,
     };
 
@@ -149,6 +192,8 @@ export function defaultWeaponSpecs() {
         totalD: 0,
         chargeTime: 0,
         maxChargeTime: 0,
+        minPowerMult: 0.5,
+        maxPowerMult: 1,
         cripple: 0,
         crippleChance: 50,
         bash: 0,
@@ -168,6 +213,9 @@ export function defaultWeaponSpecs() {
         legendary: getDefaultLegs(),
         damages: [],
         critDamages: [],
+        startAttackDelay: 0,
+        alt: false,
+        typeNumber: 0,
         legendaryHealthUpdated: true,
     };
 }

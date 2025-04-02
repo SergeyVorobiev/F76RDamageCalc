@@ -15,7 +15,7 @@ export function checkLength(e) {
 }
 
 export function truncate(str, maxLength) {
-    if (!str || str.length <= maxLength) {
+    if (!str || typeof(str) !== typeof("") || str.length <= maxLength) {
         return str;
     }
     return str.slice(0, maxLength) + "…";

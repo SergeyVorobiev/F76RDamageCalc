@@ -23,7 +23,8 @@ function buildModCard(key, mod_e, color, onEffectClick) {
                 {keyValueTag(mod_e.op, mod_e.prop, color)}
                 {keyValueTag('Val1:', val1, color)}
                 {keyValueTag('Val2:', val2, color)}
-                {keyValueTag('Curv:', mod_e.curv, color)}
+                {keyValueTag('Curve:', mod_e.curv, color)}
+                {keyValueTag('CurveAlt:', mod_e.curvAlt, color)}
             </Card>
         );
     }
@@ -50,7 +51,6 @@ export default function ModCompactView(props) {
         <>
             <Tag className="m-1" color={'indigo'}><strong>{modData.id}</strong></Tag>
             <Tag className="m-1" color={'red'}>{modData.codeName}</Tag>
-            <Tag className="m-1" color={'magenta'}>{modData.name}</Tag>
             <Divider className='mt-1 mb-2'></Divider>
             {getMods(modData.modifiers, props.onEffectClick)}
         </>

@@ -21,10 +21,14 @@ function webSite() {
             <F76NavBar></F76NavBar>
             <Suspense fallback={<LoadingLine />}>
                 <Main />
-                <Footer />
             </Suspense>
+            <Footer />
         </div>
     );
+}
+
+function loadingLine() {
+    return <LoadingLine />
 }
 
 function testEnv() {

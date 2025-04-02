@@ -32,7 +32,8 @@ export default function ModRow({index, weaponId, modsSameType, checkMod, defMods
     const isUsed = modSameType[1];
     const modRow = getModRow(modData, def, isUsed);
     const disabled = !modSameType[2];
-    if (modData['hide']) {
+    const hide = modSameType[3];
+    if (hide) {
         return (<></>);
     }
     return (

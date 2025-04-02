@@ -26,7 +26,7 @@ const questionPopover = new StaticPopoverRenderer(questionPopoverHeader, questio
 
 const CreaturesView = memo(function CreaturesView({creatureNamesRef, creatures, setCreatures, resultDamage, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage}) {
     console.log("CreaturesView")
-    const [alt, setAlt] = useState(false);
+    const [alt, setAlt] = useState(true);
     function resetCreatures(e) {
         if (alt) {
             setCreatures(defaultCreaturesAlt());

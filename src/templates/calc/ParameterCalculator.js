@@ -7,8 +7,8 @@ import { defaultPlayer } from '../../entities/EPlayer';
 import WeaponFactory from '../../damage/weapon/WeaponFactory';
 import DamageEmulator from '../../damage/DamageEmulator';
 import { getTemplateCopyById } from '../../helpers/TemplatesRegister';
-import { modsSetter } from '../TemplateItems';
 import { millisToTime } from '../../helpers/Time';
+import ModsSetter from '../../helpers/mods/ModsSetter';
 import Combinator from '../../helpers/Combinator';
 import AccuracyHelper from '../../helpers/AccuracyHelper';
 import PerkCardBuilder from '../../perkCardBoosts/PerkCardBuilder';
@@ -18,6 +18,7 @@ import { ModParser } from '../../helpers/mods/ModParser';
 import LegendaryCalcBuilder from '../../helpers/LegendaryCalcBuilder';
 import LegendarySetter from '../../helpers/mods/LegendarySetter';
 import { getLegendaryNameFromSpec } from '../../helpers/LegendaryProvider';
+import Global from '../../helpers/Global';
 
 
 export default class ParameterCalculator {
@@ -66,7 +67,6 @@ export default class ParameterCalculator {
         this.frCrit = frCrit;
         this.main = main;
         this.stuff = stuff;
-        this.modParser = new ModParser();
         this.legendary = null;
         this.legendaryOpts = legendaryOpts;
         this.accessibleLeg = accessibleLeg;
@@ -83,6 +83,9 @@ export default class ParameterCalculator {
         this.perkImageNames = [];
         this.creatureTags = [];
         this.bodyTags = [];
+        this.modsSetter = ModsSetter.buildModsSetter(Global.isWeaponAlt);
+        this.modParser = this.modsSetter.getModParser();
+        this.legendarySetter = this.modsSetter.getLegendarySetter();
 
         // Currently accuracy mods do not influence on damage but, best
         // values still can be calculated (without paying attention to distance)
@@ -125,7 +128,7 @@ export default class ParameterCalculator {
         this.bodyTags = this.getBodyTags();
         this.template = getTemplateCopyById(this.id);
         this.bestAccuracyMods = this.accuracyHelper.getBestMods(this.template, this.modGroups, this.accuracyPreference);
-        this.defaultLegendary = TemplateTools.getDefaultLegendary(this.template, new LegendarySetter());
+        this.defaultLegendary = TemplateTools.getDefaultLegendary(this.template, this.legendarySetter);
         this.defaultExplosive = this.isDefaultExplosive();
         this.legendary = this.buildLegendary();
         const silencerDamage = this.main.Night && this.cards.Sneak;
@@ -390,13 +393,13 @@ export default class ParameterCalculator {
                 }
             }
         }
-        modsSetter.cleanTemplateAndApplyCurrentMods(this.template);
+        this.modsSetter.cleanTemplateAndApplyCurrentMods(this.template);
     }
 
     // Considers that if explosive exists by default then it will exist for any other configuration
     // must be applied before resetting template
     isDefaultExplosive() {
-        modsSetter.cleanTemplateAndApplyCurrentMods(this.template);
+        this.modsSetter.cleanTemplateAndApplyCurrentMods(this.template);
         return TemplateTools.isWeaponExplosive(this.template);
     }
 
@@ -483,7 +486,7 @@ export default class ParameterCalculator {
     }
 
     calculateCombination(consumableBoostsList, legendary) {
-        const wSpec = convertTemplateToSpecs(this.template, false);
+        const wSpec = convertTemplateToSpecs(this.template, false, Global.isWeaponAlt);
 
         // Update default legs or apply new in wSpec
         const updateLeg = this.defaultLegendary.length > 0;

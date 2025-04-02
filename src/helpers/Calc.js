@@ -46,7 +46,9 @@ export function graphDamage(creaturesInfo, weaponFactory, resistanceByAntiArmor=
     if (ammoCapacity === 0) { // Melee
         ammoCapacity = 1;
     }
-    const totalTime = ammoCapacity / fireRate + weapon.getReloadTime();
+    const startDelayTime = weapon.getStartAttackDelay();
+    const delayTime = (weapon.getIsAuto()) ? startDelayTime : (startDelayTime * ammoCapacity);
+    const totalTime = ammoCapacity / fireRate + weapon.getReloadTime() + delayTime;
     const shotTime = totalTime / ammoCapacity;
     const shotsPerSecond = 1 / shotTime;
 

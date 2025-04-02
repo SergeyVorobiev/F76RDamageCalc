@@ -24,11 +24,14 @@ import { MaxConDegree } from './MaxConDegree';
 import { MinConDegree } from './MinConDegree';
 import { RecoilMaxDegree } from './RecoilMaxDegree';
 import { RecoilMinDegree } from './RecoilMinDegree';
+import { FullPowerTime } from './FullPowerTime';
+import { MinPower } from './MinPower';
+import { FullPower } from './FullPower';
 
 
 export default class Appliers {
     
-    constructor() {
+    constructor(alt) {
         
         // TODO: Has to be generated and set automatically via names instead of manual setting
         this.appliers = new Map();
@@ -58,5 +61,11 @@ export default class Appliers {
         this.appliers.set("MinConDegree", new MinConDegree());
         this.appliers.set("RecoilMaxDegree", new RecoilMaxDegree());
         this.appliers.set("RecoilMinDegree", new RecoilMinDegree());
+        this.appliers.set("FullPowerTime", new FullPowerTime());
+        this.appliers.set("MinPower", new MinPower());
+        this.appliers.set("FullPower", new FullPower());
+        this.appliers.forEach((value, key, map) => {
+            value.setAlt(alt);
+        });
     }
 }

@@ -1,5 +1,9 @@
 import getMods from '../Mods';
 import { getTemplateCopyById } from '../TemplatesRegister';
+import DamageExtractor from './DamageExtractor';
+import DamageSetter from './DamageSetter';
+import LegendarySetter from './LegendarySetter';
+import { ModParser } from './ModParser';
 
 
 export default class ModsSetter {
@@ -9,6 +13,28 @@ export default class ModsSetter {
         this.modParser = modParser;
         this.damageExtractor = damageExtractor;
         this.damageSetter = damageSetter;
+    }
+
+    static buildModsSetter(alt) {
+        return new ModsSetter(new LegendarySetter(), new ModParser(alt), new DamageExtractor(alt), new DamageSetter(alt));
+    }
+
+    getModParser() {
+        return this.modParser;
+    }
+
+    getDamageExtractor() {
+        return this.damageExtractor;
+    }
+
+    getLegendarySetter() {
+        return this.legendarySetter;
+    }
+
+    setAlt(alt) {
+        this.modParser.setAlt(alt);
+        this.damageExtractor.setAlt(alt);
+        this.damageSetter.setAlt(alt);
     }
 
     // Probably deprecated (Current mods apparently have activated default mods at the beginning)

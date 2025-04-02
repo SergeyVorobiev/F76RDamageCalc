@@ -5,7 +5,7 @@ import { WarningPopoverBadge } from '../helpers/WarningPopover';
 export default function Footer() {
     return (
         <div className="pb-2 ps-2 pe-2 pt-3 ms-1 me-1 footer">
-            <table>
+            <table className="mb-3">
                 <tbody>
                     <tr>
                         <td className="version-text">

@@ -19,7 +19,6 @@ import CritView from '../helpers/CritView';
 import DamageOverview from '../helpers/DamageOverview';
 import ModRow from './ModRow';
 import Container from 'react-bootstrap/Container';
-import { modsSetter } from '../templates/TemplateItems';
 import { WarningPopover } from '../helpers/WarningPopover';
 import { isTested } from './TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
@@ -70,7 +69,7 @@ function getApplyButton(template, setModalTemplate, setModalCalculate, onTestCli
     return (<></>);
 }
 
-function getResetButton(template, itemsLength, resetButtonActive, setResetButtonActive) {
+function getResetButton(template, modsSetter, itemsLength, resetButtonActive, setResetButtonActive) {
     if (itemsLength === 0 || !resetButtonActive) {
         return (<></>);
     }
@@ -157,7 +156,7 @@ function resultBadges(key, style, left1, right1, left2, right2, left3, right3) {
 };
 
 const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, setModalCalculate, onTestClick}) {
-    console.log("WeaponTemplate: " + template.index);
+    console.log("WeaponTemplate: " + template.index + " " + template.name);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
     function modRow(index, modsSameType, checkMod) {
@@ -219,9 +218,10 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     const aaText = (template.antiArmor[1] === 0) ? "" : "+" + template.antiArmor[1].toFixed(1) + "%";
     const bonusText = (template.bonusMult[1] === 0) ? "" : (((template.bonusMult[1] < 0) ? "" : "+") + (template.bonusMult[1] * 100).toFixed(1) + "%");
     const crippleText = (template.cripple[1] === 0) ? "" : "+" + template.cripple[1].toFixed(1) + "%";
-    const batteryText = (template.chargeTime[1] === 0) ? "" : template.chargeTime[1].toFixed(2) + " s";
+    const batteryText = (template.chargePowerTime[1] === 0) ? "" : template.chargePowerTime[1].toFixed(2) + " s";
     const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1]).toFixed(1) + "%";
-    const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText];
+    const attackDelayText = (template.startAttackDelay[1] === 0) ? "" : (template.startAttackDelay[1]).toFixed(1) + " s";
+    const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText, "⏱️", attackDelayText];
     let badgesRow = [];
     badgesRow.push(resultBadges(0, badgeStyle, bullet(iSize), template.shotSize[1].toFixed(0), "⌛", template.reloadTime[1].toFixed(2) + " s", fireRate(iSize), fireRateText));
     badgesRow.push(resultBadges(1, badgeStyle, ammo(iSize), template.capacity[1].toFixed(0), "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2)));
@@ -253,7 +253,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                         {infoRows}
                     </Row>
                     <AdditionalDView template={template}></AdditionalDView>
-                    <CritView crits={template.crSpellId[1]} weapId={template.id}></CritView>
+                    <CritView damageExtractor={modsSetter.getDamageExtractor()} crits={template.crSpellId[1]} weapId={template.id}></CritView>
                     <LegendaryView template={template}></LegendaryView>
                     <Divider className='mt-2 mb-2'></Divider>
                     <GeneralView template={template}></GeneralView>
@@ -262,7 +262,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     <div className="pt-2" />
                     <DamageOverview damageData={template.damageData}></DamageOverview>
                     {divider}
-                    {getResetButton(template, items.length, resetButtonActive, setResetButtonActive)}
+                    {getResetButton(template, modsSetter, items.length, resetButtonActive, setResetButtonActive)}
                     {result}
                     {getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick)}
                 </Accordion.Body>

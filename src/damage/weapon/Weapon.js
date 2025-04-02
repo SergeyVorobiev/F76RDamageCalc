@@ -18,6 +18,7 @@ export default class Weapon {
         this.ownerHealth = weaponSpecsAssembler.getOwnerHealth();
         this.bonusMult = weaponSpecsAssembler.getBaseDamageMult();
         this.critBoost = weaponSpecsAssembler.getCritBoost();
+        this.isAuto = weaponSpecsAssembler.getIsAuto();
         this.explosiveBonus = weaponSpecsAssembler.getExplosiveBonus();
         this.explosiveDamageTypeBonus = weaponSpecsAssembler.getExplosivePhysicalBonus();
         this.weaponType = weaponSpecsAssembler.getWeaponType();
@@ -32,22 +33,22 @@ export default class Weapon {
         this.powerAttack = weaponSpecsAssembler.getPowerAttack();
         this.chargeTime = weaponSpecsAssembler.getChargeTime();
         this.chargePenalty = weaponSpecsAssembler.getChargePenalty();
+        this.startAttackDelay = weaponSpecsAssembler.getStartAttackDelay();
         this.sneak = weaponSpecsAssembler.getSneak();
         this.totalDamageBonus = weaponSpecsAssembler.getTotalDamageBonus();
         this.magazine = this.ammoCapacity;
         this.enableCrit = true;
         this.enableHeadShot = true;
         this.resultDamage = {bulletCount: this.shotSize, expDTypeBonus: this.explosiveDamageTypeBonus, lastShotBonus: 0, firstBloodBonus: this.firstBloodBonus, creatureDamageBonuses: this.creatureDamageBonuses, headShot: false, critShot: false, sneakShot: false, weaponType: this.weaponType,
-            deltaTime: 0, powerAttack: this.powerAttack, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
+            attackDelay: this.startAttackDelay, deltaTime: 0, powerAttack: this.powerAttack, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
             expBonus: this.explosiveBonus, sneak: this.sneak, totalDamageBonus: this.totalDamageBonus.value, critBoost: this.critBoost,
             tenderizer: this.totalDamageBonus.tenderizer, executionerBonus: this.totalDamageBonus.executioner, damages: [],
-            critDamages: this.critDamages};
+            critDamages: this.critDamages, fireTime: 10 / this.fireRate, isAuto: this.isAuto};
         this.reloadsCount = 0;
         this.reloadTimeCounting = true;
         this.alwaysMaxHit = false;
         this.reloadsTotalTime = 0;
         this.hitCount = 0;
-        this.hit();
     }
 
     setEnableCrit(flag) {
@@ -60,6 +61,10 @@ export default class Weapon {
 
     getName() {
         return this.name;
+    }
+
+    getIsAuto() {
+        return this.isAuto;
     }
 
     getDefaultName() {
@@ -216,6 +221,10 @@ export default class Weapon {
         return this.critShotFrequency !== 0 && this.enableCrit;
     }
 
+    getStartAttackDelay() {
+        return this.startAttackDelay;
+    }
+
     // Result array is reused every hit, editing is prohibited as it contains ref data
     hit() {
         this.resultDamage.damages.length = 0;
@@ -224,6 +233,12 @@ export default class Weapon {
         // Charge
         dTime += this.chargeTime;
 
+        // Start Attack Delay
+        if (!this.isAuto) {
+            dTime += this.startAttackDelay;
+        }
+
+
         // Reload
         if (this.magazine === 0) {
             this.magazine = this.ammoCapacity;
@@ -231,6 +246,9 @@ export default class Weapon {
             this.reloadsTotalTime += this.reloadTime;
             if (this.reloadTimeCounting) {
                 dTime += this.reloadTime;
+                if (this.isAuto) {
+                    dTime += this.startAttackDelay;
+                }
             }
         }
 
