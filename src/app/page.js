@@ -10,10 +10,9 @@ import styles from "./page.module.css";
 import F76NavBar from '../navbar/F76NavBar';
 import LoadingLine from '../loading/LoadingLine';
 import Footer from '../navbar/Footer';
-import ImageURLPool from '../loading/ImageURLPool';
 //import TestEnv from '../testEnvironment/TestEnv';
 import dynamic from "next/dynamic";
-await ImageURLPool.loadDefaultAsync();
+import ImageURLPool from '../loading/ImageURLPool';
 
 
 function webSite() {
@@ -46,6 +45,7 @@ function testEnv() {
 export default function Home() {
     useEffect(() => {
         function windowSizeChanged() {
+            ImageURLPool.loadDefaultAsync();
             const width =  window.innerWidth;
             const height = window.innerHeight;
             document.documentElement.style.setProperty('--screen-width', width.toFixed(0) + "px");
