@@ -51,7 +51,7 @@ const ConsumableItems = memo(function ConsumableItems(props) {
             }
         }
         if (props.filterName && props.filterName.length > 0) {
-            if (!item.full.toLowerCase().includes(props.filterName.toLowerCase())) {
+            if (!item.full.toLowerCase().includes(props.filterName.toLowerCase()) && !item.id.startsWith(props.filterName)) {
                 continue;
             }
         }

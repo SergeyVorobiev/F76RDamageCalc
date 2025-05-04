@@ -3,14 +3,17 @@ import { Apply } from './Apply';
 
 export class NumProjectiles extends Apply {
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         const value = super.getValue(mod);
         super.addSetMullAdd(template.shotSize, value, mod.op, apply);
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
         if (update) {
-            return;
+            return wSpec.legendary[starIndex][2];
+        }
+        if (!this.isLegendaryAppropriate(wSpec, starIndex, apply)) {
+            return false;
         }
         const value = super.getValue(mod);
         super.checkOp(mod, "Legendary", "Add");
@@ -20,5 +23,6 @@ export class NumProjectiles extends Apply {
         if (wSpec.shot_size === 0) {
             wSpec.shot_size = 1;
         }
+        return apply;
     }
 }

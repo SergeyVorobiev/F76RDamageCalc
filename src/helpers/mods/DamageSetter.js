@@ -1,8 +1,31 @@
 import DamageBlackList from "../../damage/DamageBlackList";
+import { Assignment } from "./DamageExtractor";
+import DamageExtractor from "./DamageExtractor";
+import { getLegendary } from '../LegendaryProvider';
 
 
-export function buildDamageItem(weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, index=0, isUsed=true, conditions=[]) {
+// Track legendary to not apply bonus mods from them as they will be applied later
+const legendaryEffectsMap = new Map();
+
+
+export function setLegendaryEffect(legEffect, legId) {
+    legendaryEffectsMap.set(legEffect, legId);
+}
+
+export function buildDamageItem(weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, bonuses=null, repeat=1, index=0, isUsed=true, isCrit=false, conditions=[], fConditions=null) {
     const ignored = DamageBlackList.check(weaponId, damageId);
+    let bMult = true;
+    let bCrit = true;
+    let bSneak = true;
+    if ((!bonuses && isCrit) || bonuses === "no") {
+        bMult = false;
+        bCrit = false;
+        bSneak = false;
+    } else if (bonuses) {
+        bMult = bonuses.isBonusMult;
+        bCrit = bonuses.isBonusCrit;
+        bSneak = bonuses.isBonusSneak;
+    }
     return {
         "isUsed": isUsed,
         "type": type,
@@ -21,69 +44,69 @@ export function buildDamageItem(weaponId, damageId, type, kind, name, damage, ti
         "damageId": damageId,
         "ignored": ignored,
         "conditions": conditions,
+        "fConditions": fConditions, // Resolved conditions
+        "isCrit": isCrit,
+        "bonuses": {
+            isBonusMult: bMult,
+            isBonusCrit: bCrit,
+            isBonusSneak: bSneak,
+        },
+        "repeat": repeat,
     };
 }
 
-export function buildBleedDamage(damage, time, chance=100, accuracy=100, stack=false) {
-    return buildDamageItem("", "", "dtPhysical", "bleed", "Bleed", damage, time, 0, 0, chance, accuracy, stack);
+export function getBonusesCheck(flag) {
+    return {
+        isBonusMult: flag,
+        isBonusCrit: flag,
+        isBonusSneak: flag,
+    }
 }
 
-export function convertDamageDataToDamageItem(damageData, alt) {
-    const type = getDamageTypeFromCellName(damageData.type_name);
-    const damage = getDamageValue(damageData, alt);
-    return buildDamageItem(damageData.weaponId, damageData.directParent, type[0], type[1], type[2], damage, damageData.time, damageData.interval, damageData.area, 100, 100, false, 0, true, damageData.conditions);
+export function copyBonusesCheck(bonuses) {
+    return {
+        isBonusMult: bonuses.isBonusMult,
+        isBonusCrit: bonuses.isBonusCrit,
+        isBonusSneak: bonuses.isBonusSneak,
+    }
+}
+
+export function buildBleedDamage(damage, time, chance=100, accuracy=100, stack=false, bonuses=false) {
+    return buildDamageItem("", "", "dtPhysical", "bleed", "Bleed", damage, time, 0, 0, chance, accuracy, stack, getBonusesCheck(bonuses), 1);
 }
 
 export function makeDamageItemCopy(damageItem) {
     return buildDamageItem(damageItem.weaponId, damageItem.damageId, damageItem.type, damageItem.kind, damageItem.name, damageItem.damage, damageItem.time,
-        damageItem.interval, damageItem.area, damageItem.chance, damageItem.accuracy, damageItem.stack, damageItem.index, damageItem.isUsed, damageItem.conditions);
+        damageItem.interval, damageItem.area, damageItem.chance, damageItem.accuracy, damageItem.stack, copyBonusesCheck(damageItem.bonuses), damageItem.repeat, damageItem.index, damageItem.isUsed, damageItem.isCrit, damageItem.conditions, damageItem.fConditions);
 }
 
-export function getCurveValueFromDamageItem(damage, is_alt) {
-    return getCurveDamage(damage.curve_base_max, damage.curve_alt_max, is_alt);
+export function getCurveValueFromDamageItem(damage, isAlt) {
+    return getCurveDamage(damage.curveBase, damage.curveAlt, isAlt);
 }
 
-export function getCurveDamage(base_value, alt_value, is_alt) {
-    if (is_alt && alt_value !== 0) {
-        return alt_value;
+export function getCurveDamage(baseValue, altValue, isAlt) {
+    if (isAlt && altValue && altValue !== 0) {
+        return altValue;
     }
-    return base_value;
+    return baseValue;
 }
 
-function getDamageValue(damage, alt) {
+export function getDamageValue(damage, alt) {
     let curve = getCurveValueFromDamageItem(damage, alt);
-    if (curve > 0) {
+    if (curve && curve !== 0) {
         return curve;
-    } else if (damage.value > 0) {
+    } else if (damage.value && damage.value !== 0) {
         return damage.value;
     }
-    return damage.magnitude;
+    return (damage.magnitude) ? damage.magnitude : 0;
 }
 
-const cellNames = ['bbDamage', 'ebDamage', 'fbDamage', 'pbDamage', 'cbDamage', 'rbDamage', 'projExp', 'bleed'];
+const cellNames = ['dtPhysical', 'dtEnergy', 'dtFire', 'dtPoison', 'dtCryo', 'dtRadiationExposure', 'projExp', 'bleed'];
 
-export function collectAllDamages(template, alt) {
+export function copyAllDamages(template) {
     let result = [];
-    for (let i = 0; i < template.adDamage.length; i++) {
-        result.push(makeDamageItemCopy(template.adDamage[i]));
-    }
-
-    for (let i = 0; i < cellNames.length; i++) {
-        const name = cellNames[i];
-        let damage = template[name][1];
-        let damageId = template[name][2];
-        if (typeof damage === typeof '') {
-            const split = damage.split(" / ");
-            damage = parseFloat(split[0]);
-            const time = parseFloat(split[1].slice(0, -1));
-            const type = getDamageTypeFromCellName(name);
-            const obj = buildDamageItem(template.id, damageId, type[0], type[1], type[2], damage, time, 0, 0, 100, 100, false);
-            result.push(obj);
-        } else if (damage > 0) {
-            const type = getDamageTypeFromCellName(name);
-            const obj = buildDamageItem(template.id, damageId, type[0], type[1], type[2], damage, 0, 0, 0, 100, 100, false);
-            result.push(obj);
-        }
+    for (let i = 0; i < template.damages.length; i++) {
+        result.push(makeDamageItemCopy(template.damages[i]));
     }
     return result;
 }
@@ -94,28 +117,22 @@ export function getDamageTypeFromCellName(cellName) {
             return ['dtPhysical', 'bleed', "Bleed"];
         case 'projExp':
             return ['dtPhysical', 'explosive', "Explosive"];
-        case 'bbDamage':
         case 'dtPhysical':
             return ['dtPhysical', 'physical', "Physical"];
-        case 'ebDamage':
         case 'dtEnergy':
         case 'dtElectrical':
             return ['dtEnergy', 'energy', "Energy"];
-        case 'fbDamage':
         case 'dtFire':
             return ['dtFire', 'fire', "Fire"];
-        case 'pbDamage':
         case 'dtPoison':
             return ['dtPoison', 'poison', "Poison"];
-        case 'cbDamage':
         case 'dtCryo':
             return ['dtCryo', 'cryo', "Cryo"];
-        case 'rbDamage':
         case 'dtRadiationExposure':
             return ['dtRadiationExposure', 'radiation', "Radiation"];
         default:
-            console.log("Can't determine appropriate damate type by cell name: " + cellName);
-            return ['dtPhysical', 'ballistic', "Physical"];
+            console.warn("Can't determine appropriate damage type by cell name: " + cellName);
+            return ['dtPhysical', 'physical', "Physical"];
     }
 }
 
@@ -125,9 +142,9 @@ export default class DamageSetter {
         this.alt = alt;
     }
 
-    setDamages(templates) {
+    setDamagesToAll(templates) {
         for (let i = 0; i < templates.length; i++) {
-            this.setDamage(templates[i]);
+            this.setDamages(templates[i]);
         }
     }
 
@@ -135,32 +152,69 @@ export default class DamageSetter {
         this.alt = alt;
     }
 
-    setDamage(template) {
-        template.adDamage = []; // Additional damages
-        this.setDamageForCategory(template, "Base");
-        this.setDamageForCategory(template, "Ammo");
-        this.setDamageForCategory(template, "Projectile");
-        this.setDamageForCategory(template, "Base Spell");
-        this.setDamageForCategory(template, "Spell");
-    }
-
-    setDamageForCategory(template, category) {
+    // Will erase previously set damages
+    setDamages(template) {
+        template.damages = []; // Reset damages
         const damageData = template.damageData;
+        const excludeAmmoProjectile = this.hasOverriddenProjectile(damageData);
         for (const property in damageData) {
-            if (property !== category) {
+            if (excludeAmmoProjectile && property === "Ammo Projectile") {
                 continue;
             }
             const damages = damageData[property];
             for (let i = 0; i < damages.length; i++) {
                 const damage = damages[i];
+                if (this.subjectIsNotPlayer(damage.conditions)) {
+                    continue;
+                }
                 this.setCurrent(template, damage);
             }
         }
+        template.damages = this.mergeNoTimeDamages(template.damages);
+    }
+
+    subjectIsNotPlayer(conditions) {
+        return false; // Disabled
+        for (let i = 0; i < conditions.length; i++) {
+            const condition = conditions[i];
+            if (condition.includes("(Subject) Is Not Player")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // If we have overridden projectiles we don't use ammo projectiles
+    hasOverriddenProjectile(damageData) {
+        return (damageData["Overridden Projectile"]) ? true : false;
+    }
+
+    // Merge damages into one (it does not differentiate between onlyPlayer and destructible)
+    mergeNoTimeDamages(damages) {
+        const mergedDamages = [];
+        const mapDamages = new Map();
+        for (let i = 0; i < damages.length; i++) {
+            const damage = damages[i];
+            if (damage.isUsed && damage.accuracy === 100 && damage.area === 0 && damage.chance === 100 && damage.conditions.length === 0 && !damage.ignored && damage.time === 0 && damage.interval === 0) {
+                const damageToMerge = mapDamages.get(damage.kind + damage.type);
+                if (damageToMerge) {
+                    damageToMerge.damage += damage.damage;
+                } else {
+                    mapDamages.set(damage.kind + damage.type, damage);
+                }
+            } else {
+                mergedDamages.push(damage);
+            }
+        }
+        mapDamages.forEach((value, key, map) => {
+            mergedDamages.push(value);
+        });
+        return mergedDamages;
     }
 
     setCurrent(template, damage) {
-        if (damage.destructible === false && damage.only_player === "No") {
-            const damageValue = getDamageValue(damage, this.alt);
+        if (!damage.destructible && !damage.onlyPlayer) {
+            const damageValue = getDamageValue(damage.damageData, this.alt);
             if (damageValue === 0) {
                 return;
             }
@@ -168,63 +222,71 @@ export default class DamageSetter {
         }
     }
 
-    placeValueByType(template, damageData, damageValue) {
-        const damage = [damageValue, damageValue];
-        const exp = damageData.exp;
-        const blood = damageData.blood;
-        switch(damageData.type_name) {
-            case "ArmorPenetration":
-                template.antiArmor = damage;
+    placeValueByType(template, damageObj, damageValue) {
+        switch(damageObj.assignment) {
+            case Assignment.ARMOR:
+                template.antiArmor[1] += damageValue;
                 break;
-            case "ExpDamageMult":
-                template.exp[1] = damage[1] * 100;
+            case Assignment.EXP_MULT:
+                template.exp[1] = damageValue * 100;
                 break;
-            case "STAT_DmgAll":
-            case "STAT_DmgMelee":
-                template.bonusMult[1] += damage[1] / 100;
+            case Assignment.SPEED_MULT:
+                template.speed[1] += damageValue;
                 break;
-            case "dtPhysical":
-                if (exp) {
-                    this.putDamage(template, "projExp", damage, damageData);
-                } else if (blood) {
-                    const type = getDamageTypeFromCellName("bleed");
-                    template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damageValue, damageData.time, 0, 0, 100, 100, false, 0, true, damageData.conditions));
+            case Assignment.BDB:
+                if (damageObj.conditions.length > 0) {
+                    this.putConditionalBonus(template, damageObj, damageValue);
                 } else {
-                    this.putDamage(template, "bbDamage", damage, damageData);
+                    const legId = legendaryEffectsMap.get(damageObj.parentId);
+                    if (legId) {
+                        // Different mods gives different range 0-1, 0-100 to not mess with it just take hardcore default value
+                        template.legBonusMult[legId] = getLegendary(legId).value / 100;
+                    } else {
+                        template.bonusMult[1] += damageValue / 100;
+                    }
                 }
                 break;
-            case "dtEnergy":
-            case "dtElectrical":
-                this.putDamage(template, "ebDamage", damage, damageData);
-                break;
-            case "dtFire":
-                this.putDamage(template, "fbDamage", damage, damageData);
-                break;
-            case "dtPoison":
-                this.putDamage(template, "pbDamage", damage, damageData);
-                break;
-            case "dtCryo":
-                this.putDamage(template, "cbDamage", damage, damageData);
-                break;
-            case "dtRadiationExposure":
-                this.putDamage(template, "rbDamage", damage, damageData);
+            case Assignment.DAMAGE:
+                if (damageObj.damageData.kind === DamageExtractor.EXPLOSIVE) {
+                    if (!damageObj.damageData.typeName || damageObj.damageData.typeName === "" || damageObj.damageData.typeName === "dtPhysical") {
+                        this.putDamage(template, "projExp", damageValue, damageObj);
+                    } else {
+                        this.putDamage(template, damageObj.damageData.typeName, damageValue, damageObj);
+                    }
+                } else if (damageObj.damageData.kind === DamageExtractor.BLOOD) {
+                    this.putDamage(template, "bleed", damageValue, damageObj);
+                } else {
+                    this.putDamage(template, damageObj.damageData.typeName, damageValue, damageObj);
+                }
                 break;
             default:
-                break;
+                this.putDamage(template, damageObj.damageData.typeName, damageValue, damageObj);
         }
     }
 
-    putDamage(template, field, damage, damageData) {
-        const type = getDamageTypeFromCellName(field);
-        if (template[field][0] > 0 || damageData.time > 0 || damageData.interval > 0) { // We already have this type of damage, add it as additional
-
-            // Will be modified only by boost multiplier independently
-            template.adDamage.push(buildDamageItem(template.id, damageData.directParent, type[0], type[1], type[2], damage[1], damageData.time, damageData.interval, damageData.area, 100, 100, false, 0, true, damageData.conditions));
-        } else {
-
-            // Later can be modified by boosts (current architecture does not allow to push it to adDamage
-            const newDamage = [damage[0], damage[1], damageData.directParent];
-            template[field] = newDamage;
+    putConditionalBonus(template, damageObj, damageValue) {
+        const damageData = damageObj.damageData;
+        if (damageValue === 0) {
+            console.warn("Damage Value is Zero Weapon " + template.id + " Direct Parent: " + damageObj.id);
         }
+        const bonusObj = this.getBonusObject("BDB", damageValue, damageObj.id, damageObj.conditions, damageData.chance);
+        template.damageBonusCond.push(bonusObj);
+    }
+
+    getBonusObject(type, damageValue, parent, conditions, chance) {
+        return {
+            type: type,
+            damage: damageValue,
+            parent: parent,
+            conditions: conditions,
+            chance: chance,
+        };
+    }
+
+    putDamage(template, field, damageValue, damageObj) {
+        const damageData = damageObj.damageData;
+
+        const type = getDamageTypeFromCellName(field);
+        template.damages.push(buildDamageItem(template.id, damageObj.id, type[0], type[1], type[2], damageValue, damageData.time, damageData.interval, damageData.area, damageData.chance, 100, false, damageData.bonuses, damageData.repeat, 0, true, damageData.isCrit, damageObj.conditions));
     }
 }

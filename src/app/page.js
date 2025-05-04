@@ -5,34 +5,42 @@ import '../css/bsButtons.css';
 import '../css/buttons.css';
 import '../css/bsCheck.css';
 import '../css/style.css';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styles from "./page.module.css";
 import F76NavBar from '../navbar/F76NavBar';
 import LoadingLine from '../loading/LoadingLine';
 import Footer from '../navbar/Footer';
-import TestEnv from '../testEnvironment/TestEnv';
+import ImageURLPool from '../loading/ImageURLPool';
+//import TestEnv from '../testEnvironment/TestEnv';
+import dynamic from "next/dynamic";
+await ImageURLPool.loadDefaultAsync();
 
-
-const Main = React.lazy(() => import('../main/Main'));
 
 function webSite() {
+    const Main = dynamic(() => import('../main/Main'), {
+    ssr: false,
+    loading: () => loadingLine(),
+    });
     return (
         <div className='m-auto p-0 mb-0' style={{display: 'flex', flexDirection: 'column', maxWidth: '80rem', minHeight: '100vh'}}>
             <F76NavBar></F76NavBar>
-            <Suspense fallback={<LoadingLine />}>
                 <Main />
-            </Suspense>
             <Footer />
         </div>
     );
 }
 
 function loadingLine() {
-    return <LoadingLine />
+    return (
+        <>
+            <LoadingLine />
+        </>
+    );
 }
 
+//<TestEnv />
 function testEnv() {
-    return <TestEnv />
+    return (<></>);
 }
 
 export default function Home() {

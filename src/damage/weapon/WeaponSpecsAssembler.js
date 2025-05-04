@@ -1,28 +1,108 @@
 import StuffBoostsCollector from '../../boostStuff/StuffBoostsCollector';
 import { makeDamageItemCopy, buildBleedDamage } from '../../helpers/mods/DamageSetter';
 import AccuracyAdjuster from '../../helpers/AccuracyAdjuster';
+import { getLegendary } from '../../helpers/LegendaryProvider';
+import CustomConditions from '../../helpers/CustomConditions';
+import { DamageTypes } from '../../helpers/Strings';
 
+
+export function assembleFireRate(wType, wTags, isAuto, speed, triggerDelay, autoDelay, attackDelay) {
+    let result = 0;
+    let speedX = speed * 10;
+    function isLauncher() {
+        for (let i = 0; i < wTags.length; i++) {
+            const tag = wTags[i];
+            if (tag.includes("Launcher")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (wType === "Pistol" || wType === "Rifle") {
+        if (isAuto) {
+            result = speedX / autoDelay;
+        } else {
+            result = speedX / triggerDelay;
+        }
+    } else if (wType === "Heavy") {
+        if (isAuto) {
+            if (isLauncher()) {
+                result = speedX / triggerDelay;
+            } else {
+                if (attackDelay > 1) {
+                    result = speedX / (attackDelay / 20);
+                } else {
+                    result = speedX / autoDelay;
+                }
+            }
+        } else {
+            result = speedX / triggerDelay;
+        }
+    } else if (wType === "Shotgun" || wType === "Bow") {
+        result = speedX / triggerDelay;
+    } else if (wType === "Melee" || wType === "Unarmed" || wType === "Thrown") {
+        if (isAuto) {
+            result = speedX / (attackDelay / 20);
+        } else {
+            result = speedX / attackDelay;
+        }
+    } else { // All
+        if (isAuto) {
+            result = speedX / autoDelay;
+        } else {
+            result = speedX / triggerDelay;
+        }
+
+    }
+    if (result.toString() === "Infinity") {
+        result = 1;
+        console.error("Weapon Fire Rate is Infinite");
+    }
+    if (result === 0) {
+        result = 1;
+        console.error("Weapon Fire Rate is 0");
+    }
+    return result;
+}
 
 export default class WeaponSpecsAssembler {
     
-    constructor(wSpec, perks, extraDamageSettings, additionalDamages, stuffBoost, playerStats, ownerHealth) {
+    constructor(wSpec, perks, extraDamageSettings, additionalDamages, stuffBoost, player, playerStats) {
         this.wSpec = wSpec;
         this.perks = perks;
         this.extraDamageSettings = extraDamageSettings;
         this.additionalDamages = additionalDamages;
         this.stuffBoost = stuffBoost;
         this.playerStats = playerStats;
-        this.ownerHealth = ownerHealth;
+        this.player = player;
+        this.ownerHealth = player.health.value;
     }
-    
+
+    // Except crit damages. See getCritDamages()
     getDamages() {
         let result = [];
         for (let i = 0; i < this.wSpec.damages.length; i++) {
-            const damage = makeDamageItemCopy(this.wSpec.damages[i]);
+            let damage = this.wSpec.damages[i];
+            if (damage.isCrit) {
+                continue;
+            }
+            this.convertConditions(damage);
+            damage = makeDamageItemCopy(damage);
+            if (damage.time === 0 && damage.interval === 0) {
+                damage.damage *= this.wSpec.attackDamage;
+            }
             damage.defDamage = damage.damage;
+            const kindType = DamageTypes.convertTypeKind(damage.kind);
+            damage.iKind = kindType[0];
+            damage.iType = kindType[1];
             result.push(damage);
         }
         result = result.concat(this.getDamageFromStuff());
+
+        // Reindex
+        for (let i = 0; i < result.length; i++) {
+            result[i].index = i;
+        }
         this.setFinalAccuracy(result);
         return result;
     }
@@ -34,8 +114,18 @@ export default class WeaponSpecsAssembler {
 
     getCritDamages() {
         let result = [];
-        for (let i = 0; i < this.wSpec.critDamages.length; i++) {
-            result.push(makeDamageItemCopy(this.wSpec.critDamages[i]));
+        for (let i = 0; i < this.wSpec.damages.length; i++) {
+            let damage = this.wSpec.damages[i];
+            if (!damage.isCrit) {
+                continue;
+            }
+            this.convertConditions(damage);
+            damage = makeDamageItemCopy(damage);
+            damage.defDamage = damage.damage;
+            const kindType = DamageTypes.convertTypeKind(damage.kind);
+            damage.iKind = kindType[0];
+            damage.iType = kindType[1];
+            result.push(damage);
         }
         return result;
     }
@@ -65,12 +155,94 @@ export default class WeaponSpecsAssembler {
         return this.ownerHealth;
     }
 
-    collectFromLegendary(property) {
+    getLegendaryIds() {
+        const result = [];
+        for (let i = 0; i < this.wSpec.legendary.length; i++) {
+            const leg = this.wSpec.legendary[i];
+            result.push(leg[0]);
+        }
+        return result;
+    }
+
+    // Static bonuses like aiming, night can be applied directly to static bonus value
+    collectStaticConditionalBDB() {
+        let result = 0;
+        for (let i = 0; i < this.wSpec.damageBonusCond.length; i++) {
+            const bonusObject = this.wSpec.damageBonusCond[i];
+            this.convertConditions(bonusObject);
+            if (bonusObject.type === "BDB") {
+                if (bonusObject.fConditions.length === 0) {
+                    if (bonusObject.damage < 10) {
+                        console.warn("Found a bdb seems to be normalized: " + bonusObject.damage);
+                    }
+                    result += bonusObject.damage;
+                } else { // Considers for now all unconditional are static and all conditional are dynamic
+                    // console.warn("Found conditional static damage bonus");
+                }
+            }
+        }
+        return result;
+    }
+
+    convertConditions(obj) {
+        if (obj.fConditions) { // Already converted
+            return;
+        }
+        obj.fConditions = [];
+        for (let i = 0; i < obj.conditions.length; i++) {
+            const condition = obj.conditions[i];
+            const [fCondition, data] = CustomConditions.convertCondition(condition);
+            if (fCondition) {
+                obj.fConditions.push([fCondition, data]);
+            }
+        }
+    }
+    // Dynamic bonuses depend on creature state in a particular moment (poisoned)
+    collectDynamicConditionalBDB() {
+
+        const result = [];
+        for (let i = 0; i < this.wSpec.damageBonusCond.length; i++) {
+            const bonusObject = this.wSpec.damageBonusCond[i];
+            this.convertConditions(bonusObject);
+            if (bonusObject.type === "BDB") {
+                if (bonusObject.fConditions.length === 0) {
+                    continue; // If we removed all conditions then static bdb collector already grabbed it
+                } else if (bonusObject.fConditions.length === 1) {
+                    if (bonusObject.damage > 5) {
+                        console.warn("Found a bdb seems not to be normalized: " + bonusObject.damage);
+                    }
+                    result.push(bonusObject);
+                } else {
+                    console.error("Base damage bonus does not support more than one condition");
+                }
+            }
+        }
+        return result;
+    }
+
+    getPinPointerChance() {
+        for (let i = 0; i < this.wSpec.legendary.length; i++) {
+            const leg = this.wSpec.legendary[i];
+            const id = leg[0];
+            if (id === '007aca07') { // Pin-Pointer
+                return (leg[1]) ? [leg[1], 0.5] : [0, 0];
+            }
+        }
+        return [0, 0];
+    }
+
+    collectBDBFromLegendary() {
         let result = 0;
         for (let i = 0; i < this.wSpec.legendary.length; i++) {
             const leg = this.wSpec.legendary[i];
-            if (leg[2] === property) {
-                result += leg[1];
+            const id = leg[0];
+            const value = (leg[1]) ? leg[1] : 0;
+            if (id === '007acbf4' && !this.player.team) { // Fencer
+                //
+            } else if (id === '007aca07') { // Pin-Pointer
+                //
+            } else {
+                result += value;
             }
         }
         return result;
@@ -152,27 +324,14 @@ export default class WeaponSpecsAssembler {
         return 0;
     }
 
-    getFirstBloodBonus() {
-        if (this.wSpec.legendary[0][0] === '004f6aa5') {
-            return 1;
-        }
-        return 0;
-    }
-
-    getLastShotBonus() {
-        if (this.wSpec.legendary[1][0] === '006069ec') {
-            return 1;
-        }
-        return 0;
-    }
-
+    // returns all possible total damages but tenderizer and executioner separately {value: result, tenderizer: tenderizer, executioner: exec}
     getTotalDamageBonus() {
         let tenderizer = this.perks.tenderizer.displayed_value > 0 ? (1 + this.perks.tenderizer.displayed_value / 100.0) : 1;
         let result = 1.0;
         result *= this.perks.toft.displayed_value > 0 ? (1 + this.perks.toft.displayed_value / 100.0) : 1.0;
 
-        // Seems that follow through works as TOFT only in sneak mode
-        if (this.wSpec.type === "Heavy" || this.wSpec.type === "Thrown") {
+        // Seems that follow through works as TOFT only in sneak mode (except melee and unarmed)
+        if (this.wSpec.type !== "Melee" && this.wSpec.type !== "Unarmed") {
             result *= this.perks.follow_through.displayed_value > 0 ? (1 + this.perks.follow_through.displayed_value / 100.0) : 1.0;
         }
         result *= (this.additionalDamages.tdb.is_used) ? (1 + this.additionalDamages.tdb.value / 100.0) : 1.0;
@@ -185,7 +344,7 @@ export default class WeaponSpecsAssembler {
     }
 
     getIsAuto() {
-        return this.wSpec.is_auto === 1;
+        return this.wSpec.isAuto === 1;
     }
 
     // Assume charging is linear
@@ -209,12 +368,12 @@ export default class WeaponSpecsAssembler {
         return {value: this.wSpec.cripple / 100.0, chance: this.wSpec.crippleChance};
     }
 
-    getBash() {
-        return this.wSpec.bash / 100.0;
+    getPowerAttack() {
+        return {value: this.wSpec.powerAttack / 100.0, chance: this.wSpec.powerAttackChance};
     }
 
-    getPowerAttack() {
-        return this.wSpec.powerAttack / 100.0;
+    getBash() {
+        return this.wSpec.bash / 100.0;
     }
 
     getWeaponName() {
@@ -243,7 +402,7 @@ export default class WeaponSpecsAssembler {
     }
 
     getBaseDamageMult() {
-        let result = 100 + this.getBonusMultFromPerks() + this.getStrengthBoost() + this.wSpec.bonus + this.collectFromLegendary("BDB");
+        let result = 100 + this.getBonusMultFromPerks() + this.getStrengthBoost() + this.wSpec.bonus + this.collectBDBFromLegendary() + this.collectStaticConditionalBDB();
 
         result += StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "BDB");
         let bResult = result + ((this.additionalDamages.ballisticBDB.is_used) ? (this.additionalDamages.ballisticBDB.value) : 0.0);
@@ -258,7 +417,14 @@ export default class WeaponSpecsAssembler {
         pResult += (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "PBDB"));
         cResult += (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "CBDB"));
         rResult += (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "RBDB"));
-        return {dtPhysical: bResult / 100.0, dtEnergy: eResult / 100.0, dtFire: fResult / 100.0, dtPoison: pResult / 100.0, dtCryo: cResult / 100.0, dtRadiationExposure: rResult / 100.0};
+        const map = new Map();
+        map.set(DamageTypes.dtPhysical,  bResult / 100.0);
+        map.set(DamageTypes.dtEnergy, eResult/ 100.0);
+        map.set(DamageTypes.dtFire, fResult / 100.0);
+        map.set(DamageTypes.dtPoison, pResult / 100.0);
+        map.set(DamageTypes.dtCryo, cResult / 100.0);
+        map.set(DamageTypes.dtRadiation, rResult / 100.0);
+        return [map, {dtPhysical: bResult / 100.0, dtEnergy: eResult / 100.0, dtFire: fResult / 100.0, dtPoison: pResult / 100.0, dtCryo: cResult / 100.0, dtRadiationExposure: rResult / 100.0}];
     }
 
     getDamageFromStuff() {
@@ -269,6 +435,9 @@ export default class WeaponSpecsAssembler {
             const time = parseFloat(values[1].slice(0, values[1].length - 1));
             const damage = buildBleedDamage(damageValue, time);
             damage.defDamage = damageValue;
+            const kindType = DamageTypes.convertTypeKind(damage.kind);
+            damage.iKind = kindType[0];
+            damage.iType = kindType[1];
             damages.push(damage);
         }
         StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Bleed", stacker);
@@ -299,16 +468,16 @@ export default class WeaponSpecsAssembler {
         if (this.perks.archer.displayed_value > 0 && this.wSpec.type === "Bow") {
             result += this.perks.archer.displayed_value;
         }
-        if (this.perks.commando.displayed_value > 0 && this.wSpec.type === "Rifle" && this.wSpec.is_auto === 1) {
+        if (this.perks.commando.displayed_value > 0 && this.wSpec.type === "Rifle" && this.wSpec.isAuto === 1) {
             result += this.perks.commando.displayed_value;
         }
-        if (this.perks.rifleman.displayed_value > 0 && this.wSpec.type === "Rifle" && this.wSpec.is_auto === 0) {
+        if (this.perks.rifleman.displayed_value > 0 && this.wSpec.type === "Rifle" && this.wSpec.isAuto === 0) {
             result += this.perks.rifleman.displayed_value;
         }
-        if (this.perks.guerrilla.displayed_value > 0 && this.wSpec.type === "Pistol" && this.wSpec.is_auto === 1) {
+        if (this.perks.guerrilla.displayed_value > 0 && this.wSpec.type === "Pistol" && this.wSpec.isAuto === 1) {
             result += this.perks.guerrilla.displayed_value;
         }
-        if (this.perks.gunslinger.displayed_value > 0 && this.wSpec.type === "Pistol" && this.wSpec.is_auto === 0) {
+        if (this.perks.gunslinger.displayed_value > 0 && this.wSpec.type === "Pistol" && this.wSpec.isAuto === 0) {
             result += this.perks.gunslinger.displayed_value;
         }
         if (this.perks.science.displayed_value > 0 && this.wSpec.type !== "Heavy" && this.wSpec.tags.includes("Energy")) {
@@ -362,16 +531,12 @@ export default class WeaponSpecsAssembler {
     }
 
     getFireRate() {
-        let fireRate = this.wSpec.fireRate;
         let weaponSpeed = this.wSpec.speed;
         if (this.wSpec.typeNumber <= 6) {
             weaponSpeed += (this.perks.martial_artist.displayed_value / 100.0);
         }
-        fireRate = fireRate * weaponSpeed;
-        if (fireRate < 0.1) {
-            fireRate = 0.1;
-        }
-        return fireRate;
+        return assembleFireRate(this.wSpec.type, this.wSpec.tags, this.wSpec.isAuto, this.wSpec.speed,
+                                this.wSpec.triggerDelay, this.wSpec.autoDelay, this.wSpec.attackDelay);
     }
 
     getReloadTime() {
@@ -380,11 +545,16 @@ export default class WeaponSpecsAssembler {
             reloadSpeed += (this.perks.lock_and_load.displayed_value / 100.0);
         } else if (this.wSpec.type === "Shotgun") {
             reloadSpeed += (this.perks.scattershot.displayed_value / 100.0);
-        } else if (this.wSpec.type === "Rifle" && this.wSpec.is_auto) {
+        } else if (this.wSpec.type === "Rifle" && this.wSpec.isAuto) {
             reloadSpeed += (this.perks.ground_pounder.displayed_value / 100.0);
         }
         reloadSpeed += StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Reload") / 100.0;
         return this.wSpec.defReloadTime / reloadSpeed;
+    }
+
+    // Accuracy set by a user for a weapon
+    getGeneralAccuracy() {
+        return this.wSpec.accuracy;
     }
 
     // TODO: Intended to adjust accuracy by consumables and perks (accuracy from legendary and mods is adjusted in wSPec or by user)

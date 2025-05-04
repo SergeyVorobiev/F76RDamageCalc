@@ -12,8 +12,9 @@ export default class LegsId {
     static VITAL = '0052414b';
     static EXPLOSIVE = '004f5771';
     static CRIPPLING = '004ed02c';
-    static SWIFT = '00524150';
+    static SWIFT_RELOAD = '00524150';
     static STRENGTH = '005299fc';
+    static ENCIRCLER = '007acbf5';
     static names = LegsId.getNames();
 
     static getNames() {
@@ -31,8 +32,9 @@ export default class LegsId {
         names.set(LegsId.VITAL, "Vital");
         names.set(LegsId.EXPLOSIVE, "Explosive");
         names.set(LegsId.CRIPPLING, "Crippling");
-        names.set(LegsId.SWIFT, "Swift");
+        names.set(LegsId.SWIFT_RELOAD, "Swift Reload");
         names.set(LegsId.STRENGTH, "Strength");
+        names.set(LegsId.ENCIRCLER, "Encircler");
         return names;
     }
 
@@ -65,8 +67,19 @@ export default class LegsId {
 
     static getLeg3() {
         const leg = {};
-        leg[LegsId.SWIFT] = true;
+        leg[LegsId.SWIFT_RELOAD] = true;
         leg[LegsId.STRENGTH] = true;
+        return leg;
+    }
+
+    static getLeg4() {
+        const leg = {};
+        leg[LegsId.ENCIRCLER] = true;
+        return leg;
+    }
+
+    static getLeg5() {
+        const leg = {};
         return leg;
     }
 }

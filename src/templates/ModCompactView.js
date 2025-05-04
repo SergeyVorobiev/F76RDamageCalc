@@ -20,6 +20,7 @@ function buildModCard(key, mod_e, color, onEffectClick) {
         const val2 = truncate(mod_e.val2, 30);
         return (
             <Card key={key} className="mb-1 mt-1">
+                {keyValueTag('Id:', mod_e.id, color)}
                 {keyValueTag(mod_e.op, mod_e.prop, color)}
                 {keyValueTag('Val1:', val1, color)}
                 {keyValueTag('Val2:', val2, color)}

@@ -27,6 +27,7 @@ import { getMainPerks, getTempPerks, getLegPerks, getDefaultCards, getDefaultMai
 import SimpleNameDropdown from '../helpers/views/SimpleNameDropdown';
 import CreatureDataProvider from '../creature/CreatureDataProvider';
 import LegsId from '../helpers/LegsId';
+import LoadingModal from '../loading/LoadingModal';
 
 
 let parameterCalculator = null;
@@ -52,6 +53,12 @@ function getDefaultModGroups() {
 export default function ModalCalculateWeapons(props) {
     const [count, setCount] = useState({config: {}, current: 0, percent: 0, bestTime: Infinity});
     const [groups, setGroups] = useState(getDefaultModGroups());
+    if (!groups || Object.keys(groups).length === 0) {
+        const gs = getDefaultModGroups();
+        if (gs && Object.keys(gs).length > 0) {
+            setGroups(gs);
+        }
+    }
     const [calculating, setCalculating] = useState(0); // 0 - start, 1 - calculating, 2 - finished
     const [cards, setCards] = useState(getDefaultCards());
     const [main, setMain] = useState(getDefaultMain());
@@ -61,7 +68,8 @@ export default function ModalCalculateWeapons(props) {
     const [leg1, setLeg1] = useState(LegsId.getLeg1());
     const [leg2, setLeg2] = useState(LegsId.getLeg2());
     const [leg3, setLeg3] = useState(LegsId.getLeg3());
-
+    const [leg4, setLeg4] = useState(LegsId.getLeg4());
+    const [leg5, setLeg5] = useState(LegsId.getLeg5());
     const [chemo, setChemo] = useState(getUsableChemo());
     const [food, setFood] = useState(getUsableFood());
     const [drink, setDrink] = useState(getUsableDrink());
@@ -158,7 +166,7 @@ export default function ModalCalculateWeapons(props) {
                     }
                 }
                 parameterCalculator = new ParameterCalculator(props.creatureNamesRef.current, wId, gNames, cards, frCrit,
-                                        frHead, main, stuff, leg, {leg1: leg1, leg2: leg2, leg3: leg3},
+                                        frHead, main, stuff, leg, {leg1: leg1, leg2: leg2, leg3: leg3, leg4: leg4, leg5: leg5},
                                         {chemo: chemo, food: food, drink: drink, magazines: magazines, serums: serums, bobbleHeads: bobbleHeads},
                                         {main: mainPerks, temp: tempPerks, leg: legPerks},
                                         accuracyPref);
@@ -192,9 +200,7 @@ export default function ModalCalculateWeapons(props) {
 
     if (calculating === 1 && canCalculateRef.current && parameterCalculator) {
         canCalculateRef.current = false;
-        setTimeout(() => {
-            calculateParameters();
-        });
+        setTimeout(calculateParameters);
     }
 
     function calculateParameters() {
@@ -328,7 +334,7 @@ export default function ModalCalculateWeapons(props) {
                     <CalcMain main={main} setMain={setMain} frHead={frHead} setFrHead={setFrHead}></CalcMain>
                     <CalcModGroupsAll groups={groups} setGroups={setGroups}></CalcModGroupsAll>
                     <CalcCards mainPerks={mainPerks} setMainPerks={setMainPerks} tempPerks={tempPerks} setTempPerks={setTempPerks} legPerks={legPerks} setLegPerks={setLegPerks} cards={cards} setCards={setCards} frCrit={frCrit} setFrCrit={setFrCrit}></CalcCards>
-                    <CalcLegendary leg={leg} setLeg={setLeg} show={true} leg1={leg1} setLeg1={setLeg1} leg2={leg2} setLeg2={setLeg2} leg3={leg3} setLeg3={setLeg3}></CalcLegendary>
+                    <CalcLegendary leg={leg} setLeg={setLeg} show={true} leg1={leg1} setLeg1={setLeg1} leg2={leg2} setLeg2={setLeg2} leg3={leg3} setLeg3={setLeg3} leg4={leg4} setLeg4={setLeg4} leg5={leg5} setLeg5={setLeg5}></CalcLegendary>
                     <CalcConsumables stuff={stuff} setStuff={setStuff} food={food} drink={drink} chemo={chemo} setFood={setFood} setDrink={setDrink} setChemo={setChemo} magazines={magazines} setMagazines={setMagazines} bobbleHeads={bobbleHeads} setBobbleHeads={setBobbleHeads} serums={serums} setSerums={setSerums}></CalcConsumables>
                 </>
             );
@@ -337,16 +343,19 @@ export default function ModalCalculateWeapons(props) {
     }
     const header = (calculating === 0) ? "Best Of The Best" : type;
     const wIcon = (calculating === 0) ? "" : getImage(type);
-    function getModalView() {
+    function getModalView(show) {
         if (calculating === 3) {
             return (
-                <Modal.Body className="modal-scroll-80-60">
-                    <b>Loading...</b>
-                </Modal.Body>
+                <LoadingModal show={show} onHide={onHide} />
             );
         }
         return (
-            <>
+            <Modal
+                show = {show}
+                onHide = {onHide}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
                 <Modal.Header className="d-flex justify-content-center p-1">
                     <Row className="p-1" style={{width: '100%'}}>
                         <Col className="d-flex justify-content-start ps-2 p-0" xs={2}>
@@ -369,17 +378,8 @@ export default function ModalCalculateWeapons(props) {
                         {getButtons(calculating)}
                     </InputGroup>
                 </Modal.Footer>
-            </>
+            </Modal>
         );
     }
-    return (
-        <Modal
-            show = {props.modalCalculates.show}
-            onHide = {onHide}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-            {getModalView()}
-        </Modal>
-    );
+    return getModalView(props.modalCalculates.show);
 }

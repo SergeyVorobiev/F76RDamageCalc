@@ -3,7 +3,7 @@ import { Apply } from './Apply';
 
 export class HasRepeatableSingleFire extends Apply {
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         super.checkOp(mod, template.id, "Set");
         if (apply) {
             template.isAuto[1] = 1;
@@ -13,6 +13,7 @@ export class HasRepeatableSingleFire extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-        throw new Error("Legendary changes auto fire");
+        console.error("Legendary changes auto fire");
+        return false;
     }
 }

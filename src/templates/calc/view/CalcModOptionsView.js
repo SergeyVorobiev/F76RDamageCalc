@@ -75,8 +75,8 @@ function getItem(name, onChange, items, setItems, frHead, setFrHead, frCrit, set
     let width = (infos[name]) ? '13rem' : '15rem';
     width = (name === "Head Shot" || name === "Crit") ? "12rem" : width;
     width = (name === "Strength") ? "11rem" : width;
-    const dis = (name === "Strength");
-    const checked = (dis) ? true : items[name];
+    const dis = (name === "Strength" || name === "Legendary5");
+    const checked = (dis && name === "Strength") ? true : items[name];
     const outline = (checked) ? "shadow-blue" : "";
     return (
         <Col key={name}>

@@ -5,7 +5,8 @@ const nextConfig = {
     images: {
         unoptimized: true,
         minimumCacheTTL: 60
-    }
+    },
+    // reactStrictMode: false,
 };
 
 export default nextConfig;

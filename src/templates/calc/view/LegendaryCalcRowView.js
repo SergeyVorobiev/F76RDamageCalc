@@ -5,12 +5,20 @@ export default function LegendaryCalcRowView(props) {
     const leg1 = getLeg("⭐", 0);
     const leg2 = getLeg("⭐⭐", 1);
     const leg3 = getLeg("⭐⭐⭐", 2);
+    const leg4 = getLeg("⭐⭐⭐⭐", 3);
+    const leg5 = getLeg("⭐⭐⭐⭐⭐", 4);
     return (
-        <div className="mb-0 d-flex justify-content-center">
-            {leg1}
-            {leg2}
-            {leg3}
-        </div>
+        <>
+            <div className="mb-0 d-flex justify-content-center">
+                {leg1}
+                {leg2}
+                {leg3}
+            </div>
+            <div className="mb-0 d-flex justify-content-center">
+                {leg4}
+                {leg5}
+            </div>
+        </>
     );
 }
 

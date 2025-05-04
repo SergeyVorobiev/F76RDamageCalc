@@ -154,15 +154,12 @@ export default class ConsumablesBuilder {
         return result;
     }
 
-    static getOtherItems(hasPhysicalDamage) {
+    static getOtherItems() {
         const result = [];
         const combination = [];
-        if (hasPhysicalDamage) {
-            combination.push("syringer_other");
-        }
-        if (combination.length > 0) {
-            result.push(combination);
-        }
+        combination.push("syringer_other");
+        result.push(combination);
+
         return result;
     }
 

@@ -36,7 +36,7 @@ export default function GraphInfoView(props) {
                 </span>
             </Card.Header>
             <Card.Body className="d-flex flex-column justify-content-center p-1 pt-0">
-                <ResistanceChart graphValues={props.graphValues} chartId={"mainResChart"} creatures={props.creatures} creatureNumber={props.creatureChartNumber} setCreatureNumber={props.setCreatureChartNumber} />
+                <ResistanceChart xTitle={props.xTitle} graphTypeOnClickRef={props.graphTypeOnClickRef} graphValues={props.graphValues} chartId={"mainResChart"} creatures={props.creatures} creatureNumber={props.creatureChartNumber} setCreatureNumber={props.setCreatureChartNumber} />
             </Card.Body>
         </Card>
     );

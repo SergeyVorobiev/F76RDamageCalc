@@ -60,7 +60,7 @@ const MainCardsDisplay = memo(function MainCardsDisplay(props) {
                             <SummaryView className="main-display-adjustable" resultDamage={props.resultDamage} extraDamage={props.extraDamage} boostDamageRef={props.boostDamageRef} setBoostDamage={props.setBoostDamage} setExtraDamage={props.setExtraDamage} />
                         </div>
                         <div className="col d-flex justify-content-center mb-2">
-                            <GraphInfoView className="main-display-adjustable" graphValues={props.graphValues} percent={percentC} creatures={props.creatures} creatureChartNumber={props.creatureChartNumber} setCreatureChartNumber={props.setCreatureChartNumber} colors={colors} />
+                            <GraphInfoView className="main-display-adjustable" xTitle={props.xTitle} graphTypeOnClickRef={props.graphTypeOnClickRef} graphValues={props.graphValues} percent={percentC} creatures={props.creatures} creatureChartNumber={props.creatureChartNumber} setCreatureChartNumber={props.setCreatureChartNumber} colors={colors} />
                         </div>
                         <div className="col d-flex justify-content-center mb-2">
                             <CreaturesCardView className="main-display-adjustable" creatureNamesRef={props.creatureNamesRef} creatures={props.creatures} setCreatures={props.setCreatures} resultDamage={props.resultDamage} weaponName={wSpec.weaponName} />

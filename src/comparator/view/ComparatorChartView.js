@@ -2,7 +2,32 @@ import { useEffect } from 'react';
 const { Chart } = await import('chart.js/auto');
 
 
-function getData(values, label, color) {
+function getData(values, label, color, isScatter) {
+    if (!isScatter) {
+        return {
+            labels: values.xValues,
+            datasets: [
+                {
+                    type: 'line',
+                    label: label,
+                    data: values.yValuesRed,
+                    borderColor: "#db0076",
+                    pointRadius: 1,
+                    borderWidth: 1,
+                    fill: false,
+                },
+                {
+                    type: 'line',
+                    label: label,
+                    data: values.yValuesBlue,
+                    borderColor: "#0072db",
+                    pointRadius: 1,
+                    borderWidth: 1,
+                    fill: false,
+                },
+            ]
+        };
+    }
     return {
         labels: values.xValues,
         datasets: [
@@ -82,7 +107,7 @@ function getData(values, label, color) {
     };
 }
 
-function getConfig(data) {
+function getConfig(data, xTitle) {
     return {
         data: data,
         options: {
@@ -102,7 +127,7 @@ function getConfig(data) {
                     position: 'bottom',
                     title: {
                         display: true,
-                        text: 'Resistance',
+                        text: xTitle,
                         color: 'black', // Customize title color
                     },
                 },
@@ -143,7 +168,8 @@ export default function ComparatorChartView(props) {
     if (!values) {
         values = {xValues: [], yValuesRed: [], yValuesBlue: [], resPoints: []};
     }
-    const config = getConfig(getData(values, "", props.color));
+    const isScatter = (props.xTitle === "Resistance");
+    const config = getConfig(getData(values, "", props.color, isScatter), props.xTitle);
     useEffect(() => {
         drawChart(config, props.chartId);
     });

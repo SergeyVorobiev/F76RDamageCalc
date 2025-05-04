@@ -23,7 +23,7 @@ export default function PerkCardFilter(props) {
         <div>
             <InputGroup className="ps-1 pe-1 pb-2 flex-nowrap">
                 <BaseDropdown title={'Type'} dict={typeDict} onSelect={onSelectType}></BaseDropdown>
-                <Form.Control style={{width: '10rem'}} maxLength="70" onChange={nameChanged} />
+                <Form.Control placeholder="name / id" style={{width: '10rem'}} maxLength="70" onChange={nameChanged} />
                 <BaseDropdown title={'Status'} dict={statusDict} onSelect={onSelectStatus}></BaseDropdown>
             </InputGroup>
         </div>

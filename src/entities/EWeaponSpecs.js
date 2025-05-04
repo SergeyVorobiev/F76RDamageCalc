@@ -1,7 +1,6 @@
 import getMods from '../helpers/Mods';
 import { currentLegendaryIds } from '../helpers/Global';
-import { getCritDamages } from '../helpers/CritView';
-import { collectAllDamages, convertDamageDataToDamageItem } from '../helpers/mods/DamageSetter';
+import { copyAllDamages } from '../helpers/mods/DamageSetter';
 import { ModParser } from '../helpers/mods/ModParser';
 import DamageExtractor from '../helpers/mods/DamageExtractor';
 import Strings from '../helpers/Strings';
@@ -10,13 +9,24 @@ import Strings from '../helpers/Strings';
 const modParser = new ModParser(false);
 const damageExtractor = new DamageExtractor(false);
 
-// Id, value, type (BDB, TDB...)
+// Id, value, isApplied
 export function getDefaultLegs(legIds=null) {
     if (legIds) {
-        return [[legIds[0], 0, ""], [legIds[1], 0, ""], [legIds[2], 0, ""], [legIds[3], 0, ""], [legIds[4], 0, ""]];
+        const result = [];
+        for (let i = 0; i < 5; i++) {
+            let isUsed = false;
+            if(legIds[i] && legIds[i] !== "") {
+                isUsed = true;
+            }
+            result.push([legIds[i], null, isUsed]);
+        }
+        return result;
     }
-    return [["", 0, ""], ["", 0, ""], ["", 0, ""], ["", 0, ""], ["", 0, ""]];
+    return [["", null, false], ["", null, false], ["", null, false], ["", null, false], ["", null, false]];
+}
 
+export function resetAdjustableLegendary(wSpec, starIndex, isUsed) {
+    wSpec.legendary[starIndex] = ["", null, isUsed];
 }
 
 function getMaxMinDamage(damage1, damage2) {
@@ -36,12 +46,10 @@ function getMaxMinDamage(damage1, damage2) {
     return [damage2, damage1];
 }
 
-export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegendary, alt) {
+export function convertTemplateToSpecs(template, alt) {
     modParser.setAlt(alt);
     damageExtractor.setAlt(alt);
-    let fireRate = (template.isAuto[1]) ? template.defRate : ((10 / template.manualRate[1]) / template.speed[1]);
-    fireRate = parseFloat(fireRate.toFixed(3));
-    const defReloadTime = template.reloadTime[1] * template.reloadSpeed[1];
+
     let mods = [];
     for (const modCategoryName in template.allMods) {
         if (modCategoryName.includes("Legendary")) {
@@ -68,14 +76,21 @@ export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegend
 
     // As damage bonus multiplier can be adjusted by legendary it will be calculated separately, so we need to remove
     // this value from bonus multiplier
-    bonusMult = replaceAdjustableLegs(legs, bonusMult);
-
+    //bonusMult = replaceAdjustableLegs(legs, bonusMult);
+    for (let i = 0; i < legs.length; i++) {
+        const curLeg = legs[i];
+        const bonus = template.legBonusMult[curLeg[0]];
+        if (bonus) {
+            curLeg[1] = bonus * 100;
+            curLeg[2] = true;
+        }
+    }
     let creatures = [];
     for (let i = 0; i < template.creature.length; i++) {
         const creature = template.creature[i];
         creatures.push({"name": creature.name, "value": creature.value})
     }
-    const damages = collectAllDamages(template);
+    const damages = copyAllDamages(template);
 
     // Disable same damages if they have different conditions (leave only one enabled)
     const mapDamages = new Map();
@@ -104,38 +119,35 @@ export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegend
             sortedDamages.push(d);
         }
     }
-
-    const critDamagesData = getCritDamages(damageExtractor, template.crSpellId[1], template.id);
-    let critDamages = [];
-    for (let i = 0; i < critDamagesData.length; i++) {
-        const critDamageData = critDamagesData[i];
-        for (let j = 0; j < critDamageData.length; j++) {
-            const critItem = critDamageData[j];
-            critDamages.push(convertDamageDataToDamageItem(critItem, alt));
-        }
-    }
+    const defReloadTime = template.reloadTime[1] * template.reloadSpeed[1];
     let wSpec = {
         weaponId: template.id,
         shot_size: template.shotSize[1],
         defReloadTime: defReloadTime,
         reloadSpeed: template.reloadSpeed[1],
-        fireRate: fireRate,
-        is_auto: template.isAuto[1],
+        triggerDelay: template.triggerDelay[1],
+        autoDelay: template.autoDelay[1],
+        attackDelay: template.attackDelay[1],
+        isAuto: template.isAuto[1],
         hand: template.hand[1],
         ammoCapacity: template.capacity[1],
         speed: template.speed[1],
+        attackDamage: template.attackDamage[1],
         totalD: template.totalD[1],
         aa: template.antiArmor[1],
         strengthBoost: template.strengthBoost[1],
+        damageBonusCond: template.damageBonusCond,
         crit: template.crit[1],
         sneak: template.sneak[1],
         cripple: template.cripple[1],
         exp: template.exp[1],
         bonus: bonusMult,
         crippleChance: 50,
+        accuracy: 100, // General accuracy the same for every weapon by default
         creature: creatures,
         strPoints: template.strPoints[1],
         powerAttack: template.powerAttack[1],
+        powerAttackChance: 50,
         minPowerMult: template.minPowerMult[1],
         maxPowerMult: template.maxPowerMult[1],
         bash: template.bash[1],
@@ -152,25 +164,10 @@ export function convertTemplateToSpecs(template, assignCurrentlyActiveUserLegend
         mods: mods,
         legendary: legs,
         damages: sortedDamages,
-        critDamages: critDamages,
         startAttackDelay: template.startAttackDelay[1],
         alt: alt,
         legendaryHealthUpdated: false,
     };
-
-    if (assignCurrentlyActiveUserLegendary) {
-
-        // Assign previous legs to not reset them if a weapon does not have legendary
-        for (let i = 0; i < currentLegendaryIds.length; i++) {
-            if (legs[i][0] === "") {
-                const current = currentLegendaryIds[i];
-                if (current[0] !== "") {
-                    modParser.applyLegendaryModToWSpec(current[0], wSpec, i, 100, false, true);
-                    legs[i] = [current[0], current[1], current[2]];
-                }
-            }
-        }
-    }
     return wSpec;
 }
 
@@ -179,8 +176,10 @@ export function defaultWeaponSpecs() {
         shot_size: 1,
         defReloadTime: 0,
         reloadSpeed: 1,
-        fireRate: 20,
-        is_auto: 1,
+        triggerDelay: 0.5,
+        autoDelay: 0.11,
+        attackDelay: 2.2,
+        isAuto: 1,
         hand: 1,
         ammoCapacity: 1,
         aa: 0,
@@ -191,6 +190,8 @@ export function defaultWeaponSpecs() {
         sneak: 0,
         totalD: 0,
         chargeTime: 0,
+        attackDamage: 1,
+        accuracy: 100, // General accuracy the same for every weapon by default
         maxChargeTime: 0,
         minPowerMult: 0.5,
         maxPowerMult: 1,
@@ -199,9 +200,11 @@ export function defaultWeaponSpecs() {
         bash: 0,
         strPoints: 0,
         powerAttack: 0,
+        powerAttackChance: 50,
         exp: 0,
         creature: [],
         level: 1,
+        damageBonusCond: [],
         ammoType: {name: "", type: "", codeName: ""},
         defaultName: "Weapon",
         weaponName: "Weapon",
@@ -212,7 +215,6 @@ export function defaultWeaponSpecs() {
         mods: [],
         legendary: getDefaultLegs(),
         damages: [],
-        critDamages: [],
         startAttackDelay: 0,
         alt: false,
         typeNumber: 0,
@@ -227,39 +229,42 @@ function replaceAdjustableLegs(legs, bonusMult) {
     for (let i = 0; i < legs.length; i++) {
         const leg = legs[i];
         switch (leg[0]) {
-            case '004f6aab':
-            case '00606b71':
-            case '004f6aae':
-            case '004f6aa7':
+            case '00606b71': // Aristocrat
+            case '004f6aa7': // Berserker
+            case '007acbf5': // Encircler
                 bonusMult -= 50;
                 leg[1] = 50;
-                leg[2] = "BDB";
                 break;
-            case '004f6aa0':
-                bonusMult -= 95;
-                leg[1] = 95;
-                leg[2] = "BDB";
+            case '004f6aa0': // Bloodied
+                //bonusMult -= 95;
+                //leg[1] = 95;
                 break;
-            case '0072a8c1':
-            case '006069f2':
+            case '0072a8c1': // Gourmand2 not used
+            case '006069f2': // Gourmand
                 bonusMult -= 24;
                 leg[1] = 24;
-                leg[2] = "BDB";
                 break;
-            case '00606b73':
-            case '005299f5':
-            case '004f6d76':
-            case '00606c8d':
-            case '0052414e':
+            case '00606b73': // Juggernaut
+            case '005299f5': // Mutant
                 bonusMult -= 25;
                 leg[1] = 25;
-                leg[2] = "BDB";
                 break;
             default:
                 break;
         }
     }
     return bonusMult;
+}
+
+export function removeDamage(wSpec, id) {
+    const result = [];
+    for (let i = 0; i < wSpec.damages.length; i++) {
+        const damage = wSpec.damages[i];
+        if (damage.damageId !== id) {
+            result.push(damage);
+        }
+    }
+    wSpec.damages = result;
 }
 
 export function isWeaponRanged(wSpec) {

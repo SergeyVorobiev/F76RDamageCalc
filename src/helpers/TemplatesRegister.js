@@ -19,6 +19,16 @@ export function getTemplateCopyById(id) {
     return null;
 }
 
+export function getWeaponNameById(id) {
+    for (let i = 0; i < templateList.length; i++) {
+        const template = templateList[i];
+        if (template.id === id) {
+            return template.name;
+        }
+    }
+    return null;
+}
+
 // Only for reading purposes
 export function getTemplateById(id) {
     for (let i = 0; i < templateList.length; i++) {

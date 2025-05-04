@@ -86,16 +86,23 @@ function buildChanceAccuracyString(damage) {
 
 function getDamages(weapon) {
     const result = [];
-    for (let i = 0; i < weapon.damages.length; i++) {
-        const damage = weapon.damages[i];
+    fillAllDamages(weapon.damages, result, false);
+    fillAllDamages(weapon.critDamages, result, true);
+    return result;
+}
+
+function fillAllDamages(wDamages, result, isCrit) {
+    for (let i = 0; i < wDamages.length; i++) {
+        const damage = wDamages[i];
         if (!damage.isUsed) {
             continue;
         }
         const accuracyString = buildChanceAccuracyString(damage);
         let value = (damage.time === 0) ? damage.damage + accuracyString : damage.damage + " - " + damage.time + "s" + accuracyString;
 
-        const icon = getSymbolStyle(damage.kind)[0];
-        result.push(getColTag(<span style={{fontSize: '0.7rem'}}>{icon}</span>, value, i));
+        let icon = getSymbolStyle(damage.kind)[0];
+        icon += (isCrit) ? "☠️" : "";
+        result.push(getColTag(<span style={{fontSize: '0.7rem'}}>{icon}</span>, value, result.length));
     }
     return result;
 }

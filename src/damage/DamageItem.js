@@ -63,9 +63,26 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
         dItem.time = parseInt(e.target.value);
         setWSpec({...wSpec});
     }
+    function onBonusChange(e) {
+        dItem.bonuses.isBonusMult = !dItem.bonuses.isBonusMult;
+        setWSpec({...wSpec});
+    }
+    function onSneakBonusChange(e) {
+        dItem.bonuses.isBonusSneak = !dItem.bonuses.isBonusSneak;
+        setWSpec({...wSpec});
+    }
+    function onCritBonusChange(e) {
+         dItem.bonuses.isBonusCrit = !dItem.bonuses.isBonusCrit;
+         setWSpec({...wSpec});
+    }
     return (
         <div>
             <Row>
+                <Col>
+                    <div>{buildConditionStrings([dItem.damageId], "m-1 p-1")}</div>
+                </Col>
+            </Row>
+            <Row className="ps-1 pe-1">
                 <Col>
                     <InputGroup className="mb-1 mt-1 flex-nowrap">
                         <InputGroup.Text style={{ width: '2.8rem'}}>
@@ -89,6 +106,11 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
                     </InputGroup>
                 </Col>
             </Row>
+            <div className="d-flex justify-content-between p-1 m-1 ps-2 pe-2" style={{borderRadius: '5px', borderWidth: '1px', borderStyle: 'solid', borderColor: "#ddd"}}>
+                <UCheckbox onChange={onBonusChange} checked={dItem.bonuses.isBonusMult} checkBgColor={'#00b6ff'}><small>Bonus Mult</small></UCheckbox>
+                <UCheckbox onChange={onCritBonusChange} checked={dItem.bonuses.isBonusCrit} checkBgColor={'#00b6ff'}><small>Crit Bonus</small></UCheckbox>
+                <UCheckbox onChange={onSneakBonusChange} checked={dItem.bonuses.isBonusSneak} checkBgColor={'#00b6ff'}><small>Sneak Bonus</small></UCheckbox>
+            </div>
             <Row>
                 <Col>
                     <div>{buildConditionStrings(dItem.conditions, "m-1 p-1")}</div>
@@ -102,12 +124,19 @@ const DamageItem = memo(function DamageItem({item, wSpec, setWSpec, modalDeleteD
     function onTrashClick(e) {
         setModalDeleteDamage({id: item.index, name: item.name, show: true});
     }
+    function useCrit(e) {
+        item.isCrit = !item.isCrit;
+        setWSpec({...wSpec});
+    }
     return (
         <Card className="mt-2 mb-2 shadow-outline4">
             <Card.Header size="small" className={style}>
                 <Row>
                     <Col className="ms-3 m-auto p-0 d-flex justify-content-start">
                         {symbol + " " + item.name}
+                    </Col>
+                        <Col className="m-auto d-flex justify-content-center">
+                        <UCheckbox onChange={useCrit} checked={item.isCrit}><b>☠️ Crit</b></UCheckbox>
                     </Col>
                     <Col className="me-3 mt-0 mb-0 p-0 d-flex justify-content-end">
                         <Button className="ms-1 pb-auto" size="sm" id={item.id} name={item.name} onClick={onTrashClick} variant="white">

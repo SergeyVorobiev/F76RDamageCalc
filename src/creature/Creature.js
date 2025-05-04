@@ -1,3 +1,7 @@
+import { numberToString } from "../helpers/StringHelpers";
+import { DamageTypes } from "../helpers/Strings";
+
+
 export default class Creature {
 
     constructor(creatureInfo) {
@@ -28,7 +32,7 @@ export default class Creature {
         this.hits = 0;
         this.sumDamages = 0;
         this.lifeTime = 0;
-        this.lastShotTime = 0;
+        this.dTime = 0;
         this.timeDamages = new Map();
         this.lastTotalDamage = 0;
         this.lastTotalDamageWithAccuracy = 0; // For trial max shot
@@ -59,9 +63,29 @@ export default class Creature {
         this.tdCounter = 0;
         this.sneakPercent = 0;
         this.critPercent = 0;
-        this.bleed = false;
-        this.isAuto = false;
-        this.attackDelay = 0;
+        
+        this.bleeding = false; // For current hit
+        this.poisoning = false; // For current hit
+        this.burning = false; // For current hit
+        this.bashing = false; // For current hit
+        this.freezing = false; // For current hit
+        this.crippling = false; // For current hit
+
+        this.isBleed = false;
+        this.isPoisoned = false;
+        this.isFrozen = false;
+        this.isSneak = false;
+        this.isExp = false;
+        this.isBashed = false;
+        this.isBurned = false;
+        this.isCrippled = false;
+        this.sumTimeDamage = 0;
+        this.sumTimeDamagePerHit = 0;
+        this.timeDamagesPerSecondPerHit = 0;
+
+        this.currentHit = null;
+        this.currentConditionalBDB = 0;
+        this.currentDamageInfo = null;
     }
 
     getName() {
@@ -72,6 +96,15 @@ export default class Creature {
         return [this.physical, this.energy, this.fire, this.poison, this.cryo, this.radiation];
     }
 
+    resetEffectStates() {
+        this.bleeding = false;
+        this.poisoning = false;
+        this.burning = false;
+        this.bashing = false;
+        this.freezing = false;
+        this.crippling = false;
+    }
+    
     // To speed up the process we reduce armors in advance as they are basically static (except for some cases like TOFT
     // where we ignore it anyway)
     reduceArmor(antiArmor) {
@@ -105,13 +138,57 @@ export default class Creature {
         return this;
     }
 
+    // DEPRECATED!!! To build charts (probe hit) isCrit = onlyCrit, !isCrit = onlyNotCrit
+    calcAverageTimeDamage(hit, isCrit, accuracy, shotsPerSec) {
+        if (isCrit) {
+            for (let i = 0; i < hit.critDamages.length; i++) {
+                this.gatherTimeDamage(hit, hit.critDamages[i]);
+            }
+        } else {
+            for (let i = 0; i < hit.damages.length; i++) {
+                this.gatherTimeDamage(hit, hit.damages[i]);
+            }
+        }
+        let totalDamage = 0;
+        this.timeDamages.forEach((items, key, map) => {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                let ratio = item.time * shotsPerSec * item.accuracy / 100 * item.chance / 100 * accuracy;
+                ratio = (ratio > 1) ? 1 : ratio;
+                let damagePerSec = this.calculateFinalDamage(item.value, item.iType, false, false, 1);
+                totalDamage += damagePerSec * ratio;
+            }
+        }, this);
+        this.timeDamages.clear();
+        return totalDamage;
+    }
+    
+    isNoTimeDamagesPresented(hit) {
+        for (let i = 0; i < hit.damages.length; i++) {
+            const damage = hit.damages[i];
+            if (damage.time === 0) {
+                return true;
+            }
+        }
+        for (let i = 0; i < hit.critDamages.length; i++) {
+            const damage = hit.critDamages[i];
+            if (damage.time === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     takeDamage(hit) {
 
         // Dead
         if (this.health <= 0) {
             return true;
         }
-
+        if (!hit) { // No information
+            return false;
+        }
+        this.currentHit = hit;
         this.bulletCount = hit.bulletCount;
         this.lastTotalDamage = 0;
         this.lastTotalDamageWithAccuracy = 0;
@@ -119,110 +196,170 @@ export default class Creature {
         this.lastTotalDamageTime = 0;
         this.lastDamageNoTime = 0;
         this.lastExpDamageNoTime = 0;
-        this.hits += 1;
-        this.lifeTime += hit.deltaTime;
-        this.lastShotTime = hit.deltaTime;
-        this.fireTime = hit.fireTime;
-        this.attackDelay = hit.attackDelay;
-        this.isAuto = hit.isAuto;
+        this.dTime = hit.deltaTime;
+        if (!hit.idle) {
+            this.hits += 1;
+        }
+        this.resetEffectStates();
+        
+        // Look for any damages including time damages if some type of attack is presented
+        this.bleeding = this.getCreatureHasDamage(hit.damages, hit.critDamages, DamageTypes.bleed);
+        this.poisoning = this.getCreatureHasDamage(hit.damages, hit.critDamages, DamageTypes.poison) && !this.creatureInfo.immuneToPoison;
+        this.freezing = this.getCreatureHasDamage(hit.damages, hit.critDamages, DamageTypes.cryo);
+        this.burning = this.getCreatureHasDamage(hit.damages, hit.critDamages, DamageTypes.fire);
+        const exp = this.getCreatureHasDamage(hit.damages, hit.critDamages, DamageTypes.explosive);
+        const isNoTimeDamages = this.isNoTimeDamagesPresented(hit);
+        this.bashing = (isNoTimeDamages && (hit.bash > 0 || hit.powerAttack > 0));
+        this.crippling = (isNoTimeDamages && hit.cripple > 0);
+        if (exp) {
+            this.isExp = exp;
+        }
+        if (this.bleeding) {
+            this.isBleed = this.bleeding;
+        }
+        if (this.poisoning) {
+            this.isPoisoned = this.poisoning;
+        }
+        if (this.burning) {
+            this.isBurned = this.burning;
+        }
+        if (this.freezing) {
+            this.isFrozen = this.freezing;
+        }
+        if (this.crippling) {
+            this.isCrippled = this.crippling;
+        }
+        if (this.bashing) {
+            this.isBashed = this.bashing;
+        }
 
         // Run through damages to cause damage
-        this.applyDamages(hit, hit.damages);
+        // Precook conditionals
+        this.currentConditionalBDB = this.getConditionalBDB(hit) + hit.tempBDB;
+        this.applyNoTimeDamages(hit, hit.damages);
+
         if (hit.critShot) {
-            this.applyCritDamages(hit, hit.critDamages);
+
+            // TODO: Should we apply boosts to crit damages? How does this work?
+            this.applyNoTimeDamages(hit, hit.critDamages);
         }
+
+        // So no need to add deltaTime as the death is instant after shot
+        if (!this.isDead()) {
+            const dT = this.applyTimeDamages(hit, hit.damages, hit.critDamages);
+            this.lifeTime += dT;
+        }
+        this.recordDamage(hit);
+
         return this.isDead();
     }
 
-    // TODO: Should we apply boosts to crit damages? How does this work?
-    applyCritDamages(hit, damages) {
-        this.applyDamages(hit, damages);
-    }
-
-    // WARNING: Considers every shot is hit (time is not important)
-    setupBleed(damages) {
+    getCreatureHasDamage(damages, critDamages, iKind) {
         for (let i = 0; i < damages.length; i++) {
             const damageInfo = damages[i];
-            if (damageInfo.kind === 'bleed') {
-                this.bleed = true;
-                return;
+            if (damageInfo.iKind === iKind) {
+                return true;
             }
         }
-        this.bleed = false;
-    }
-    applyDamages(hit, damages) {
-        this.setupBleed(damages);
-        for (let i = 0; i < damages.length; i++) {
-            const damageInfo = damages[i];
-
-            if (damageInfo.time === 0) {
-                this.causeNonTimeDamages(hit, damageInfo);
-            } else {
-                this.gatherTimeDamages(hit, damageInfo);
-                this.causeTimeDamages(damageInfo.type);
+        for (let i = 0; i < critDamages.length; i++) {
+            const damageInfo = critDamages[i];
+            if (damageInfo.iKind === iKind) {
+                return true;
             }
+        }
+        let result = false;
+        this.timeDamages.forEach((items, key, map) => {
+            if (!result) {
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    if (item.iKind === iKind) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }, this);
+        return result;
+    }
+
+    applyNoTimeDamages(hit, damages) {
+        for (let i = 0; i < damages.length; i++) {
             if (this.health <= 0) {
                 break;
             }
+            const damageInfo = damages[i];
+            if (damageInfo.time === 0) {
+                this.causeNonTimeDamages(hit, damageInfo);
+            }
         }
-        this.recordDamage(hit);
+    }
+
+    // Return delta time of actual life time of a creature (if it is not dead then this.dTime will be returned)
+    applyTimeDamages(hit, damages, critDamages) {
+        for (let i = 0; i < damages.length; i++) {
+            this.gatherTimeDamage(hit, damages[i]);
+        }
+        for (let i = 0; i < critDamages.length; i++) {
+            this.gatherTimeDamage(hit, critDamages[i]);
+        }
+        return this.causeTimeDamages();
     }
 
     recordDamage(hit) {
         if (this.minTotalDamage === 0 || this.lastTotalDamage < this.minTotalDamage) {
-            this.minTotalDamage = this.lastTotalDamage;
+            this.minTotalDamage = (this.lastTotalDamage === 0) ? this.minTotalDamage : this.lastTotalDamage;
         }
         if (this.maxTotalDamage < this.lastTotalDamage) {
             this.maxTotalDamage = this.lastTotalDamage;
         }
         if (!hit.critShot && !hit.headShot) {
             if (this.minNormalShot === 0 || this.lastDamageNoTime < this.minNormalShot) {
-                this.minNormalShot = this.lastDamageNoTime;
+                this.minNormalShot = (this.lastDamageNoTime === 0) ? this.minNormalShot : this.lastDamageNoTime;
             }
             if (this.lastDamageNoTime > this.maxNormalShot) {
                 this.maxNormalShot = this.lastDamageNoTime;
             }
             if (this.minExpShot === 0 || this.lastExpDamageNoTime < this.minExpShot) {
-                this.minExpShot = this.lastExpDamageNoTime;
+                this.minExpShot = (this.lastExpDamageNoTime === 0) ? this.minExpShot : this.lastExpDamageNoTime;
             }
             if (this.lastExpDamageNoTime > this.maxExpShot) {
                 this.maxExpShot = this.lastExpDamageNoTime;
             }
         } else if (!hit.critShot && hit.headShot) {
             if (this.minHeadShot === 0 || this.lastDamageNoTime < this.minHeadShot) {
-                this.minHeadShot = this.lastDamageNoTime;
+                this.minHeadShot = (this.lastDamageNoTime === 0) ? this.minHeadShot : this.lastDamageNoTime;
             }
             if (this.lastDamageNoTime > this.maxHeadShot) {
                 this.maxHeadShot = this.lastDamageNoTime;
             }
             if (this.minHeadExpShot === 0 || this.lastExpDamageNoTime < this.minHeadExpShot) {
-                this.minHeadExpShot = this.lastExpDamageNoTime;
+                this.minHeadExpShot = (this.lastExpDamageNoTime === 0) ? this.minHeadExpShot : this.lastExpDamageNoTime;
             }
             if (this.lastExpDamageNoTime > this.maxHeadExpShot) {
                 this.maxHeadExpShot = this.lastExpDamageNoTime;
             }
         } else if (hit.critShot && !hit.headShot) {
             if (this.minNormalCritShot === 0 || this.lastDamageNoTime < this.minNormalCritShot) {
-                this.minNormalCritShot = this.lastDamageNoTime;
+                this.minNormalCritShot = (this.lastDamageNoTime === 0) ? this.minNormalCritShot : this.lastDamageNoTime;
             }
             if (this.lastDamageNoTime > this.maxNormalCritShot) {
                 this.maxNormalCritShot = this.lastDamageNoTime;
             }
             if (this.minExpCritShot === 0 || this.lastExpDamageNoTime < this.minExpCritShot) {
-                this.minExpCritShot = this.lastExpDamageNoTime;
+                this.minExpCritShot = (this.lastExpDamageNoTime === 0) ? this.minExpCritShot : this.lastExpDamageNoTime;
             }
             if (this.lastExpDamageNoTime > this.maxExpCritShot) {
                 this.maxExpCritShot = this.lastExpDamageNoTime;
             }
         } else if (hit.critShot && hit.headShot) {
             if (this.minNormalHeadCritShot === 0 || this.lastDamageNoTime < this.minNormalHeadCritShot) {
-                this.minNormalHeadCritShot = this.lastDamageNoTime;
+                this.minNormalHeadCritShot = (this.lastDamageNoTime === 0) ? this.minNormalHeadCritShot : this.lastDamageNoTime;
             }
             if (this.lastDamageNoTime > this.maxNormalHeadCritShot) {
                 this.maxNormalHeadCritShot = this.lastDamageNoTime;
             }
             if (this.minExpCritHeadShot === 0 || this.lastExpDamageNoTime < this.minExpCritHeadShot) {
-                this.minExpCritHeadShot = this.lastExpDamageNoTime;
+                this.minExpCritHeadShot = (this.lastExpDamageNoTime === 0) ? this.minExpCritHeadShot : this.lastExpDamageNoTime;
             }
             if (this.lastExpDamageNoTime > this.maxExpCritHeadShot) {
                 this.maxExpCritHeadShot = this.lastExpDamageNoTime;
@@ -230,13 +367,19 @@ export default class Creature {
         }
     }
 
+    damageSatisfiedConditions(damageInfo) {
+        if (damageInfo.bashOnly) {
+            return this.bashing;
+        }
+        return true;
+    }
+
     // TODO: What the bonuses will work here? cripple, bash, power, total, crit, sneak?
-    gatherTimeDamages(hit, damageInfo) {
-        const baseDamage = damageInfo.damage;
-        let bonus = hit.bonusMult[damageInfo.type];
-        bonus += this.getCreatureBonusMultiplier(hit.creatureDamageBonuses);
-        const totalBonus = this.getTotalBonus(hit);
-        let value = baseDamage * bonus * totalBonus;
+    gatherTimeDamage(hit, damageInfo) {
+        if (damageInfo.time <= 0 || !this.damageSatisfiedConditions(damageInfo)) {
+            return;
+        }
+        const value = damageInfo.damage;
 
         // TODO: The way of stacking is unknown (may be there is no stacking at all)
         if (damageInfo.stack) {
@@ -254,28 +397,40 @@ export default class Creature {
     }
 
     buildTimeDamageItem(damageInfo, value) {
-        return {chance: damageInfo.chance, accuracy: damageInfo.finalAccuracy, damageType: damageInfo.type, time: damageInfo.time, value: value, index: damageInfo.index}
+        return {bonuses: damageInfo.bonuses, chance: damageInfo.chance, accuracy: damageInfo.finalAccuracy, iKind: damageInfo.iKind, iType: damageInfo.iType, time: damageInfo.time, value: value, index: damageInfo.index}
     }
 
     timeDamagesHandler(items, key, map) {
-        let dTime = this.lastShotTime;
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
 
-            // Protect
-            if (dTime === 0) {
-                item.time = 0;
-            }
-            else if (item.time < dTime) {
+        // There could be many items if time damages stack.
+        for (let i = 0; i < items.length; i++) {
+            let dTime = this.dTime;
+            const item = items[i];
+            if (item.time < dTime) {
                 dTime = item.time;
                 item.time = 0;
             } else {
                 item.time -= dTime;
             }
-            const damage = item.value * dTime;
+            let damage = item.value; // Damage per second
+            let bonus = this.getBDB(this.currentHit, item.iType, item.iKind);
+            let totalBonus = this.getTotalBonus(this.currentHit);
+            if (!item.bonuses.isBonusMult) {
+                bonus = 1;
+                totalBonus = 1;
+            }
+            damage = damage * bonus * totalBonus;
+            if (item.bonuses.isBonusCrit) {
+                damage += this.getCrit(this.currentHit, item.value);
+            }
+            if (item.bonuses.isBonusSneak) {
+                damage += this.getSneak(this.currentHit, item.value, totalBonus);
+            }
             this.tdCounter += 1;
-            let finalDamage = this.causeFinalDamage(damage, item.damageType, false, false);
-            this.memoDamage(finalDamage, true, false, item.chance, item.accuracy);
+            let damagePerSec = this.calculateFinalDamage(damage, item.iType, false, false, 1);
+            this.timeDamagesPerSecondPerHit += damagePerSec;
+            let finalDamage = this.causeFinalDamage(damage, item.iType, false, false, dTime);
+            this.sumTimeDamagePerHit += finalDamage;
         }
     }
 
@@ -287,53 +442,116 @@ export default class Creature {
         return this.maxTimeEffects;
     }
 
-    causeTimeDamages(damageType) {
+    // Return delta time of actual life time of a creature (if it is not dead then this.dTime will be returned)
+    causeTimeDamages() {
         this.tdCounter = 0;
+        this.timeDamagesPerSecondPerHit = 0;
+        this.sumTimeDamagePerHit = 0;
+        let creatureHealth = this.health;
         this.timeDamages.forEach(this.timeDamagesHandler, this);
         this.timeDamages.forEach(this.deleteTimeDamages);
         if (this.maxTimeEffects < this.tdCounter) {
             this.maxTimeEffects = this.tdCounter;
         }
+        if (this.isDead()) {
+            this.sumTimeDamage += creatureHealth;
+            return creatureHealth / this.timeDamagesPerSecondPerHit;
+        } else {
+            this.sumTimeDamage += this.sumTimeDamagePerHit;
+            return this.dTime;
+        }
     }
 
-    causeNonTimeDamages(hit, damageInfo) {
-        const baseDamage = damageInfo.damage;
-        let bonus = hit.bonusMult[damageInfo.type];
+    getConditionalBDB(hit) {
+        let result = 0;
+        const dynamicBonuses = hit.dynamicBDB;
+        if (this.health === this.creatureInfo.h) {
+            result += dynamicBonuses.firstBlood;
+        }
+        if (this.bashing) {
+            result += dynamicBonuses.bash;
+        }
+        if (this.burning) {
+            result += dynamicBonuses.burned;
+        }
+        if (this.poisoning) {
+            result += dynamicBonuses.poisoned;
+        }
+        return result;
+    }
+
+    getBDB(hit, iType, iKind) {
+        let bonus = hit.bonusMult.get(iType) + this.currentConditionalBDB;
         bonus += this.getCreatureBonusMultiplier(hit.creatureDamageBonuses);
         bonus += hit.cripple;
         bonus += hit.powerAttack;
-        bonus += hit.lastShotBonus;
-        if (damageInfo.kind === "explosive") {
+        bonus += hit.bash;
+        if (iKind === DamageTypes.explosive) {
             bonus += hit.expDTypeBonus;
         }
+        return bonus;
+    }
+
+    getCrit(hit, baseDamage) {
         let crit = 0;
         if (hit.critShot) {
             this.critPercent = hit.critBoost;
             crit = baseDamage * hit.critBoost;
         }
-        if (damageInfo.type === "dtPhysical" && damageInfo.kind === "physical") {
-            bonus += hit.bash;
-        }
-        if (this.health === this.creatureInfo.h) {
-            bonus += hit.firstBloodBonus;
-        }
-        const totalBonus = this.getTotalBonus(hit);
+        return crit;
+    }
+
+    getSneak(hit, baseDamage, totalBonus) {
         let sneak = 0;
         if (hit.sneakShot) {
+            if (hit.sneak) {
+                this.isSneak = true;
+            }
             this.sneakPercent = hit.sneak;
             sneak = baseDamage * hit.sneak * totalBonus;
         }
-        let value = baseDamage * bonus * totalBonus;
-        let expValue = this.getExplosiveDamage(value, hit.weaponType, damageInfo.type, damageInfo.kind, hit.expBonus);
+        return sneak;
+    }
+
+    getCritExp(hit, expValue, crit) {
         let critExp = 0;
         if (expValue > 0) {
             critExp = crit * hit.expBonus;
         }
+        return critExp;
+    }
+
+    causeNonTimeDamages(hit, damageInfo) {
+        if (!this.damageSatisfiedConditions(damageInfo)) {
+            return;
+        }
+        const baseDamage = damageInfo.damage;
+        let bonus = this.getBDB(hit, damageInfo.iType, damageInfo.iKind);
+        let totalBonus = this.getTotalBonus(hit);
+        let expBonus = hit.expBonus;
+        let tenderizer = hit.tenderizer;
+        if (!damageInfo.bonuses.isBonusMult) {
+            bonus = 1;
+            totalBonus = 1;
+            expBonus = 0;
+            tenderizer = 1;
+        }
+        let value = baseDamage * bonus * totalBonus;
+        let crit = this.getCrit(hit, baseDamage);
+        let sneak = this.getSneak(hit, baseDamage, totalBonus);
+
+        let expValue = this.getExplosiveDamage(value, hit.isRange, damageInfo.iType, damageInfo.iKind, expBonus);
+        let critExp = this.getCritExp(hit, expValue, crit);
+
+        crit = (damageInfo.bonuses.isBonusCrit) ? crit : 0;
+        critExp = (damageInfo.bonuses.isBonusCrit) ? critExp : 0;
+        sneak = (damageInfo.bonuses.isBonusSneak) ? sneak : 0;
         value += sneak;
         value += crit;
-        expValue *= hit.tenderizer;
+
+        expValue *= tenderizer;
         expValue += critExp;
-        let finalDamage = this.causeFinalDamage(value, damageInfo.type, hit.headShot, false);
+        let finalDamage = this.causeFinalDamage(value, damageInfo.iType, hit.headShot, false, 1);
         this.memoDamage(finalDamage, false, false, damageInfo.chance, damageInfo.finalAccuracy);
 
         // Explosives add for each bullet (no headshot)
@@ -341,14 +559,15 @@ export default class Creature {
         if (expValue > 0) {
             for (let i = 0; i < this.bulletCount; i++) {
                 if (i === 0) { // Seems that crit exp must be added only for one bullet?
-                    finalDamage = this.causeFinalDamage(expValue, damageInfo.type, false, true);
+                    finalDamage = this.causeFinalDamage(expValue, damageInfo.iType, false, true, 1);
                 } else {
-                    finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.type, false, true);
+                    finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.iType, false, true, 1);
                 }
                 this.memoDamage(finalDamage, false, true, damageInfo.chance, damageInfo.finalAccuracy);
             }
         }
     }
+
 
     memoDamage(finalDamage, timeDamage, expDamage, chance, accuracy) {
         chance = chance / 100.0;
@@ -369,29 +588,31 @@ export default class Creature {
 
     getArmorValue(type) {
         switch(type) {
-            case "dtPhysical":
+            case DamageTypes.dtPhysical:
                 return this.physical;
-            case "dtEnergy":
+            case DamageTypes.dtEnergy:
                 return this.energy;
-            case "dtFire":
+            case DamageTypes.dtFire:
                 return this.fire;
-            case "dtPoison":
+            case DamageTypes.dtPoison:
                 return this.poison;
-            case "dtCryo":
+            case DamageTypes.dtCryo:
                 return this.cryo;
-            case "dtRadiationExposure":
+            case DamageTypes.dtRadiation:
                 return this.radiation;
             default:
                 return 0;
         }
     }
 
-    getExplosiveDamage(value, weaponType, damageType, damageKind, expBonus) {
-        if (damageKind === 'bleed') {
+    // Only range, no-time, no bleed, physical
+    // Bonus which is multiplied from physical damage
+    getExplosiveDamage(value, isRange, iType, iKind, expBonus) {
+        if (iKind === DamageTypes.bleed) {
             return 0;
         }
-        if (weaponType !== "Melee" && weaponType !== "Unarmed" && weaponType !== "Thrown") {
-            if ((damageType === 'dtPhysical' && damageKind === "physical") || damageType === 'dtEnergy') {
+        if (isRange) {
+            if (iType === DamageTypes.dtPhysical && iKind === DamageTypes.physical) {
                 return value * expBonus;
             }
         }
@@ -399,14 +620,14 @@ export default class Creature {
     }
 
     getTotalBonus(hit) {
-        let totalBonus = hit.totalDamageBonus * hit.tenderizer;
-        totalBonus *= (this.health / this.creatureInfo.h < 0.4) ? hit.executionerBonus : 1.0;
+        let totalBonus = hit.totalDamageBonus * hit.tenderizer * hit.additionalTotalBonus;
+        totalBonus *= ((this.health / this.creatureInfo.h) < 0.4) ? hit.executionerBonus : 1.0;
         return totalBonus;
     }
 
     getCreatureBonusMultiplier(creatureDamageBonuses) {
         let result = 0;
-        if (this.name === "Dummy") {
+        if (this.creatureInfo.isDummy) {
             return 0;
         }
         for (let [, damageBonus] of creatureDamageBonuses) {
@@ -435,24 +656,10 @@ export default class Creature {
         return this.lastTotalDamageTime;
     }
 
-    causeFinalDamage(value, damageType, isHead, explosive) {
-        let finalDamage;
-        let damageReduction = 1 - this.damageReduction;
-
-        // No reduction if bleeding (storm boss)
-        if (this.bleed && this.damageReductionOnlyNotBleeding) {
-            damageReduction = 1;
-        }
-        if (explosive && !this.expResistance) {
-            finalDamage = value * damageReduction;
-        } else {
-            finalDamage = this.finalDamage(value, damageType) * damageReduction;
-        }
-        if (isHead) {
-            finalDamage *= this.headMult;
-        } else {
-            finalDamage *= this.bodyMult;
-        }
+    // This method considers value for time damage per second
+    // non-time damage -> time=1
+    causeFinalDamage(value, iType, isHead, explosive, time) {
+        const finalDamage = this.calculateFinalDamage(value, iType, isHead, explosive, time);
         this.health -= finalDamage;
 
         // It is useful if you need to check average hit to determine the best weapon especially if a creature live time is 0
@@ -463,6 +670,28 @@ export default class Creature {
         return finalDamage;
     }
 
+    calculateFinalDamage(value, iType, isHead, explosive, time) {
+        let finalDamage;
+        let damageReduction = 1 - this.damageReduction;
+
+        // No reduction if bleeding (storm boss)
+        if (this.bleeding && this.damageReductionOnlyNotBleeding) {
+            damageReduction = 1;
+        }
+        if (explosive && !this.expResistance) {
+            finalDamage = value * damageReduction;
+        } else {
+            finalDamage = this.finalDamage(value, iType) * damageReduction;
+        }
+        if (isHead) {
+            finalDamage *= this.headMult;
+        } else {
+            finalDamage *= this.bodyMult;
+        }
+        finalDamage *= time;
+        return finalDamage;
+    }
+
     getAverageHit() {
         if (this.hits === 0) {
             return 0;
@@ -470,25 +699,38 @@ export default class Creature {
         return this.sumDamages / this.hits;
     }
 
-    finalDamage(value, type) {
-        if (type === "dtRadiationExposure" && this.immuneToRadiation) {
+    finalDamage(value, iType) {
+        if (iType === DamageTypes.dtRadiation && this.immuneToRadiation) {
             return 0;
-        } else if (type === "dtPoison" && this.immuneToPoison) {
+        } else if (iType === DamageTypes.dtPoison && this.immuneToPoison) {
             return 0;
         }
-        const armor = this.getArmorValue(type);
+        const armor = this.getArmorValue(iType);
+        return Creature.finalDamageFormula(value, armor);
+    }
+
+    static finalDamageFormula(damage, armor) {
         if (armor === Infinity) {
             return 0;
         } else if (armor === 0) {
-            return value;
+            return damage;
         }
-        let k = (0.15 * value / armor) ** 0.365;
+        let k = (0.15 * damage / armor) ** 0.365;
         if (k > 0.99) {
             k = 0.99;
         } else if (k < 0.01) {
             k = 0.01;
         }
-        return  k * value;
+        return  k * damage;
+    }
+
+    static reverseDamage(damage, armor, reduction, headShot) {
+        const e1 = 1000 / 365;
+        const e2 = 365 / 1365;
+        const coef = 100 / 15;
+        damage = damage / parseFloat(headShot);
+        damage = damage / (1 - parseFloat(reduction));
+        return Math.pow(Math.pow(damage, e1) * coef * armor, e2);
     }
 
     isDead() {
@@ -496,31 +738,42 @@ export default class Creature {
     }
 
     totalTime() {
-        // It's tricky we count everything into delta time (reloadTime + delayHitTime + fireTime after hit is performed
-        // But delayHitTime must be count before hit hence we don't negate it but we must negate lastFireTime
-        // If a weapon is non-automatic attackDelay will be included, if not it should be included only after reloading
-        // which is not included for the last time if an enemy is dead therefore we miss first attackDelay,
-        // to avoid that let's add it:
-        let attackDelay = (this.isAuto) ? this.attackDelay : 0;
-        return parseInt((this.lifeTime - this.fireTime + attackDelay) * 1000);
+        return parseInt(this.lifeTime * 1000);
     }
 
-    formDeadReport(reloads, reloadsTime) {
+    formDamageString(minDamage, maxDamage, bulletCount, roundNumber) {
+        if (minDamage === maxDamage) {
+            return numberToString(minDamage / bulletCount, roundNumber) + " x " + bulletCount;
+        }
+        return "(↓" + numberToString(minDamage / bulletCount, roundNumber) + " - ↑" + numberToString(maxDamage / bulletCount, roundNumber) + ") x " + bulletCount;
+    }
+
+    formDeadReport(reloads, reloadsTime, shotsPerSec) {
         if (!this.reported) {
             this.reported = true;
             this.creatureInfo.averageHit = this.getAverageHit();
             this.creatureInfo.maxHit = this.maxHit;
-            this.creatureInfo.sneak = (this.sneakPercent > 0) ? (this.sneakPercent * 100.0).toFixed(1) + "%" : "";
-            this.creatureInfo.crit = (this.critPercent > 0) ? (this.critPercent * 100.0).toFixed(1) + "%" : "";
-            this.creatureInfo.totalDamage = "↓" + this.minTotalDamage.toFixed(1) + " - ↑" + this.maxTotalDamage.toFixed(1);
-            this.creatureInfo.normalDamage = "(↓" + (this.minNormalShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.headShotDamage = "(↓" + (this.minHeadShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxHeadShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.headExpShotDamage = "(↓" + (this.minHeadExpShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxHeadExpShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.critNormalDamage = "(↓" + (this.minNormalCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.critHeadNormalDamage = "(↓" + (this.minNormalHeadCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxNormalHeadCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.explosiveDamage = "(↓" + (this.minExpShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.critExplosiveDamage = "(↓" + (this.minExpCritShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpCritShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
-            this.creatureInfo.critExplosiveHeadDamage = "(↓" + (this.minExpCritHeadShot / this.bulletCount).toFixed(1) + " - ↑" + (this.maxExpCritHeadShot / this.bulletCount).toFixed(1) + ") x " + this.bulletCount;
+            this.creatureInfo.sneak = (this.sneakPercent > 0) ? numberToString(this.sneakPercent * 100.0, 1) + "%" : "";
+            this.creatureInfo.crit = (this.critPercent > 0) ? numberToString(this.critPercent * 100.0, 1) + "%" : "";
+            this.creatureInfo.totalDamage = "↓" + numberToString(this.minTotalDamage, 1) + " - ↑" + numberToString(this.maxTotalDamage, 1);
+            this.creatureInfo.normalDamage = this.formDamageString(this.minNormalShot, this.maxNormalShot, this.bulletCount, 1);
+            this.creatureInfo.headShotDamage = this.formDamageString(this.minHeadShot, this.maxHeadShot, this.bulletCount, 1);
+            this.creatureInfo.headExpShotDamage = this.formDamageString(this.minHeadExpShot, this.maxHeadExpShot, this.bulletCount, 1);
+            this.creatureInfo.critNormalDamage = this.formDamageString(this.minNormalCritShot, this.maxNormalCritShot, this.bulletCount, 1);
+            this.creatureInfo.critHeadNormalDamage = this.formDamageString(this.minNormalHeadCritShot, this.maxNormalHeadCritShot, this.bulletCount, 1);
+            this.creatureInfo.explosiveDamage = this.formDamageString(this.minExpShot, this.maxExpShot, this.bulletCount, 1);
+            this.creatureInfo.critExplosiveDamage = this.formDamageString(this.minExpCritShot, this.maxExpCritShot, this.bulletCount, 1);
+            this.creatureInfo.critExplosiveHeadDamage = this.formDamageString(this.minExpCritHeadShot, this.maxExpCritHeadShot, this.bulletCount, 1);
+            this.creatureInfo.isCrit = this.minNormalCritShot > 0 || this.minNormalHeadCritShot > 0;
+            this.creatureInfo.isHead = this.minHeadShot > 0 || this.minHeadExpShot > 0 || this.minNormalHeadCritShot > 0 || this.minExpCritHeadShot > 0;
+            this.creatureInfo.isExp = this.minHeadExpShot > 0 || this.minExpShot > 0 || this.minExpCritShot > 0 || this.minExpCritHeadShot > 0 || this.isExp;
+            this.creatureInfo.isSneak = this.isSneak;
+            this.creatureInfo.isBleed = this.isBleed;
+            this.creatureInfo.isPoisoned = this.isPoisoned;
+            this.creatureInfo.isBurned = this.isBurned;
+            this.creatureInfo.isFrozen = this.isFrozen;
+            this.creatureInfo.isCrippled = this.isCrippled;
+            this.creatureInfo.isBashed = this.isBashed;
             if (this.isDead()) {
                 this.creatureInfo.ammo = this.hits;
                 this.creatureInfo.reloads = reloads;
@@ -533,14 +786,33 @@ export default class Creature {
                     this.creatureInfo.reloads = Infinity;
                     this.creatureInfo.reloadsTime = Infinity;
                     this.creatureInfo.lifeTime = Infinity;
+                    this.sumTimeDamage = 0;
                 } else {
-                    const ratio = this.health / damagedHealth;
-                    this.creatureInfo.reloads = reloads + parseInt(reloads * ratio);
-                    this.creatureInfo.reloadsTime = reloadsTime + parseInt(reloadsTime * ratio);
-                    this.creatureInfo.ammo = this.hits + parseInt(this.hits * ratio);
-                    this.creatureInfo.lifeTime = parseInt((this.lifeTime + this.lifeTime * ratio - this.lastShotTime) * 1000);
+                    const ratio = this.creatureInfo.h / damagedHealth;
+                    this.creatureInfo.reloads = parseInt(reloads * ratio) + 1;
+                    this.creatureInfo.reloadsTime = parseInt(reloadsTime * ratio);
+                    this.creatureInfo.ammo = parseInt(this.hits * ratio);
+                    this.creatureInfo.lifeTime = parseInt((this.lifeTime * ratio) * 1000);
+                    this.sumTimeDamage *= ratio;
                 }
             }
+            let timeDamage = 0;
+            if (this.creatureInfo.lifeTime > 0) {
+                timeDamage = this.sumTimeDamage / this.creatureInfo.lifeTime * 1000;
+                if (timeDamage === 0) {
+                    this.creatureInfo.averageTimeDamage = 0;
+                } else {;
+                    this.creatureInfo.averageTimeDamage = "~" + (+timeDamage.toFixed(4)).toString() + " / sec.";
+                }
+            } else {
+                this.creatureInfo.averageTimeDamage = 0;
+            }
+            const maxDamage = this.maxTotalDamage * shotsPerSec + timeDamage;
+            this.creatureInfo.dps = this.creatureInfo.h / this.creatureInfo.lifeTime * 1000;
+            if (this.creatureInfo.lifeTime === 0 || this.creatureInfo.dps > maxDamage) {
+                this.creatureInfo.dps = maxDamage;
+            }
+            this.creatureInfo.dps = (+this.creatureInfo.dps.toFixed(3)).toString();
         }
     }
 }

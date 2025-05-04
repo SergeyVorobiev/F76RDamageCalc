@@ -3,19 +3,23 @@ import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { convertTemplateToSpecs } from '../entities/EWeaponSpecs';
 import { truncateLongWords } from '../helpers/Input';
+import LoadingModal from '../loading/LoadingModal';
 import { useState } from 'react';
 
 
-function modalView(loading, name, applyTemplate, onHide) {
+function modalView(show, loading, name, applyTemplate, onHide) {
     if (loading) {
         return (
-            <Modal.Body>
-                <b>Loading...</b>
-            </Modal.Body>
+            <LoadingModal show={show} onHide={onHide} />
         );
     }
     return (
-        <>
+        <Modal
+            show = {show}
+            onHide = {onHide}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Apply Template
@@ -30,7 +34,7 @@ function modalView(loading, name, applyTemplate, onHide) {
                     <Button className="w-100 ms-1" onClick={onHide}>Cancel</Button>
                 </InputGroup>
             </Modal.Footer>
-        </>
+        </Modal>
     );
 }
 
@@ -54,20 +58,11 @@ export default function ModalApplyTemplate(props) {
         setLoading(true);
         setTimeout(() => {
             const template = props.modalTemplate.template;
-            const specItem = convertTemplateToSpecs(template, false, props.alt);
+            const specItem = convertTemplateToSpecs(template, props.alt);
             props.setWSpec(specItem);
             onHide(e);
         }, 100);
     }
 
-    return (
-        <Modal
-            show = {props.modalTemplate.show}
-            onHide = {onHide}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-            {modalView(loading, name, applyTemplate, onHide)}
-        </Modal>
-    );
+    return modalView(props.modalTemplate.show, loading, name, applyTemplate, onHide);
 }

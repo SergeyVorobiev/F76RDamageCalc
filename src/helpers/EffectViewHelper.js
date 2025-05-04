@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { leftRightTag, leftRight2 } from './RowBuilder';
 import { getEffect, setVMADObject } from './EffectProvider';
 import { getItem } from '../consumables/view/ConsumableItems';
+import { getWeaponNameById } from './TemplatesRegister';
 
 
 export const blue = {
@@ -68,8 +69,8 @@ export function getNameByLabel(label) {
             return "Projectile";
         case 'HAZD':
             return "Hazard";
-        case 'PROJ':
-            return "Projectile";
+        case 'AMMO':
+            return "Ammo";
         default:
             return label;
     }
@@ -105,7 +106,9 @@ export function innerObject(object, onEffectClick) {
         return (null);
     }
     let objectValue = null;
-    if (object.type === 'MSTT') {
+    if (typeof object === typeof '') {
+        objectValue = getEffectButton(object, onEffectClick);
+    } else if (object.type === 'MSTT') {
         objectValue = (
             <>
                 {getEffectButton(object.value.expl, onEffectClick)}
@@ -139,7 +142,12 @@ export function getEffectButton(effectId, onEffectClick) {
     if (!effect) {
         effect = getItem(effectId);
         if (!effect) {
-            return (<>Can not resolve effect: {effectId}</>);
+            let result = getWeaponNameById(effectId);
+            if (!result && effectId === "0003320a") {
+                result = "Bloatfly";
+            }
+            result = (result) ? result : effectId;
+            return (<small><b>{result}</b></small>);
         }
     }
     const name = (effect.full === "") ? effect.name : effect.full;

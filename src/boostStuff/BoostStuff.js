@@ -9,7 +9,7 @@ import { getMagazine, getBobbleHead, getFood, getDrink, getPsycho, getSerum, get
 import Button from 'react-bootstrap/Button';
 import ConsumablesBuilder from '../consumables/ConsumablesBuilder';
 import { leftRight2 } from '../helpers/RowBuilder';
-import LoadingModal from '../helpers/views/LoadingModal';
+import LoadingModal from '../loading/LoadingModal';
 import { useState } from 'react';
 
 

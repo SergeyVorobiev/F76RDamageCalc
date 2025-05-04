@@ -29,7 +29,10 @@ const TemplateItems = memo(function TemplateItems(props) {
         if (props.filterName === "" || props.filterName === null) {
             return true;
         }
-        return item.name.includes(props.filterName);
+        if (item.id.startsWith(props.filterName.trim())) {
+            return true;
+        }
+        return item.name.toLowerCase().includes(props.filterName.toLowerCase().trim());
     };
 
     const filterByType = (item) => {

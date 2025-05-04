@@ -31,7 +31,7 @@ export class Keywords extends Apply {
         }
     }
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         const name = mod.val1;
         switch(name) {
             case '005c3874 / IsAmmoType_FusionCore':
@@ -79,6 +79,6 @@ export class Keywords extends Apply {
         if (name.includes("dt") || name.includes("WeaponType")) {
             throw new Error("Legendary changes weapon or damage type");
         }
-
+        return false;
     }
 }

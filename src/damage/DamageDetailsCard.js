@@ -33,22 +33,47 @@ function getCreatureNames(resultDamage) {
 }
 
 function getResult(resultDamage, damageData, additionalBonus=0) {
+    /* We have bonuses for crit also but should we?
+    if (damageData.isCrit) {
+        return {
+            base: damageData.damage.toFixed(1),
+            bonus: "0.0",
+            totalBonus: "0.0",
+            explosive: "0.0",
+            sneak: "0.0",
+            crit: "0.0",
+            total: damageData.damage.toFixed(1),
+            totalExp: "0.0",
+            totalExpCrit: "0.0",
+        }
+    }
+    */
     const damageValue = damageData.damage * ((damageData.time > 0) ? damageData.time : 1);
     let bonusMult = resultDamage.bonusMult[damageData.type] - 1 + getAnyCreatureBonus(resultDamage) + additionalBonus;
     if (damageData.kind === "explosive") {
         bonusMult += resultDamage.expDTypeBonus;
     }
+    if (!damageData.bonuses.isBonusMult) {
+        bonusMult = 0;
+    }
     const bonusDamage = damageValue * bonusMult;
     const bonusText = "+" + (bonusMult * 100).toFixed(1) + "% (+" + bonusDamage.toFixed(1) + ")";
-    const crit = resultDamage.displayedCrit / 100.0;
+
+    let crit = resultDamage.displayedCrit / 100.0;
+    crit = (damageData.bonuses.isBonusCrit) ? crit : 0;
     const critValue = damageValue * crit;
+
     const critText = "+" + resultDamage.displayedCrit.toFixed(1) + "%  (+" + critValue.toFixed(1) + ")";
-    const sneak = (resultDamage.isSneak) ? resultDamage.displayedSneak / 100.0 : 0;
+
+    let sneak = (resultDamage.isSneak) ? resultDamage.displayedSneak / 100.0 : 0;
+    sneak = (damageData.bonuses.isBonusSneak) ? sneak : 0;
     const totalSneakValue = sneak * damageValue;
-    const totalDamageBonusMin = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer;
+    let totalDamageBonusMin = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer;
+    totalDamageBonusMin = (resultDamage.isBonusMult) ? totalDamageBonusMin : 1;
     const totalDamageBonusMinValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMin - 1);
     const totalDamageBonusMinPercent = (totalDamageBonusMin - 1) * 100;
-    const totalDamageBonusMax = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner;
+    let totalDamageBonusMax = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner;
+    totalDamageBonusMax = (resultDamage.isBonusMult) ? totalDamageBonusMax : 1;
     const totalDamageBonusMaxValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMax - 1);
     const totalDamageBonusMaxPercent = (resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner - 1) * 100;
     let totalDamageBonusText = "";
@@ -115,13 +140,14 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
         const creatureName = creatureNames[i];
         dropdownItems.push(<Dropdown.Item key={i} eventKey={creatureName}>{creatureName}</Dropdown.Item>);
     }
+    const critSymbol = (damageData.isCrit) ? "☠️" : "";
     return (
         <div className="col d-flex justify-content-center mb-2">
             <Card className="main-display-adjustable shadow-outline-unselected">
                 <Card.Header className="ps-3 p-1">
                     <div className="d-flex">
                         <div style={{width: '33%'}} className="d-flex justify-content-start center-text">
-                            {getSymbolStyle(damageData.type, damageData.kind)[0]}
+                            {getSymbolStyle(damageData.type, damageData.kind)[0] + critSymbol}
                         </div>
                         <div style={{width: '34%'}} className="d-flex justify-content-center">
                             <DropdownButton variant='default' size="sm" onSelect={onDropdownSelect} title={<strong><small>{creature}</small></strong>}>
@@ -144,7 +170,7 @@ const DamageDetailsCard = memo(function DamageDetailsCard({resultDamage, damageD
                 </Card.Body>
                 <Card.Footer className="ps-2 pe-2 text-muted">
                     {getRow("Total Damage:", result.total, "default", "red")}
-                    {getRow("Explosive:", result.totalExp, "default", "red", showExplosive(damageData, resultDamage))}
+                    {getRow("Explosive:", result.totalExp + " x " + resultDamage.shotSize, "default", "red", showExplosive(damageData, resultDamage))}
                     {getRow("Explosive Crit:", result.totalExpCrit, "default", "red", showExplosive(damageData, resultDamage) && resultDamage.isCrit)}
                 </Card.Footer>
             </Card>

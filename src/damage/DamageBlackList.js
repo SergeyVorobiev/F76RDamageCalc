@@ -15,6 +15,7 @@ export default class DamageBlackList {
         "00100ae9": ["000fd3aa"],
         "005a366e": ["000fd3aa"],
         "005ea441": ["000fd3aa"],
+        "000fe268": ["00795775"], // Fracturer, gives a damage to nearby targets
     }
 
     static check(weaponId, damageId) {

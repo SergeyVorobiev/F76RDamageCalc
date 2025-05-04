@@ -35,7 +35,7 @@ function prepareTags(creature) {
 }
 
 function showDamageIf(what, damageLine, notShow=false) {
-    if (notShow || !damageLine || damageLine === "" || damageLine === 0 || damageLine.includes("0.0 - ↑0.0")) {
+    if (notShow || !damageLine || damageLine === "" || damageLine === 0 || damageLine.toString().includes("0.0 - ↑0.0") || damageLine.toString().startsWith("0 x ")) {
         return (<></>);
     }
     return what;
@@ -68,7 +68,7 @@ export function buildCreatureInfo2(creature, resultDamage) {
                 {keyValueRow("🧽 Damage Reduction:", (creature.damageReduction * 100).toFixed(0) + "%", "default", "orange")}
                 {showDamageIf(keyValueRow("🐍 Sneak:", creature.sneak, "default", "green"), creature.sneak)}
                 {showDamageIf(keyValueRow("☠️ Crit:", creature.crit, "default", "magenta"), creature.crit)}
-                {keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue")}
+                {showDamageIf(keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue"), creature.totalDamage)}
                 {showDamageIf(keyValueRow("💥 Normal Damage:", creature.normalDamage, "default", "blue"), creature.normalDamage)}
                 {showDamageIf(keyValueRow("🤕 HShot (" + creature.headShot.toFixed(2) + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
                 {showDamageIf(keyValueRow("💣 Explosive:", creature.explosiveDamage, "default", "blue"), creature.explosiveDamage)}
@@ -77,14 +77,54 @@ export function buildCreatureInfo2(creature, resultDamage) {
                 {showDamageIf(keyValueRow("☠️ Crit Head:", creature.critHeadNormalDamage, "default", "blue"), creature.critHeadNormalDamage)}
                 {showDamageIf(keyValueRow("☠️ Crit Explosive:", creature.critExplosiveDamage, "default", "blue"), creature.critExplosiveDamage)}
                 {showDamageIf(keyValueRow("☠️ Crit Head Explosive:", creature.critExplosiveHeadDamage, "default", "blue"), creature.critExplosiveHeadDamage, showCritHeadExp)}
+                {showDamageIf(keyValueRow("⌛ Time Damage:", creature.averageTimeDamage, "default", "blue"), creature.averageTimeDamage)}
+                {showDamageIf(keyValueRow("Real DPS:", creature.dps, "default", "blue"), creature.dps)}
                 {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
                 {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                 {keyValueRow("Reloads Time:", millisToTime(creature.reloadsTime * 1000), "default", "green")}
-                {keyValueRow("Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
+                {keyValueRow("⌛ Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
+                <Divider className="m-1"></Divider>
+                <div className="d-flex justify-content-center">{formDamageMarks(creature)}</div>
             </Stack>
         </div>
     );
 }
+
+function formDamageMarks(creature) {
+    let result = " ";
+    if (creature.isCrit) {
+        result += "☠️ ";
+    }
+    if (creature.isHead) {
+        result += "🤕 ";
+    }
+    if (creature.isSneak) {
+        result += "🐍 ";
+    }
+    if (creature.isExp) {
+        result += "💣 ";
+    }
+    if (creature.isBleed) {
+        result += "🩸 ";
+    }
+    if (creature.isFrozen) {
+        result += "❄️ ";
+    }
+    if (creature.isBurned) {
+        result += "🔥 ";
+    }
+    if (creature.isPoisoned) {
+        result += "☣️ ";
+    }
+    if (creature.isCrippled) {
+        result += "🦵 ";
+    }
+    if (creature.isBashed) {
+        result += "🪓 ";
+    }
+    return result.substring(0, result.length - 1);
+}
+
 export function buildCreatureInfo(creature, resultDamage, showDefaultResistance, weaponName=null) {
     let weaponSection;
     let wNameTrunc = "";
@@ -137,12 +177,12 @@ export function buildCreatureInfo(creature, resultDamage, showDefaultResistance,
             </Stack>
             {prepareTags(creature)}
             <Stack className='pb-0' direction="vertical" gap={0}>
-                {keyValueRow(" Body:", creature.curBody, "default", "default")}
+                {keyValueRow("🤸 Body:", creature.curBody, "default", "default")}
                 {keyValueRow("❤️ Health:", creature.h.toFixed(2), "default", "red")}
                 {keyValueRow("🧽 Damage Reduction:", (creature.damageReduction * 100).toFixed(0) + "%", "default", "orange")}
                 {showDamageIf(keyValueRow("🐍 Sneak:", creature.sneak, "default", "green"), creature.sneak)}
                 {showDamageIf(keyValueRow("☠️ Crit:", creature.crit, "default", "magenta"), creature.crit)}
-                {keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue")}
+                {showDamageIf(keyValueRow("💥 Total Damage:", creature.totalDamage, "default", "blue"), creature.totalDamage)}
                 {showDamageIf(keyValueRow("💥 Normal Damage:", creature.normalDamage, "default", "blue"), creature.normalDamage)}
                 {showDamageIf(keyValueRow("🤕 HShot (" + creature.headShot.toFixed(2) + "x):", creature.headShotDamage, "default", "blue"), creature.headShotDamage)}
                 {showDamageIf(keyValueRow("💣 Explosive:", creature.explosiveDamage, "default", "blue"), creature.explosiveDamage)}
@@ -151,10 +191,14 @@ export function buildCreatureInfo(creature, resultDamage, showDefaultResistance,
                 {showDamageIf(keyValueRow("☠️ Crit Head:", creature.critHeadNormalDamage, "default", "blue"), creature.critHeadNormalDamage)}
                 {showDamageIf(keyValueRow("☠️ Crit Explosive:", creature.critExplosiveDamage, "default", "blue"), creature.critExplosiveDamage)}
                 {showDamageIf(keyValueRow("☠️ Crit Head Explosive:", creature.critExplosiveHeadDamage, "default", "blue"), creature.critExplosiveHeadDamage, showCritHeadExp)}
+                {showDamageIf(keyValueRow("⌛ Time Damage:", creature.averageTimeDamage, "default", "blue"), creature.averageTimeDamage)}
+                {showDamageIf(keyValueRow("Real DPS:", creature.dps, "default", "blue"), creature.dps)}
                 {keyValueRow(addText(tAmmo, '0.7rem', '0.27rem', "Ammo / Hits:"), creature.ammo, "default", "pink")}
                 {keyValueRow("Reloads:", creature.reloads, "default", "green")}
                 {keyValueRow("Reloads Time:", millisToTime(creature.reloadsTime * 1000), "default", "green")}
-                {keyValueRow("Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
+                {keyValueRow("⌛ Life Time:", millisToTime(creature.lifeTime), "default", "brown")}
+                <Divider className="m-1"></Divider>
+                <div className="d-flex justify-content-center">{formDamageMarks(creature)}</div>
                 {weaponSection}
             </Stack>
         </div>

@@ -1,9 +1,9 @@
-import getAmmo from '../helpers/Ammo';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import { Collapse } from 'antd';
 import { getField } from './ViewHelper';
 import { buildProjViewById } from './ProjView';
+import { getEffect } from '../helpers/EffectProvider';
 
 
 function buildProj(proj) {
@@ -46,7 +46,7 @@ function ammoInfo(className, id, overrideProj) {
     if (id === '') {
         return (<></>);
     }
-    const ammoData = getAmmo().get(id);
+    const ammoData = getEffect(id);
     let proj = [ammoData['projectile']];
     if (overrideProj && overrideProj.length > 0) {
         proj = overrideProj;

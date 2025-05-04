@@ -50,17 +50,18 @@ export default class ModsSetter {
     // It will set mods on current template, use this only for clean ones.
     setTemplatesMods(templates) {
 
-        // Apply default damage effects like (Ammo, Projectile) they will modify default damage values
-        // which later have to be modified by other buffs
+        // Apply default damages like (Ammo, Projectile, Enchantment, Crit Effect) they will be used by DamageTypeValues later
+        // technically DamageTypeValues could be gathered separately to not invoke applyModValues twice
         this.applyModValues(templates, true, true);
 
         // Extract all damages with current settings
         this.damageExtractor.extract(templates);
 
-        this.damageSetter.setDamages(templates);
-
-        // Apply all buffs including those who boost damage
+        // Apply all buffs
         this.applyModValues(templates, false, false);
+
+        // Convert everything to damage and boost entities
+        this.damageSetter.setDamagesToAll(templates);
     }
 
     applyModValues(templates, mutatingDamage, setLegendary) {
@@ -91,7 +92,7 @@ export default class ModsSetter {
     resetTemplate(template) {
         const cleanTemplate = getTemplateCopyById(template.id);
         for (const property in cleanTemplate) {
-            if (property !== "allMods") {
+            if (property !== "allMods") { // Leave currently chosen mod ids to calculate damage from them
                 template[property] = cleanTemplate[property];
             }
         }

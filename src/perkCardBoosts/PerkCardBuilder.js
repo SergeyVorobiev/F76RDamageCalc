@@ -163,7 +163,7 @@ export default class PerkCardBuilder {
             PerkCardBuilder.setupIfAccessible(boosts, "tenderizer", 3, accessiblePerks.temp);
         }
         if (leg) {
-            if (sneak) {
+            if (sneak && wType !== "Melee" && wType !== "Unarmed") {
                 PerkCardBuilder.setupIfAccessible(boosts, "follow_through", 4, accessiblePerks.leg);
             } else {
                 PerkCardBuilder.setupIfAccessible(boosts, "toft", 4, accessiblePerks.leg);

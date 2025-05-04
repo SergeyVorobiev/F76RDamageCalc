@@ -54,9 +54,9 @@ export default function Main() {
 
     const [key, setKey] = useState('Main');
 
-    const [creatureChartNumber, setCreatureChartNumber] = useState(1);
+    const [graphType, setGraphType] = useState("Levels"); // Levels, Resistance
 
-    const [loadedScreen, setLoadedScreen] = useState(false);
+    const [creatureChartNumber, setCreatureChartNumber] = useState(1);
 
     const [wSpec, setWSpec] = useState(defaultWeaponSpecs());
 
@@ -99,6 +99,8 @@ export default function Main() {
     const [consumableTouched, setConsumableTouched] = useState([]);
 
     // Refs
+    const loadedScreen = useRef(0);
+
     const creatureNamesRef = useRef(buildCreatureNames(creatures));
 
     const applySnapshotRef = useRef(null);
@@ -125,10 +127,15 @@ export default function Main() {
 
     const weaponDataRef = useRef(null);
 
+    const graphTypeOnClickRef = useRef(null);
+
+    graphTypeOnClickRef.current = (e) => {
+        setGraphType((graphType === "Levels") ? "Resistance" : "Levels");
+    };
     useEffect(() => {
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats, player.health.value);
-        setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, player, playerStats);
         setResultDamage(calcDamage(weaponFactory, creatures));
+        setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory, graphType));
 
         wSpecRef.current = wSpec;
         resultDamageRef.current = resultDamage;
@@ -150,15 +157,12 @@ export default function Main() {
             additionalDamagesRef: additionalDamagesRef,
             stuffBoostRef: stuffBoostRef,
         };
-        // setLoadedScreen(true);
-
     }, [boostDamage, wSpec, extraDamage, creatures, additionalDamages, stuffBoost, consumableTouched, player, playerStats]);
 
     useEffect(() => {
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, playerStats, player.health.value);
-        setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory));
-        setLoadedScreen(true);
-    }, [creatureChartNumber]);
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, stuffBoost, player, playerStats);
+        setGraphValues(graphDamage(creatures["creature" + creatureChartNumber], weaponFactory, graphType));
+    }, [creatureChartNumber, graphType]);
 
     const applySnapshot = (cBoostDamage, cWSpec, cExtraDamage, cAdditionalDamages, cCreatures, cPlayer, cPlayerStats, cStuff) => {
         setPlayer(cPlayer);
@@ -173,17 +177,12 @@ export default function Main() {
         setStuffBoost(allStuffBoosts);
         setCreatures({...cCreatures});
     }
-
     applySnapshotRef.current = applySnapshot;
     showStatRef.current = showStat;
-
-    if (!loadedScreen) {
-        return (<LoadingLine text="Please Wait..."/>);
-    }
     const b = (
         <div>
-            <MainCardsDisplay creatureNamesRef={creatureNamesRef} wSpecRef={wSpecRef} graphValues={graphValues} resultDamage={resultDamage} creatures={creatures} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} setCreatures={setCreatures} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></MainCardsDisplay>
-            <ToastSpecs creatures={creatures} legendary={wSpec.legendary} mods={wSpec.mods} iconName={wSpec.iconName} weaponName={wSpec.defaultName} graphValues={graphValues} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} stuffBoostRef={stuffBoostRef}></ToastSpecs>
+            <MainCardsDisplay xTitle={graphType} graphTypeOnClickRef={graphTypeOnClickRef} creatureNamesRef={creatureNamesRef} wSpecRef={wSpecRef} graphValues={graphValues} resultDamage={resultDamage} creatures={creatures} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} setCreatures={setCreatures} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage}></MainCardsDisplay>
+            <ToastSpecs xTitle={graphType} graphTypeOnClickRef={graphTypeOnClickRef} creatures={creatures} legendary={wSpec.legendary} mods={wSpec.mods} iconName={wSpec.iconName} weaponName={wSpec.defaultName} graphValues={graphValues} resultDamage={resultDamage} showStat={showStat} setShowStat={setShowStat} creatureChartNumber={creatureChartNumber} setCreatureChartNumber={setCreatureChartNumber} extraDamage={extraDamage} setExtraDamage={setExtraDamage} boostDamageRef={boostDamageRef} setBoostDamage={setBoostDamage} stuffBoostRef={stuffBoostRef}></ToastSpecs>
             <Tabs
                 id="tab"
                 activeKey={key}
@@ -219,5 +218,13 @@ export default function Main() {
             </Tabs>
         </div>
     );
-    return b;
+    loadedScreen.current += 1;
+    if (loadedScreen.current < 0) {
+        loadedScreen.current = 10;
+    }
+    if (loadedScreen.current < 2) {
+        return (<LoadingLine text="Please Wait..." />);
+    } else {
+        return b;
+    }
 }

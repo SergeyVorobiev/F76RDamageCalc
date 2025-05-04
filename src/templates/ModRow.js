@@ -25,9 +25,6 @@ function getModRow(modData, def, isUsed) {
 export default function ModRow({index, weaponId, modsSameType, checkMod, defMods}) {
     const modSameType = modsSameType[index];
     const modData = getMods().get(modSameType[0]);
-    if (!modData.label) {
-        modData.label = "CMOD";
-    }
     let def = defMods.includes(modSameType[0]);
     const isUsed = modSameType[1];
     const modRow = getModRow(modData, def, isUsed);

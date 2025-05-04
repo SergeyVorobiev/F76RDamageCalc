@@ -10,6 +10,7 @@ import ModCompactView from '../../templates/ModCompactView';
 import ExplCompactView from '../../templates/ExplCompactView';
 import HazardCompactView from '../../templates/HazardCompactView';
 import ProjCompactView from '../../templates/ProjCompactView';
+import AmmoCompactView from '../../templates/AmmoCompactView';
 import VMADCompactView from '../../vmad/view/VMADCompactView';
 import { getItem } from '../../consumables/view/ConsumableItems';
 import Button from 'react-bootstrap/Button';
@@ -86,14 +87,21 @@ function effectView(effect, onEffectClick, backButton) {
                 <ExplCompactView expl={effect} onEffectClick={onEffectClick} />
                 {backButton}
             </>
-        )
+        );
     } else if (label === "PROJ") {
         return (
             <>
                 <ProjCompactView proj={effect} onEffectClick={onEffectClick} />
                 {backButton}
             </>
-        )
+        );
+    } else if (label === "AMMO") {
+        return (
+            <>
+                <AmmoCompactView ammo={effect} onEffectClick={onEffectClick} />
+                {backButton}
+            </>
+        );
     }
     return (<>{label}</>);
 }

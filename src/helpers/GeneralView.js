@@ -42,7 +42,7 @@ function buildGeneralView(template) {
                 {getField(template, 'Weight:', 'weight', 'blue', '20rem', false, 3, 1)}
                 {getField(template, 'Levels:', 'levels', 'blue', '20rem')}
                 {getResolvedField('Crit Mult:', crit, 'blue', '20rem', false, 3)}
-                {getField(template, 'Crit Charge:', 'crChar', 'blue', '20rem')}
+                {getField(template, 'Crit Charge:', 'crCharge', 'blue', '20rem')}
                 {getField(template, 'Crit Spell:', 'crSpellId', 'blue', '20rem', true, 0, 1)}
                 {getField(template, "Type:", "typeNumber", 'blue', '20rem')}
                 {getTags(template)}

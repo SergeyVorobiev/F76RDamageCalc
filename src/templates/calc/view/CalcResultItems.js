@@ -21,7 +21,6 @@ function compareItems(item1, item2) {
 }
 
 const CalcResultItems = memo(function CalcResultItems(props) {
-    console.log("CalcResultItems");
     let result = [];
     const resultView = [];
     for (let i = 0; i < props.calcItems.length; i++) {
