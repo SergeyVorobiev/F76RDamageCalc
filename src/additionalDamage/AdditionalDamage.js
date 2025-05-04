@@ -17,7 +17,7 @@ const AdditionalDamage = memo(function AdditionalDamage({additionalDamages, setA
                 <Accordion.Header>
                     <InputGroup>
                         <InputGroup.Text style={{width: '10rem'}}>
-                            <span className="ac-text">Additional Damage</span>
+                            <span className="ac-text">Bonus Damage</span>
                         </InputGroup.Text>
                         <Button className="stats-text" style={{width: '4rem'}} onClick={openStat}>Stats</Button>
                     </InputGroup>

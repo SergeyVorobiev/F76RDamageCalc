@@ -3,7 +3,7 @@ import { Apply } from './Apply';
 
 export class OverrideProjectile extends Apply {
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         const field = template.projId;
         const value = mod.val1.split(" / ")[0];
         if (mod.op === "Set") {
@@ -34,6 +34,17 @@ export class OverrideProjectile extends Apply {
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
-        throw new Error("Legendary changes projectile");
+        if (modId === '00425e28') { // Shotgun explosive 3% legacy
+            if (update) {
+                return wSpec.legendary[starIndex][2];
+            }
+            if (!this.isLegendaryAppropriate(wSpec, starIndex, apply)) {
+                return false;
+            }
+            super.addToProperty(wSpec, "exp", 3, apply);
+            return apply;
+        }
+        console.error("Legendary changes projectile");
+        return false;
     }
 }

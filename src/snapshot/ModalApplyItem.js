@@ -2,19 +2,22 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { truncateLongWords } from '../helpers/Input';
+import LoadingModal from '../loading/LoadingModal';
 import { useState } from 'react';
 
 
-function modalView(loading, name, applyItem, onHide, itemId) {
+function modalView(show, loading, name, applyItem, onHide, itemId) {
     if (loading) {
         return (
-            <Modal.Body>
-                <b>Loading...</b>
-            </Modal.Body>
+            <LoadingModal show={show} onHide={onHide} />
         );
     }
     return (
-        <>
+        <Modal
+            show = {show}
+            onHide = {onHide}
+            size="lg"
+            centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Apply Item
@@ -29,7 +32,7 @@ function modalView(loading, name, applyItem, onHide, itemId) {
                     <Button className="w-100 ms-1" onClick={onHide}>Cancel</Button>
                 </InputGroup>
             </Modal.Footer>
-        </>
+        </Modal>
     );
 }
 
@@ -54,13 +57,5 @@ export default function ModalApplyItem(props) {
     }
 
     const name = truncateLongWords(props.name, 25);
-    return (
-        <Modal
-            show = {props.show}
-            onHide = {onHide}
-            size="lg"
-            centered>
-           {modalView(loading, name, applyItem, onHide, props.itemId)}
-        </Modal>
-    );
+    return modalView(props.show, loading, name, applyItem, onHide, props.itemId);
 }

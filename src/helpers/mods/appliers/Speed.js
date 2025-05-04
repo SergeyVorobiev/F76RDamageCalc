@@ -3,19 +3,21 @@ import { Apply } from './Apply';
 
 export class Speed extends Apply {
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         const value = super.getValue(mod);
         super.addSetMullAdd(template.speed, value, mod.op, apply);
-        template.autoRate[1] = template.defRate * template.speed[1];
-        template.manualRate[1] = template.manualRate[1] / template.speed[1];
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
         if (update) {
-            return;
+            return wSpec.legendary[starIndex][2];
+        }
+        if (!this.isLegendaryAppropriate(wSpec, starIndex, apply)) {
+            return false;
         }
         super.checkOp(mod, "Legendary", "MullAdd");
         const value = super.getValue(mod);
         super.mullAddToProperty(wSpec, "speed", value, apply);
+        return apply;
     }
 }

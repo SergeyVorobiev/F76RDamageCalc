@@ -55,10 +55,21 @@ export default class LegendaryCalcBuilder {
     static getLegendary3(isRange, accessibleList, legs=null) {
         legs = LegendaryCalcBuilder.initLegs(legs);
         if (isRange) {
-            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.SWIFT, accessibleList);
+            LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.SWIFT_RELOAD, accessibleList);
         } else {
             LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.STRENGTH, accessibleList);
         }
+        return legs;
+    }
+
+    static getLegendary4(accessibleList, legs=null) {
+        legs = LegendaryCalcBuilder.initLegs(legs);
+        LegendaryCalcBuilder.pushIfAccessible(legs, LegsId.ENCIRCLER, accessibleList);
+        return legs;
+    }
+
+    static getLegendary5(accessibleList, legs=null) {
+        legs = LegendaryCalcBuilder.initLegs(legs);
         return legs;
     }
 }

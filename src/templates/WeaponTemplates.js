@@ -46,8 +46,7 @@ export function getWeaponIds() {
     return weaponIds;
 }
 
-
-function buildTemplates(alt, modsSetter) {
+function buildTemplates(modsSetter) {
     console.log("BuildTemplates");
     const templates = JSON.parse(JSON.stringify(getTemplates()));
     if (modGroups.size === 0) {
@@ -85,8 +84,13 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
     const [pageSize, setPageSize] = useState(20);
     const [startIndex, setStartIndex] = useState(0);
     const [alt, setAlt] = useState(Global.isWeaponAlt);
-    const [modsSetter, setModsSetter] = useState(ModsSetter.buildModsSetter(Global.isWeaponAlt));
-    const [templates, setTemplates] = useState(buildTemplates(Global.isWeaponAlt, modsSetter));
+    const [modsSetter, setModsSetter] = useState(null);
+    const [templates, setTemplates] = useState([]);
+    useEffect(() => {
+        const modsSetter = ModsSetter.buildModsSetter(Global.isWeaponAlt);
+        setModsSetter(modsSetter);
+        setTemplates(buildTemplates(modsSetter));
+    }, []);
 
     function resetPage() {
         setPage(1);
@@ -112,8 +116,8 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
         const newAlt = !alt;
         Global.isWeaponAlt = newAlt;
         setAlt(newAlt);
-        const modsSetter = ModsSetter.buildModsSetter(newAlt)
-        setTemplates(buildTemplates(newAlt, modsSetter));
+        const modsSetter = ModsSetter.buildModsSetter(newAlt);
+        setTemplates(buildTemplates(modsSetter));
         setModsSetter(modsSetter);
     }
     return (
@@ -144,7 +148,7 @@ const WeaponTemplates = memo(function WeaponTemplates(props) {
             <ModalCalculateWeapons creatureNamesRef={props.creatureNamesRef} modalCalculates={modalCalculates} setModalCalculates={setModalCalculates} setWSpec={props.setWSpec} setBoostDamage={props.setBoostDamage} setPlayer={props.setPlayer} setExtraDamage={props.setExtraDamage} setFoodPref={props.setFoodPref} setStuffBoost={props.setStuffBoost} setAdditionalDamages={props.setAdditionalDamages} setPlayerStats={props.setPlayerStats} setMagazines={props.setMagazines} setBobbleHeads={props.setBobbleHeads} setFood={props.setFood} setDrink={props.setDrink} setPsycho={props.setPsycho} setSerum={props.setSerum} setOthers={props.setOthers}></ModalCalculateWeapons>
             <InputGroup className="ps-1 pe-1 pb-2 flex-nowrap">
                 <WTypeDropdown weaponType={weaponType} setWeaponType={setWeaponType} resetPage={resetPage}></WTypeDropdown>
-                <Form.Control style={{width: '10rem'}} maxLength="70" onChange={filterNameChanged} />
+                <Form.Control placeholder="name / id" style={{width: '10rem'}} maxLength="70" onChange={filterNameChanged} />
             </InputGroup>
             <Accordion className="accordion">
                 <TemplateItems templates={templates} modsSetter={modsSetter} onTestClick={onTestClick} onPageChanged={onPageChanged} startIndex={startIndex} pageSize={pageSize} page={page} weaponType={weaponType} filterName={filterName} setModalTemplate={setModalTemplate} setModalCalculate={setModalCalculate}></TemplateItems>

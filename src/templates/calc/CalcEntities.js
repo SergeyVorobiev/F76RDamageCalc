@@ -11,7 +11,7 @@ export function getDefaultStuff() {
 }
 
 export function getDefaultLegendary() {
-    return {"Legendary1": true, "Legendary2": true, "Legendary3": true};
+    return {"Legendary1": true, "Legendary2": true, "Legendary3": true, "Legendary4": true, "Legendary5": false};
 }
 
 export function getUsableFood() {

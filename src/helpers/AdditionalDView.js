@@ -1,7 +1,6 @@
 import { keyValueBadge } from './RowBuilder';
 import {  Divider } from 'antd';
 import Row from 'react-bootstrap/Row';
-import { collectAllDamages } from './mods/DamageSetter';
 
 
 export function getSymbolStyle(dType, kind) {
@@ -28,16 +27,21 @@ export function getSymbolStyle(dType, kind) {
     }
 }
 
-function getItems(adDamage, bonusMult, creatures) {
+function getItems(damages, bonusMult, attackDamage, creatures) {
     let result = [];
     let k = 0;
-    for (let i = 0; i < adDamage.length; i++) {
-        const damage = adDamage[i];
-        if (damage.ignored) {
+    for (let i = 0; i < damages.length; i++) {
+        const damage = damages[i];
+        if (damage.ignored || damage.isCrit) {
             continue;
         }
         const [symbol, style] = getSymbolStyle(damage.type, damage.kind);
-        let value = damage.damage.toFixed(1);
+        let damageVal = damage.damage;
+        if (damage.interval === 0 && damage.time === 0) {
+            damageVal *= attackDamage;
+        }
+        let value = damageVal.toFixed(1);
+
         if (bonusMult > 0) {
             const bMult = (value * bonusMult).toFixed(1);
             value += " (+" + bMult + ") ";
@@ -66,16 +70,22 @@ function getItems(adDamage, bonusMult, creatures) {
 }
 
 export default function AdditionalDView({template}) {
-    const adDamage = collectAllDamages(template);
-
-    if (!adDamage || adDamage.length === 0) {
+    const damages = template.damages;
+    if (!damages || damages.length === 0) {
         return (<></>);
+    }
+    let legBonus = 0;
+    for (const name in template.legBonusMult) {
+        if (name === '007aca07') { // Pin-pointer represents chance value
+            continue;
+        }
+        legBonus += template.legBonusMult[name];
     }
     return (
         <>
             <Divider className='m-1 p-1'>Damage</Divider>
             <Row className="m-1 d-flex justify-content-center">
-                {getItems(adDamage, template.bonusMult[1], template.creature)}
+                {getItems(damages, template.bonusMult[1] + legBonus, template.attackDamage[1], template.creature)}
             </Row>
         </>
     );

@@ -8,11 +8,11 @@ import { getLegendaryByStar, getLegendary } from '../helpers/LegendaryProvider';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import getMods from '../helpers/Mods';
-import { setCurrentLegendaryIds } from '../helpers/Global';
 import { ModParser } from '../helpers/mods/ModParser';
 import { Tag } from 'antd';
 import { WarningPopover } from '../helpers/WarningPopover';
 import StackEffectView from '../helpers/views/StackEffectView';
+import  { getWeaponNameById } from '../helpers/TemplatesRegister';
 
 
 const legendaryItems = getLegendaryByStar();
@@ -34,17 +34,48 @@ function updateLegendary(wSpec, setWSpec, health) {
     setWSpec({...wSpec});
 }
 
+// In case if use changes damage or weapon type
+function recalculateLegendary(wSpec, setWSpec, health) {
+    const curLegIds = [];
+    for (let i = 0; i < wSpec.legendary.length; i++) {
+        curLegIds.push(wSpec.legendary[i][0]);
+    }
+    for (let i = 0; i < wSpec.legendary.length; i++) {
+        modParser.applyLegendaryModToWSpec(wSpec.legendary[i][0], wSpec, i, health, false, false);
+        wSpec.legendary[i][0] = curLegIds[i];
+        modParser.applyLegendaryModToWSpec(curLegIds[i], wSpec, i, health, false, true);
+    }
+    setWSpec({...wSpec});
+}
+
 // health, important if a value of a legendary effect depends on health
 function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     function onSelectCustom(e) {
         modParser.setAlt(wSpec.alt);
         modParser.applyLegendaryModToWSpec(wSpec.legendary[index][0], wSpec, index, health, false, false);
-        modParser.applyLegendaryModToWSpec(e, wSpec, index, health, false, true);
         wSpec.legendary[index][0] = e;
+        modParser.applyLegendaryModToWSpec(e, wSpec, index, health, false, true);
         setWSpec({...wSpec});
     }
     let result = [];
     const legs = legendaryItems[index];
+    legs.sort((leg1, leg2) => {
+        if (leg1.name === "None") {
+            return -1;
+        }
+        if (leg2.name === "None") {
+            return 1;
+        }
+        if (leg1.name < leg2.name) {
+          return -1;
+        }
+        if (leg1.name > leg2.name) {
+          return 1;
+        }
+
+      // names must be equal
+      return 0;
+    });
     for (let i = 0; i < legs.length; i++) {
         const legName = legs[i].name;
         const legId = legs[i].id;
@@ -52,9 +83,6 @@ function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
     }
     const title = (legendaryInfo) ? legendaryInfo.name : "Legendary";
     const mod = (legendaryInfo) ? getMods().get(legendaryInfo.id) : null;
-    if (mod && !mod.label) {
-        mod.label = "CMOD";
-    }
     function getQM(mod) {
         if (mod) {
             return (
@@ -79,7 +107,7 @@ function getLegendaryDropdown(legendaryInfo, wSpec, setWSpec, health, index) {
 
 function getEffectTag(effect) {
     return (
-        <div className="mt-2 d-flex justify-content-end">
+        <div className="mt-2">
             <strong>
                 <Tag bordered={false} color={"indigo"}>{effect}</Tag>
             </strong>
@@ -89,16 +117,30 @@ function getEffectTag(effect) {
 
 function getLegendaryAdjust(legendaryInfo, wSpec, setWSpec) {
     if (legendaryInfo && legendaryInfo.type !== "Not affect" && legendaryInfo.type !== "Not affect (not tested)") {
-        const marksName = "marks" + legendaryInfo.max;
-        const effect = legendaryInfo.type;
+        let marksName = "marks" + legendaryInfo.max;
+        if (legendaryInfo.id === '007acbf4') {
+            marksName = "marks12H";
+        }
+        let wType = legendaryInfo.wType;
+        const wName = getWeaponNameById(wType);
+        if (wName) {
+            wType = wName;
+        }
         return (
             <>
                 <LegSlider legendaryInfo={legendaryInfo} marksName={marksName} wSpec={wSpec} setWSpec={setWSpec}></LegSlider>
-                {getEffectTag(effect)}
+                <div className="text-muted d-flex justify-content-between">
+                    {getEffectTag(wType)}
+                    {getEffectTag(legendaryInfo.type)}
+                </div>
             </>
         );
     } else if (legendaryInfo) {
-        return (<>{getEffectTag(legendaryInfo.type)}</>);
+        return (
+            <div className="text-muted d-flex justify-content-end">
+                {getEffectTag(legendaryInfo.type)}
+            </div>
+        );
     }
     return (<></>);
 }
@@ -106,7 +148,10 @@ function getLegendaryAdjust(legendaryInfo, wSpec, setWSpec) {
 function getLegendaryDetails(legendaryInfo) {
     if (legendaryInfo) {
         return (
-            <div className="pt-3 m-3"><strong>{legendaryInfo.description}</strong></div>
+            <>
+                <div className="pt-3 m-3"><strong>{legendaryInfo.description}</strong></div>
+                <div className="pt-3 m-3"><small>{legendaryInfo.notes}</small></div>
+            </>
         );
     }
     return (<></>);
@@ -142,12 +187,14 @@ function getCollapse(header, legendaryInfo, wSpec, setWSpec, health, index) {
 
 export default function LegendarySelector({header, wSpec, setWSpec, health, index}) {
     useEffect(() => {
-        setCurrentLegendaryIds(wSpec);
         if (!wSpec.legendaryHealthUpdated) {
             wSpec.legendaryHealthUpdated = true;
             updateLegendary(wSpec, setWSpec, health);
         }
     }, [wSpec, health]);
+    useEffect(() => {
+        recalculateLegendary(wSpec, setWSpec, health);
+    }, [wSpec.type]);
     useEffect(() => {
         updateLegendary(wSpec, setWSpec, health);
     }, [health]);

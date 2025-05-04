@@ -19,6 +19,7 @@ import { buildExtraDamageView, getFireRateLabel } from './SummaryView';
 import ModView from '../snapshot/ModView';
 import BoostRowView from '../snapshot/BoostRowView';
 import { convertStuffBoost } from "../entities/EStuffBoost";
+import CritHeadFreqButtons from '../comparator/view/CritHeadFreqButtons';
 
 
 function getLegendaryRow(legendaryId, star) {
@@ -35,7 +36,7 @@ function getLegendaryRow(legendaryId, star) {
     }
 }
 
-const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage, stuffBoostRef}) {
+const ToastSpecs = memo(function ToastSpecs({xTitle, graphTypeOnClickRef, mods, creatures, legendary, iconName, weaponName, graphValues, resultDamage, showStat, setShowStat, creatureChartNumber, setCreatureChartNumber, extraDamage, setExtraDamage, boostDamageRef, setBoostDamage, stuffBoostRef}) {
     console.log("ToastSpecs");
     const [showView, setShowView] = useState("Main");
     const [detailIndex, setDetailIndex] = useState(-1);
@@ -67,9 +68,9 @@ const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconNam
     } else if (showView === "Creature") {
         toastBody = getCreatures(resultDamage, creatures, creatureNumber);
     } else if (showView === "Boosts") {
-        toastBody = getBoostToast(legendary, mods, boostDamageRef.current, stuffBoostRef.current);
+        toastBody = getBoostToast(legendary, mods, boostDamageRef.current, stuffBoostRef.current, resultDamage, strength);
     } else {
-        toastBody = getChart(graphValues, creatures, creatureChartNumber, setCreatureChartNumber);
+        toastBody = getChart(graphValues, creatures, creatureChartNumber, setCreatureChartNumber, xTitle, graphTypeOnClickRef);
     }
     function onDropdownSelect(e) {
         setShowView(e);
@@ -96,9 +97,10 @@ const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconNam
                             strokeWidth={20} />
                     </small>
                 </Toast.Header>
-                <div className="m-1" />
-                {buildExtraDamageView(extraDamage, setExtraDamage, boostDamageRef, setBoostDamage)}
                 {toastBody}
+                {buildExtraDamageView(extraDamage, setExtraDamage, boostDamageRef, setBoostDamage)}
+                <CritHeadFreqButtons extraDamage={extraDamage} fUpdater={extraDamage} setFUpdater={setExtraDamage} />
+                <div className="m-2" />
                 <Row className="pb-2">
                     <div className="col d-flex justify-content-start">
                         {getPrevButtonDetails(showView, resultDamage.damageDetails.length, detailIndex, setDetailIndex)}
@@ -117,8 +119,8 @@ const ToastSpecs = memo(function ToastSpecs({mods, creatures, legendary, iconNam
     );
 });
 
-function getChart(graphValues, creatures, creatureNumber, setCreatureNumber) {
-    return (<ResistanceChart graphValues={graphValues} chartId={"toastResChart"} dps='true' creatures={creatures} creatureNumber={creatureNumber} setCreatureNumber={setCreatureNumber} />);
+function getChart(graphValues, creatures, creatureNumber, setCreatureNumber, xTitle, graphTypeOnClickRef) {
+    return (<ResistanceChart xTitle={xTitle} graphTypeOnClickRef={graphTypeOnClickRef} graphValues={graphValues} chartId={"toastResChart"} dps='true' creatures={creatures} creatureNumber={creatureNumber} setCreatureNumber={setCreatureNumber} />);
 }
 
 function getPrevButtonDetails(showView, detailsLength, detailIndex, setDetailIndex) {
@@ -223,16 +225,21 @@ function getMainToast(creatures, resultDamage, bonusText, totalBonusText, streng
             {keyValueRow(fireRateLabel, resultDamage.fireRate.toFixed(2) + " - " + (resultDamage.fireRate / 10.0).toFixed(1) + " shots / sec", "default", "purple")}
             {keyValueRow(addText(ammo, '0.9rem', '0rem', "Ammo / Hit:"), resultDamage.ammoCapacity, "default", "purple")}
             {keyValueRow('⌛ Reload:', resultDamage.reloadTime.toFixed(1) + ' s', "default", "purple")}
-            {keyValueRow('💪 Strength:', strength, "default", "brown")}
-            {keyValueRow('❤️ Health:', resultDamage.health, "default", "red")}
+            {keyValueRow('🎯 Accuracy:', resultDamage.accuracy + "%", "default", "brown")}
+            {keyValueRow('❤️ Health:', resultDamage.health + "%", "default", "red")}
             {keyValueRow('💀 Average Time:', getAverageTime(creatures), "default", "volcano")}
         </Toast.Body>
     );
 }
 
-function getBoostToast(legendary, mods, boostDamage, stuff) {
+function getBoostToast(legendary, mods, boostDamage, stuff, resultDamage, strength) {
+    let strengthBonusView = (<></>);
+    if (resultDamage.weaponType === "Melee" || resultDamage.weaponType === "Unarmed") {
+        strengthBonusView = keyValueRow('💪 Strength:', strength, "default", "brown");
+    }
     return (
         <Toast.Body className="p-2">
+            {strengthBonusView}
             {getLegendaryRow(legendary[0][0], 1)}
             {getLegendaryRow(legendary[1][0], 2)}
             {getLegendaryRow(legendary[2][0], 3)}

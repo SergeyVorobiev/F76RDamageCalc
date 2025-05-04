@@ -1,6 +1,7 @@
 import { getField } from './ViewHelper';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
+import DamageExtractor from './mods/DamageExtractor';
 
 
 function getDamagesData(damageData, width='20rem') {
@@ -11,19 +12,33 @@ function getDamagesData(damageData, width='20rem') {
     return result;
 }
 
-function getDamageData(key, damageData, width='20rem') {
+function getDamageType(damageType, width) {
+    if (!damageType) {
+        return (<></>);
+    }
+    return (
+        <>
+            {getField(damageType, 'Type Id:', 'id', 'purple', width, false)}
+            {getField(damageType, 'Code Name:', 'name', 'purple', width, false)}
+            {getField(damageType, 'Name:', 'full', 'purple', width, false)}
+        </>
+    );
+}
+
+function getDamageData(key, damageObj, width='20rem') {
+    const damageData = damageObj.damageData;
+    const damageType = DamageExtractor.damageTypes[damageData.typeName];
     return (
         <Card className='p-0 m-1' key={key}>
             <Row>
-                {getField(damageData, 'Id:', 'type_id', 'default', width)}
-                {getField(damageData, 'Code Name:', 'type_name', 'purple', width)}
-                {getField(damageData, 'Name:', 'type_full_name', 'purple', width)}
-                {getField(damageData, 'DCurveBase:', 'curve_base_max', 'blue', width)}
-                {getField(damageData, 'DCurveAlt:', 'curve_alt_max', 'blue', width)}
+                {getDamageType(damageType, width)}
+                {getField(damageData, 'DCurveBase:', 'curveBase', 'blue', width)}
+                {getField(damageData, 'DCurveAlt:', 'curveAlt', 'blue', width)}
                 {getField(damageData, 'Value:', 'value', 'blue', width)}
                 {getField(damageData, 'Magnitude:', 'magnitude', 'blue', width)}
                 {getField(damageData, 'Time:', 'time', 'blue', width)}
                 {getField(damageData, 'Interval:', 'interval', 'blue', width)}
+                {getField(damageData, 'Chance:', 'chance', 'blue', width)}
             </Row>
         </Card>
     )

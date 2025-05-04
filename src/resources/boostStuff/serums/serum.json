@@ -151,15 +151,6 @@
         "value": 0,
         "valueType": "percent",
         "description": "Reload speed"
-      },
-      {
-        "category": "weapon",
-        "property": "Move",
-        "func": "speedDemonMove",
-        "defValue": 20,
-        "value": 0,
-        "valueType": "percent",
-        "description": "Move speed"
       }
     ]
   },

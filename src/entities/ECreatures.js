@@ -53,6 +53,7 @@ titan: {
 
 export function getDummy(creature) {
     const dummy = buildCreature(creature.name, creature.level, creature.fieldName);
+    dummy.isDummy = true;
     dummy.h = 1000000000000;
     dummy.curBody = creature.curBody;
     dummy.headShot = creature.headShot;
@@ -98,6 +99,7 @@ function buildDefCreature(name, fieldName) {
         explosiveDamage: 0.0,
         critExplosiveDamage: 0.0,
         critExplosiveHeadDamage: 0.0,
+        averageTimeDamage: 0.0, // Per second
         averageHit: 0.0,
         maxHit: 0.0,
         sneak: 0,
@@ -107,6 +109,16 @@ function buildDefCreature(name, fieldName) {
         reloads: 0.0,
         reloadsTime: 0.0,
         lifeTime: Infinity,
+        isBleed: false,
+        isPoisoned: false,
+        isFrozen: false,
+        isBurned: false,
+        isSneak: false,
+        isCrippled: false,
+        isBashed: false,
+        isCrit: false,
+        isHead: false,
+        isExpl: false,
     };
 }
 

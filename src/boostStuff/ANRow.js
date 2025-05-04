@@ -31,7 +31,7 @@ function qa() {
 function ANRow({player, setPlayer, boostDamage, setBoostDamage}) {
     function changeTeam(e) {
         player.team = !player.team;
-        boostDamage.toft.displayed_value = (player.team) ? boostDamage.toft.value : 0.0;
+        boostDamage.toft.displayed_value = (player.team && boostDamage.toft.is_used) ? boostDamage.toft.value : 0.0;
         setPlayer({...player});
         setBoostDamage({...boostDamage});
     }

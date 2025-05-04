@@ -3,7 +3,8 @@ import { Apply } from './Apply';
 
 export class CritEffect extends Apply {
 
-    apply(template, mod, apply) {
+    // !apply logic does not matter as we recalculate everything each time, but in case logic is presented
+    apply(template, mod, apply, modsId) {
         const field = template.crSpellId;
         const value = mod.val1.split(" / ")[0];
         if (mod.op === "Set") {
@@ -35,7 +36,8 @@ export class CritEffect extends Apply {
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
 
-        // Expected we do not have legendary which changes crit effect
-        throw new Error("Legendary changes crit effect");
+        // Expected we do not have legendary which changes a crit effect
+        console.error("Legendary changes crit effect");
+        return false;
     }
 }

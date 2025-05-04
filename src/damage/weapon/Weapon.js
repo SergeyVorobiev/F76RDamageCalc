@@ -1,4 +1,5 @@
 import Strings from '../../helpers/Strings';
+import { DamageTypes } from '../../helpers/Strings';
 
 
 export default class Weapon {
@@ -16,7 +17,9 @@ export default class Weapon {
         this.strengthBoost = weaponSpecsAssembler.getStrengthBoost();
         this.strength = weaponSpecsAssembler.getStrength();
         this.ownerHealth = weaponSpecsAssembler.getOwnerHealth();
-        this.bonusMult = weaponSpecsAssembler.getBaseDamageMult();
+        const bonusData = weaponSpecsAssembler.getBaseDamageMult();
+        this.bonusMult = bonusData[0];
+        this.bonusMultString = bonusData[1];
         this.critBoost = weaponSpecsAssembler.getCritBoost();
         this.isAuto = weaponSpecsAssembler.getIsAuto();
         this.explosiveBonus = weaponSpecsAssembler.getExplosiveBonus();
@@ -26,29 +29,139 @@ export default class Weapon {
         this.critShotFrequency = weaponSpecsAssembler.getCritShotFrequency();
         this.sneakShotFrequency = weaponSpecsAssembler.getSneakShotFrequency();
         this.creatureDamageBonuses = weaponSpecsAssembler.getCreatureDamageBonuses();
-        this.firstBloodBonus = weaponSpecsAssembler.getFirstBloodBonus();
-        this.lastShotBonus = weaponSpecsAssembler.getLastShotBonus();
+        this.dynamicBaseDamageBonuses = weaponSpecsAssembler.collectDynamicConditionalBDB();
         this.cripple = weaponSpecsAssembler.getCripple();
         this.bash = weaponSpecsAssembler.getBash();
+        this.generalAccuracy = weaponSpecsAssembler.getGeneralAccuracy();
         this.powerAttack = weaponSpecsAssembler.getPowerAttack();
         this.chargeTime = weaponSpecsAssembler.getChargeTime();
         this.chargePenalty = weaponSpecsAssembler.getChargePenalty();
         this.startAttackDelay = weaponSpecsAssembler.getStartAttackDelay();
         this.sneak = weaponSpecsAssembler.getSneak();
         this.totalDamageBonus = weaponSpecsAssembler.getTotalDamageBonus();
+        this.legendaryIds = weaponSpecsAssembler.getLegendaryIds();
+        this.pinPointerChance = weaponSpecsAssembler.getPinPointerChance();
+        this.additionalTotalBonus = 1;
+        this.enableExecutioner = true;
+        this.isRange = (this.weaponType !== "Melee" && this.weaponType !== "Unarmed");
+        this.reset();
+    }
+
+    reset() {
+        const dynamicBDB =  this.buildConditionalBDB(this.dynamicBaseDamageBonuses);
+        this.buildDamageConditions();
+        this.resultDamage = {idle: false, bulletCount: this.shotSize, expDTypeBonus: this.explosiveDamageTypeBonus, tempBDB: 0, creatureDamageBonuses: this.creatureDamageBonuses, headShot: false, critShot: false, sneakShot: false, weaponType: this.weaponType,
+            attackDelay: this.startAttackDelay, deltaTime: 0, powerAttack: 0, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
+            expBonus: this.explosiveBonus, sneak: this.sneak, isRange: this.isRange, totalDamageBonus: this.totalDamageBonus.value, critBoost: this.critBoost,
+            tenderizer: this.totalDamageBonus.tenderizer, additionalTotalBonus: this.additionalTotalBonus, executionerBonus: this.getExecutionerBonus(), damages: [],
+            critDamages: [], dynamicBDB: dynamicBDB };
+        this.reloadsCount = 0;
+        this.reloadTimeCounting = true;
+        this.allowStartAttackDelay = true;
+        this.alwaysMaxHit = false;
+        this.hitCount = 0;
+        this.preparedToHit = false;
+        this.firstHit = true;
         this.magazine = this.ammoCapacity;
         this.enableCrit = true;
         this.enableHeadShot = true;
-        this.resultDamage = {bulletCount: this.shotSize, expDTypeBonus: this.explosiveDamageTypeBonus, lastShotBonus: 0, firstBloodBonus: this.firstBloodBonus, creatureDamageBonuses: this.creatureDamageBonuses, headShot: false, critShot: false, sneakShot: false, weaponType: this.weaponType,
-            attackDelay: this.startAttackDelay, deltaTime: 0, powerAttack: this.powerAttack, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
-            expBonus: this.explosiveBonus, sneak: this.sneak, totalDamageBonus: this.totalDamageBonus.value, critBoost: this.critBoost,
-            tenderizer: this.totalDamageBonus.tenderizer, executionerBonus: this.totalDamageBonus.executioner, damages: [],
-            critDamages: this.critDamages, fireTime: 10 / this.fireRate, isAuto: this.isAuto};
-        this.reloadsCount = 0;
-        this.reloadTimeCounting = true;
-        this.alwaysMaxHit = false;
-        this.reloadsTotalTime = 0;
-        this.hitCount = 0;
+    }
+
+    getExecutionerBonus() {
+        if (this.enableExecutioner) {
+            return this.totalDamageBonus.executioner;
+        } else {
+            return 1;
+        }
+    }
+
+    setEnableExecutioner(flag) {
+        this.enableExecutioner = flag;
+        this.resultDamage.executionerBonus = this.getExecutionerBonus();
+    }
+
+    buildDamageConditions() {
+        for (let i = 0; i < this.damages.length; i++) {
+            const damage = this.damages[i];
+            for (let j = 0; j < damage.fConditions.length; j++) {
+                const condition = damage.fConditions[j][0];
+                switch(condition) {
+                    case 'reload':
+                        damage.reloadOnly = true;
+                        break;
+                    case 'bash':
+                        damage.bashOnly = true;
+                        break;
+                }
+            }
+        }
+    }
+
+    buildConditionalBDB(dynamicBonuses) {
+        const obj = {
+            "burned": 0,
+            "bash": 0,
+            "reload": [0, 0], // Value / Chance
+            "poisoned": 0,
+            "firstBlood": 0,
+            "furious": [0, 0, 0], // Increase value, max value, current value
+            "pounder": [0, 0, 0], // Increase value, max value, current value
+        }
+        for (let i = 0; i < dynamicBonuses.length; i++) {
+            const bonus = dynamicBonuses[i];
+            if (bonus.type === "BDB") {
+                const name = bonus.fConditions[0][0];
+                if (name === "firstBlood") {
+                    obj.firstBlood += bonus.damage;
+                } else if (name === "furious") {
+                    const data = bonus.fConditions[0][1];
+                    obj.furious = [...data["all"]];
+                    if (!obj.furious) {
+                        throw new Error("Furious does not contain any data");
+                    }
+                } else if (name === "reload") {
+                    obj.reload = [bonus.damage, bonus.chance];
+                } else if (name === "bash") {
+                    obj.bash += bonus.damage;
+                } else if (name === "pounder") {
+                    const data = bonus.fConditions[0][1];
+                    if (this.isAuto) {
+                        obj.pounder = [...data["auto"]];
+                    } else {
+                        obj.pounder = [...data["nonAuto"]];
+                    }
+                } else if (name === "burned") {
+                    obj.burned += bonus.damage;
+                } else if (name === "poisoned") {
+                    obj.poisoned += bonus.damage;
+                }
+            }
+        }
+        return obj;
+    }
+
+    getRealShotsPerSecond() {
+
+        // Actual shot per second + we need to care about reloading time
+        let fireRate = this.getFireRate() / 10.0;
+        fireRate = 1 / fireRate + this.getChargeTime();
+        fireRate = 1 / fireRate;
+        let ammoCapacity = this.getAmmoCapacity();
+        if (ammoCapacity === 0) { // Melee
+            ammoCapacity = 1;
+        }
+        const startDelayTime = this.getStartAttackDelay();
+        const delayTime = (this.getIsAuto()) ? startDelayTime : (startDelayTime * ammoCapacity);
+        const totalTime = ammoCapacity / fireRate + this.getReloadTime() + delayTime;
+        const shotTime = totalTime / ammoCapacity;
+        return 1 / shotTime;
+    }
+
+    // It will be multiplied with other total bonuses, value will be divided by 100 + 1
+    // For fifty percent damage bonus use 50
+    setAdditionalTotalDamageBonus(bonus) {
+        this.additionalTotalBonus = 1 + (bonus / 100);
+        this.resultDamage.additionalTotalBonus = this.additionalTotalBonus;
     }
 
     setEnableCrit(flag) {
@@ -67,6 +180,10 @@ export default class Weapon {
         return this.isAuto;
     }
 
+    getLegendaryIds() {
+        return this.legendaryIds;
+    }
+
     getDefaultName() {
         return this.defaultName;
     }
@@ -75,17 +192,8 @@ export default class Weapon {
         return this.weaponType;
     }
 
-    setLastShotBonus(value) {
-        this.lastShotBonus = value;
-    }
-
     getHeadShotFrequency() {
         return this.headShotFrequency;
-    }
-
-    setFirstBloodBonus(value) {
-        this.firstBloodBonus = value;
-        this.resultDamage.firstBloodBonus = value;
     }
 
     getChargeTime() {
@@ -100,6 +208,10 @@ export default class Weapon {
         return this.damages;
     }
 
+    getCritDamages() {
+        return this.critDamages;
+    }
+
     getCreatureBonus() {
         return this.creatureDamageBonuses;
     }
@@ -109,7 +221,7 @@ export default class Weapon {
     }
 
     getBonusMult() {
-        return this.bonusMult;
+        return this.bonusMultString;
     }
 
     getTotalBonus() {
@@ -124,8 +236,12 @@ export default class Weapon {
         this.alwaysMaxHit = flag;
     }
 
-    disableReloadTimeCounting() {
-        this.reloadTimeCounting = false;
+    setReloadTimeCounting(flag) {
+        this.reloadTimeCounting = flag;
+    }
+
+    setStartAttackDelay(flag) {
+        this.allowStartAttackDelay = flag;
     }
 
     getMaxHit() {
@@ -185,9 +301,10 @@ export default class Weapon {
             if (!damage.isUsed || damage.time > 0) {
                 continue;
             }
-            let curDamage = damage.damage * this.bonusMult[damage.type];
+            const bonus = (damage.bonuses.isBonusMult) ? this.bonusMult.get(damage.iType) : 1;
+            let curDamage = damage.damage * bonus;
             let expDamage = 0;
-            if (damage.type === 'dtPhysical' && damage.kind === 'physical') {
+            if (damage.iType === DamageTypes.dtPhysical && damage.iKind === DamageTypes.physical) {
                 expDamage = curDamage * this.explosiveBonus;
             }
             curDamage /= hitCount;
@@ -205,8 +322,8 @@ export default class Weapon {
         return this.reloadsCount;
     }
 
-    getReloadsTime() {
-        return this.reloadsTotalTime;
+    getReloadsTotalTime() {
+        return this.reloadsCount * this.reloadTime;
     }
 
     isSneak() {
@@ -228,39 +345,67 @@ export default class Weapon {
     // Result array is reused every hit, editing is prohibited as it contains ref data
     hit() {
         this.resultDamage.damages.length = 0;
-        let dTime = 10 / this.fireRate;
+        this.resultDamage.tempBDB = 0;
+        this.resultDamage.critDamages.length = 0;
+        this.resultDamage.idle = false;
+        if (!this.preparedToHit) { // We have to prepare to hit
+            let reloaded = false;
+            let startTimeDelay = 0;
 
-        // Charge
-        dTime += this.chargeTime;
-
-        // Start Attack Delay
-        if (!this.isAuto) {
-            dTime += this.startAttackDelay;
-        }
-
-
-        // Reload
-        if (this.magazine === 0) {
-            this.magazine = this.ammoCapacity;
-            this.reloadsCount += 1;
-            this.reloadsTotalTime += this.reloadTime;
-            if (this.reloadTimeCounting) {
-                dTime += this.reloadTime;
-                if (this.isAuto) {
-                    dTime += this.startAttackDelay;
+            // Reload
+            if (this.magazine === 0) {
+                this.magazine = this.ammoCapacity;
+                if (this.isRange) {
+                    this.reloadsCount += 1;
                 }
+                if (this.reloadTimeCounting) {
+                    reloaded = true;
+                    startTimeDelay += this.reloadTime;
+                }
+            }
+
+            // Charge
+            startTimeDelay += this.chargeTime;
+
+            // Start Attack Delay
+            if (this.allowStartAttackDelay) {
+                if (!this.isAuto) {
+                    startTimeDelay += this.startAttackDelay;
+                } else if (reloaded || this.firstHit) {
+                    startTimeDelay += this.startAttackDelay;
+                }
+            }
+            if (this.firstHit) {
+                this.firstHit = false;
+            }
+            if (startTimeDelay > 0) { // If it is nothing to prepare then just perform hit else return deltaTime and hit next time
+                this.preparedToHit = true;
+                this.resultDamage.deltaTime = startTimeDelay;
+                this.resultDamage.idle = true; // Empty damage is also possible with only crit damages with a frequency less than one, so we inform a creature that this specific empty result is idle.
+                return this.resultDamage; // We return empty damage with deltaTime because possible time damages can still hit a creature
             }
         }
 
-        // Last shot
-        if (this.magazine === 1 && this.chanceTriggered(25)) {
-            this.resultDamage.lastShotBonus = this.lastShotBonus;
-        } else {
-            this.resultDamage.lastShotBonus = 0;
-        }
+        // Reset hit preparation as we are going to hit now
+        this.preparedToHit = false;
+
         this.magazine -= 1;
         this.hitCount += 1;
-        this.resultDamage.deltaTime = dTime;
+        this.resultDamage.deltaTime = 10 / this.fireRate;
+
+        // Last shot
+        if (this.magazine === 0 && this.isRange) {
+            const reloadData = this.resultDamage.dynamicBDB.reload;
+            if (reloadData[0] > 0 && this.chanceTriggered(reloadData[1])) {
+                this.resultDamage.tempBDB += reloadData[0];
+            }
+        }
+        // Pin-Pointer Chance
+        if (this.pinPointerChance[0] > 0) {
+            if (this.chanceTriggered(this.pinPointerChance[0])) {
+                this.resultDamage.tempBDB += this.pinPointerChance[1];
+            }
+        }
 
         // Head shot
         if (this.headShotFrequency === 0 || !this.enableHeadShot) {
@@ -284,21 +429,80 @@ export default class Weapon {
         }
 
         // Cripple
-        if (this.chanceTriggered(this.cripple.chance) || this.resultDamage.headShot) {
+        if (this.chanceTriggered(this.cripple.chance)) {
             this.resultDamage.cripple = this.cripple.value;
         } else {
             this.resultDamage.cripple = 0;
         }
 
+        // Power Attack
+        if (this.chanceTriggered(this.powerAttack.chance)) {
+            this.resultDamage.powerAttack = this.powerAttack.value;
+        } else {
+            this.resultDamage.powerAttack = 0;
+        }
+
         // Damages
         for (let i = 0; i < this.damages.length; i++) {
             const damage = this.damages[i];
-            if (damage.damage > 0 && damage.isUsed && this.chanceTriggered(damage.finalAccuracy) && this.chanceTriggered(damage.chance)) {
+            if (damage.damage > 0 && damage.isUsed && this.chanceTriggered(damage.finalAccuracy) && this.chanceTriggered(this.generalAccuracy) && this.chanceTriggered(damage.chance)) {
+
+                // Conditions
+                if (damage.reloadOnly && this.magazine !== 0 && this.isRange) {
+                    continue;
+                }
                 damage.damage = damage.defDamage * this.chargePenalty;
                 this.resultDamage.damages.push(damage);
             }
         }
+
+        // Consecutive hits (considers that only non time non crit damage is hit)
+        const damageExists = this.checkNonTimeNonCritDamageExists();
+        const furious = this.resultDamage.dynamicBDB.furious;
+        const pounder = this.resultDamage.dynamicBDB.pounder;
+        this.increaseConsecutive(furious, damageExists);
+        this.increaseConsecutive(pounder, damageExists);
+        this.resultDamage.tempBDB += (furious[2] / 100);
+        this.resultDamage.tempBDB += (pounder[2] / 100);
+
+        // Crit Damages
+        for (let i = 0; i < this.critDamages.length; i++) {
+            const damage = this.critDamages[i];
+            if (this.resultDamage.critShot && damage.damage > 0 && damage.isUsed && this.chanceTriggered(damage.finalAccuracy) && this.chanceTriggered(this.generalAccuracy) && this.chanceTriggered(damage.chance)) {
+
+                // Conditions
+                if (damage.reloadOnly && this.magazine !== 0 && this.isRange) {
+                    continue;
+                }
+                this.resultDamage.critDamages.push(damage);
+            }
+        }
         return this.resultDamage;
+    }
+
+    getGeneralAccuracy() {
+        return this.generalAccuracy;
+    }
+
+    increaseConsecutive(consecutive, damageExists) {
+        if (!damageExists) {
+            consecutive[2] = 0;
+        } else {
+            consecutive[2] += consecutive[0];
+            if (consecutive[2] > consecutive[1]) {
+                consecutive[2] = consecutive[1];
+            }
+        }
+    }
+
+    checkNonTimeNonCritDamageExists() {
+        for (let i = 0; i < this.resultDamage.damages.length; i++) {
+            const damage = this.resultDamage.damages[i];
+            if (damage.time === 0 && damage.interval === 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     hitIfFrequency(frequency) {

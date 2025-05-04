@@ -30,7 +30,7 @@ const PerkCardItems = memo(function PerkCardItems(props) {
         } else if (props.filterStatus === "Ordinary" && item.legendary) {
             continue;
         }
-        if (props.filterName && props.filterName !== "" && !item.fullName.toLowerCase().includes(props.filterName.toLowerCase())) {
+        if (props.filterName && props.filterName !== "" && !item.id.startsWith(props.filterName) && !item.fullName.toLowerCase().includes(props.filterName.toLowerCase())) {
             continue;
         }
         items.push(

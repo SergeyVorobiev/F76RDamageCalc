@@ -17,6 +17,7 @@ import ConsumablesBuilder from '../../consumables/ConsumablesBuilder';
 import Stack from 'react-bootstrap/Stack';
 import { UCheckbox } from '../../viewComponents/checkbox/UCheckbox';
 import { Slider } from 'antd';
+import CritHeadFreqButtons from './CritHeadFreqButtons';
 
 
 const marks100 = {
@@ -70,7 +71,6 @@ function getContent(props) {
             extraDamage: dataRef.extraDamageRef.current,
             additionalDamages: dataRef.additionalDamagesRef.current,
             consumableList: convertStuffBoost(dataRef.stuffBoostRef.current),
-            accuracy: 100,
         }
         const copyData = JSON.parse(JSON.stringify(newData));
         setData(copyData);
@@ -97,7 +97,7 @@ function weaponItemView(data, setData) {
         return (<></>);
     }
     const [, allStuffBoosts,] = ConsumablesBuilder.buildFromList(data.consumableList, data.player);
-    const weapon = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, allStuffBoosts, data.playerStats, data.player.health.value).build();
+    const weapon = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, allStuffBoosts, data.player, data.playerStats).build();
     const wSpec = data.wSpec;
     const boostDamage = data.boostDamage;
     const stuff = data.consumableList;
@@ -154,7 +154,7 @@ function extraDamageView(data, setData) {
         setData({...data});
     }
     function accuracyChanged(e) {
-        data.accuracy = e;
+        data.wSpec.accuracy = e;
         setData({...data});
     }
     return (
@@ -164,13 +164,10 @@ function extraDamageView(data, setData) {
                 <UCheckbox onChange={useSneakChanged} checked={data.extraDamage.useSneak}><strong className="ps-1"><small>🐍 SNEAK</small></strong></UCheckbox>
                 <UCheckbox onChange={useHeadChanged} checked={data.extraDamage.useHead}><strong className="ps-1"><small>🤕 HEAD</small></strong></UCheckbox>
             </Stack>
-            <div className="mt-3 text-muted d-flex justify-content-between">
-                <Button variant="blue-white-border" style={{ width: '6.5rem', height: '1.5rem'}} className="ms-2 me-2" onClick={crf}><strong>☠️ Fr: 1 / {data.extraDamage.critFreq}</strong></Button>
-                <Button variant="blue-white-border" style={{ width: '6.5rem', height: '1.5rem'}} className="ms-2 me-2" onClick={hef}><strong>🤕 Fr: {data.extraDamage.headFreq}%</strong></Button>
-            </div>
+            <CritHeadFreqButtons extraDamage={data.extraDamage} fUpdater={data} setFUpdater={setData} />
             <div className="pb-0 pt-1 ps-3 pe-3">
                 <b style={{fontSize: '0.65rem'}}>Accuracy</b>
-                <Slider open={true} onChange={accuracyChanged} marks={marks100} min={5} max={100} step={1} value={data.accuracy} />
+                <Slider open={true} onChange={accuracyChanged} marks={marks100} min={5} max={100} step={1} value={data.wSpec.accuracy} />
             </div>
         </>
     );

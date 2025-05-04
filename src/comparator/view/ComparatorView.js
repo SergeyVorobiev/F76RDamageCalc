@@ -7,14 +7,17 @@ import CreatureDataProvider from '../../creature/CreatureDataProvider';
 import { CreatureShortInfoButton } from '../../creature/CreatureInfoButton';
 import { CreatureDropdownButton } from '../../creature/CreatureDropdown';
 import { useState } from 'react';
+import { Tag } from 'antd';
 import ComparatorWeaponDataView from './ComparatorWeaponDataView';
 import { graphDamage } from '../../helpers/Calc';
 import { buildCreature } from '../../entities/ECreatures';
 import WeaponFactory from '../../damage/weapon/WeaponFactory';
 import ConsumablesBuilder from '../../consumables/ConsumablesBuilder';
 import { Slider } from 'antd';
-import LoadingModal from '../../helpers/views/LoadingModal';
+import LoadingModal from '../../loading/LoadingModal';
 import { WarningPopoverBadge } from '../../helpers/WarningPopover';
+import DamageEmulator from '../../damage/DamageEmulator';
+import { leftRight2 } from '../../helpers/RowBuilder';
 
 
 const explanation = (
@@ -24,10 +27,9 @@ const explanation = (
         <p>‣ See in which case the one is better than the other at <i>damage per second</i> term. (For example: Anti-Armor vs. Bloodied).</p>
         <p>‣ Choose weapon's accuracy from subjective feeling / experience. Accuracy and chance of every particular damage item are also counting.</p>
         <p>‣ Time damage is counting without stacking.</p>
-        <p>‣ Charge time and power is counting.</p>
-        <p>‣ Attack delay are counting.</p>
+        <p>‣ Charge time and power are counting.</p>
+        <p>‣ Attack delay is counting.</p>
         <p>‣ Creature is used to apply appropriate bonuses, default reduction and resistance.</p>
-        <p>‣ <i>First Blood</i>, <i>Last Shot</i>, <i>Executioner</i>, <i>Consecutive hits</i> are not counting, to see these effects in action, adjust BDB and TDB bonuses under <i>Additional Damage</i> section.</p>
     </>
 );
 const creatureNames = CreatureDataProvider.getCreatureNames();
@@ -45,13 +47,13 @@ const marks90 = {
     90: <small>90%</small>,
 };
 
-function buildDamages(creature, data) {
+function buildDamages(creature, data, xTitle) {
     if (!data) {
         return {xValues: [], yValues: []};
     }
     const [, consumables,] = ConsumablesBuilder.buildFromList(data.consumableList, data.player);
-    const weaponFactory = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, consumables, data.playerStats, data.player.health.value);
-    return graphDamage(creature, weaponFactory, false, true, data.accuracy, 100);
+    const weaponFactory = new WeaponFactory(data.wSpec, data.boostDamage, data.extraDamage, data.additionalDamages, consumables, data.player, data.playerStats);
+    return graphDamage(creature, weaponFactory, xTitle, false, true, data.wSpec.accuracy, 100);
 }
 
 function getYPoint(xValue, xValues, yValues) {
@@ -128,6 +130,7 @@ function getResData(creature=null, xValues, redY, blueY) {
     }
 }
 
+// {leftRight2(<Tag color='red'>Actual DPS: {redDPS}</Tag>, <Tag color='blue'>Actual DPS: {blueDPS}</Tag>, -1, "ps-2")}
 const ComparatorView = memo(function ComparatorView(props) {
     console.log("ComparatorView");
     const [creature, setCreature] = useState(buildCreature(creatureNames[0], "Max", ""));
@@ -135,6 +138,7 @@ const ComparatorView = memo(function ComparatorView(props) {
     const [blueData, setBlueData] = useState(null);
     const [redData, setRedData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [xTitle, setXTitle] = useState("Levels");
     let title = creature.capName;
     const openStat = (e) => {
         props.setShowStat(!props.showStatRef.current);
@@ -146,8 +150,11 @@ const ComparatorView = memo(function ComparatorView(props) {
         yValuesBlue: [],
         resPoints: null,
     }
-    const blueValues = buildDamages(creature, blueData);
-    const redValues = buildDamages(creature, redData);
+    function changeType(e) {
+        setXTitle((xTitle === "Levels") ? "Resistance" : "Levels");
+    }
+    const blueValues = buildDamages(creature, blueData, xTitle);
+    const redValues = buildDamages(creature, redData, xTitle);
     values.xValues = (blueValues.xValues > redValues.xValues) ? blueValues.xValues : redValues.xValues;
     values.yValuesBlue = blueValues.yValues;
     values.yValuesRed = redValues.yValues;
@@ -165,7 +172,8 @@ const ComparatorView = memo(function ComparatorView(props) {
     function reductionChangeFinished(e) {
 
     }
-
+    const left = "<<";
+    const right = ">>";
     return (
         <div className="ps-1 pe-1 pb-2">
             <LoadingModal show={loading} />
@@ -181,7 +189,7 @@ const ComparatorView = memo(function ComparatorView(props) {
                 <Accordion.Body className="mt-1 p-2">
                     <div style={{display: 'flex', flexDirection: 'row'}}>
                         <div style={{width: '100%'}}>
-                            <WarningPopoverBadge sign="!" message={explanation} header={"Explanation"} placement={'right'} />
+                            <WarningPopoverBadge sign="!" message={explanation} header={"Notes"} placement={'right'} />
                         </div>
                         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                             <CreatureDropdownButton title={title} names={creatureNames} onSelect={onCreatureNameSelect} />
@@ -190,7 +198,11 @@ const ComparatorView = memo(function ComparatorView(props) {
                             <CreatureShortInfoButton creature={creature} />
                         </div>
                     </div>
-                    <ComparatorChartView chartId="ComparatorChart" values={values} />
+                    <ComparatorChartView xTitle={xTitle} chartId="ComparatorChart" values={values} />
+                    <div className="text-muted d-flex justify-content-between">
+                        <Button variant="blue-white-border" className="ms-2 me-2" onClick={changeType}>{left}</Button>
+                        <Button variant="blue-white-border" className="ms-2 me-2" onClick={changeType}>{right}</Button>
+                    </div>
                     <div className="p-2 pt-1 ps-3 pe-3">
                         <b style={{fontSize: '0.65rem'}}>Damage Reduction</b>
                         <Slider open={true} onChangeComplete={reductionChangeFinished} onChange={reductionChanged} marks={marks90} min={0} max={90} step={1} value={reduction} />

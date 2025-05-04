@@ -41,6 +41,25 @@
     overflow-y: auto;
 }
 
+.spin-infinite {
+    animation: spin 2s linear infinite;
+}
+
+.zoom-infinite {
+    animation: zooming 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+@keyframes zooming {
+    0% { transform: scale(0.9); }
+    50% { transform: scale(0.93); }
+    100% { transform: scale(0.9); }
+}
+
 @media (orientation: landscape) {
     .popover-body3 {
         padding: 0.4rem;

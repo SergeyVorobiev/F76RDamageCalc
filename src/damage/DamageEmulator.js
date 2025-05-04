@@ -5,6 +5,7 @@ export default class DamageEmulator {
     constructor(weapon, creatureInfos) {
         this.weapon = weapon;
         this.creatureInfos = creatureInfos;
+        this.debug = false;
     }
 
     needToStopByTime(timeLimit, creatures) {
@@ -33,6 +34,10 @@ export default class DamageEmulator {
 
     // timeLimit = ["Average", time], ["creaturename", time]
     emulate(steps=10000, timeLimit=null) {
+        let startTime = 0;
+        if (this.debug) {
+            startTime = Date.now();
+        }
         const creatures = CreaturesProduction.produce(this.creatureInfos, this.weapon.getAntiArmor());
         let step = 0;
         for (; step < steps; step++) {
@@ -41,7 +46,7 @@ export default class DamageEmulator {
             for (let i = 0; i < creatures.length; i++) {
                 const creature = creatures[i];
                 if (creature.takeDamage(hit)) {
-                    creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
+                    creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTotalTime(), this.weapon.getRealShotsPerSecond());
                     deadCount += 1;
                 }
             }
@@ -55,16 +60,18 @@ export default class DamageEmulator {
         for (let i = 0; i < creatures.length; i++) {
             const creature = creatures[i];
             if (!creature.isDead()) {
-                creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTime());
+                creature.formDeadReport(this.weapon.getReloadsCount(), this.weapon.getReloadsTotalTime(), this.weapon.getRealShotsPerSecond());
             }
             resultArmor.set(creature.getName(), creature.getArmor());
         }
-
+        if (this.debug) {
+            console.log("Emulation time: " + (Date.now() - startTime));
+        }
         return  {
             weaponName: this.weapon.getName(),
             weaponType: this.weapon.getType(),
             defaultWeaponName: this.weapon.getDefaultName(),
-            damageDetails: this.weapon.getDamages(),
+            damageDetails: this.weapon.getDamages().concat(this.weapon.getCritDamages()),
             expDTypeBonus: this.weapon.getExplosiveDamageTypeBonus(),
             bonusMult: this.weapon.getBonusMult(),
             totalBonus: this.weapon.getTotalBonus(),
@@ -80,6 +87,7 @@ export default class DamageEmulator {
             shotSize: this.weapon.getShotSize(),
             reloadTime: this.weapon.getReloadTime(),
             fireRate: this.weapon.getFireRate(),
+            accuracy: this.weapon.getGeneralAccuracy(),
             ammoCapacity: this.weapon.getAmmoCapacity(),
             strength: this.weapon.getStrength(),
             health: this.weapon.getOwnerHealth(),

@@ -27,7 +27,7 @@ export default function EmblemCalcRowView(props) {
         }
     }
     return (
-        <Row className="d-flex justify-content-center" style={props.style}>
+        <Row className="ms-1 me-1 d-flex justify-content-center" style={props.style}>
             {views}
         </Row>
     );

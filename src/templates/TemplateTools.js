@@ -135,10 +135,6 @@ export default class TemplateTools {
         return template['exp'][1] > 0;
     }
 
-    static hasPhysicalDamage(template) {
-        return template['bbDamage'][1] > 0;
-    }
-
     static getGroups(templates, set) {
         for (let i = 0; i < templates.length; i++) {
             for (const name in templates[i].allMods) {

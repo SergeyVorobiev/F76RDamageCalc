@@ -1,10 +1,15 @@
 import ImageMemory from "./ImageMemory";
 import { memo } from 'react';
-import ImagesUrlPool from '../ImagesUrlPool';
+import ImageURLPool from '../../loading/ImageURLPool';
 
 
 const CachedImage = memo(function CachedImage(props) {
-    const url = ImagesUrlPool.getUrl(props.src);
+    let url = null;
+    if (props.noLoad) {
+        url = ImageURLPool.getURL(props.src);
+    } else {
+        url = ImageURLPool.buildURL(props.src);
+    }
     return (
         <ImageMemory {...props} url={url} />
     );

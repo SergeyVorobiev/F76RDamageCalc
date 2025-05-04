@@ -3,6 +3,27 @@ import { Apply } from './Apply';
 
 export class ActorValues extends Apply {
 
+    constructor() {
+        super();
+        this.excludeValues = new Set([
+            "006c2035 / STAT_VATSAccuracy",
+            "000002c7 / Agility",
+            "000002c4 / Endurance",
+            "000002c3 / Perception",
+            "001a7c41 / LGND_DamageTakenWhilePowerAttack",
+            "00245beb / Mod_StealthMove_AV",
+            "00183312 / ArmorShadowHide",
+            "000002d5 / ActionPoints",
+            "000002d4 / Health",
+            "006c1f57 / STAT_SpeedMultWhileAiming", // Actor speed
+            "005253fc / LGND_DmgFromBlocking",
+            '000002c8 / Luck',
+            '000002c6 / Intelligence',
+            '000002c5 / Charisma',
+            '005253fc / LGND_DmgFromBlocking', // Move to exclude
+        ]);
+    }
+
     getValue(mod, weapId) {
         super.checkOp(mod, weapId, "Add");
         let value = super.getCurvValue(mod);
@@ -76,7 +97,6 @@ export class ActorValues extends Apply {
                     super.add(obj.cripple, value, apply);
                 }
                 break;
-
             case '006c1fa9 / STAT_DmgPowerAttack':
                 if (isLegendary) {
                     super.addToProperty(obj, "powerAttack", value, apply);
@@ -106,21 +126,28 @@ export class ActorValues extends Apply {
                 }
                 break;
             default:
+                if (!this.excludeValues.has(mod.val1)) {
+                    console.warn("Actor Values: " + mod.val1 + " Weapon: " + obj.id + " Mod: " + mod.id);
+                }
                 break;
         }
     }
 
-    apply(template, mod, apply) {
+    apply(template, mod, apply, modsId) {
         const value = this.getValue(mod, template.id);
         this.applyValue(mod, template, "creature", value, apply);
     }
 
     applyLegendary(wSpec, mod, modId, starIndex, health, update, apply) {
         if (update) {
-            return;
+            return wSpec.legendary[starIndex][2];
+        }
+        if (!this.isLegendaryAppropriate(wSpec, starIndex, apply)) {
+            return false;
         }
         const value = this.getValue(mod, "Legendary");
         this.applyValue(mod, wSpec, "creature", value, apply, true);
+        return apply;
     }
 
     damageToCreature(obj, property, value, apply, name) {

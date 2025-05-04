@@ -33,6 +33,12 @@ export function getNumberEmoji(number) {
             return "8️⃣";
         case 9:
             return "9️⃣";
+        case 10:
+            return "1️⃣0️⃣";
+        case 11:
+            return "1️⃣1️⃣"
+        case 12:
+            return "1️⃣2️⃣"
         default:
             return "";
     }

@@ -43,9 +43,6 @@ export default class ParameterCalculator {
             <p>
                 ⁍ Gun-Foo, Bash, all legendary perks (except TOFT, Follow Through), and some others affecting accuracy are ignored.
             </p>
-            <p>
-                ⁍ Power attack, Furious are ignored (as being not tested for now).
-            </p>
         </>
     );
     constructor(creatureNames, id, modGroups, cards, frCrit, frHead, main, stuff, legendaryOpts, accessibleLeg, accessibleStuff, accessiblePerks, accuracyPreference) {
@@ -155,6 +152,8 @@ export default class ParameterCalculator {
         let leg1 = [];
         let leg2 = [];
         let leg3 = [];
+        let leg4 = [];
+        let leg5 = [];
         if (this.defaultLegendary.length === 0) {
             if (this.legendaryOpts.Legendary1) {
                 leg1 = LegendaryCalcBuilder.getLegendary1(range, lowHP, this.accessibleLeg.leg1);
@@ -165,10 +164,18 @@ export default class ParameterCalculator {
             if (this.legendaryOpts.Legendary3) {
                 leg3 = LegendaryCalcBuilder.getLegendary3(range, this.accessibleLeg.leg3);
             }
+            if (this.legendaryOpts.Legendary4) {
+                leg4 = LegendaryCalcBuilder.getLegendary4(this.accessibleLeg.leg4);
+            }
+            if (this.legendaryOpts.Legendary5) {
+                leg5 = LegendaryCalcBuilder.getLegendary5(this.accessibleLeg.leg5);
+            }
         }
         legendary['Legendary1_l'] = leg1;
         legendary['Legendary2_l'] = leg2;
         legendary['Legendary3_l'] = leg3;
+        legendary['Legendary4_l'] = leg4;
+        legendary['Legendary5_l'] = leg5;
         return legendary;
     }
 
@@ -236,7 +243,7 @@ export default class ParameterCalculator {
             result["Magazines_c"] = ConsumablesBuilder.getMagazineItems(wType, wName, tags, crit, team, scoped, this.creatureTags, this.accessibleStuff.magazines);
         }
         if (this.stuff["Endangerol Syringer"]) {
-            const others = ConsumablesBuilder.getOtherItems(TemplateTools.hasPhysicalDamage(this.template));
+            const others = ConsumablesBuilder.getOtherItems();
             if (others.length > 0) {
                 result["Syringer_c"] = others;
             }
@@ -332,6 +339,10 @@ export default class ParameterCalculator {
                 result.push([boostCombinations[name], 1]);
             } else if (name.endsWith("3_l")) {
                 result.push([boostCombinations[name], 2]);
+            } else if (name.endsWith("4_l")) {
+                result.push([boostCombinations[name], 3]);
+            } else if (name.endsWith("5_l")) {
+                result.push([boostCombinations[name], 4]);
             }
         }
         return result;
@@ -416,8 +427,8 @@ export default class ParameterCalculator {
             const leg = legendary[i];
             const legId = leg[0];
             const legIndex = leg[1];
-            this.modParser.applyLegendaryModToWSpec(legId, wSpec, legIndex, ((lowHP) ? 20 : 100), update, true);
             wSpec.legendary[legIndex][0] = legId;
+            this.modParser.applyLegendaryModToWSpec(legId, wSpec, legIndex, ((lowHP) ? 20 : 100), update, true);
         }
     }
 
@@ -426,13 +437,15 @@ export default class ParameterCalculator {
         const leg1 = getLegendaryNameFromSpec(wSpec, 1);
         const leg2 = getLegendaryNameFromSpec(wSpec, 2);
         const leg3 = getLegendaryNameFromSpec(wSpec, 3);
+        const leg4 = getLegendaryNameFromSpec(wSpec, 4);
+        const leg5 = getLegendaryNameFromSpec(wSpec, 5);
         for (let i = 0; i < wSpec.mods.length; i++) {
             const mod = wSpec.mods[i];
             mods.push({group: mod.group, name: mod.name});
         }
         this.currentConfig["mods"] = mods;
         this.currentConfig["consumables"] = consumableBoostsList;
-        this.currentConfig["legendary"] = [leg1, leg2, leg3];
+        this.currentConfig["legendary"] = [leg1, leg2, leg3, leg4, leg5];
         this.currentConfig["perks"] = this.perkImageNames;
         return this.currentConfig;
     }
@@ -486,7 +499,7 @@ export default class ParameterCalculator {
     }
 
     calculateCombination(consumableBoostsList, legendary) {
-        const wSpec = convertTemplateToSpecs(this.template, false, Global.isWeaponAlt);
+        const wSpec = convertTemplateToSpecs(this.template, Global.isWeaponAlt);
 
         // Update default legs or apply new in wSpec
         const updateLeg = this.defaultLegendary.length > 0;
@@ -506,9 +519,9 @@ export default class ParameterCalculator {
         this.memoConfig(wSpec, consumableBoostsList);
         const creatures = this.buildNewCreatures();
         const [, consumableBoosts,] = ConsumablesBuilder.buildFromList(consumableBoostsList, player);
-        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, consumableBoosts, playerStats, player.health.value);
+        const weaponFactory = new WeaponFactory(wSpec, boostDamage, extraDamage, additionalDamages, consumableBoosts, player, playerStats);
         const timeLimit = (this.bestTime === Infinity) ? null : [this.creatureName, this.bestTime];
-        const result = new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creatures).emulate(35000, timeLimit);
+        const result = new DamageEmulator(weaponFactory.build(WeaponFactory.DEFAULT), creatures).emulate(10000, timeLimit);
         const report = {
             "Rejected": this.nonAutomatic(),
             "Parameters": {
@@ -533,7 +546,7 @@ export default class ParameterCalculator {
 
     buildPerks(wSpec, player) {
         const wType = wSpec.type;
-        const automatic = (wSpec.is_auto === 1);
+        const automatic = (wSpec.isAuto === 1);
         const energyTag = wSpec.tags.includes("Energy");
         const explosiveTag = wSpec.tags.includes("Explosive");
         const fusionTag = wSpec.tags.includes("FusionCore");

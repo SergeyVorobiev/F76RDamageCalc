@@ -12,7 +12,11 @@ function getDamageViews(resultDamage) {
     if (!resultDamage.damageDetails) {
         return (<></>);
     }
+    resultDamage.damageDetails.sort((a, b) => a.index - b.index);
     for (let i = 0; i < resultDamage.damageDetails.length; i++) {
+        if (!resultDamage.damageDetails[i].isUsed) {
+            continue;
+        }
         damageViews.push(<DamageDetailsCard key={i} resultDamage={resultDamage} damageData={resultDamage.damageDetails[i]} />);
     }
     if (damageViews.length === 0) {
