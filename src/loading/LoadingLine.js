@@ -2,10 +2,14 @@ function getLogo(noLogo) {
     if (noLogo) {
         return (<></>);
     }
+    //let prefix = "/F76RDamageCalc/";
+    //if (process.env.NODE_ENV === 'development') {
+    let prefix = "/";
+    //}
     return (
         <div className="d-flex justify-content-center" style={{position: "relative"}}>
-            <img src="/numberLogo.webp" className="zoom-infinite" style={{width: '10rem', height: '10rem'}} />
-            <img src="/bublik.webp" className="spin-infinite" style={{position: "absolute", width: '10rem', height: '10rem'}} />
+            <img src={prefix + "numberLogo.webp"} className="zoom-infinite" style={{width: '10rem', height: '10rem'}} />
+            <img src={prefix + "bublik.webp"} className="spin-infinite" style={{position: "absolute", width: '10rem', height: '10rem'}} />
         </div>
     );
 }
