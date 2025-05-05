@@ -2,8 +2,8 @@
 const nextConfig = {
     output: 'export',
     distDir: 'out', // Default
-    basePath: (process.env.NODE_ENV === "production") ? "/F76RDamageCalc" : "",
-    assetPrefix: (process.env.NODE_ENV === "production") ? "/F76RDamageCalc/" : "",
+    basePath: "/F76RDamageCalc" : "",
+    assetPrefix: "/F76RDamageCalc/" : "",
     images: {
         unoptimized: true,
         minimumCacheTTL: 60
