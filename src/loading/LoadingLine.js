@@ -4,7 +4,7 @@ function getLogo(noLogo) {
     }
     //let prefix = "/F76RDamageCalc/";
     //if (process.env.NODE_ENV === 'development') {
-    let prefix = "/F76RDamageCalc/";
+    let prefix = "/";
     //}
     return (
         <div className="d-flex justify-content-center" style={{position: "relative"}}>
