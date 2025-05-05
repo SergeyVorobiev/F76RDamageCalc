@@ -1,4 +1,5 @@
 import "./globals.css";
+import Head from "next/head";
 
 
 export const metadata = {
@@ -13,6 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
+            <Head>
+                <link rel="manifest" href="/F76RDamageCalc/manifest.json" />
+            </Head>
             <body>
                 {children}
             </body>
