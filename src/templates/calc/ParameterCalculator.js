@@ -513,6 +513,7 @@ export default class ParameterCalculator {
         extraDamage.useHead = this.main["Head Shot"];
         const additionalDamages = defaultAdds();
         const player = defaultPlayer();
+        player.health.value = this.cards["Low HP"] ? 20 : 100;
         const playerStats = defaultPlayerStats();
         playerStats.strength.value = this.main["Strength"];
         const boostDamage = this.buildPerks(wSpec, player);
