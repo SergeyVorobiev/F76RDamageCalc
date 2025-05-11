@@ -15,4 +15,6 @@ export default class Global {
     static graphPoints = 50;
     static maxDamageItemCount = 8;
     static isWeaponAlt = true;
+    static hotMinTime = 60000;
+    static hotMaxTime = 6000000;
 }
