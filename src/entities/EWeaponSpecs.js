@@ -74,9 +74,6 @@ export function convertTemplateToSpecs(template, alt) {
 
     let bonusMult = template.bonusMult[1] * 100;
 
-    // As damage bonus multiplier can be adjusted by legendary it will be calculated separately, so we need to remove
-    // this value from bonus multiplier
-    //bonusMult = replaceAdjustableLegs(legs, bonusMult);
     for (let i = 0; i < legs.length; i++) {
         const curLeg = legs[i];
         const bonus = template.legBonusMult[curLeg[0]];
@@ -108,6 +105,11 @@ export function convertTemplateToSpecs(template, alt) {
             }
         }
     }
+    // Copy damage bonus conditions
+    const bonusConditions = [];
+    for (let i = 0; i < template.damageBonusCond.length; i++) {
+        bonusConditions.push(JSON.parse(JSON.stringify(template.damageBonusCond[i])));
+    }
 
     // Remove ignored (it can be useful later though (for now they are useless)
     const sortedDamages = [];
@@ -137,7 +139,7 @@ export function convertTemplateToSpecs(template, alt) {
         aa: template.antiArmor[1],
         outgoingDamageMult: template.outgoingDamageMult[1],
         strengthBoost: template.strengthBoost[1],
-        damageBonusCond: template.damageBonusCond,
+        damageBonusCond: bonusConditions,
         crit: template.crMult[1] * 100 - 100,
         sneak: template.sneak[1] * 100 - 100,
         cripple: template.cripple[1],
@@ -222,40 +224,6 @@ export function defaultWeaponSpecs() {
         typeNumber: 0,
         legendaryHealthUpdated: true,
     };
-}
-
-// TODO: get rid of hardcore values
-// This workaround is acceptable only for 'Damage Bonus' as it has
-// the special cell to be placed (only for legendary) because it can be adjusted by a user
-function replaceAdjustableLegs(legs, bonusMult) {
-    for (let i = 0; i < legs.length; i++) {
-        const leg = legs[i];
-        switch (leg[0]) {
-            case '00606b71': // Aristocrat
-            case '004f6aa7': // Berserker
-            case '007acbf5': // Encircler
-                bonusMult -= 50;
-                leg[1] = 50;
-                break;
-            case '004f6aa0': // Bloodied
-                //bonusMult -= 95;
-                //leg[1] = 95;
-                break;
-            case '0072a8c1': // Gourmand2 not used
-            case '006069f2': // Gourmand
-                bonusMult -= 24;
-                leg[1] = 24;
-                break;
-            case '00606b73': // Juggernaut
-            case '005299f5': // Mutant
-                bonusMult -= 25;
-                leg[1] = 25;
-                break;
-            default:
-                break;
-        }
-    }
-    return bonusMult;
 }
 
 export function removeDamage(wSpec, id) {

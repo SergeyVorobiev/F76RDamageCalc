@@ -116,7 +116,7 @@ export class Enchantments extends Apply {
                         if (apply) {
                             let [damageValue, depend] = this.getDamageValueMod(effect.damageData, modId, health);
 
-                            // Some values from STAT_DAMAGE_ALL and others can be 0-100 som from BonusMult 0-1
+                            // Some values from STAT_DAMAGE_ALL and others can be 0-100 some from BonusMult 0-1
                             if (effect.id === '006337c2') {
                                 damageValue /= 100;
                             }
