@@ -41,7 +41,7 @@ See [Spreadsheet calculator](https://github.com/SergeyVorobiev/F76Damage) for de
 
 Raw data can be found [data sheet](https://docs.google.com/spreadsheets/d/1ww8BxPfFMoS6idciAYDvekcAP9siSKzTDqFFtZ6Gs88/edit?usp=sharing) / [json files](https://github.com/SergeyVorobiev/F76Damage/tree/main/Resources/Extracted/misc/curvetables/json/weapons).
 
-Current version has some limitations in using legendary effects like "Furious / Power Attack" (not tested), Basher, weapon accuracy is not calculated automatically.
+Current version has some limitations in using Power Attack / Basher / Crippling, weapon accuracy is not calculated automatically.
 
 Not fully tested effects:
 
