@@ -75,6 +75,22 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
          dItem.bonuses.isBonusCrit = !dItem.bonuses.isBonusCrit;
          setWSpec({...wSpec});
     }
+    function onAttackBonusChange(e) {
+        dItem.bonuses.isBonusAttack = !dItem.bonuses.isBonusAttack;
+        setWSpec({...wSpec});
+    }
+    function onOutgoingBonusChange(e) {
+        dItem.bonuses.isBonusOutgoing = !dItem.bonuses.isBonusOutgoing;
+        setWSpec({...wSpec});
+    }
+    function onExpBonusChange(e) {
+        dItem.bonuses.isBonusExp = !dItem.bonuses.isBonusExp;
+        setWSpec({...wSpec});
+    }
+    let modifiedAttack = dItem["damage"];
+    if (dItem.bonuses.isBonusAttack) {
+        modifiedAttack *= wSpec.attackDamage;
+    }
     return (
         <div>
             <Row>
@@ -84,32 +100,38 @@ function getInputItem(dItem, wSpec, setWSpec, style) {
             </Row>
             <Row className="ps-1 pe-1">
                 <Col>
-                    <InputGroup className="mb-1 mt-1 flex-nowrap">
-                        <InputGroup.Text style={{ width: '2.8rem'}}>
+                    <InputGroup size="sm" className="mb-1 mt-1 flex-nowrap">
+                        <InputGroup.Text style={{ width: 'auto'}}>
                             <UCheckbox onChange={onCheck} checked={dItem.isUsed}></UCheckbox>
                         </InputGroup.Text>
                         <InputGroup.Text style={{ width: 'auto' }} className={style}>{"💢"}</InputGroup.Text>
+                        <Form.Control disabled className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={modifiedAttack} max={"999"} maxLength="6" />
                         <Form.Control className="pe-1" style={{ minWidth: '4rem'}} type="number" min="0" value={dItem["damage"]} max={"999"} maxLength="6" onChange={onDamageChange} />
-                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎯"}</InputGroup.Text>
+                        <InputGroup.Text style={{ width: 'auto' }} className={style}>{"🎯"}</InputGroup.Text>
                         <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["accuracy"]} max={"100"} maxLength="5" onChange={onAccuracyChange} />
                     </InputGroup>
                 </Col>
                 <Col>
-                    <InputGroup className="mb-1 mt-1 flex-nowrap">
-                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"🎲"}</InputGroup.Text>
+                    <InputGroup size="sm" className="mb-1 mt-1 flex-nowrap">
+                        <InputGroup.Text style={{ width: 'auto' }} className={style}>{"🎲"}</InputGroup.Text>
                         <Form.Control className="pe-1" style={{ minWidth: '4rem' }} type="number" min="0" value={dItem["chance"]} max={"100"} maxLength="5" onChange={onChanceChange} />
                         <InputGroup.Text>
                             <UCheckbox className="me-1" onChange={onStackCheck} checked={dItem.stack}><small>Stack</small></UCheckbox>
                         </InputGroup.Text>
-                        <InputGroup.Text style={{ width: '2.8rem' }} className={style}>{"⌛"}</InputGroup.Text>
+                        <InputGroup.Text style={{ width: 'auto' }} className={style}>{"⌛"}</InputGroup.Text>
                         <Form.Control className="pe-1" style={{ width: '4rem' }} type="number" min="0" value={dItem["time"]} max={"60"} maxLength="4" onChange={onTimeChange} />
                     </InputGroup>
                 </Col>
             </Row>
             <div className="d-flex justify-content-between p-1 m-1 ps-2 pe-2" style={{borderRadius: '5px', borderWidth: '1px', borderStyle: 'solid', borderColor: "#ddd"}}>
-                <UCheckbox onChange={onBonusChange} checked={dItem.bonuses.isBonusMult} checkBgColor={'#00b6ff'}><small>Bonus Mult</small></UCheckbox>
-                <UCheckbox onChange={onCritBonusChange} checked={dItem.bonuses.isBonusCrit} checkBgColor={'#00b6ff'}><small>Crit Bonus</small></UCheckbox>
-                <UCheckbox onChange={onSneakBonusChange} checked={dItem.bonuses.isBonusSneak} checkBgColor={'#00b6ff'}><small>Sneak Bonus</small></UCheckbox>
+                <UCheckbox onChange={onBonusChange} checked={dItem.bonuses.isBonusMult} checkBgColor={'#00b6ff'}><small>x 🚀</small></UCheckbox>
+                <UCheckbox onChange={onCritBonusChange} checked={dItem.bonuses.isBonusCrit} checkBgColor={'#00b6ff'}><small>x ☠️</small></UCheckbox>
+                <UCheckbox onChange={onSneakBonusChange} checked={dItem.bonuses.isBonusSneak} checkBgColor={'#00b6ff'}><small>x 🐍</small></UCheckbox>
+            </div>
+            <div className="d-flex justify-content-between p-1 m-1 ps-2 pe-2" style={{borderRadius: '5px', borderWidth: '1px', borderStyle: 'solid', borderColor: "#ddd"}}>
+                <UCheckbox onChange={onAttackBonusChange} checked={dItem.bonuses.isBonusAttack} checkBgColor={'#00b6ff'}><small>x ⚔️</small></UCheckbox>
+                <UCheckbox onChange={onExpBonusChange} checked={dItem.bonuses.isBonusExp} checkBgColor={'#00b6ff'}><small>x 💣</small></UCheckbox>
+                <UCheckbox onChange={onOutgoingBonusChange} checked={dItem.bonuses.isBonusOutgoing} checkBgColor={'#00b6ff'}><small>x 🗡️</small></UCheckbox>
             </div>
             <Row>
                 <Col>

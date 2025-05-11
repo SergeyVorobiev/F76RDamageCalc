@@ -37,7 +37,7 @@ function getItems(damages, bonusMult, attackDamage, creatures) {
         }
         const [symbol, style] = getSymbolStyle(damage.type, damage.kind);
         let damageVal = damage.damage;
-        if (damage.interval === 0 && damage.time === 0) {
+        if (damage.interval === 0 && damage.time === 0 && damage.base) {
             damageVal *= attackDamage;
         }
         let value = damageVal.toFixed(1);

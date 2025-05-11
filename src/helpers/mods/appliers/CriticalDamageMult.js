@@ -4,12 +4,13 @@ import { Apply } from './Apply';
 export class CriticalDamageMult extends Apply {
 
     apply(template, mod, apply, modsId) {
-        super.checkOp(mod, template.id, "Add");
-        const value = super.getValue(mod) * 100.0;
-        if (apply) {
-            template.crit[1] += value;
+        const value = super.getValue(mod);
+        if (mod.op === "Add") {
+            template.crMult[1] += value;
+        } else if (mod.op === "MullAdd") {
+            template.crMult[1] += template.crMult[0] * value;
         } else {
-            template.crit[1] -= value;
+            template.crMult[1] = value;
         }
     }
 

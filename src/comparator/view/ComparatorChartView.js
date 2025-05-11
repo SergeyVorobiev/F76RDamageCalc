@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import Container from 'react-bootstrap/Container';
 const { Chart } = await import('chart.js/auto');
 
 
@@ -157,9 +158,11 @@ function getCanvas(id) {
         return (<></>);
     }
     return (
-        <div className="d-flex justify-content-center">
-            <canvas className="p-0 pe-2" style={{maxWidth: '60rem', maxHeight: '30rem'}} id={id}></canvas>
-        </div>
+        <Container className="m-1">
+            <div className="d-flex justify-content-center">
+                <canvas className="p-0 pe-2 m-1" style={{maxWidth: '60rem', maxHeight: '30rem'}} id={id}></canvas>
+            </div>
+        </Container>
     );
 }
 

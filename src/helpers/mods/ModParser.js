@@ -79,12 +79,14 @@ export class ModParser {
                 const changeDefault = applier.isChangingDefaultDamage();
                 if ((mutatingDamage && changeDefault) || (!mutatingDamage && !changeDefault)) {
                     if (mod.prop === "AttackDamage") {
-                        const damageType = this.getModWithPropAndId(modifiers, "DamageTypeValues", mod.id);
-                        if (!damageType) { // We will apply attack damage coefficient only for those who does not have DamageTypeValues, see DamageSetter.setDamages
-                            applier.apply(template, mod, apply, modData.id);
-                        }
+                        //const damageType = this.getModWithPropAndId(modifiers, "DamageTypeValues", mod.id);
+                        //if (!damageType) { // We will apply attack damage coefficient only for those who does not have DamageTypeValues, see DamageSetter.setDamages
+                        applier.apply(template, mod, apply, modData.id);
+                        //}
                     } else if (mod.prop === "DamageTypeValues") {
-                        const modAttack = this.getModWithPropAndId(modifiers, "AttackDamage", mod.id);
+                        // Is not used for now
+                        // const modAttack = this.getModWithPropAndId(modifiers, "AttackDamage", mod.id);
+                        const modAttack = null;
                         applier.apply(template, mod, apply, modData.id, modAttack);
                         // console.warn("DamageTypeValues " + " " + template.name + " " + template.id + " " + template.type[1] + " " + modData.name);
                     } else {

@@ -4,6 +4,7 @@ import Badge from 'react-bootstrap/Badge';
 const { Chart } = await import('chart.js/auto');
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 
 
 function getConfig(graphValues, xTitle="Resistance") {
@@ -105,7 +106,7 @@ export default function ResistanceChart(props) {
     }
     const creature = props.creatures["creature" + props.creatureNumber];
     return (
-        <>
+        <div>
             <Row className="pt-2 pb-0">
                 <div className="col d-flex justify-content-start ms-2">
                     {getPrevNextButton(props.graphTypeOnClickRef.current, true)}
@@ -118,11 +119,11 @@ export default function ResistanceChart(props) {
                 </div>
             </Row>
             {getDPS(props.dps, props.graphValues.yValues)}
-
-
-            <div className="ps-1 pe-1">
-                <canvas id={props.chartId}></canvas>
-            </div>
-        </>
+            <Container>
+                <div>
+                    <canvas id={props.chartId}></canvas>
+                </div>
+            </Container>
+        </div>
     );
 }

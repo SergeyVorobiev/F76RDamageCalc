@@ -12,7 +12,8 @@ function getRow(leftValue, rightValue, leftColor, rightColor, show=true) {
 }
 
 function showExplosive(damageData, resultDamage) {
-    return damageData.type === "dtPhysical" && damageData.kind === "physical" && damageData.time === 0 && resultDamage.explosive > 0;
+    const isType = (damageData.type === "dtEnergy" || (damageData.type === "dtPhysical" && damageData.kind === "physical"));
+    return damageData.bonuses.isBonusExp && isType && damageData.time === 0 && resultDamage.explosive > 0;
 }
 
 function getAnyCreatureBonus(resultDamage) {
@@ -69,11 +70,11 @@ function getResult(resultDamage, damageData, additionalBonus=0) {
     sneak = (damageData.bonuses.isBonusSneak) ? sneak : 0;
     const totalSneakValue = sneak * damageValue;
     let totalDamageBonusMin = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer;
-    totalDamageBonusMin = (resultDamage.isBonusMult) ? totalDamageBonusMin : 1;
+    totalDamageBonusMin = (damageData.bonuses.isBonusMult) ? totalDamageBonusMin : 1;
     const totalDamageBonusMinValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMin - 1);
     const totalDamageBonusMinPercent = (totalDamageBonusMin - 1) * 100;
     let totalDamageBonusMax = resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner;
-    totalDamageBonusMax = (resultDamage.isBonusMult) ? totalDamageBonusMax : 1;
+    totalDamageBonusMax = (damageData.bonuses.isBonusMult) ? totalDamageBonusMax : 1;
     const totalDamageBonusMaxValue = (damageValue + bonusDamage + totalSneakValue) * (totalDamageBonusMax - 1);
     const totalDamageBonusMaxPercent = (resultDamage.totalBonus.value * resultDamage.totalBonus.tenderizer * resultDamage.totalBonus.executioner - 1) * 100;
     let totalDamageBonusText = "";

@@ -85,7 +85,7 @@ export class DamageTypeValues extends Apply {
             if (damageValue > 0) {
                 damageValue *= 1.1;
                 const typeData = getDamageTypeFromCellName("dtRadiationExposure");
-                const newDamageItem = buildDamageItem(wSpec.weaponId, modId, typeData[0], typeData[1], typeData[2], damageValue, 0, 0, 0, 100, 100, false, null, 1, wSpec.damages.length);
+                const newDamageItem = buildDamageItem(false, wSpec.weaponId, modId, typeData[0], typeData[1], typeData[2], damageValue, 0, 0, 0, 100, 100, false, null, 1, wSpec.damages.length);
                 wSpec.damages.push(newDamageItem);
             }
             return true;

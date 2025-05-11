@@ -25,7 +25,7 @@ function getTags(template) {
 
 function buildGeneralView(template) {
     const auto = (template.isAuto[1] === 1) ? "Yes" : "No";
-    const crit = template.crMult + template.crit[1] / 100.0;
+    const crit = template.crMult[1];
     const critSpells = template.crSpellId[1];
     let critViews = [];
     for (let i = 0; i < critSpells.length; i++) {

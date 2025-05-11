@@ -88,7 +88,7 @@ export default class WeaponSpecsAssembler {
             }
             this.convertConditions(damage);
             damage = makeDamageItemCopy(damage);
-            if (damage.time === 0 && damage.interval === 0) {
+            if (damage.time === 0 && damage.interval === 0 && damage.base && damage.bonuses.isBonusAttack) {
                 damage.damage *= this.wSpec.attackDamage;
             }
             damage.defDamage = damage.damage;
@@ -108,7 +108,7 @@ export default class WeaponSpecsAssembler {
     }
 
     getCritBoost() {
-        let crit = this.perks.better_criticals.displayed_value + 100 + this.wSpec.crit + StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Crit");
+        let crit = this.perks.better_criticals.displayed_value + this.wSpec.crit + StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Crit");
         return crit / 100.0;
     }
 
@@ -385,13 +385,13 @@ export default class WeaponSpecsAssembler {
     }
 
     getSneak() {
-        const oper = (this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") ? 0 : this.perks.covert_operative.displayed_value
+        const oper = (this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") ? 0 : this.perks.covert_operative.displayed_value;
         let sneak = (oper > 0) ? (oper - 1.0) : 1.0;
         let sandman = this.perks.mister_sandman.displayed_value / 100.0;
         sandman = (this.wSpec.tags.includes("HasSilencer")) ? sandman : 0;
 
         const ninja = (this.wSpec.type === "Melee" || this.wSpec.type === "Unarmed") ? this.perks.ninja.displayed_value / 100.0 : 0.0;
-        const weaponSneak = this.wSpec.sneak / 100.0;
+        const weaponSneak = (this.wSpec.sneak - 100) / 100.0;
         const stuffSneak = (StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Sneak") / 100.0);
         return sneak + sandman + ninja + weaponSneak + stuffSneak;
     }
@@ -442,6 +442,10 @@ export default class WeaponSpecsAssembler {
         }
         StuffBoostsCollector.collect(this.wSpec.defaultName, this.wSpec.type, this.wSpec.tags, this.stuffBoost.weapon, "Bleed", stacker);
         return damages;
+    }
+
+    getOutgoingBonus() {
+        return this.wSpec.outgoingDamageMult;
     }
 
     getBonusMultFromPerks() {

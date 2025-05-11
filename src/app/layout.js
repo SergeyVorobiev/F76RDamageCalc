@@ -14,9 +14,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <Head>
-                <link rel="manifest" href="/F76RDamageCalc/manifest.json" />
-            </Head>
             <body>
                 {children}
             </body>

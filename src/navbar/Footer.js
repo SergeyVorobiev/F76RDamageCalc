@@ -11,6 +11,7 @@ export default function Footer() {
                         <td className="version-text">
                             <div>{Global.version1}</div>
                             <div>{Global.version2}</div>
+                            <div>{Global.version3}</div>
                         </td>
                         <td>
                             <WarningPopoverBadge className="ms-3" sign="?" message={Global.versionMessage} header={'Game Version'} placement={'top'} />

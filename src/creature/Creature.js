@@ -82,7 +82,6 @@ export default class Creature {
         this.sumTimeDamage = 0;
         this.sumTimeDamagePerHit = 0;
         this.timeDamagesPerSecondPerHit = 0;
-
         this.currentHit = null;
         this.currentConditionalBDB = 0;
         this.currentDamageInfo = null;
@@ -155,7 +154,7 @@ export default class Creature {
                 const item = items[i];
                 let ratio = item.time * shotsPerSec * item.accuracy / 100 * item.chance / 100 * accuracy;
                 ratio = (ratio > 1) ? 1 : ratio;
-                let damagePerSec = this.calculateFinalDamage(item.value, item.iType, false, false, 1);
+                let damagePerSec = this.calculateFinalDamage(item.value, 1, item.iType, false, false, 1);
                 totalDamage += damagePerSec * ratio;
             }
         }, this);
@@ -211,6 +210,7 @@ export default class Creature {
         const isNoTimeDamages = this.isNoTimeDamagesPresented(hit);
         this.bashing = (isNoTimeDamages && (hit.bash > 0 || hit.powerAttack > 0));
         this.crippling = (isNoTimeDamages && hit.cripple > 0);
+        this.outgoingMult = hit.outgoingMult;
         if (exp) {
             this.isExp = exp;
         }
@@ -418,6 +418,7 @@ export default class Creature {
             if (!item.bonuses.isBonusMult) {
                 bonus = 1;
                 totalBonus = 1;
+                tenderizer = 1;
             }
             damage = damage * bonus * totalBonus;
             if (item.bonuses.isBonusCrit) {
@@ -427,9 +428,13 @@ export default class Creature {
                 damage += this.getSneak(this.currentHit, item.value, totalBonus);
             }
             this.tdCounter += 1;
-            let damagePerSec = this.calculateFinalDamage(damage, item.iType, false, false, 1);
+            let outgoingMult = 1;
+            if (item.bonuses.isBonusOutgoing) {
+                outgoingMult = this.currentHit.outgoingMult;
+            }
+            let damagePerSec = this.calculateFinalDamage(damage, outgoingMult, item.iType, false, false, 1);
             this.timeDamagesPerSecondPerHit += damagePerSec;
-            let finalDamage = this.causeFinalDamage(damage, item.iType, false, false, dTime);
+            let finalDamage = this.causeFinalDamage(damage, outgoingMult, item.iType, false, false, dTime);
             this.sumTimeDamagePerHit += finalDamage;
         }
     }
@@ -533,14 +538,17 @@ export default class Creature {
         if (!damageInfo.bonuses.isBonusMult) {
             bonus = 1;
             totalBonus = 1;
-            expBonus = 0;
             tenderizer = 1;
+        }
+        let outgoingMult = 1;
+        if (damageInfo.bonuses.isBonusOutgoing) {
+            outgoingMult = hit.outgoingMult;
         }
         let value = baseDamage * bonus * totalBonus;
         let crit = this.getCrit(hit, baseDamage);
         let sneak = this.getSneak(hit, baseDamage, totalBonus);
 
-        let expValue = this.getExplosiveDamage(value, hit.isRange, damageInfo.iType, damageInfo.iKind, expBonus);
+        let expValue = this.getExplosiveDamage(value, damageInfo.bonuses.isBonusExp, damageInfo.iType, damageInfo.iKind, expBonus);
         let critExp = this.getCritExp(hit, expValue, crit);
 
         crit = (damageInfo.bonuses.isBonusCrit) ? crit : 0;
@@ -551,7 +559,7 @@ export default class Creature {
 
         expValue *= tenderizer;
         expValue += critExp;
-        let finalDamage = this.causeFinalDamage(value, damageInfo.iType, hit.headShot, false, 1);
+        let finalDamage = this.causeFinalDamage(value, outgoingMult, damageInfo.iType, hit.headShot, false, 1);
         this.memoDamage(finalDamage, false, false, damageInfo.chance, damageInfo.finalAccuracy);
 
         // Explosives add for each bullet (no headshot)
@@ -559,15 +567,14 @@ export default class Creature {
         if (expValue > 0) {
             for (let i = 0; i < this.bulletCount; i++) {
                 if (i === 0) { // Seems that crit exp must be added only for one bullet?
-                    finalDamage = this.causeFinalDamage(expValue, damageInfo.iType, false, true, 1);
+                    finalDamage = this.causeFinalDamage(expValue, outgoingMult, damageInfo.iType, false, true, 1);
                 } else {
-                    finalDamage = this.causeFinalDamage(nonCritExp, damageInfo.iType, false, true, 1);
+                    finalDamage = this.causeFinalDamage(nonCritExp, outgoingMult, damageInfo.iType, false, true, 1);
                 }
                 this.memoDamage(finalDamage, false, true, damageInfo.chance, damageInfo.finalAccuracy);
             }
         }
     }
-
 
     memoDamage(finalDamage, timeDamage, expDamage, chance, accuracy) {
         chance = chance / 100.0;
@@ -607,12 +614,9 @@ export default class Creature {
 
     // Only range, no-time, no bleed, physical
     // Bonus which is multiplied from physical damage
-    getExplosiveDamage(value, isRange, iType, iKind, expBonus) {
-        if (iKind === DamageTypes.bleed) {
-            return 0;
-        }
-        if (isRange) {
-            if (iType === DamageTypes.dtPhysical && iKind === DamageTypes.physical) {
+    getExplosiveDamage(value, isBonusActive, iType, iKind, expBonus) {
+        if (isBonusActive) {
+            if (iType === DamageTypes.dtEnergy || (iType === DamageTypes.dtPhysical && iKind === DamageTypes.physical)) {
                 return value * expBonus;
             }
         }
@@ -658,8 +662,8 @@ export default class Creature {
 
     // This method considers value for time damage per second
     // non-time damage -> time=1
-    causeFinalDamage(value, iType, isHead, explosive, time) {
-        const finalDamage = this.calculateFinalDamage(value, iType, isHead, explosive, time);
+    causeFinalDamage(value, outgoingMult, iType, isHead, explosive, time) {
+        const finalDamage = this.calculateFinalDamage(value, outgoingMult, iType, isHead, explosive, time);
         this.health -= finalDamage;
 
         // It is useful if you need to check average hit to determine the best weapon especially if a creature live time is 0
@@ -670,7 +674,7 @@ export default class Creature {
         return finalDamage;
     }
 
-    calculateFinalDamage(value, iType, isHead, explosive, time) {
+    calculateFinalDamage(value, outgoingMult, iType, isHead, explosive, time) {
         let finalDamage;
         let damageReduction = 1 - this.damageReduction;
 
@@ -688,6 +692,7 @@ export default class Creature {
         } else {
             finalDamage *= this.bodyMult;
         }
+        finalDamage *= outgoingMult;
         finalDamage *= time;
         return finalDamage;
     }

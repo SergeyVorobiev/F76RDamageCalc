@@ -1,11 +1,8 @@
 import Accordion from 'react-bootstrap/Accordion';
-import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { bullet, ammo, fireRate } from '../helpers/Emoji';
 import { Tag, Divider, Collapse } from 'antd';
 import Button from 'react-bootstrap/Button';
-import { keyValueBadge } from '../helpers/RowBuilder';
 import { getRowWithImage } from '../helpers/WTypeDropdown'
 import { getImageElement } from '../helpers/WeaponImages'
 import { useState, memo } from 'react';
@@ -13,17 +10,14 @@ import { getTemplateCopyById } from '../helpers/TemplatesRegister';
 import AmmoView from '../helpers/AmmoView';
 import ProjView from '../helpers/ProjView';
 import GeneralView from '../helpers/GeneralView';
-import AdditionalDView from '../helpers/AdditionalDView';
-import LegendaryView from '../helpers/LegendaryView';
-import CritView from '../helpers/CritView';
 import DamageOverview from '../helpers/DamageOverview';
 import ModRow from './ModRow';
 import Container from 'react-bootstrap/Container';
 import { WarningPopover } from '../helpers/WarningPopover';
 import { isTested } from './TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
-import { assembleFireRate } from '../damage/weapon/WeaponSpecsAssembler';
-import { numberToString } from '../helpers/StringHelpers';
+import WeaponTechnicals from '../damage/WeaponTechnicals';
+import WeaponToastTechnicals from '../damage/WeaponToastTechnicals';
 
 
 function getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick) {
@@ -90,67 +84,11 @@ function getResetButton(template, modsSetter, itemsLength, resetButtonActive, se
     );
 }
 
-function buildInfoRows(info, badgeStyle, badgesRow) {
-    const filteredInfo = [];
-    const filteredMarks = [];
-    for (let i = 1; i < info.length; i += 2) {
-        if (info[i] !== "") {
-            filteredMarks.push(info[i - 1]);
-            filteredInfo.push(info[i]);
-        }
-    }
-    let size = filteredInfo.length;
-    let k = badgesRow.length;
-    for (let i = 0; i < size; i += 3) {
-        if ((i + 1) === size) {
-            badgesRow.push(resultBadges(k++, badgeStyle, "-", "-", filteredMarks[i], filteredInfo[i], "-", "-"));
-        } else if ((i + 2) === size) {
-            badgesRow.push(resultBadges(k++, badgeStyle, filteredMarks[i], filteredInfo[i], "-", "-", filteredMarks[i + 1], filteredInfo[i + 1]));
-        } else {
-            badgesRow.push(resultBadges(k++, badgeStyle, filteredMarks[i], filteredInfo[i], filteredMarks[i + 1], filteredInfo[i + 1], filteredMarks[i + 2], filteredInfo[i + 2]));
-        }
-    }
-    const badgesCols = [];
-    size = badgesRow.length;
-    for (let i = 0; i < size; i += 2) {
-        if ((i + 1) === size) {
-            badgesCols.push(
-                <Col key={i}>
-                    <Row>
-                        {badgesRow[i]}
-                    </Row>
-                </Col>
-            );
-        } else {
-            badgesCols.push(
-                <Col key={i}>
-                    <Row>
-                        {badgesRow[i]}
-                        {badgesRow[i + 1]}
-                    </Row>
-                </Col>
-            );
-        }
-    }
-    return badgesCols;
-}
-
-function resultBadges(key, style, left1, right1, left2, right2, left3, right3) {
-    return (
-        <div key={key} className="col d-flex justify-content-center">
-            <Stack className='pb-1' direction="horizontal" gap={1}>
-                {keyValueBadge(style, '6.5rem', left1,  right1)}
-                {keyValueBadge(style, '6.5rem', left2,  right2)}
-                {keyValueBadge(style, '6.5rem', left3,  right3)}
-            </Stack>
-        </div>
-    );
-};
-
 const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, setModalCalculate, onTestClick}) {
     console.log("WeaponTemplate: " + template.index + " " + template.name);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
+    const [showTechnicalToast, setShowTechnicalToast] = useState(false);
     function modRow(index, modsSameType, checkMod) {
         return (
            <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods} />
@@ -199,44 +137,11 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     } else {
         result.push(<Collapse accordion key={template.index} items={items} />);
     }
-    let legBonus = 0;
-    for (const name in template.legBonusMult) {
-        legBonus += template.legBonusMult[name];
+
+    function onClickTechnical(e) {
+        setShowTechnicalToast(!showTechnicalToast);
     }
-    legBonus += template.bonusMult[1];
-    const fireRateText = numberToString(assembleFireRate(template.type[1], template.tags, template.isAuto[1], template.speed[1], template.triggerDelay[1], template.autoDelay[1], template.attackDelay[1]), 2);
-    const iSize = '0.75rem';
-    const badgeStyle = "badge bg-lite-outline m-1";
-    const critText = (template.crit[1] === 0) ? "" : "+" + template.crit[1].toFixed(1) + "%";
-    const expText = (template.exp[1] === 0) ? "" : "+" + template.exp[1].toFixed(1) +"%";
-    const strText = (template.strengthBoost[1] === 0) ? "" : "+" + template.strengthBoost[1].toFixed(1) + "%";
-    const sneakText = (template.sneak[1] === 0) ? "" : "+" + template.sneak[1].toFixed(1) + "%";
-    const bashText = (template.bash[1] === 0) ? "" : "+" + template.bash[1].toFixed(1) + "%";
-    const aaText = (template.antiArmor[1] === 0) ? "" : "+" + template.antiArmor[1].toFixed(1) + "%";
-    const bonusText = (legBonus === 0) ? "" : (((legBonus) ? "" : "+") + ((legBonus) * 100).toFixed(1) + "%");
-    const crippleText = (template.cripple[1] === 0) ? "" : "+" + template.cripple[1].toFixed(1) + "%";
-    const batteryText = (template.chargePowerTime[1] === 0) ? "" : template.chargePowerTime[1].toFixed(2) + " s";
-    const powerText = (template.powerAttack[1] === 0) ? "" : "+" + (template.powerAttack[1]).toFixed(1) + "%";
-    const attackDelayText = (template.startAttackDelay[1] === 0) ? "" : (template.startAttackDelay[1]).toFixed(1) + " s";
-    const info = ["☠️", critText, "💣", expText, "💪", strText, "🐍", sneakText, "🌪️", bashText, "🛡️", aaText, "🚀", bonusText, "🦵", crippleText, "🔋", batteryText, "🪓", powerText, "⏱️", attackDelayText];
-    let badgesRow = [];
-    let shotSizeIcon = bullet(iSize);
-    let fireRateIcon = fireRate(iSize);
-    let reloadIcon = "⌛";
-    let reloadTime = template.reloadTime[1].toFixed(2) + " s";
-    let capacityIcon = ammo(iSize);
-    let capacity = template.capacity[1].toFixed(0);
-    if (template.type[1] === "Melee" || template.type[1] === "Unarmed") {
-        shotSizeIcon = "👊🏼";
-        fireRateIcon = "🏏";
-        reloadIcon = "-";
-        reloadTime = "-";
-        capacityIcon = "-";
-        capacity = "-";
-    }
-    badgesRow.push(resultBadges(0, badgeStyle, shotSizeIcon, template.shotSize[1].toFixed(0), reloadIcon, reloadTime, fireRateIcon, fireRateText));
-    badgesRow.push(resultBadges(1, badgeStyle, capacityIcon, capacity, "🏃", template.ap[1].toFixed(2), "🏋", template.weight[1].toFixed(2)));
-    const infoRows = buildInfoRows(info, badgeStyle, badgesRow);
+
     return (
         <div className="p-1 debug-item-WeaponTemplate.js" key={template.id} id={template.id} title={template.name}>
             <Accordion.Item eventKey={template.id} className="p-1 m-0 out-accordion debug2-WeaponTemplate.js">
@@ -255,17 +160,16 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                         <div className="col d-flex justify-content-start debug-level-WeaponTemplate.js mb-2 pt-1">
                             <Tag bordered={true} color="default" className="shadow-outline2"><h6 className="m-0 p-1"><strong>Level: {template.level}</strong></h6></Tag>
                         </div>
+                        <div className="col d-flex justify-content-center p-1 pb-2">
+                            <Button size="sm" variant="blue-white-border" onClick={onClickTechnical}>⌞ ⌝</Button>
+                        </div>
                          <div className="col d-flex justify-content-end mb-2 pt-1 pe-1 debug-type-WeaponTemplate.js">
                             <Tag bordered={true} color="volcano" className="shadow-outline3"><h6 className="m-0 p-1"><strong>{getRowWithImage(template.type[1])}</strong></h6></Tag>
                        </div>
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
-                    <Row className="d-flex justify-content-center">
-                        {infoRows}
-                    </Row>
-                    <AdditionalDView template={template}></AdditionalDView>
-                    <CritView template={template}></CritView>
-                    <LegendaryView template={template}></LegendaryView>
+                    <WeaponTechnicals template={template} />
+                    <WeaponToastTechnicals show={showTechnicalToast} setShow={setShowTechnicalToast} template={template} />
                     <Divider className='mt-2 mb-2'></Divider>
                     <GeneralView template={template}></GeneralView>
                     <AmmoView className="pt-2" ammoId={template.ammoId[1]}></AmmoView>

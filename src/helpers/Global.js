@@ -1,17 +1,17 @@
 export default class Global {
-    static version1 = "Patch 1.7.16.13 - Update 56";
-    static version2 = "Gleaming Depths - December 3, 2024";
+    static version1 = "Update 1.7.19.19";
+    static version2 = "Ghoul Within - May 6, 2025";
     static version3 = "Season 20"
     static versionMessage = "Version of game from which weapon / legendary / mod data were parsed.";
     static webVersion = "ver.82";
-    static creatureParseVersion = "Patch 1.7.16.13 - Update 56";
-    static creatureParseVersionName = "Gleaming Depths - December 3, 2024";
-    static raceParseVersion = "Patch 1.7.16.13 - Update 56";
-    static raceParseVersionName = "Gleaming Depths - December 3, 2024";
-    static consumablesParseVersion = "Patch 1.7.16.13 - Update 56";
-    static consumablesParseVersionName = "Gleaming Depths - December 3, 2024";
-    static perkCardParseVersion = "Patch 1.7.16.13 - Update 56";
-    static perkCardParseVersionName = "Gleaming Depths - December 3, 2024";
+    static creatureParseVersion = "Update 1.7.19.19";
+    static creatureParseVersionName = "Ghoul Within - May 6, 2025";
+    static raceParseVersion = "Update 1.7.19.19";
+    static raceParseVersionName = "Ghoul Within - May 6, 2025";
+    static consumablesParseVersion = "Update 1.7.19.19";
+    static consumablesParseVersionName = "Ghoul Within - May 6, 2025";
+    static perkCardParseVersion = "Update 1.7.19.19";
+    static perkCardParseVersionName = "Ghoul Within - May 6, 2025";
     static graphPoints = 50;
     static maxDamageItemCount = 8;
     static isWeaponAlt = true;

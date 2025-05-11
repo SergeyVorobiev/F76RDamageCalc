@@ -30,6 +30,7 @@ export default class Weapon {
         this.sneakShotFrequency = weaponSpecsAssembler.getSneakShotFrequency();
         this.creatureDamageBonuses = weaponSpecsAssembler.getCreatureDamageBonuses();
         this.dynamicBaseDamageBonuses = weaponSpecsAssembler.collectDynamicConditionalBDB();
+        this.outgoingMult = weaponSpecsAssembler.getOutgoingBonus();
         this.cripple = weaponSpecsAssembler.getCripple();
         this.bash = weaponSpecsAssembler.getBash();
         this.generalAccuracy = weaponSpecsAssembler.getGeneralAccuracy();
@@ -53,7 +54,7 @@ export default class Weapon {
         this.resultDamage = {idle: false, bulletCount: this.shotSize, expDTypeBonus: this.explosiveDamageTypeBonus, tempBDB: 0, creatureDamageBonuses: this.creatureDamageBonuses, headShot: false, critShot: false, sneakShot: false, weaponType: this.weaponType,
             attackDelay: this.startAttackDelay, deltaTime: 0, powerAttack: 0, bash: this.bash, cripple: 0, bonusMult: this.bonusMult,
             expBonus: this.explosiveBonus, sneak: this.sneak, isRange: this.isRange, totalDamageBonus: this.totalDamageBonus.value, critBoost: this.critBoost,
-            tenderizer: this.totalDamageBonus.tenderizer, additionalTotalBonus: this.additionalTotalBonus, executionerBonus: this.getExecutionerBonus(), damages: [],
+            tenderizer: this.totalDamageBonus.tenderizer, outgoingMult: this.outgoingMult, additionalTotalBonus: this.additionalTotalBonus, executionerBonus: this.getExecutionerBonus(), damages: [],
             critDamages: [], dynamicBDB: dynamicBDB };
         this.reloadsCount = 0;
         this.reloadTimeCounting = true;
