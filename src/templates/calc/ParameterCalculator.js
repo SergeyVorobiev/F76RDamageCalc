@@ -249,7 +249,7 @@ export default class ParameterCalculator {
             }
         }
         if (this.stuff["Bobble Heads"]) {
-            const bobble = ConsumablesBuilder.getBobbleHeadItems(wType, tags, ammo, this.accessibleStuff.bobbleHeads);
+            const bobble = ConsumablesBuilder.getBobbleHeadItems(wType, tags, this.accessibleStuff.bobbleHeads);
             if (bobble.length > 0) {
                 result["Bobble_c"] = bobble;
             }

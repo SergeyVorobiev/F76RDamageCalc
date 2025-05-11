@@ -12,7 +12,7 @@ export function setLegendaryEffect(legEffect, legId) {
     legendaryEffectsMap.set(legEffect, legId);
 }
 
-export function buildDamageItem(base, weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, bonuses=null, repeat=1, index=0, isUsed=true, isCrit=false, conditions=[], fConditions=null) {
+export function buildDamageItem(base, weaponId, damageId, type, kind, name, damage, time, interval, area, chance, accuracy, stack, bonuses=null, repeat=1, index=0, isUsed=true, isCrit=false, conditions=[], fConditions=[]) {
     const ignored = DamageBlackList.check(weaponId, damageId);
     base = (base && time === 0);
     let bMult = true;

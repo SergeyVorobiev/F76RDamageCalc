@@ -86,13 +86,13 @@ export function getUsableSerums() {
 
 export function getUsableDrink() {
     return {
-        "hoppy_hunter_ipa_drink": [false, "Hoppy hunter IPA"],
+        "hoppy_hunter_ipa_drink": [true, "Hoppy hunter IPA"],
         "whiskey_drink": [true, "Whiskey"],
         "gulpershine_vintage_drink": [true, "Gulpershine vintage"],
         "sugar_free_nukashine_drink": [true, "Sugar-Free nukashine"],
         "sweetmutfruit_drink": [true, "Sweet mut fruit tea"],
-        "ballistic_bock_drink": [false, "Ballistic bock"],
-        "high_voltage_hefe_drink": [false, "High voltage hefe"],
+        "ballistic_bock_drink": [true, "Ballistic bock"],
+        "high_voltage_hefe_drink": [true, "High voltage hefe"],
     }
 }
 

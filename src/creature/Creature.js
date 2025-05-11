@@ -418,7 +418,6 @@ export default class Creature {
             if (!item.bonuses.isBonusMult) {
                 bonus = 1;
                 totalBonus = 1;
-                tenderizer = 1;
             }
             damage = damage * bonus * totalBonus;
             if (item.bonuses.isBonusCrit) {

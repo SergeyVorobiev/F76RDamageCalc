@@ -32,7 +32,7 @@ export default function CalcLegendary(props) {
         "Legendary2": getCheckbox(props.leg2, props.setLeg2),
         "Legendary3": getCheckbox(props.leg3, props.setLeg3),
         "Legendary4": getCheckbox(props.leg4, props.setLeg4, "To reduce complexity of conditions and to get rid of useless combinations, the only Encircler's will be applied as it gives +50% damage bonus. You can expect similar behaviour from other 4-star mods"),
-        "Legendary5": getCheckbox(props.leg4, props.setLeg4, "Not Accessible"),
+        "Legendary5": getCheckbox(props.leg5, props.setLeg5, "Not Accessible"),
     }
     return (
         <CalcModOptionsView header={"Legendary"} items={props.leg} setItems={props.setLeg} infos={infos}></CalcModOptionsView>
