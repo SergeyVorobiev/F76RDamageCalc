@@ -158,7 +158,7 @@ export class Enchantments extends Apply {
                             typeData = getDamageTypeFromCellName(dData.typeName);
                         }
                         let [damageValue, depend] = this.getDamageValueMod(dData, modId, health);
-                        const newDamageItem = buildDamageItem(wSpec.weaponId, effect.id, typeData[0], typeData[1], typeData[2], damageValue, dData.time, dData.interval, dData.area, dData.chance, 100, false, dData.bonuses, dData.repeat, wSpec.damages.length, true, false, effect.conditions);
+                        const newDamageItem = buildDamageItem(false, wSpec.weaponId, effect.id, typeData[0], typeData[1], typeData[2], damageValue, dData.time, dData.interval, dData.area, dData.chance, 100, false, dData.bonuses, dData.repeat, wSpec.damages.length, true, false, effect.conditions);
                         wSpec.damages.push(newDamageItem);
                     } else {
                         removeDamage(wSpec, effect.id);

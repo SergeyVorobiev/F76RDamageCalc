@@ -10,6 +10,7 @@ function getLogo(noLogo) {
         <div className="d-flex justify-content-center" style={{position: "relative"}}>
             <img src={prefix + "numberLogo.webp"} className="zoom-infinite" style={{width: '10rem', height: '10rem'}} />
             <img src={prefix + "bublik.webp"} className="spin-infinite" style={{position: "absolute", width: '10rem', height: '10rem'}} />
+            <img src={prefix + "season.webp"} style={{position: "absolute", width: '20rem', bottom: '5.9rem', height: '6rem', transform: 'scale(0.7)'}} />
         </div>
     );
 }

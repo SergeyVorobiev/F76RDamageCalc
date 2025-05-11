@@ -1,5 +1,6 @@
 import { convertStuffBoost } from "../entities/EStuffBoost";
 import {getAverageTimeMillis } from "../entities/ECreatures";
+import Global from './Global';
 
 
 export function getHotPercentage(creatures) {
@@ -9,10 +10,10 @@ export function getHotPercentage(creatures) {
 
 export function timeToPercent(time) {
     let percent = 0;
-    if (time <= 30000) {
+    if (time <= Global.hotMinTime) {
         percent = 100;
     } else {
-        percent = (3000000 / time).toFixed(0);
+        percent = (Global.hotMaxTime / time).toFixed(0);
     }
     return percent;
 }
