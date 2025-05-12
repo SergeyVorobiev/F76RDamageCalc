@@ -216,7 +216,9 @@ export default class DamageExtractor {
 
         // Base Spell
         this.extractEnch("Base Spell", "Weapon", template.damageData, template.spellId, weaponId, template.spellId, false, 0, 0, [])
-
+        if (template.id === '0009983b') {
+            console.log("H");
+        }
         // Base Crit
         const critIds = template.crSpellId[1];
         for (let i = 0; i < critIds.length; i++) {
@@ -685,13 +687,13 @@ export default class DamageExtractor {
         return base;
     }
     
-    static getDamageNodeByValue(source, initiator, parentId, id, weaponId, kind, baseValue, altValue, value, damageTypeName) {
+    static getDamageNodeByValue(source, initiator, parentId, id, weaponId, kind, baseValue, altValue, value, magnitude, damageTypeName) {
         const curve = {
             curve: DamageExtractor.getCurrentCurve(baseValue, altValue),
             curveBase: baseValue,
             curveAlt: altValue,
         }
-        const damageData = DamageExtractor.getDamageData(damageTypeName, kind, curve, value, 0, 0, 0, 0);
+        const damageData = DamageExtractor.getDamageData(damageTypeName, kind, curve, value, magnitude, 0, 0, 0);
         return DamageExtractor.createDamageObject(source, initiator, parentId, id, weaponId, Assignment.DAMAGE, false, false, damageData, []);
     }
 

@@ -16,6 +16,9 @@ export default class DamageBlackList {
         "005a366e": ["000fd3aa"],
         "005ea441": ["000fd3aa"],
         "000fe268": ["00795775"], // Fracturer, gives a damage to nearby targets
+        "006667cf" :["005894a9", "005894a7"], // Burning Love (Overridden projectile)
+        "00013ce9" :["005894a9", "005894a7"], // Compound Bow (Overridden projectile)
+        "00055463" :["005894a9", "005894a7"], // Crossbow (Overridden projectile)
     }
 
     static check(weaponId, damageId) {
