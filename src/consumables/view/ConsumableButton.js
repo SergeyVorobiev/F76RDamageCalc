@@ -13,6 +13,9 @@ function pushNonZeroMagnitudes(magnitudes, data) {
     if (data.magnitude !== 0) {
         magnitudes.push(data.magnitude);
     }
+    if (data.globMagnitude !== 0) {
+        magnitudes.push(data.globMagnitude);
+    }
 }
 
 function getEffectValues(tagData) {

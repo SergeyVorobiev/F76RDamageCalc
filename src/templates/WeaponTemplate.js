@@ -17,15 +17,14 @@ import { WarningPopover } from '../helpers/WarningPopover';
 import { isTested } from './TestedWeapons';
 import { weaponRestrictions } from '../helpers/WeaponRestrictions';
 import WeaponTechnicals from '../damage/WeaponTechnicals';
-import WeaponToastTechnicals from '../damage/WeaponToastTechnicals';
 
 
-function getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick) {
+function getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick, onClickTechnical) {
     function testedMedal(wId) {
         if (isTested(wId)) {
             return (
-                <Button id={wId} variant="white" className="p-0 ps-2 pe-2 m-0" onClick={onTestClick}>
-                    <div style={{fontSize: '1.5rem'}}>🎖️</div>
+                <Button id={wId} size="sm" variant="white" className="p-0 ps-2 pe-2 m-0" onClick={onTestClick}>
+                    <div style={{fontSize: '1.2rem'}}>🎖️</div>
                 </Button>
             );
         }
@@ -36,8 +35,8 @@ function getApplyButton(template, setModalTemplate, setModalCalculate, onTestCli
         if (version) {
             return (
                 <WarningPopover element={(
-                    <Button variant="white" className="p-0 ps-2 pe-2 m-0">
-                        <div style={{fontSize: '1.5rem'}}>📛</div>
+                    <Button size="sm" variant="white" className="p-0 ps-2 pe-2 m-0">
+                        <div style={{fontSize: '1.2rem'}}>📛</div>
                     </Button>
                 )} message={version} header={'Restrictions'} />
             );
@@ -50,11 +49,14 @@ function getApplyButton(template, setModalTemplate, setModalCalculate, onTestCli
                 <Col className="col-2 d-flex justify-content-center">
                     {restrictions(template.id)}
                 </Col>
-                <Col className="col-4 d-flex justify-content-center">
-                    <Button style={{minWidth: '6rem'}} onClick={(e) => setModalTemplate({template: template, show: true})}>Choose</Button>
+                <Col className="col-3 d-flex justify-content-center">
+                    <Button size="sm" style={{minWidth: '5rem'}} onClick={(e) => setModalTemplate({template: template, show: true})}>Choose</Button>
                 </Col>
-                <Col className="col-4 d-flex justify-content-center">
-                    <Button style={{minWidth: '6rem'}} onClick={(e) => setModalCalculate({template: template, show: true})}>Calculate</Button>
+                <Col className="col-2 d-flex justify-content-center">
+                    <Button size="sm" variant="blue-white-border" onClick={onClickTechnical}>⌞ ⌝</Button>
+                </Col>
+                <Col className="col-3 d-flex justify-content-center">
+                    <Button size="sm" style={{minWidth: '5rem'}} onClick={(e) => setModalCalculate({template: template, show: true})}>Calculate</Button>
                 </Col>
                 <Col className="col-2 justify-content-center center-text">
                     {testedMedal(template.id)}
@@ -65,9 +67,11 @@ function getApplyButton(template, setModalTemplate, setModalCalculate, onTestCli
     return (<></>);
 }
 
-function getResetButton(template, modsSetter, itemsLength, resetButtonActive, setResetButtonActive) {
+function getResetButton(template, modsSetter, itemsLength, resetButtonActive, setResetButtonActive, setToastRerenderRef) {
+    let disabled = false;
     if (itemsLength === 0 || !resetButtonActive) {
-        return (<></>);
+        //return (<></>);
+        disabled = true;
     }
     function onClick(e) {
         const cleanTemplate = getTemplateCopyById(template.id);
@@ -76,19 +80,19 @@ function getResetButton(template, modsSetter, itemsLength, resetButtonActive, se
         }
         modsSetter.setTemplatesMods([template]);
         setResetButtonActive(!resetButtonActive);
+        setToastRerenderRef.current({});
     }
     return (
         <span className='d-flex justify-content-center'>
-            <Button size="sm" variant="warning" className='ms-0 mt-0 mb-3' onClick={onClick}>Reset</Button>
+            <Button size="sm" disabled={disabled} variant="warning" className='ms-0 mt-0 mb-3' onClick={onClick}>Reset</Button>
         </span>
     );
 }
 
-const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setModalTemplate, setModalCalculate, onTestClick}) {
+const WeaponTemplate = memo(function WeaponTemplate({setToastRerenderRef, showTechnicalToastRef, setShowTechnicalToastRef, technicalToastTemplateRef, setTechnicalToastTemplateRef, modsSetter, template, setModalTemplate, setModalCalculate, onTestClick}) {
     console.log("WeaponTemplate: " + template.index + " " + template.name);
     const [changed, setChanged] = useState(false);
     const [resetButtonActive, setResetButtonActive] = useState(false);
-    const [showTechnicalToast, setShowTechnicalToast] = useState(false);
     function modRow(index, modsSameType, checkMod) {
         return (
            <ModRow key={index} weaponId={template.id} index={index} modsSameType={modsSameType} checkMod={checkMod} defMods={template.defMods} />
@@ -105,6 +109,7 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
         modSameType[1] = check;
         modsSetter.cleanTemplateAndApplyCurrentMods(template);
         setChanged(!changed);
+        setToastRerenderRef.current({});
         setResetButtonActive(true);
     };
     let result = [];
@@ -139,9 +144,13 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
     }
 
     function onClickTechnical(e) {
-        setShowTechnicalToast(!showTechnicalToast);
+        if (showTechnicalToastRef.current && technicalToastTemplateRef.current.id !== template.id) {
+            setTechnicalToastTemplateRef.current(template);
+        } else {
+            setShowTechnicalToastRef.current(!showTechnicalToastRef.current);
+            setTechnicalToastTemplateRef.current(template);
+        }
     }
-
     return (
         <div className="p-1 debug-item-WeaponTemplate.js" key={template.id} id={template.id} title={template.name}>
             <Accordion.Item eventKey={template.id} className="p-1 m-0 out-accordion debug2-WeaponTemplate.js">
@@ -169,7 +178,6 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     </Row>
                     <Divider className='mt-1 mb-2'></Divider>
                     <WeaponTechnicals template={template} />
-                    <WeaponToastTechnicals show={showTechnicalToast} setShow={setShowTechnicalToast} template={template} />
                     <Divider className='mt-2 mb-2'></Divider>
                     <GeneralView template={template}></GeneralView>
                     <AmmoView className="pt-2" ammoId={template.ammoId[1]}></AmmoView>
@@ -177,9 +185,9 @@ const WeaponTemplate = memo(function WeaponTemplate({modsSetter, template, setMo
                     <div className="pt-2" />
                     <DamageOverview damageObj={template.damageData}></DamageOverview>
                     {divider}
-                    {getResetButton(template, modsSetter, items.length, resetButtonActive, setResetButtonActive)}
+                    {getResetButton(template, modsSetter, items.length, resetButtonActive, setResetButtonActive, setToastRerenderRef)}
                     {result}
-                    {getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick)}
+                    {getApplyButton(template, setModalTemplate, setModalCalculate, onTestClick, onClickTechnical)}
                 </Accordion.Body>
             </Accordion.Item>
         </div>

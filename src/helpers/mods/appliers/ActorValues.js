@@ -79,7 +79,7 @@ export class ActorValues extends Apply {
                 if (isLegendary) {
                     super.addToProperty(obj, "sneak", value, apply);
                 } else {
-                    super.add(obj.sneak, value, apply);
+                    super.add(obj.sneak, value / 100, apply);
                 }
                 break;
             case '007a6c35 / LGND_ExplosivePayload':

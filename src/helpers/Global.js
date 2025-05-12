@@ -13,7 +13,7 @@ export default class Global {
     static perkCardParseVersion = "Update 1.7.19.19";
     static perkCardParseVersionName = "Ghoul Within - May 6, 2025";
     static graphPoints = 50;
-    static maxDamageItemCount = 8;
+    static maxDamageItemCount = 10;
     static isWeaponAlt = true;
     static hotMinTime = 60000;
     static hotMaxTime = 6000000;

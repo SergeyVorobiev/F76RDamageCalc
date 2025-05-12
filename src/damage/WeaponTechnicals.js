@@ -79,10 +79,10 @@ export default function WeaponTechnicals(props) {
     const badgeStyle = "badge bg-lite-outline m-1";
     let crit = (template.crMult[1] - template.crMult[0]) * 100;
     let sneak = (template.sneak[1] - template.sneak[0]) * 100;
-    const critText = (crit === 0) ? "" : ((crit > 0) ? "+" + crit.toFixed(1) + "%" : "-" + crit.toFixed(1) + "%");
+    const critText = (crit === 0) ? "" : ((crit > 0) ? "+" + crit.toFixed(1) + "%" : crit.toFixed(1) + "%");
     const expText = (template.exp[1] === 0) ? "" : "+" + template.exp[1].toFixed(1) +"%";
     const strText = (template.strengthBoost[1] === 0) ? "" : "+" + template.strengthBoost[1].toFixed(1) + "%";
-    const sneakText = (sneak === 0) ? "" : ((sneak > 0) ? "+" + sneak.toFixed(1) + "%" : "-" + sneak.toFixed(1) + "%");
+    const sneakText = (sneak === 0) ? "" : ((sneak > 0) ? "+" + sneak.toFixed(1) + "%" : sneak.toFixed(1) + "%");
     const bashText = (template.bash[1] === 0) ? "" : "+" + template.bash[1].toFixed(1) + "%";
     const aaText = (template.antiArmor[1] === 0) ? "" : "+" + template.antiArmor[1].toFixed(1) + "%";
     const bonusText = (legBonus === 0) ? "" : (((legBonus) ? "" : "+") + ((legBonus) * 100).toFixed(1) + "%");

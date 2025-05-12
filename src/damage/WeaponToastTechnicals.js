@@ -5,6 +5,9 @@ import { getImageElement } from '../helpers/WeaponImages';
 
 
 export default function WeaponToastTechnicals(props) {
+    if (!props.template) {
+        return (<></>);
+    }
     const iconName = props.template.iconName[props.template.type[1]];
     return (
         <ToastContainer

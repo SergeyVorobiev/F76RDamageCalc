@@ -58,7 +58,8 @@ function getResult(resultDamage, damageData, additionalBonus=0) {
         bonusMult = 0;
     }
     const bonusDamage = damageValue * bonusMult;
-    const bonusText = "+" + (bonusMult * 100).toFixed(1) + "% (+" + bonusDamage.toFixed(1) + ")";
+    let sign = (bonusMult > 0) ? "+" : "";
+    const bonusText = sign + (bonusMult * 100).toFixed(1) + "% (" + sign + bonusDamage.toFixed(1) + ")";
 
     let crit = resultDamage.displayedCrit / 100.0;
     crit = (damageData.bonuses.isBonusCrit) ? crit : 0;
