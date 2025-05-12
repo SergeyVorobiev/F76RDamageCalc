@@ -3,7 +3,7 @@ export default class Global {
     static version2 = "Ghoul Within - May 6, 2025";
     static version3 = "Season 20"
     static versionMessage = "Version of game from which weapon / legendary / mod data were parsed.";
-    static webVersion = "ver.90";
+    static webVersion = "ver.91";
     static creatureParseVersion = "Update 1.7.19.19";
     static creatureParseVersionName = "Ghoul Within - May 6, 2025";
     static raceParseVersion = "Update 1.7.19.19";
