@@ -164,7 +164,7 @@ export class Enchantments extends Apply {
                         removeDamage(wSpec, effect.id);
                     }
                 } else {
-                    console.error("Can't determine damage for Enchantment: " + modId);
+                    console.error("Can't determine damage for Enchantment: " + modId + " Assignment: " + effect.assignment);
                 }
             }
         }

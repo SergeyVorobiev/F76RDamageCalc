@@ -1,5 +1,5 @@
 export default class LegsId {
-    static QUAD = '00692275';
+    static QUAD = '004f6ab1';
     static ARISTOCRAT = '00606b71';
     static ANTI_ARMOR = '005281b4';
     static TWO_SHOT = '004f6d76';

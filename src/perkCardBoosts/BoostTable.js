@@ -10,6 +10,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { getRowWithImage } from '../helpers/WTypeDropdown';
 import PerkCardBuilder from './PerkCardBuilder';
 import { useState } from 'react';
+import LoadingModal from '../loading/LoadingModal';
+
 
 const popover = (
     <Popover className="popover-adjustable">
@@ -35,9 +37,13 @@ function getStatBadge(name, value) {
     );
 }
 
-function getDropdown(setBoostDamage, player, setPlayer) {
+function getDropdown(setBoostDamage, player, setPlayer, setLoading) {
     function onSelect(e) {
-        PerkCardBuilder.build(e, setBoostDamage, player, setPlayer);
+        setLoading(true);
+        setTimeout(() => {
+            PerkCardBuilder.build(e, setBoostDamage, player, setPlayer);
+            setLoading(false);
+        }, 200);
     }
     return (
         <DropdownButton className="d-flex justify-content-center mb-3" onSelect={onSelect} title={<small><b>Choose a build</b></small>} variant="warning">
@@ -61,9 +67,11 @@ function getDropdown(setBoostDamage, player, setPlayer) {
 const BoostTable = memo(function BoostTable({player, setPlayer, setBoostDamage, boostDamage, extraDamage}) {
     console.log("BoostTable");
     const [cardType, setCardType] = useState(0); // Basic Expert Master
+    const [loading, setLoading] = useState(false);
     return (
         <Container className="ps-0 pe-0">
-            {getDropdown(setBoostDamage, player, setPlayer)}
+            <LoadingModal show={loading} />
+            {getDropdown(setBoostDamage, player, setPlayer, setLoading)}
             <Card className="mb-3">
                 <Card.Header className='ps-3'>
                     <div className="d-flex justify-content-center">
