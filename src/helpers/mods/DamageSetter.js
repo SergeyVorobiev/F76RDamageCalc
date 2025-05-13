@@ -256,6 +256,9 @@ export default class DamageSetter {
             case Assignment.SPEED_MULT:
                 template.speed[1] += damageValue;
                 break;
+            case Assignment.ATTACK_MULT:
+                template.attackDamage[1] *= damageValue;
+                break;
             case Assignment.BDB:
                 if (damageObj.conditions.length > 0) {
                     this.putConditionalBonus(template, damageObj, damageValue);

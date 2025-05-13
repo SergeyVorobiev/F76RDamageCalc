@@ -10,6 +10,7 @@ export class Assignment {
     static ARMOR = 3;
     static EXP_MULT = 4;
     static SPEED_MULT = 5;
+    static ATTACK_MULT = 6;
 }
 
 export default class DamageExtractor {
@@ -593,7 +594,7 @@ export default class DamageExtractor {
         "00729bf9", // Spell duration
         "0079a3ca", // VATS Action Points
         "0079342c", // Loss condition
-        "00793804", // Lickety-Split Special Effect (Weapon Attack Damage 0.8 is it useful?)
+        // "00793804", // Lickety-Split Special Effect (Weapon Attack Damage 0.8 is it useful?)
         "001ec1f9", // Weapon attack damage (Grinder, Bash for Range weapons) it seems a duplicate of SecondaryDamage mod operation.
         "007acb0c", // Conductor 4-star, nothing related to damage
         "006c3171", // VATS action points
@@ -658,6 +659,9 @@ export default class DamageExtractor {
                         }
                         const multData = this.buildNoTimeSimpleDamage(effect.value, null, null, null, chance);
                         this.addDamageNode(source, initiator, result, parentId, perkId, weaponId, Assignment.BDB, false, false, multData, copyConditions);
+                    } else if (effect.entry === "WeaponAttackDamage" && effect.op === "MulVal") {
+                        const multData = this.buildNoTimeSimpleDamage(effect.value, null, null, null, 100);
+                        this.addDamageNode(source, initiator, result, parentId, perkId, weaponId, Assignment.ATTACK_MULT, false, false, multData, copyConditions);
                     } else {
                         console.warn("Weapon: " + weaponId + " Perk: " + perkId + " Perk Name: " + perk.name + " Function: " + effect.entry + " is found. " + effect.entry + " Value: " + effect.value + " Operation: " + effect.op);
                     }
